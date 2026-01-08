@@ -97,7 +97,7 @@ const SkillCard = ({ type }: { type: 'frontend' | 'backend' }) => {
                       </motion.div>
                    </div>
                    {/* Tags - Visible on hover */}
-                   <div className="flex gap-2 mt-2 opacity-0 h-0 group-hover/item:h-auto group-hover/item:opacity-100 transition-all duration-300 overflow-hidden">
+                   <div className="flex gap-2 mt-2 opacity-0 max-h-0 group-hover/item:max-h-20 group-hover/item:opacity-100 transition-all duration-500 ease-in-out overflow-hidden">
                       {skill.tags.map(tag => (
                         <span key={tag} className="text-[10px] text-slate-500 font-mono bg-white/5 px-2 py-0.5 rounded border border-white/5">
                           {tag}
@@ -151,7 +151,7 @@ const Skills: React.FC = () => {
             <div className="relative w-full h-full flex items-center justify-center scale-75 md:scale-100">
                 <motion.div style={{ x: centerPhotoX, y: centerPhotoY }} className="absolute z-20 w-40 h-40 md:w-52 md:h-52 rounded-full border border-white/10 bg-black/40 backdrop-blur-md p-3 shadow-[0_0_50px_rgba(34,211,238,0.1)]">
                     <div className="w-full h-full rounded-full overflow-hidden relative border border-white/10">
-                        <img src="https://picsum.photos/800/800?grayscale" alt="Core" className="w-full h-full object-cover" />
+                        <img src="/profile2.png" alt="Core" className="w-full h-full object-cover" />
                     </div>
                 </motion.div>
 

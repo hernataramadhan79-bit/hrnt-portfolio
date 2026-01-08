@@ -37,10 +37,10 @@ export const detailedSkills = {
 };
 
 export const projects: Project[] = [
-  { id: 1, title: 'E-Commerce Dashboard', category: 'Web App', image: 'https://picsum.photos/600/400?random=1', tags: ['React', 'Tailwind', 'Recharts'] },
-  { id: 2, title: 'AI Content Generator', category: 'SaaS Platform', image: 'https://picsum.photos/600/400?random=2', tags: ['Next.js', 'OpenAI', 'Stripe'] },
-  { id: 3, title: 'Crypto Wallet', category: 'Mobile App', image: 'https://picsum.photos/600/400?random=3', tags: ['React Native', 'Web3.js'] },
-  { id: 4, title: 'Travel Journal', category: 'Social Media', image: 'https://picsum.photos/600/400?random=4', tags: ['Vue', 'Firebase', 'Mapbox'] },
+  { id: 1, title: 'Sakuku Wallet', category: 'Web App', image: 'https://picsum.photos/600/400?random=1', tags: ['React', 'Tailwind'], link: 'https://sakuku-wallet.vercel.app/' },
+  { id: 2, title: 'OryonWeb', category: 'Web App', image: 'https://picsum.photos/600/400?random=2', tags: ['React', 'Tailwind'], link: 'https://oryonweb.com/' },
+  { id: 3, title: 'Oryon AI', category: 'Web App', image: 'https://picsum.photos/600/400?random=3', tags: ['React', 'Gemini API'], link: 'https://oryon-ai-three.vercel.app/' },
+  { id: 4, title: 'Travel Journal', category: 'Social Media', image: 'https://picsum.photos/600/400?random=4', tags: ['Vue', 'Firebase', 'Mapbox'], link: '#' },
 ];
 
 export const certificates: Certificate[] = [

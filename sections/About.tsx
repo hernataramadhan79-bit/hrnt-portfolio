@@ -15,18 +15,18 @@ const About: React.FC = () => {
               
               {/* Layer 0: BASE */}
               <div className="absolute inset-0 rounded-[3rem] overflow-hidden bg-[#050508] border border-white/10 shadow-2xl" style={{ transform: "translateZ(0px)" }}>
-                <img 
-                   src="/profile.jpg" 
-                   className="w-full h-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-60" 
-                   alt="Profile" 
-                />
+                <img
+                     src="/profile.jpg"
+                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                     alt="Profile"
+                  />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90"></div>
               </div>
 
               {/* Layer 1: Floating Frame */}
-              <div 
-                className="absolute inset-6 rounded-[2.5rem] border border-white/10 bg-white/[0.01] backdrop-blur-[1px] transition-all duration-500 group-hover:inset-5 group-hover:border-cyan-500/20" 
-                style={{ transform: "translateZ(20px)" }} 
+              <div
+                className="absolute inset-6 rounded-[2.5rem] border border-white/10 bg-white/[0.01] transition-all duration-500 group-hover:inset-5 group-hover:border-cyan-500/20"
+                style={{ transform: "translateZ(20px)" }}
               />
 
               {/* Layer 2: Accents */}

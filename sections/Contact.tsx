@@ -47,9 +47,9 @@ const Contact: React.FC = () => {
             >
               <div>
                 <p className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-4">Direct Channel</p>
-                <a href="mailto:hello@hrnt.dev" className="group inline-flex items-center gap-4 text-2xl md:text-3xl font-medium text-white hover:text-cyan-400 transition-colors">
+                <a href="mailto:hernataramadhan79@gmail.com" className="group inline-flex items-center gap-4 text-2xl md:text-3xl font-medium text-white hover:text-cyan-400 transition-colors">
                   <Mail className="group-hover:scale-110 transition-transform duration-300" />
-                  <span>hello@hrnt.dev</span>
+                  <span>hernataramadhan79@gmail.com</span>
                 </a>
               </div>
 
