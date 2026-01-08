@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 
 const About: React.FC = () => {
   return (
-    <section id="about" className="relative z-10 py-32 px-6 overflow-visible">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+    <section id="about" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-visible">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
         {/* --- LEFT COLUMN: 3D Profile Card --- */}
         <div className="lg:col-span-5 perspective-1000">
@@ -43,9 +43,9 @@ const About: React.FC = () => {
               <div className="absolute bottom-12 left-10 right-10 pointer-events-none" style={{ transform: "translateZ(50px)" }}>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 border border-white/10 backdrop-blur-md text-[10px] text-slate-300 font-mono mb-4 w-fit">
                    <MapPin size={12} className="text-cyan-400" />
-                   <span>Jakarta, ID</span>
+                   <span>Madiun, ID</span>
                 </div>
-                <h3 className="text-5xl font-black text-white mb-2 leading-[0.9] drop-shadow-2xl">Hernata<br/>Ramadhan</h3>
+                <h3 className="text-4xl font-black text-white mb-2 leading-[0.9] drop-shadow-2xl">Hernata<br/>Ramadhan</h3>
                 <div className="h-1 w-16 bg-gradient-to-r from-cyan-500 to-transparent mt-4 rounded-full group-hover:w-24 transition-all duration-500"></div>
               </div>
               
@@ -54,7 +54,7 @@ const About: React.FC = () => {
                 className="absolute -right-8 top-20 rotate-90 origin-top-left opacity-0 group-hover:opacity-40 transition-opacity duration-500" 
                 style={{ transform: "translateZ(40px)" }}
               >
-                 <span className="text-6xl font-black text-white/10 tracking-tighter">HRNT.</span>
+                 <span className="text-5xl font-black text-white/10 tracking-tighter">HRNT.</span>
               </div>
             </div>
           </TiltCard>
@@ -65,7 +65,7 @@ const About: React.FC = () => {
         {/* --- RIGHT COLUMN --- */}
         <div className="lg:col-span-7 space-y-10">
            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-             <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.9]">Crafting digital <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-500 to-slate-700">masterpieces.</span></h2>
+             <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-[0.9]">Crafting digital <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-500 to-slate-700">masterpieces.</span></h2>
            </motion.div>
            
            <motion.p 
@@ -73,7 +73,7 @@ const About: React.FC = () => {
             whileInView={{ opacity: 1 }} 
             viewport={{ once: true }} 
             transition={{ delay: 0.2 }}
-            className="text-xl text-slate-400 font-light leading-relaxed max-w-2xl"
+            className="text-lg text-slate-400 font-light leading-relaxed max-w-2xl"
            >
              I bridge the gap between design and development, creating interfaces that are as functional as they are beautiful. My process is driven by curiosity and a relentless pursuit of pixel perfection.
            </motion.p>
@@ -86,9 +86,9 @@ const About: React.FC = () => {
             className="grid grid-cols-2 gap-6"
            >
               {[{ label: 'Experience', val: '5+ Years' }, { label: 'Projects Completed', val: '40+' }].map((stat, i) => (
-                <div key={stat.label} className="group p-8 bg-white/[0.03] border border-white/10 rounded-3xl backdrop-blur-md hover:bg-white/[0.05] hover:border-cyan-500/30 transition-all duration-300">
+                <div key={stat.label} className="group p-6 bg-white/[0.03] border border-white/10 rounded-3xl backdrop-blur-md hover:bg-white/[0.05] hover:border-cyan-500/30 transition-all duration-300">
                    <div className="flex items-center justify-between mb-2">
-                      <div className="text-4xl font-black text-white group-hover:text-cyan-400 transition-colors">{stat.val}</div>
+                      <div className="text-3xl font-black text-white group-hover:text-cyan-400 transition-colors">{stat.val}</div>
                       <ArrowRight className="text-white/20 group-hover:text-cyan-400 -rotate-45 group-hover:rotate-0 transition-all duration-300" />
                    </div>
                    <div className="text-xs font-mono text-slate-500 uppercase tracking-widest">{stat.label}</div>

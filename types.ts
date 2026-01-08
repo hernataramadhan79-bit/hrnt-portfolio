@@ -22,6 +22,7 @@ export interface Certificate {
   issuer: string;
   date: string;
   image: string;
+  certificateImage: string;
   credentialLink: string;
 }
 

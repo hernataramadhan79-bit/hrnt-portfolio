@@ -1,5 +1,5 @@
 {
-  "name": "liquid-glass-portfolio",
+  "name": "hrnt-portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,9 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.2.1",
-    "lucide-react": "^0.560.0",
+    "@emailjs/browser": "^4.4.1",
     "framer-motion": "^12.23.26",
+    "lucide-react": "^0.560.0",
+    "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },
   "devDependencies": {

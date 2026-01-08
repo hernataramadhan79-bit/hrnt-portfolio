@@ -44,10 +44,12 @@ const Hero: React.FC = () => {
   const handleScroll = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // Matching the Navbar offset for perfect alignment
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - offset;
-  
+      // Gunakan offset yang sama dengan Navbar untuk konsistensi
+      const navbar = document.querySelector('nav');
+      const navbarHeight = navbar?.clientHeight || 80;
+      const offset = id === 'hero' ? 0 : navbarHeight; // Hero tidak perlu offset, section lain ya
+      const offsetPosition = element.offsetTop - offset;
+
       window.scrollTo({
         top: offsetPosition,
         behavior: "smooth"
@@ -66,26 +68,26 @@ const Hero: React.FC = () => {
         animate="visible"
       >
         {/* Main Title - Split Text */}
-        <div className="flex items-baseline mb-6 md:mb-8">
+        <div className="flex items-baseline mb-4 md:mb-6">
           {text.split("").map((char, index) => (
-            <motion.h1 
+            <motion.h1
               key={index}
               variants={letterVariants}
-              className="text-8xl md:text-[12rem] font-black tracking-tighter leading-[0.8] text-white select-none"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-[0.8] text-white select-none"
             >
               {char}
             </motion.h1>
           ))}
-          <motion.div 
+          <motion.div
             variants={letterVariants}
-            className="w-4 h-4 md:w-8 md:h-8 bg-cyan-400 rounded-sm ml-2 md:ml-4 rotate-45 shadow-[0_0_30px_rgba(34,211,238,0.8)]"
+            className="w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6 bg-cyan-400 rounded-sm ml-1 sm:ml-2 md:ml-3 rotate-45 shadow-[0_0_30px_rgba(34,211,238,0.8)]"
           />
         </div>
 
         {/* Subtitle */}
         <motion.h2 
           variants={itemVariants} 
-          className="text-xl md:text-3xl font-bold tracking-[0.3em] text-slate-400 uppercase mb-8"
+          className="text-lg md:text-2xl font-bold tracking-[0.3em] text-slate-400 uppercase mb-6"
         >
           Creative Developer
         </motion.h2>
@@ -93,7 +95,7 @@ const Hero: React.FC = () => {
         {/* Description */}
         <motion.p 
           variants={itemVariants} 
-          className="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed mb-12"
+          className="text-base md:text-lg text-slate-300 max-w-2xl leading-relaxed mb-8"
         >
           Engineering digital experiences with <span className="text-white border-b border-cyan-500/50">precision</span> and <span className="text-white border-b border-purple-500/50">imagination</span>.
         </motion.p>
@@ -105,13 +107,13 @@ const Hero: React.FC = () => {
         >
           <MagneticButton 
             onClick={() => handleScroll('library')}
-            className="px-10 py-5 bg-white text-black rounded-full font-bold shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)] hover:shadow-cyan-400/50 transition-shadow"
+            className="px-8 py-4 bg-white text-black rounded-full font-bold shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)] hover:shadow-cyan-400/50 transition-shadow"
           >
             View Work
           </MagneticButton>
           <MagneticButton 
             onClick={() => handleScroll('contact')}
-            className="px-10 py-5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-white font-medium hover:bg-white/10 transition-colors"
+            className="px-8 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-white font-medium hover:bg-white/10 transition-colors"
           >
             Contact Me
           </MagneticButton>

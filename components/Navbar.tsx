@@ -14,25 +14,26 @@ const navItems: NavItem[] = [
 const Navbar: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
-  
-  // Ref untuk menandai apakah user baru saja mengklik menu.
-  // Ini mencegah event listener scroll menimpa state 'activeTab' saat halaman sedang smooth scrolling.
+
   const isManualScroll = useRef(false);
+  
+  // Ref for the entire navbar container including padding
+  const navbarWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
       
-      // JIKA sedang manual scroll (akibat klik), JANGAN hitung posisi section.
-      // Biarkan state yang diset oleh klik tetap aktif.
       if (isManualScroll.current) return;
 
       const sections = navItems.map(item => document.getElementById(item.sectionId));
-      const scrollPosition = window.scrollY + window.innerHeight / 2.5;
+      // Active section is determined when its top is within the top 40% of the viewport
+      const triggerPoint = window.innerHeight / 2.5;
 
+      // Loop from bottom to top to find the last section that passed the trigger point
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
+        if (section && section.getBoundingClientRect().top <= triggerPoint) {
           if (activeTab !== navItems[i].id) {
             setActiveTab(navItems[i].id);
           }
@@ -46,31 +47,34 @@ const Navbar: React.FC = () => {
   }, [activeTab]);
 
   const scrollToSection = (id: string, sectionId: string) => {
-    // 1. Kunci listener scroll
     isManualScroll.current = true;
-    
-    // 2. Update visual navbar SEKETIKA (Instant Feedback)
     setActiveTab(id);
 
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      // Final attempt: Set offset to 0 to scroll the element to the very top of the viewport.
+      const offset = 0;
       
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - offset;
+
       window.scrollTo({ top: offsetPosition, behavior: "smooth" });
 
-      // 3. Lepaskan kunci setelah animasi scroll kira-kira selesai (800ms)
+      // Release the scroll lock after the smooth scroll animation is likely finished
       setTimeout(() => {
         isManualScroll.current = false;
       }, 800);
     } else {
+        // If element not found, release the lock immediately
         isManualScroll.current = false;
     }
   };
 
   return (
-    <div className={`fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-500 ${isScrolled ? 'pt-4' : 'pt-8'}`}>
+    <div 
+      ref={navbarWrapperRef} 
+      className={`navbar fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-500 ${isScrolled ? 'pt-4' : 'pt-8'}`}
+    >
       <LayoutGroup>
         <motion.nav
           layout
@@ -93,7 +97,6 @@ const Navbar: React.FC = () => {
                 style={{ WebkitTapHighlightColor: "transparent" }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
               >
-                {/* Active Background Pill (The Liquid Part) */}
                 {isActive && (
                   <motion.div
                     layoutId="active-pill"
@@ -102,11 +105,9 @@ const Navbar: React.FC = () => {
                   />
                 )}
 
-                {/* Content */}
                 <span className="relative z-10 flex items-center gap-2">
                   <item.icon size={18} strokeWidth={2.5} className={isActive ? "text-black" : "text-current"} />
                   
-                  {/* Text only renders if active, giving the 'Island Expansion' effect */}
                   {isActive && (
                     <motion.span
                       initial={{ opacity: 0, x: -5 }}

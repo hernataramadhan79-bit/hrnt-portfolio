@@ -24,33 +24,34 @@ export const outerSkills: Skill[] = [
 export const detailedSkills = {
   frontend: [
     { name: 'React Ecosystem', level: 98, icon: Code, color: 'text-cyan-400', barColor: 'bg-cyan-400', tags: ['Virtual DOM', 'Next.js 15', 'Server Components'] },
-    { name: 'State Management', level: 96, icon: GitBranch, color: 'text-purple-400', barColor: 'bg-purple-400', tags: ['Zustand', 'Redux Toolkit', 'TanStack Query'] },
-    { name: 'Visual Engineering', level: 94, icon: Sparkles, color: 'text-pink-400', barColor: 'bg-pink-400', tags: ['Three.js', 'Framer Motion', 'GSAP'] },
+    { name: 'State Management', level: 80, icon: GitBranch, color: 'text-purple-400', barColor: 'bg-purple-400', tags: ['Zustand', 'Redux Toolkit', 'TanStack Query'] },
+    { name: 'Visual Engineering', level: 90, icon: Sparkles, color: 'text-pink-400', barColor: 'bg-pink-400', tags: ['Three.js', 'Framer Motion', 'GSAP'] },
     { name: 'Advanced Styling', level: 98, icon: PenTool, color: 'text-blue-400', barColor: 'bg-blue-400', tags: ['Tailwind', 'PostCSS', 'Design Tokens'] }
   ],
   backend: [
-    { name: 'Server Architecture', level: 95, icon: Server, color: 'text-indigo-400', barColor: 'bg-indigo-400', tags: ['Node.js', 'NestJS', 'Microservices'] },
-    { name: 'Database Design', level: 92, icon: Database, color: 'text-blue-400', barColor: 'bg-blue-400', tags: ['PostgreSQL', 'Prisma', 'Redis'] },
-    { name: 'API Protocols', level: 96, icon: Wifi, color: 'text-rose-400', barColor: 'bg-rose-400', tags: ['GraphQL', 'tRPC', 'gRPC'] },
-    { name: 'DevOps & Cloud', level: 88, icon: Cloud, color: 'text-sky-400', barColor: 'bg-sky-400', tags: ['Docker', 'AWS', 'Vercel'] }
+    { name: 'Server Architecture', level: 85, icon: Server, color: 'text-indigo-400', barColor: 'bg-indigo-400', tags: ['Node.js', 'NestJS', 'Microservices'] },
+    { name: 'Database Design', level: 80, icon: Database, color: 'text-blue-400', barColor: 'bg-blue-400', tags: ['PostgreSQL', 'Prisma', 'Redis'] },
+    { name: 'API Protocols', level: 85, icon: Wifi, color: 'text-rose-400', barColor: 'bg-rose-400', tags: ['GraphQL', 'tRPC', 'gRPC'] },
+    { name: 'DevOps & Cloud', level: 75, icon: Cloud, color: 'text-sky-400', barColor: 'bg-sky-400', tags: ['Docker', 'AWS', 'Vercel'] }
   ]
 };
 
 export const projects: Project[] = [
-  { id: 1, title: 'Sakuku Wallet', category: 'Web App', image: 'https://picsum.photos/600/400?random=1', tags: ['React', 'Tailwind'], link: 'https://sakuku-wallet.vercel.app/' },
-  { id: 2, title: 'OryonWeb', category: 'Web App', image: 'https://picsum.photos/600/400?random=2', tags: ['React', 'Tailwind'], link: 'https://oryonweb.com/' },
-  { id: 3, title: 'Oryon AI', category: 'Web App', image: 'https://picsum.photos/600/400?random=3', tags: ['React', 'Gemini API'], link: 'https://oryon-ai-three.vercel.app/' },
-  { id: 4, title: 'Travel Journal', category: 'Social Media', image: 'https://picsum.photos/600/400?random=4', tags: ['Vue', 'Firebase', 'Mapbox'], link: '#' },
+  { id: 1, title: 'Sakuku Wallet', category: 'Web App', image: '/sakukuimg.png', tags: ['React', 'Tailwind'], link: 'https://sakuku-wallet.vercel.app/' },
+  { id: 2, title: 'OryonWeb', category: 'Web App', image: '/owgimg.png', tags: ['React', 'Tailwind'], link: 'https://oryonweb.com/' },
+  { id: 3, title: 'Oryon AI', category: 'Web App', image: '/oryonaiimg.png', tags: ['React', 'Gemini API'], link: 'https://oryon-ai-three.vercel.app/' },
+  { id: 4, title: 'Renova Mobil', category: 'Web App', image: '/renovaimg.png', tags: ['React', 'Supabase', 'PostgreSQL'], link: 'https://renovamobil.vercel.app/' },
 ];
 
 export const certificates: Certificate[] = [
-  { id: 1, title: 'Meta Frontend Developer', issuer: 'Meta', date: '2023', image: '', credentialLink: '#' },
-  { id: 2, title: 'AWS Certified Architect', issuer: 'AWS', date: '2022', image: '', credentialLink: '#' },
-  { id: 3, title: 'Google UX Design', issuer: 'Google', date: '2022', image: '', credentialLink: '#' },
-  { id: 4, title: 'Advanced React Patterns', issuer: 'Frontend Masters', date: '2021', image: '', credentialLink: '#' }
+  { id: 1, title: 'Meta Frontend Developer', issuer: 'Meta', date: '2023', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat1.png', credentialLink: '/sertifikat1.png' },
+  { id: 2, title: 'AWS Certified Architect', issuer: 'AWS', date: '2022', image: '/logoleskofi.webp', certificateImage: '/sertifikat2.jpg', credentialLink: '/sertifikat2.jpg' },
 ];
 
 export const experience = [
   { year: '2022 - Present', role: 'Senior Fullstack Dev', company: 'TechCorp Inc.', description: 'Frontend architecture & cloud strategies.' },
   { year: '2020 - 2022', role: 'Fullstack Developer', company: 'Creative Agency', description: 'Interactive platforms & UI libraries.' },
 ];
+
+// Web3Forms Configuration
+export const WEB3FORMS_ACCESS_KEY = 'af23608b-4dd2-4d9f-b068-645d6609c143';

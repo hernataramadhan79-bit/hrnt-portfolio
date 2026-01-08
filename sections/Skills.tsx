@@ -56,15 +56,15 @@ const SkillCard = ({ type }: { type: 'frontend' | 'backend' }) => {
          />
 
          {/* Actual Content */}
-         <div className="relative z-10 p-10 md:p-14 h-full flex flex-col justify-between">
+         <div className="relative z-10 p-8 md:p-12 h-full flex flex-col justify-between">
             
             {/* Header */}
-            <div className="flex items-center gap-6 mb-12 group-hover:-translate-y-2 transition-transform duration-500 ease-out">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-lg group-hover:scale-110 group-hover:rotate-3 ${isFrontend ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400 group-hover:shadow-cyan-500/20' : 'bg-purple-500/10 border-purple-500/20 text-purple-400 group-hover:shadow-purple-500/20'}`}>
+            <div className="flex items-center gap-5 mb-8 group-hover:-translate-y-2 transition-transform duration-500 ease-out">
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-lg group-hover:scale-110 group-hover:rotate-3 ${isFrontend ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400 group-hover:shadow-cyan-500/20' : 'bg-purple-500/10 border-purple-500/20 text-purple-400 group-hover:shadow-purple-500/20'}`}>
                    <Icon size={32} />
                 </div>
                 <div>
-                  <h3 className="text-3xl font-black text-white uppercase tracking-tighter">
+                  <h3 className="text-2xl font-black text-white uppercase tracking-tighter">
                     {type}
                   </h3>
                   <p className="text-white/40 text-sm font-mono tracking-widest uppercase">Mainframe System</p>
@@ -78,7 +78,7 @@ const SkillCard = ({ type }: { type: 'frontend' | 'backend' }) => {
                    <div className="flex justify-between items-end mb-3">
                       <div className="flex items-center gap-3">
                          <skill.icon size={18} className={`${skill.color} opacity-60 group-hover/item:opacity-100 transition-opacity group-hover/item:scale-110 duration-300`} />
-                         <span className="text-lg font-bold text-slate-300 group-hover/item:text-white transition-colors">{skill.name}</span>
+                         <span className="text-base font-bold text-slate-300 group-hover/item:text-white transition-colors">{skill.name}</span>
                       </div>
                       <span className={`text-sm font-black font-mono ${skill.color}`}>{skill.level}%</span>
                    </div>
@@ -140,15 +140,15 @@ const Skills: React.FC = () => {
   const centerPhotoY = useTransform(springY, (y) => y * 0.01);
 
   return (
-    <section id="skills" className="relative z-10 py-32 px-6 overflow-hidden">
+    <section id="skills" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 relative z-20">
-          <h2 className="text-5xl md:text-7xl font-black text-white mb-6">Tech <span className="text-white/20">Mainframes</span></h2>
-          <p className="text-slate-400 text-lg">Hover icons to see tool specifications.</p>
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-4">Tech <span className="text-white/20">Mainframes</span></h2>
+          <p className="text-slate-400 text-base">My Tools and Technologies.</p>
         </div>
 
-        <div className="relative h-[400px] md:h-[650px] w-full flex items-center justify-center mb-24 overflow-visible">
-            <div className="relative w-full h-full flex items-center justify-center scale-75 md:scale-100">
+        <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[650px] w-full flex items-center justify-center mb-16 md:mb-24 overflow-visible">
+            <div className="relative w-full h-full flex items-center justify-center scale-50 sm:scale-75 md:scale-100">
                 <motion.div style={{ x: centerPhotoX, y: centerPhotoY }} className="absolute z-20 w-40 h-40 md:w-52 md:h-52 rounded-full border border-white/10 bg-black/40 backdrop-blur-md p-3 shadow-[0_0_50px_rgba(34,211,238,0.1)]">
                     <div className="w-full h-full rounded-full overflow-hidden relative border border-white/10">
                         <img src="/profile2.png" alt="Core" className="w-full h-full object-cover" />
@@ -213,7 +213,7 @@ const Skills: React.FC = () => {
             </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <SkillCard type="frontend" />
           <SkillCard type="backend" />
         </div>
