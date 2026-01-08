@@ -14,6 +14,7 @@
         background-color: #020617; /* Slate 950 */
         color: #f8fafc;
         overflow-x: hidden;
+        user-select: none;
         /* cursor: none; removed to show default cursor */
       }
       
@@ -64,5 +65,40 @@
   <body>
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
+  <script>
+    // Prevent text selection and image interactions
+    document.addEventListener('DOMContentLoaded', function() {
+      // Prevent context menu on images
+      document.addEventListener('contextmenu', function(e) {
+        if (e.target.tagName === 'IMG') {
+          e.preventDefault();
+        }
+      });
+
+      // Prevent drag on images
+      document.addEventListener('dragstart', function(e) {
+        if (e.target.tagName === 'IMG') {
+          e.preventDefault();
+        }
+      });
+
+      // Prevent copy via keyboard shortcuts on images
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
+          const selection = window.getSelection();
+          if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const container = range.commonAncestorContainer;
+            if (container.nodeType === Node.TEXT_NODE) {
+              const parent = container.parentElement;
+              if (parent && parent.querySelector('img')) {
+                e.preventDefault();
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>

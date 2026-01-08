@@ -41,11 +41,12 @@ export const projects: Project[] = [
   { id: 2, title: 'OryonWeb', category: 'Web App', image: '/owgimg.png', tags: ['React', 'Tailwind'], link: 'https://oryonweb.com/' },
   { id: 3, title: 'Oryon AI', category: 'Web App', image: '/oryonaiimg.png', tags: ['React', 'Gemini API'], link: 'https://oryon-ai-three.vercel.app/' },
   { id: 4, title: 'Renova Mobil', category: 'Web App', image: '/renovaimg.png', tags: ['React', 'Supabase', 'PostgreSQL'], link: 'https://renovamobil.vercel.app/' },
+  { id: 5, title: 'RSUD Dolopo', category: 'Web App', image: '/rsdolopoimg.png', tags: ['React', 'Firebase', 'PostgreSQL'], link: 'https://rsuddoloponew.netlify.app/' },
 ];
 
 export const certificates: Certificate[] = [
-  { id: 1, title: 'Meta Frontend Developer', issuer: 'Meta', date: '2023', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat1.png', credentialLink: '/sertifikat1.png' },
-  { id: 2, title: 'AWS Certified Architect', issuer: 'AWS', date: '2022', image: '/logoleskofi.webp', certificateImage: '/sertifikat2.jpg', credentialLink: '/sertifikat2.jpg' },
+  { id: 1, title: 'Learn The Basics Of web Programming', issuer: 'Dicoding', date: '2025', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat1.png', credentialLink: '/sertifikat1.png' },
+  { id: 2, title: 'Photography Expertise Level III KKNI', issuer: 'LESKOFI', date: '2025', image: '/logoleskofi.webp', certificateImage: '/sertifikat2.jpg', credentialLink: '/sertifikat2.jpg' },
 ];
 
 export const experience = [
