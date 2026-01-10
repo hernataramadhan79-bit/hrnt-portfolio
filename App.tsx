@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import CustomCursor from './components/CustomCursor';
@@ -6,11 +6,11 @@ import SplashScreen from './components/SplashScreen';
 import Background from './components/Background';
 
 // Lazy load sections for better initial performance
-import Hero from './sections/Hero';
-import About from './sections/About';
-import Skills from './sections/Skills';
-import Library from './sections/Library';
-import Contact from './sections/Contact';
+const Hero = React.lazy(() => import('./sections/Hero'));
+const About = React.lazy(() => import('./sections/About'));
+const Skills = React.lazy(() => import('./sections/Skills'));
+const Library = React.lazy(() => import('./sections/Library'));
+const Contact = React.lazy(() => import('./sections/Contact'));
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -30,13 +30,15 @@ const App: React.FC = () => {
           >
             <Background />
             <Navbar />
-            <main className="relative z-10">
-              <Hero />
-              <About />
-              <Skills />
-              <Library />
-              <Contact />
-            </main>
+            <Suspense fallback={null}>
+              <main className="relative z-10">
+                <Hero />
+                <About />
+                <Skills />
+                <Library />
+                <Contact />
+              </main>
+            </Suspense>
           </motion.div>
         )}
       </AnimatePresence>
