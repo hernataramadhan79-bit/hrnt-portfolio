@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="HRNT - Creative Developer Portfolio. Engineering digital experiences with precision and imagination." />
+  <meta name="theme-color" content="#020617" />
+  <title>HRNT | Creative Developer</title>
+
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://esm.sh" />
+
+  <!-- Optimized font loading with display=swap -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/profile.jpg" />
+  <link rel="apple-touch-icon" href="/profile.jpg" />
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #020617;
+      color: #f8fafc;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    .bg-grid-white {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+    }
+
+    .modal-open .navbar {
+      transform: translateY(-100px);
+      opacity: 0;
+    }
+  </style>
+
+  
+  <link rel="stylesheet" href="/index.css">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Prevent context menu on images
+      document.addEventListener('contextmenu', function (e) {
+        if (e.target.tagName === 'IMG') {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // Prevent drag on images
+      document.addEventListener('dragstart', function (e) {
+        if (e.target.tagName === 'IMG') {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // Prevent copy via keyboard shortcuts on images
+      document.addEventListener('keydown', function (e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
+          const selection = window.getSelection();
+          if (selection && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const container = range.commonAncestorContainer;
+            const parent = container.nodeType === Node.TEXT_NODE ? container.parentElement : container;
+            if (parent && parent instanceof HTMLElement && parent.querySelector('img')) {
+              e.preventDefault();
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
