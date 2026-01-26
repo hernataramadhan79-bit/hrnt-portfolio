@@ -16,21 +16,16 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const isManualScroll = useRef(false);
-  
-  // Ref for the entire navbar container including padding
   const navbarWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      
       if (isManualScroll.current) return;
 
       const sections = navItems.map(item => document.getElementById(item.sectionId));
-      // Active section is determined when its top is within the top 40% of the viewport
       const triggerPoint = window.innerHeight / 2.5;
 
-      // Loop from bottom to top to find the last section that passed the trigger point
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
         if (section && section.getBoundingClientRect().top <= triggerPoint) {
@@ -52,27 +47,23 @@ const Navbar: React.FC = () => {
 
     const element = document.getElementById(sectionId);
     if (element) {
-      // Final attempt: Set offset to 0 to scroll the element to the very top of the viewport.
       const offset = 0;
-      
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - offset;
 
       window.scrollTo({ top: offsetPosition, behavior: "smooth" });
 
-      // Release the scroll lock after the smooth scroll animation is likely finished
       setTimeout(() => {
         isManualScroll.current = false;
       }, 800);
     } else {
-        // If element not found, release the lock immediately
-        isManualScroll.current = false;
+      isManualScroll.current = false;
     }
   };
 
   return (
-    <div 
-      ref={navbarWrapperRef} 
+    <div
+      ref={navbarWrapperRef}
       className={`navbar fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-500 ${isScrolled ? 'pt-4' : 'pt-8'}`}
     >
       <LayoutGroup>
@@ -85,15 +76,13 @@ const Navbar: React.FC = () => {
         >
           {navItems.map((item) => {
             const isActive = activeTab === item.id;
-
             return (
               <motion.button
                 key={item.id}
                 layout
                 onClick={() => scrollToSection(item.id, item.sectionId)}
-                className={`relative flex items-center justify-center h-10 rounded-full text-sm font-medium transition-colors duration-300 ${
-                  isActive ? 'text-black px-4' : 'text-slate-400 hover:text-white px-3 hover:bg-white/5'
-                }`}
+                className={`relative flex items-center justify-center h-10 rounded-full text-sm font-medium transition-colors duration-300 ${isActive ? 'text-black px-4' : 'text-slate-400 hover:text-white px-3 hover:bg-white/5'
+                  }`}
                 style={{ WebkitTapHighlightColor: "transparent" }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
               >
@@ -104,10 +93,8 @@ const Navbar: React.FC = () => {
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-
                 <span className="relative z-10 flex items-center gap-2">
                   <item.icon size={18} strokeWidth={2.5} className={isActive ? "text-black" : "text-current"} />
-                  
                   {isActive && (
                     <motion.span
                       initial={{ opacity: 0, x: -5 }}
@@ -129,4 +116,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);

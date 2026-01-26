@@ -16,7 +16,7 @@ const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className = '
     if (!ref.current) return;
     const { clientX, clientY } = e;
     const { height, width, left, top } = ref.current.getBoundingClientRect();
-    
+
     const middleX = clientX - (left + width / 2);
     const middleY = clientY - (top + height / 2);
 
@@ -36,11 +36,11 @@ const MagneticButton: React.FC<MagneticButtonProps> = ({ children, className = '
       animate={{ x: position.x, y: position.y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
       className={`${className}`}
-      style={style}
+      style={{ ...style, willChange: 'transform' }}
     >
       {children}
     </motion.button>
   );
 };
 
-export default MagneticButton;
+export default React.memo(MagneticButton);
