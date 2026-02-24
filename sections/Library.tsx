@@ -262,11 +262,11 @@ const PerformanceTab = ({
                       {stats.umami.stats ? (
                         <>
                           {[
-                            { label: 'Page Views', value: stats.umami.stats.pageviews.value, prev: stats.umami.stats.pageviews.prev, color: 'text-yellow-500', icon: Activity },
-                            { label: 'Visitors', value: stats.umami.stats.visitors.value, prev: stats.umami.stats.visitors.prev, color: 'text-emerald-400', icon: Users },
-                            { label: 'Active', value: stats.umami.active, prev: 0, color: 'text-purple-400', icon: Activity },
-                            { label: 'Bounce Rate', value: `${stats.umami.stats.bounces.value}%`, prev: `${stats.umami.stats.bounces.prev}%`, color: 'text-rose-400', icon: TrendingUp },
-                            { label: 'Avg Session', value: `${Math.round(stats.umami.stats.totaltime.value / (stats.umami.stats.visits.value || 1) / 60)}m`, prev: `${Math.round(stats.umami.stats.totaltime.prev / (stats.umami.stats.visits.prev || 1) / 60)}m`, color: 'text-cyan-400', icon: Timer }
+                            { label: 'Page Views', value: stats.umami.stats?.pageviews?.value ?? 0, prev: stats.umami.stats?.pageviews?.prev ?? 0, color: 'text-yellow-500', icon: Activity },
+                            { label: 'Visitors', value: stats.umami.stats?.visitors?.value ?? 0, prev: stats.umami.stats?.visitors?.prev ?? 0, color: 'text-emerald-400', icon: Users },
+                            { label: 'Active', value: stats.umami.active ?? 0, prev: 0, color: 'text-purple-400', icon: Activity },
+                            { label: 'Bounce Rate', value: `${stats.umami.stats?.bounces?.value ?? 0}%`, prev: `${stats.umami.stats?.bounces?.prev ?? 0}%`, color: 'text-rose-400', icon: TrendingUp },
+                            { label: 'Avg Session', value: `${Math.round((stats.umami.stats?.totaltime?.value ?? 0) / (stats.umami.stats?.visits?.value || 1) / 60)}m`, prev: `${Math.round((stats.umami.stats?.totaltime?.prev ?? 0) / (stats.umami.stats?.visits?.prev || 1) / 60)}m`, color: 'text-cyan-400', icon: Timer }
                           ].map((item, i) => (
                             <tr key={i} className="border-b border-white/[0.03] group/row hover:bg-white/[0.02] transition-colors">
                               <td className="py-4 px-2 text-slate-300 font-bold uppercase tracking-wider">{item.label}</td>
@@ -274,7 +274,7 @@ const PerformanceTab = ({
                                 {item.value}
                               </td>
                               <td className={`py-4 px-2 font-bold ${typeof item.value === 'number' && typeof item.prev === 'number' ? (item.value >= item.prev ? 'text-emerald-500' : 'text-red-500') : 'text-slate-500'}`}>
-                                {item.prev === 0 || typeof item.value !== 'number' ? '--' : `${Math.round(((item.value - item.prev) / (item.prev || 1)) * 100)}%`}
+                                {typeof item.prev !== 'number' || item.prev === 0 || typeof item.value !== 'number' ? '--' : `${Math.round(((item.value - item.prev) / (item.prev || 1)) * 100)}%`}
                               </td>
                               <td className="py-4 px-2 text-right">
                                 <item.icon size={16} className={item.color} />
@@ -844,11 +844,11 @@ const Library: React.FC = () => {
                             <tbody>
                               {stats.umami.stats ? (
                                 [
-                                  { label: 'Total Page Views', value: stats.umami.stats.pageviews.value, prev: stats.umami.stats.pageviews.prev, color: 'text-yellow-500' },
-                                  { label: 'Unique Visitors', value: stats.umami.stats.visitors.value, prev: stats.umami.stats.visitors.prev, color: 'text-emerald-400' },
-                                  { label: 'Total Visits', value: stats.umami.stats.visits.value, prev: stats.umami.stats.visits.prev, color: 'text-cyan-400' },
-                                  { label: 'Bounce Rate', value: `${stats.umami.stats.bounces.value}%`, prev: `${stats.umami.stats.bounces.prev}%`, color: 'text-purple-400' },
-                                  { label: 'Average Time', value: `${Math.round(stats.umami.stats.totaltime.value / (stats.umami.stats.visits.value || 1) / 60)}m`, prev: `${Math.round(stats.umami.stats.totaltime.prev / (stats.umami.stats.visits.prev || 1) / 60)}m`, color: 'text-rose-400' }
+                                  { label: 'Total Page Views', value: stats.umami.stats?.pageviews?.value ?? 0, prev: stats.umami.stats?.pageviews?.prev ?? 0, color: 'text-yellow-500' },
+                                  { label: 'Unique Visitors', value: stats.umami.stats?.visitors?.value ?? 0, prev: stats.umami.stats?.visitors?.prev ?? 0, color: 'text-emerald-400' },
+                                  { label: 'Total Visits', value: stats.umami.stats?.visits?.value ?? 0, prev: stats.umami.stats?.visits?.prev ?? 0, color: 'text-cyan-400' },
+                                  { label: 'Bounce Rate', value: `${stats.umami.stats?.bounces?.value ?? 0}%`, prev: `${stats.umami.stats?.bounces?.prev ?? 0}%`, color: 'text-purple-400' },
+                                  { label: 'Average Time', value: `${Math.round((stats.umami.stats?.totaltime?.value ?? 0) / (stats.umami.stats?.visits?.value || 1) / 60)}m`, prev: `${Math.round((stats.umami.stats?.totaltime?.prev ?? 0) / (stats.umami.stats?.visits?.prev || 1) / 60)}m`, color: 'text-rose-400' }
                                 ].map((item, i) => (
                                   <tr key={i} className="border-b border-white/[0.03] group hover:bg-white/[0.01]">
                                     <td className="py-6 px-1 text-white font-bold">{item.label}</td>
