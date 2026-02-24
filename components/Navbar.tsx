@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, LayoutGroup } from 'framer-motion';
 import { Home, User, Code, BookOpen, Mail } from 'lucide-react';

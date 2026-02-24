@@ -56,3 +56,29 @@ export const experience = [
 
 // Web3Forms Configuration
 export const WEB3FORMS_ACCESS_KEY = 'af23608b-4dd2-4d9f-b068-645d6609c143';
+
+// Mock Real-time Stats for Library Section
+export const wakaTimeStats = {
+  languages: [
+    { name: 'TypeScript', percent: 84.2, color: '#3178C6' },
+    { name: 'React', percent: 72.5, color: '#61DAFB' },
+    { name: 'JavaScript', percent: 35.8, color: '#F7DF1E' },
+    { name: 'CSS/Tailwind', percent: 28.4, color: '#38B2AC' },
+    { name: 'Node.js', percent: 15.2, color: '#339933' },
+    { name: 'Others', percent: 5.4, color: '#94a3b8' },
+  ],
+  totalTime: '1,248 hrs 32 mins',
+  dailyAverage: '4 hrs 12 mins',
+  bestDay: '8 hrs 45 mins'
+};
+
+export const githubStats = {
+  totalContributions: 1452,
+  thisWeek: 42,
+  bestDay: 68,
+  dailyAverage: 4,
+  stars: 124,
+  repos: 45,
+  followers: 86
+};
+

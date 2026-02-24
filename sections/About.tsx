@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import TiltCard from '../components/TiltCard';
 import { MapPin, ArrowRight, GraduationCap } from 'lucide-react';

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useMemo } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
 import { Layout, Server } from 'lucide-react';
