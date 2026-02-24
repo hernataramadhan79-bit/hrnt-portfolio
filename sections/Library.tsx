@@ -347,6 +347,8 @@ const Library: React.FC = () => {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 15000);
 
+        let fetchErrors = { github: false, umami: false };
+
         try {
           const githubRes = await fetch('/api/github', { signal: controller.signal });
           if (githubRes.ok) {
@@ -360,28 +362,28 @@ const Library: React.FC = () => {
               topRepos: data.topRepos
             };
           } else {
-            hasError = true;
+            fetchErrors.github = true;
           }
         } catch (e: any) {
           console.warn("GitHub fetch status:", e.name === 'AbortError' ? 'timeout' : 'unstable');
-          hasError = true;
+          fetchErrors.github = true;
         }
 
         try {
           const umamiRes = await fetch('/api/umami', { signal: controller.signal });
           if (umamiRes.ok) {
             const umami = await umamiRes.json();
-            if (umami && umami.stats) {
+            if (umami && (umami.stats || umami.active !== undefined)) {
               umamiData = umami;
             } else {
-              hasError = true;
+              fetchErrors.umami = true;
             }
           } else {
-            hasError = true;
+            fetchErrors.umami = true;
           }
         } catch (e: any) {
           console.warn("Umami fetch status:", e.name === 'AbortError' ? 'timeout' : 'server error');
-          hasError = true;
+          fetchErrors.umami = true;
         } finally {
           clearTimeout(timeoutId);
         }
@@ -390,7 +392,7 @@ const Library: React.FC = () => {
           github: githubData,
           umami: umamiData,
           loading: false,
-          error: hasError
+          error: fetchErrors.github && fetchErrors.umami // Only global error if both fail
         });
       } catch (error) {
         console.error("Global stats fetch error:", error);

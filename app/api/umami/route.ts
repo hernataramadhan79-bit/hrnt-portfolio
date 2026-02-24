@@ -13,16 +13,17 @@ export async function GET() {
         const controller = new AbortController();
         const id = setTimeout(() => controller.abort(), 12000);
 
-        const now = Date.now();
-        const twentyFourHoursAgo = now - 24 * 60 * 60 * 1000;
+        // Get all-time stats (from year 2020 to now) to match dashboard summary
+        const startAt = new Date('2020-01-01').getTime();
+        const endAt = Date.now();
 
         let stats = null;
         try {
             const statsRes = await fetch(
-                `https://api.umami.is/api/websites/${websiteId}/stats?startAt=${twentyFourHoursAgo}&endAt=${now}`,
+                `https://api.umami.is/v1/websites/${websiteId}/stats?startAt=${startAt}&endAt=${endAt}&unit=day`,
                 {
                     headers: {
-                        'x-umami-api-key': apiKey,
+                        'Authorization': `Bearer ${apiKey}`,
                         'Accept': 'application/json'
                     },
                     signal: controller.signal,
@@ -42,10 +43,10 @@ export async function GET() {
         let activeCount = 0;
         try {
             const activeRes = await fetch(
-                `https://api.umami.is/api/websites/${websiteId}/active`,
+                `https://api.umami.is/v1/websites/${websiteId}/active`,
                 {
                     headers: {
-                        'x-umami-api-key': apiKey,
+                        'Authorization': `Bearer ${apiKey}`,
                         'Accept': 'application/json'
                     },
                     signal: controller.signal
