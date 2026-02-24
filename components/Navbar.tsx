@@ -21,24 +21,39 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      if (isManualScroll.current) return;
-
-      const sections = navItems.map(item => document.getElementById(item.sectionId));
-      const triggerPoint = window.innerHeight / 2.5;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.getBoundingClientRect().top <= triggerPoint) {
-          if (activeTab !== navItems[i].id) {
-            setActiveTab(navItems[i].id);
-          }
-          break;
-        }
-      }
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      if (isManualScroll.current) return;
+
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const navItem = navItems.find(item => item.sectionId === entry.target.id);
+          if (navItem && activeTab !== navItem.id) {
+            setActiveTab(navItem.id);
+          }
+        }
+      });
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-40% 0px -60% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    navItems.forEach(item => {
+      const element = document.getElementById(item.sectionId);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
   }, [activeTab]);
 
   const scrollToSection = (id: string, sectionId: string) => {

@@ -230,7 +230,7 @@ const Library: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+              className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm"
               onClick={() => setIsModalOpen(false)}
             >
               <motion.div
@@ -238,21 +238,23 @@ const Library: React.FC = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="relative max-w-4xl max-h-[90vh] w-full mx-4"
+                className="relative max-w-[90vw] md:max-w-5xl mx-auto flex flex-col items-center justify-center p-4"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="absolute -top-12 right-0 z-10 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-                >
-                  <X size={20} />
-                </button>
-                <img
-                  src={selectedCertificate.certificateImage}
-                  alt={selectedCertificate.title}
-                  loading="eager"
-                  className="w-full h-auto max-h-[50vh] md:max-h-[70vh] object-contain rounded-lg shadow-2xl"
-                />
+                <div className="relative w-full flex justify-center">
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="absolute -top-12 md:-top-16 right-0 z-10 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                  >
+                    <X size={20} />
+                  </button>
+                  <img
+                    src={selectedCertificate.certificateImage}
+                    alt={selectedCertificate.title}
+                    loading="eager"
+                    className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.15)] ring-1 ring-white/10"
+                  />
+                </div>
               </motion.div>
             </motion.div>
           )}

@@ -4,6 +4,7 @@ import { Layout, Server } from 'lucide-react';
 import { innerSkills, outerSkills, detailedSkills } from '../constants';
 
 const SkillCard = React.memo(({ type }: { type: 'frontend' | 'backend' }) => {
+  const [activeIdx, setActiveIdx] = React.useState<number | null>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -61,34 +62,29 @@ const SkillCard = React.memo(({ type }: { type: 'frontend' | 'backend' }) => {
             </div>
           </div>
 
-          <div className="space-y-8">
-            {skills.map((skill, i) => (
-              <div key={i} className="group/item">
-                <div className="flex justify-between items-end mb-3">
-                  <div className="flex items-center gap-3">
-                    <skill.icon size={18} className={`${skill.color} opacity-60 group-hover/item:opacity-100 transition-opacity group-hover/item:scale-110 duration-300`} />
-                    <span className="text-base font-bold text-slate-300 group-hover/item:text-white transition-colors">{skill.name}</span>
-                  </div>
-                  <span className={`text-sm font-black font-mono ${skill.color}`}>{skill.level}%</span>
+          <div className="space-y-6">
+            {skills.map((skill: any, i) => (
+              <div
+                key={i}
+                onClick={() => setActiveIdx(activeIdx === i ? null : i)}
+                className="group/item flex flex-col gap-3 p-4 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-white/[0.1] transition-all duration-300 cursor-pointer"
+              >
+                <div className="flex items-center gap-3">
+                  <skill.icon size={20} className={`${skill.color} ${activeIdx === i ? 'opacity-100 scale-110' : 'opacity-80'} md:group-hover/item:opacity-100 transition-opacity md:group-hover/item:scale-110 duration-300`} />
+                  <span className={`text-base font-bold ${activeIdx === i ? 'text-white' : 'text-slate-200'} md:group-hover/item:text-white transition-colors tracking-wide`}>{skill.name}</span>
                 </div>
-                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden shadow-inner relative">
-                  <div className="absolute inset-0 w-full h-full opacity-0 group-hover/item:opacity-20 transition-opacity duration-300 bg-white" />
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.level}%` }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                    className={`h-full ${skill.barColor} relative shadow-[0_0_15px_currentColor]`}
-                  >
-                    <div className="absolute top-0 right-0 w-[2px] h-full bg-white animate-pulse" />
-                  </motion.div>
-                </div>
-                <div className="flex gap-2 mt-2 opacity-0 max-h-0 group-hover/item:max-h-20 group-hover/item:opacity-100 transition-all duration-500 ease-in-out overflow-hidden">
-                  {skill.tags.map(tag => (
-                    <span key={tag} className="text-[10px] text-slate-500 font-mono bg-white/5 px-2 py-0.5 rounded border border-white/5">
+                <div className="flex flex-wrap gap-2">
+                  {skill.tags.map((tag: string) => (
+                    <span key={tag} className={`text-xs font-mono px-2.5 py-1 rounded-md border transition-colors ${activeIdx === i ? 'text-slate-300 bg-black/20 border-white/10' : 'text-slate-400 bg-black/20 border-white/5'} md:group-hover/item:text-slate-300 md:group-hover/item:border-white/10`}>
                       {tag}
                     </span>
                   ))}
                 </div>
+                {skill.description && (
+                  <div className={`text-sm text-slate-400 transition-all duration-500 ease-in-out overflow-hidden leading-relaxed ${activeIdx === i ? 'max-h-24 opacity-100 mt-1' : 'opacity-0 max-h-0'} md:group-hover/item:max-h-24 md:group-hover/item:opacity-100 md:group-hover/item:mt-1`}>
+                    {skill.description}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -135,14 +131,27 @@ const Skills: React.FC = () => {
         </div>
 
         <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[650px] w-full flex items-center justify-center mb-16 md:mb-24 overflow-visible">
-          <div className="relative w-full h-full flex items-center justify-center scale-50 sm:scale-75 md:scale-100" style={{ willChange: 'transform' }}>
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full h-full flex items-center justify-center scale-50 sm:scale-75 md:scale-100" style={{ willChange: 'transform' }}
+          >
             <motion.div style={{ x: centerPhotoX, y: centerPhotoY }} className="absolute z-20 w-40 h-40 md:w-52 md:h-52 rounded-full border border-white/10 bg-black/40 backdrop-blur-md p-3 shadow-[0_0_50px_rgba(34,211,238,0.1)]">
               <div className="w-full h-full rounded-full overflow-hidden relative border border-white/10">
                 <img src="/profile2.png" alt="Core" className="w-full h-full object-cover" />
               </div>
             </motion.div>
 
-            <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ x: innerX, y: innerY }}>
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              style={{ x: innerX, y: innerY }}
+              initial={{ rotate: -90, opacity: 0 }}
+              whileInView={{ rotate: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.8, ease: "easeOut", delay: 0.2 }}
+            >
               <div className="absolute w-[350px] h-[350px] border border-white/5 rounded-full border-dashed" />
               <motion.div className="absolute inset-0 flex items-center justify-center" animate={{ rotate: 360 }} transition={{ duration: 50, repeat: Infinity, ease: "linear" }}>
                 {innerSkills.map((skill, index) => {
@@ -170,7 +179,14 @@ const Skills: React.FC = () => {
               </motion.div>
             </motion.div>
 
-            <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ x: outerX, y: outerY }}>
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              style={{ x: outerX, y: outerY }}
+              initial={{ rotate: 90, opacity: 0 }}
+              whileInView={{ rotate: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 2, ease: "easeOut", delay: 0.4 }}
+            >
               <div className="absolute w-[580px] h-[580px] border border-white/5 rounded-full" />
               <motion.div className="absolute inset-0 flex items-center justify-center" animate={{ rotate: -360 }} transition={{ duration: 70, repeat: Infinity, ease: "linear" }}>
                 {outerSkills.map((skill, index) => {
@@ -197,7 +213,7 @@ const Skills: React.FC = () => {
                 })}
               </motion.div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

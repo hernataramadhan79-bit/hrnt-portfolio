@@ -67,7 +67,7 @@ const CustomCursor = () => {
       }}
       animate={{
         scale: isHovered ? 2.5 : 1,
-        backgroundColor: isHovered ? 'rgba(255, 255, 255, 1)' : 'transparent',
+        backgroundColor: isHovered ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0)',
       }}
       transition={{
         type: "spring",

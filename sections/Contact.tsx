@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { Mail, Github, Linkedin, Twitter, Send, Instagram } from 'lucide-react';
-import TiltCard from '../components/TiltCard';
 import MagneticButton from '../components/MagneticButton';
 import { WEB3FORMS_ACCESS_KEY } from '../constants';
 
@@ -10,6 +9,19 @@ const Contact: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
+
+  // Setup motion values for the spotlight effect matching the Skills section
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  };
+
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.1), transparent 80%)`;
+  const borderLight = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, rgba(34,211,238,0.5), transparent 80%)`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -117,16 +129,42 @@ const Contact: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* --- RIGHT: 3D Form --- */}
+          {/* --- RIGHT: 3D Form / Skills Themed --- */}
           <div className="relative perspective-1000">
-            <TiltCard className="rounded-[2.5rem] bg-[#050508]/80 backdrop-blur-xl border border-white/10 p-1 shadow-2xl">
-              <div className="relative rounded-[2rem] overflow-hidden p-6 md:p-10" style={{ transformStyle: 'preserve-3d' }}>
+            <div
+              onMouseMove={handleMouseMove}
+              className="group relative rounded-[3.5rem] bg-[#050508] border border-white/5 transition-all duration-500 hover:shadow-2xl overflow-hidden shadow-2xl"
+            >
+              <motion.div
+                className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                style={{ background: borderLight }}
+              />
 
-                {/* Layer 0: Card Base */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" style={{ transform: "translateZ(0px)" }} />
+              <div className="relative h-full bg-[#050508] rounded-[3.4rem] overflow-hidden m-[1px] p-6 md:p-10 z-20">
+                <motion.div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-md"
+                  style={{ background: spotlight }}
+                />
 
-                {/* Layer 1: Inputs (Mid Depth) */}
-                <form onSubmit={handleSubmit} className="space-y-8 relative z-10" style={{ transformStyle: 'preserve-3d' }}>
+                <div className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'repeat'
+                  }}
+                />
+
+                {/* Background Grid */}
+                <div
+                  className={`absolute inset-0 bg-grid-white/[0.05] opacity-0 group-hover:opacity-100 transition-opacity duration-700 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_70%)] pointer-events-none`}
+                />
+
+                {/* Outer Glow Orb */}
+                <div
+                  className={`absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-700 bg-cyan-500 pointer-events-none`}
+                />
+
+                {/* Layer 1: Inputs */}
+                <form onSubmit={handleSubmit} className="space-y-8 relative z-30">
 
                   <div className="grid grid-cols-2 gap-6" style={{ transform: "translateZ(20px)" }}>
                     <div className="space-y-2 group">
@@ -179,7 +217,7 @@ const Contact: React.FC = () => {
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out" />
                       <span className="relative z-10 flex items-center gap-3 group-hover:text-black transition-colors text-base">
-                        {isLoading ? 'Sending...' : 'Send Massage'} <Send size={20} className={`transition-transform ${isLoading ? 'animate-spin' : 'group-hover:translate-x-1 group-hover:-translate-y-1'}`} />
+                        {isLoading ? 'Sending...' : 'Send Message'} <Send size={20} className={`transition-transform ${isLoading ? 'animate-spin' : 'group-hover:translate-x-1 group-hover:-translate-y-1'}`} />
                       </span>
                     </button>
                   </div>
@@ -214,19 +252,20 @@ const Contact: React.FC = () => {
                 </div>
 
               </div>
-            </TiltCard>
+            </div>
 
             <div className="absolute -z-10 inset-6 bg-cyan-500/20 rounded-[3rem] blur-3xl opacity-20 transform translate-y-10" />
           </div>
 
         </div>
 
-        <footer className="mt-24 border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-slate-600 font-mono text-[10px] uppercase tracking-[0.2em]">
-            © 2025 HRNT System. All rights reserved.
+        <footer className="mt-24 border-t border-white/5 pt-10 pb-6 flex flex-col md:flex-row justify-around items-center gap-6 relative z-10">
+          <div className="text-slate-600 font-mono text-[10px] uppercase tracking-[0.2em] text-center">
+            "Design is Intelligence made visible."<br />
+            © 2026 HRNT System. All rights reserved.
           </div>
-          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-500">
-            <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)] animate-pulse" />
+          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-500/80 bg-cyan-500/10 px-3 py-1.5 rounded-full border border-cyan-500/20">
+            <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] animate-pulse" />
             All Systems Operational
           </div>
         </footer>
