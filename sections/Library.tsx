@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ArrowUpRight, X } from 'lucide-react';
 import TiltCard from '../components/TiltCard';
@@ -223,42 +224,37 @@ const Library: React.FC = () => {
           )}
         </AnimatePresence>
 
-        <AnimatePresence>
-          {isModalOpen && selectedCertificate && (
+        {isModalOpen && selectedCertificate && createPortal(
+          <div
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            onClick={() => setIsModalOpen(false)}
+          >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm"
-              onClick={() => setIsModalOpen(false)}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="relative max-w-[90vw] max-h-[90vh] md:max-w-5xl md:max-h-[85vh] flex items-center justify-center p-0 m-auto"
+              onClick={(e) => e.stopPropagation()}
             >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="relative max-w-[90vw] md:max-w-5xl mx-auto flex flex-col items-center justify-center p-4"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="relative w-full flex justify-center">
-                  <button
-                    onClick={() => setIsModalOpen(false)}
-                    className="absolute -top-12 md:-top-16 right-0 z-10 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-                  >
-                    <X size={20} />
-                  </button>
-                  <img
-                    src={selectedCertificate.certificateImage}
-                    alt={selectedCertificate.title}
-                    loading="eager"
-                    className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.15)] ring-1 ring-white/10"
-                  />
-                </div>
-              </motion.div>
+              <div className="relative inline-flex flex-col items-center justify-center">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="absolute -top-12 md:-top-16 right-0 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  <X size={20} />
+                </button>
+                <img
+                  src={selectedCertificate.certificateImage}
+                  alt={selectedCertificate.title}
+                  loading="eager"
+                  className="max-h-[80vh] w-auto max-w-full object-contain rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.15)] ring-1 ring-white/10"
+                />
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
+          </div>,
+          document.body
+        )}
       </div>
     </section>
   );
