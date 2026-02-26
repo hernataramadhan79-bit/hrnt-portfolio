@@ -53,9 +53,10 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 }
 
 // Lazy load sections for better initial performance
-const Hero = React.lazy(() => import('@/sections/Hero'));
-const About = React.lazy(() => import('@/sections/About'));
+const Landing = React.lazy(() => import('@/sections/Landing'));
+const Experience = React.lazy(() => import('@/sections/Experience'));
 const Skills = React.lazy(() => import('@/sections/Skills'));
+const Performance = React.lazy(() => import('@/sections/Performance'));
 const Library = React.lazy(() => import('@/sections/Library'));
 const Contact = React.lazy(() => import('@/sections/Contact'));
 
@@ -63,23 +64,35 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (loading) return;
+
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
+            touchMultiplier: 2,
         });
 
+        let rafId: number;
         function raf(time: number) {
             lenis.raf(time);
-            requestAnimationFrame(raf);
+            rafId = requestAnimationFrame(raf);
         }
 
-        requestAnimationFrame(raf);
+        rafId = requestAnimationFrame(raf);
+
+        const handleResize = () => lenis.resize();
+        window.addEventListener('resize', handleResize);
+
+        const resizeInterval = setInterval(() => lenis.resize(), 1000);
+        setTimeout(() => clearInterval(resizeInterval), 5000);
 
         return () => {
             lenis.destroy();
+            cancelAnimationFrame(rafId);
+            window.removeEventListener('resize', handleResize);
+            clearInterval(resizeInterval);
         };
-    }, []);
+    }, [loading]);
 
     return (
         <ErrorBoundary>
@@ -96,11 +109,19 @@ export default function Home() {
                     >
                         <Background />
                         <Navbar />
-                        <Suspense fallback={<div className="min-h-screen" />}>
+                        <Suspense fallback={
+                            <div className="min-h-screen flex items-center justify-center">
+                                <div className="flex flex-col items-center gap-4">
+                                    <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+                                    <span className="text-cyan-400 font-mono text-sm">Loading...</span>
+                                </div>
+                            </div>
+                        }>
                             <main className="relative z-10">
-                                <Hero />
-                                <About />
+                                <Landing />
+                                <Experience />
                                 <Skills />
+                                <Performance />
                                 <Library />
                                 <Contact />
                             </main>

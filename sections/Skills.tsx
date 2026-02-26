@@ -20,76 +20,112 @@ const SkillCard = React.memo(({ type }: { type: 'frontend' | 'backend' }) => {
   const Icon = isFrontend ? Layout : Server;
   const skills = detailedSkills[type];
 
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.1), transparent 80%)`;
-  const borderLight = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${isFrontend ? 'rgba(34,211,238,0.5)' : 'rgba(192,132,252,0.5)'}, transparent 80%)`;
+  const spotlight = useMotionTemplate`radial-gradient(800px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.03), transparent 80%)`;
+  const borderLight = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${isFrontend ? 'rgba(34,211,238,0.3)' : 'rgba(192,132,252,0.3)'}, transparent 80%)`;
 
   return (
     <div
       onMouseMove={handleMouseMove}
-      className="group relative rounded-[3.5rem] bg-[#050508] border border-white/5 transition-all duration-500 hover:shadow-2xl overflow-hidden"
+      className="group relative rounded-[2rem] bg-[#030305] border border-white/5 transition-all duration-700 overflow-hidden"
     >
+      {/* Dynamic Border Glow */}
       <motion.div
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
         style={{ background: borderLight }}
       />
 
-      <div className="relative h-full bg-[#050508] rounded-[3.4rem] overflow-hidden m-[1px]">
+      <div className="relative h-full bg-[#050508]/80 backdrop-blur-xl rounded-[1.95rem] overflow-hidden m-[1px] p-8 md:p-10 flex flex-col">
+        {/* Spotlighting Background */}
         <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"
           style={{ background: spotlight }}
         />
 
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat'
-          }}
-        />
-        <div
-          className={`absolute inset-0 bg-grid-white/[0.05] opacity-0 group-hover:opacity-100 transition-opacity duration-700 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]`}
-        />
-
-        <div
-          className={`absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[100px] opacity-20 group-hover:opacity-40 transition-opacity duration-700 ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'}`}
-        />
-
-        <div className="relative z-10 p-8 md:p-12 h-full flex flex-col justify-between">
-          <div className="flex items-center gap-5 mb-8 group-hover:-translate-y-2 transition-transform duration-500 ease-out">
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-lg group-hover:scale-110 group-hover:rotate-3 ${isFrontend ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400 group-hover:shadow-cyan-500/20' : 'bg-purple-500/10 border-purple-500/20 text-purple-400 group-hover:shadow-purple-500/20'}`}>
+        {/* Cyber Header */}
+        <div className="flex items-center justify-between mb-12 relative z-20">
+          <div className="flex items-center gap-6">
+            <div className={`relative w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-700 ${isFrontend ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400 group-hover:border-cyan-400/50' : 'bg-purple-500/10 border-purple-500/20 text-purple-400 group-hover:border-purple-400/50'}`}>
               <Icon size={32} />
+              <div className={`absolute -inset-1 blur-lg opacity-0 group-hover:opacity-20 transition-opacity ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'}`} />
             </div>
             <div>
-              <h3 className="text-2xl font-black text-white uppercase tracking-tighter">{type}</h3>
-              <p className="text-white/40 text-sm font-mono tracking-widest uppercase">Mainframe System</p>
+              <h3 className="text-3xl font-black text-white uppercase tracking-tighter italic">{type}</h3>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.3em]">System.active()</p>
+              </div>
             </div>
           </div>
-
-          <div className="space-y-6">
-            {skills.map((skill: any, i) => (
-              <div
-                key={i}
-                onClick={() => setActiveIdx(activeIdx === i ? null : i)}
-                className="group/item flex flex-col gap-3 p-4 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-white/[0.1] transition-all duration-300 cursor-pointer"
-              >
-                <div className="flex items-center gap-3">
-                  <skill.icon size={20} className={`${skill.color} ${activeIdx === i ? 'opacity-100 scale-110' : 'opacity-80'} md:group-hover/item:opacity-100 transition-opacity md:group-hover/item:scale-110 duration-300`} />
-                  <span className={`text-base font-bold ${activeIdx === i ? 'text-white' : 'text-slate-200'} md:group-hover/item:text-white transition-colors tracking-wide`}>{skill.name}</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {skill.tags.map((tag: string) => (
-                    <span key={tag} className={`text-xs font-mono px-2.5 py-1 rounded-md border transition-colors ${activeIdx === i ? 'text-slate-300 bg-black/20 border-white/10' : 'text-slate-400 bg-black/20 border-white/5'} md:group-hover/item:text-slate-300 md:group-hover/item:border-white/10`}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                {skill.description && (
-                  <div className={`text-sm text-slate-400 transition-all duration-500 ease-in-out overflow-hidden leading-relaxed ${activeIdx === i ? 'max-h-24 opacity-100 mt-1' : 'opacity-0 max-h-0'} md:group-hover/item:max-h-24 md:group-hover/item:opacity-100 md:group-hover/item:mt-1`}>
-                    {skill.description}
-                  </div>
-                )}
-              </div>
-            ))}
+          <div className="hidden sm:block text-right">
+            <div className="text-[10px] font-mono text-slate-600 uppercase tracking-widest leading-none mb-1">Module ID</div>
+            <div className="text-xs font-black text-white/20 tracking-tighter">0X-{type === 'frontend' ? 'FE' : 'BE'}-2026</div>
           </div>
+        </div>
+
+        {/* Skills Table-like List */}
+        <div className="space-y-4 relative z-20 flex-1">
+          {skills.map((skill: any, i) => (
+            <div
+              key={i}
+              onMouseEnter={() => setActiveIdx(i)}
+              onMouseLeave={() => setActiveIdx(null)}
+              className="group/item relative rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10 transition-all duration-500 p-4 overflow-hidden"
+            >
+              {/* Row Interactive Line */}
+              <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-500 ${activeIdx === i ? (isFrontend ? 'bg-cyan-400 h-full' : 'bg-purple-400 h-full') : 'bg-transparent h-0'}`} />
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className={`w-10 h-10 rounded-lg bg-black/40 border border-white/5 flex items-center justify-center transition-all duration-500 ${activeIdx === i ? 'scale-110 -rotate-6 border-white/20 shadow-lg' : ''}`}>
+                    <skill.icon size={18} className={skill.color} />
+                  </div>
+                  <div>
+                    <span className={`block font-bold transition-colors duration-300 ${activeIdx === i ? 'text-white' : 'text-slate-400'}`}>
+                      {skill.name}
+                    </span>
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {skill.tags.map((tag: string) => (
+                        <span key={tag} className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 transform group-hover/item:translate-x-1 transition-transform">
+                  <div className={`w-1 h-1 rounded-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} opacity-0 group-hover/item:opacity-100 transition-opacity`} />
+                  <div className={`w-1 h-1 rounded-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} opacity-0 group-hover/item:opacity-40 transition-opacity delay-75`} />
+                  <div className={`w-1 h-1 rounded-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} opacity-0 group-hover/item:opacity-20 transition-opacity delay-150`} />
+                </div>
+              </div>
+
+              {/* Expansion Detail */}
+              <div className={`grid transition-all duration-500 ease-in-out ${activeIdx === i ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'}`}>
+                <div className="overflow-hidden">
+                  <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                    <p className="text-[11px] text-slate-500 font-light leading-relaxed">
+                      {skill.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer Stat Bar */}
+        <div className="mt-10 pt-6 border-t border-white/5 flex items-center justify-between opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000">
+          <div className="flex gap-4">
+            <div className="h-1 w-8 bg-white/10 rounded-full overflow-hidden">
+              <div className={`h-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} w-[60%]`} />
+            </div>
+            <div className="h-1 w-8 bg-white/10 rounded-full overflow-hidden">
+              <div className={`h-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} w-[80%]`} />
+            </div>
+            <div className="h-1 w-8 bg-white/10 rounded-full overflow-hidden">
+              <div className={`h-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} w-[40%]`} />
+            </div>
+          </div>
+          <span className="text-[9px] font-mono text-slate-500 uppercase tracking-[0.4em]">Optimized Core</span>
         </div>
       </div>
     </div>
@@ -126,13 +162,21 @@ const Skills: React.FC = () => {
 
   return (
     <section id="skills" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto relative">
+        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-cyan-900/10 blur-[150px] rounded-full pointer-events-none" />
+
         <div className="text-center mb-16 relative z-20">
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-4">Tech <span className="text-white/20">Mainframes</span></h2>
-          <p className="text-slate-400 text-base">My Tools and Technologies.</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] mb-6 backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+              Technical Stack
+            </div>
+            <h2 className="text-5xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">System <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Architecture</span></h2>
+            <p className="text-slate-400 text-lg font-light max-w-xl mx-auto">Core technologies and frameworks powering my dynamic digital solutions.</p>
+          </motion.div>
         </div>
 
-        <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[650px] w-full flex items-center justify-center mb-16 md:mb-24 overflow-visible">
+        <div className="relative h-[280px] sm:h-[360px] md:h-[460px] lg:h-[560px] w-full flex items-center justify-center mb-12 md:mb-16 overflow-visible">
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
@@ -140,7 +184,7 @@ const Skills: React.FC = () => {
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
             className="relative w-full h-full flex items-center justify-center scale-50 sm:scale-75 md:scale-100" style={{ willChange: 'transform' }}
           >
-            <motion.div style={{ x: centerPhotoX, y: centerPhotoY }} className="absolute z-20 w-40 h-40 md:w-52 md:h-52 rounded-full border border-white/10 bg-black/40 backdrop-blur-md p-3 shadow-[0_0_50px_rgba(34,211,238,0.1)]">
+            <motion.div style={{ x: centerPhotoX, y: centerPhotoY }} className="absolute z-20 w-32 h-32 md:w-40 md:h-40 rounded-full border border-white/10 bg-black/40 backdrop-blur-md p-2 md:p-3 shadow-[0_0_50px_rgba(34,211,238,0.1)]">
               <div className="w-full h-full rounded-full overflow-hidden relative border border-white/10">
                 <img src="/profile2.png" alt="Core" className="w-full h-full object-cover" />
               </div>
@@ -154,11 +198,11 @@ const Skills: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 1.8, ease: "easeOut", delay: 0.2 }}
             >
-              <div className="absolute w-[350px] h-[350px] border border-white/5 rounded-full border-dashed" />
+              <div className="absolute w-[320px] h-[320px] border border-white/5 rounded-full border-dashed" />
               <motion.div className="absolute inset-0 flex items-center justify-center" animate={{ rotate: 360 }} transition={{ duration: 50, repeat: Infinity, ease: "linear" }}>
                 {innerSkills.map((skill, index) => {
                   const angle = (index / innerSkills.length) * 2 * Math.PI;
-                  const radius = 175;
+                  const radius = 160;
                   return (
                     <motion.div key={skill.name} className="absolute" style={{ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius }}>
                       <motion.div animate={{ rotate: -360 }} transition={{ duration: 50, repeat: Infinity, ease: "linear" }}>
@@ -189,11 +233,11 @@ const Skills: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 2, ease: "easeOut", delay: 0.4 }}
             >
-              <div className="absolute w-[580px] h-[580px] border border-white/5 rounded-full" />
+              <div className="absolute w-[560px] h-[560px] border border-white/5 rounded-full" />
               <motion.div className="absolute inset-0 flex items-center justify-center" animate={{ rotate: -360 }} transition={{ duration: 70, repeat: Infinity, ease: "linear" }}>
                 {outerSkills.map((skill, index) => {
                   const angle = (index / outerSkills.length) * 2 * Math.PI;
-                  const radius = 290;
+                  const radius = 280;
                   return (
                     <motion.div key={skill.name} className="absolute" style={{ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius }}>
                       <motion.div animate={{ rotate: 360 }} transition={{ duration: 70, repeat: Infinity, ease: "linear" }}>

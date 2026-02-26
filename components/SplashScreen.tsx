@@ -6,6 +6,14 @@ interface SplashScreenProps {
 }
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
+  // Fallback timer to ensure splash screen always completes even if animations hang
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      onComplete();
+    }, 6000); // Wait for animation to complete (6s)
+    return () => clearTimeout(timer);
+  }, [onComplete]);
+
   // Cinematic fluid easing
   const cinematicEase = [0.76, 0, 0.24, 1] as [number, number, number, number];
 
@@ -14,8 +22,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15, // Faster, snappier stagger
-        delayChildren: 0.3,
+        staggerChildren: 0.1, // Even faster stagger
+        delayChildren: 0.2, // Reduced delay
       },
     },
   };
@@ -31,7 +39,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     }
   };
 
-  const text = ["H", "R", "N", "T", "."];
+  const text = ["H", "R", "N", "T"];
 
   return (
     <motion.div
@@ -59,80 +67,51 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center">
-
         {/* Main Brand Logo */}
-        <div className="relative">
-          {/* Brackets */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1, duration: 1, ease: cinematicEase }}
-            className="absolute -left-8 md:-left-12 top-0 bottom-0 flex items-center text-4xl md:text-6xl text-cyan-500/20 font-light"
-          >
-            [
-          </motion.div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          onAnimationComplete={() => {
+            setTimeout(() => onComplete(), 2500); // Wait for user to see animation
+          }}
+          className="flex items-center gap-4 py-4 px-2 relative"
+        >
+          <div className="flex items-baseline">
+            {text.map((char, index) => (
+              <motion.span
+                key={index}
+                variants={letterVariants}
+                style={{ textShadow: "0px 0px 20px rgba(255,255,255,0.5), 0px 0px 40px rgba(255,255,255,0.2)" }}
+                className="text-6xl md:text-8xl font-black tracking-tighter text-white"
+              >
+                {char}
+              </motion.span>
+            ))}
+          </div>
 
+          {/* Cyan Square Icon (Matching Landing Page) */}
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            onAnimationComplete={() => {
-              // Wait longer so the dot animation completes
-              setTimeout(() => onComplete(), 2000);
+            initial={{ opacity: 0, scale: 0, rotate: 0 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              rotate: [45, 225, 405],
             }}
-            className="flex items-baseline overflow-visible py-4 px-2 relative"
-          >
-            {text.map((char, index) => {
-              // Standard letters H, R, N, T
-              if (char !== '.') {
-                return (
-                  <motion.span
-                    key={index}
-                    variants={letterVariants}
-                    style={{ textShadow: "0px 0px 20px rgba(255,255,255,0.5), 0px 0px 40px rgba(255,255,255,0.2)" }}
-                    className="text-6xl md:text-8xl font-black tracking-tighter text-white"
-                  >
-                    {char}
-                  </motion.span>
-                );
+            transition={{
+              delay: 1.2,
+              duration: 2.5,
+              ease: cinematicEase,
+              rotate: {
+                delay: 2.5,
+                duration: 10,
+                repeat: Infinity,
+                ease: "linear"
               }
-              return null; // Handle dot separately
-            })}
-
-            {/* Special Animating Dot */}
-            <motion.span
-              key="dot"
-              initial={{ opacity: 0, x: -150, y: -100, scale: 0 }}
-              animate={{
-                opacity: [0, 1, 1, 1, 1],
-                scale: [0, 1.5, 1.5, 0.8, 1],
-                x: [-150, 50, 150, 0, 0],
-                y: [-100, -150, -50, 50, 0],
-                rotate: [0, 180, 360, 540, 720],
-              }}
-              transition={{
-                delay: 1.2, // Wait for HRNT to load
-                duration: 2.5,
-                times: [0, 0.2, 0.5, 0.8, 1],
-                ease: "easeInOut"
-              }}
-              style={{ textShadow: "0px 0px 30px rgba(34,211,238,1), 0px 0px 60px rgba(34,211,238,0.8)" }}
-              className="text-6xl md:text-8xl font-black tracking-tighter text-cyan-400 ml-1 relative z-20"
-            >
-              .
-            </motion.span>
-          </motion.div>
-
-          {/* Brackets */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1, duration: 1, ease: cinematicEase }}
-            className="absolute -right-8 md:-right-12 top-0 bottom-0 flex items-center text-4xl md:text-6xl text-cyan-500/20 font-light"
-          >
-            ]
-          </motion.div>
-        </div>
+            }}
+            className="w-8 h-8 md:w-12 md:h-12 border-[4px] md:border-[6px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_30px_rgba(34,211,238,0.6)] ml-2"
+          />
+        </motion.div>
 
         {/* Loading Indicator Subtitle */}
         <motion.div
@@ -146,9 +125,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
             Creative Developer
           </span>
         </motion.div>
-
       </div>
-
     </motion.div>
   );
 };

@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { Mail, Github, Linkedin, Twitter, Send, Instagram } from 'lucide-react';
-import MagneticButton from '../components/MagneticButton';
 import { WEB3FORMS_ACCESS_KEY } from '../constants';
 
 const Contact: React.FC = () => {
@@ -63,7 +62,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative z-10 py-16 md:py-28 px-4 sm:px-6 overflow-hidden">
+    <section id="contact" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto relative">
 
         {/* Background blobs */}
@@ -73,7 +72,7 @@ const Contact: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
           {/* --- LEFT: Info --- */}
-          <div className="space-y-12">
+          <div className="space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -85,7 +84,7 @@ const Contact: React.FC = () => {
                 Open for Collaboration
               </div>
 
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[0.9] tracking-tighter mb-8">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[0.9] tracking-tighter mb-6">
                 Let's start a <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-400 to-slate-600">conversation.</span>
               </h2>
@@ -118,13 +117,15 @@ const Contact: React.FC = () => {
                     { icon: Linkedin, href: 'https://www.linkedin.com/in/hernata-ramadhan-176b68338' },
                     { icon: Instagram, href: 'https://www.instagram.com/heropakentanq15_?igsh=eWJqaW5qMGoxZWVh' }
                   ].map((item, idx) => (
-                    <MagneticButton
+                    <motion.button
                       key={idx}
+                      whileHover={{ scale: 1.1, y: -5 }}
+                      whileTap={{ scale: 0.9 }}
                       onClick={() => window.open(item.href, '_blank')}
                       className="w-14 h-14 rounded-2xl bg-[#0a0a0f] border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all duration-300 cursor-pointer"
                     >
                       <item.icon size={20} />
-                    </MagneticButton>
+                    </motion.button>
                   ))}
                 </div>
               </div>
@@ -261,16 +262,6 @@ const Contact: React.FC = () => {
 
         </div>
 
-        <footer className="mt-24 border-t border-white/5 pt-10 pb-6 flex flex-col md:flex-row justify-around items-center gap-6 relative z-10">
-          <div className="text-slate-600 font-mono text-[10px] uppercase tracking-[0.2em] text-center">
-            "Design is Intelligence made visible."<br />
-            © 2026 HRNT System. All rights reserved.
-          </div>
-          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-500/80 bg-cyan-500/10 px-3 py-1.5 rounded-full border border-cyan-500/20">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] animate-pulse" />
-            All Systems Operational
-          </div>
-        </footer>
       </div>
     </section>
   );
