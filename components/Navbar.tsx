@@ -202,10 +202,10 @@ const Navbar: React.FC = () => {
             <div className="absolute bottom-0 left-0 w-[60%] h-[30%] bg-purple-500/5 blur-[100px] rounded-full" />
 
             {/* Content Container */}
-            <div className="relative h-full flex flex-col px-6 sm:px-10 pt-24 sm:pt-32 pb-10">
-              <div className="flex items-center justify-between mb-8 sm:mb-16">
+            <div className="relative h-full flex flex-col px-4 sm:px-10 pt-20 sm:pt-28 pb-6 overflow-y-auto">
+              <div className="flex items-center justify-between mb-6 sm:mb-16">
                 <div className="flex flex-col">
-                  <span className="text-white font-black text-2xl sm:text-3xl tracking-tighter uppercase">Menu <span className="text-cyan-500">Nav</span></span>
+                  <span className="text-white font-black text-xl sm:text-2xl tracking-tighter uppercase">Menu <span className="text-cyan-500">Nav</span></span>
                   <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.3em] mt-2">Operational Systems</span>
                 </div>
                 <button
@@ -226,11 +226,11 @@ const Navbar: React.FC = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
                       onClick={() => scrollToSection(item.id, item.sectionId)}
-                      className="group flex flex-col py-6 relative"
+                      className="group flex flex-col py-4 sm:py-6 relative"
                     >
                       <div className="flex items-baseline gap-4">
                         <span className="text-[10px] font-mono text-cyan-500/50 uppercase tracking-widest leading-none">0{index + 1}</span>
-                        <span className={`text-3xl sm:text-4xl font-black uppercase tracking-tighter transition-all duration-300 ${isActive ? 'text-cyan-400 translate-x-4' : 'text-white/40 group-hover:text-white'
+                        <span className={`text-2xl sm:text-4xl font-black uppercase tracking-tighter transition-all duration-300 ${isActive ? 'text-cyan-400 translate-x-4' : 'text-white/40 group-hover:text-white'
                           }`}>
                           {item.label}
                         </span>
@@ -241,7 +241,7 @@ const Navbar: React.FC = () => {
                 })}
               </div>
 
-              <div className="mt-auto space-y-6">
+              <div className="mt-auto space-y-4">
                 <div className="h-px bg-white/5" />
                 <div className="flex items-center justify-between group cursor-pointer" onClick={() => scrollToSection('contact', 'contact')}>
                   <div className="flex flex-col">

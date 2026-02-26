@@ -154,7 +154,16 @@ export async function GET() {
 
     } catch (error: any) {
         console.error('WakaTime route error:', error?.message || error);
-        return NextResponse.json({ error: 'Internal sync error: ' + (error?.message || 'unknown') }, { status: 500 });
+        // Return a valid response with default values instead of 500 error
+        return NextResponse.json({
+            languages: [],
+            totalTime: '0h 0m',
+            dailyAverage: '0h 0m',
+            bestDay: 'N/A',
+            optimizationFactor: '+0%',
+            isLoaded: true,
+            error: error?.message || 'Unknown error'
+        });
     }
 }
 

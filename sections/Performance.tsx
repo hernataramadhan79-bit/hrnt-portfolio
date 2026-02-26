@@ -342,7 +342,7 @@ const Performance: React.FC = () => {
                 {mounted && createPortal(
                     <AnimatePresence>
                         {selectedStat && (
-                            <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 md:p-10 pointer-events-auto">
+                            <div className="fixed inset-0 z-[999999] flex items-center justify-center p-2 md:p-10 pointer-events-auto">
                                 <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
@@ -352,7 +352,7 @@ const Performance: React.FC = () => {
                                 />
 
                                 <motion.div
-                                    className="relative w-full max-w-4xl bg-[#050508] border border-white/10 rounded-[3rem] overflow-hidden shadow-[0_0_100px_rgba(34,211,238,0.1)] z-[1000000]"
+                                    className="relative w-full max-w-4xl md:max-w-5xl bg-[#050508] border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_0_100px_rgba(34,211,238,0.1)] z-[1000000]"
                                     initial={{ scale: 0.9, opacity: 0, y: 50 }}
                                     animate={{ scale: 1, opacity: 1, y: 0 }}
                                     exit={{ scale: 0.9, opacity: 0, y: 50 }}
@@ -362,9 +362,9 @@ const Performance: React.FC = () => {
                                     <div className="absolute inset-0 bg-grid-white/[0.03] pointer-events-none" />
 
                                     {/* Modal Header */}
-                                    <div className="relative z-10 p-8 md:p-12 border-b border-white/5 flex items-center justify-between">
+                                    <div className="relative z-10 p-4 md:p-12 border-b border-white/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                         <div>
-                                            <h3 className="text-3xl md:text-5xl font-black text-white italic tracking-tighter uppercase leading-[0.8] flex items-center gap-4">
+                                            <h3 className="text-2xl md:text-5xl font-black text-white italic tracking-tighter uppercase leading-[0.8] flex items-center gap-2 md:gap-4">
                                                 {selectedStat === 'github' && "GitHub Analysis"}
                                                 {selectedStat === 'wakatime' && "Development Metrics"}
                                                 {selectedStat === 'analytics' && "Traffic Intelligence"}
@@ -400,12 +400,12 @@ const Performance: React.FC = () => {
 
                                     {/* Modal Body */}
                                     <div
-                                        className="relative z-10 p-8 md:p-12 max-h-[70vh] overflow-y-auto custom-scrollbar"
+                                        className="relative z-10 p-4 md:p-12 max-h-[70vh] overflow-y-auto custom-scrollbar"
                                         data-lenis-prevent
                                     >
                                         {selectedStat === 'github' && (
-                                            <div className="space-y-12">
-                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                                            <div className="space-y-8 md:space-y-12">
+                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                                                     {[
                                                         { label: 'Commits', value: stats.github.totalContributions, color: 'text-cyan-400' },
                                                         { label: 'Stars', value: stats.github.stars, color: 'text-yellow-400' },
@@ -475,7 +475,7 @@ const Performance: React.FC = () => {
                                                         Repository Intelligence
                                                     </h4>
                                                     <div className="overflow-x-auto custom-scrollbar">
-                                                        <table className="w-full text-left font-mono">
+                                                        <table className="w-full text-left font-mono min-w-[600px]">
                                                             <thead>
                                                                 <tr className="border-b border-white/5 text-[10px] text-slate-500 uppercase tracking-widest">
                                                                     <th className="pb-4 px-2">Project Name</th>
@@ -525,8 +525,8 @@ const Performance: React.FC = () => {
                                         )}
 
                                         {selectedStat === 'wakatime' && (
-                                            <div className="space-y-12">
-                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-white/5">
+                                            <div className="space-y-8 md:space-y-12">
+                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 pb-4 md:pb-8 border-b border-white/5">
                                                     {[
                                                         { label: 'Total Recorded Focus', value: stats.wakatime.totalTime },
                                                         { label: 'Daily Output Average', value: stats.wakatime.dailyAverage },
@@ -538,7 +538,7 @@ const Performance: React.FC = () => {
                                                         </div>
                                                     ))}
                                                 </div>
-                                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12">
                                                     <div className="space-y-6">
                                                         <h4 className="text-white font-bold flex items-center gap-2 text-xs uppercase tracking-widest">
                                                             <Code size={16} className="text-purple-400" />
@@ -591,8 +591,8 @@ const Performance: React.FC = () => {
                                                                     { label: 'Average Time', value: `${Math.round((stats.umami.stats?.totaltime ?? 0) / (stats.umami.stats?.visits || 1) / 60)}m`, prev: `${Math.round((stats.umami.stats?.comparison?.totaltime ?? 0) / (stats.umami.stats?.comparison?.visits || 1) / 60)}m`, color: 'text-rose-400' }
                                                                 ].map((item, i) => (
                                                                     <tr key={i} className="border-b border-white/[0.03] group hover:bg-white/[0.01]">
-                                                                        <td className="py-6 px-1 text-white font-bold">{item.label}</td>
-                                                                        <td className={`py-6 px-1 text-4xl font-black ${item.color} tracking-tighter`}>{item.value}</td>
+                                                                        <td className="py-4 md:py-6 px-1 text-white font-bold">{item.label}</td>
+                                                                        <td className={`py-4 md:py-6 px-1 text-2xl md:text-4xl font-black ${item.color} tracking-tighter`}>{item.value}</td>
                                                                         <td className="py-6 px-1 text-slate-500 font-bold text-right">{item.prev}</td>
                                                                     </tr>
                                                                 ))
