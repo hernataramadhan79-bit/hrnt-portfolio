@@ -184,7 +184,7 @@ const Forum: React.FC = () => {
                         Public <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Space.</span>
                     </h2>
                     <p className="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed">
-                        {user ? `Halo, ${user.displayName?.split(' ')[0] || 'User'}! Silakan tinggalkan jejak atau sapaan Anda di sini.` : 'Ruang terbuka untuk meninggalkan pesan, kritik, atau sekedar menyapa.'}
+                        {user ? `Hi, ${user.displayName?.split(' ')[0] || 'User'}! Feel free to leave a trace or a greeting here.` : 'An open space to leave messages, feedback, or just to say hello.'}
                     </p>
                 </motion.div>
 
@@ -228,7 +228,7 @@ const Forum: React.FC = () => {
                                                         value={displayName}
                                                         onChange={(e) => setDisplayName(e.target.value)}
                                                         className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white text-sm focus:outline-none focus:border-cyan-500/50"
-                                                        placeholder="John Doe"
+                                                        placeholder="Your Name"
                                                         required
                                                     />
                                                 </div>
