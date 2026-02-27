@@ -177,14 +177,14 @@ const Forum: React.FC = () => {
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-md">
                         <MessageSquare size={14} className="text-cyan-400" />
                         <span className="text-[10px] font-black tracking-[0.3em] text-cyan-400 uppercase">
-                            Community Hub
+                            Guestbook & Comments
                         </span>
                     </div>
                     <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
-                        Public <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Forum.</span>
+                        Public <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Space.</span>
                     </h2>
                     <p className="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed">
-                        {user ? `Welcome back, ${user.displayName}!` : 'Join our community and share your thoughts.'}
+                        {user ? `Halo, ${user.displayName?.split(' ')[0] || 'User'}! Silakan tinggalkan jejak atau sapaan Anda di sini.` : 'Ruang terbuka untuk meninggalkan pesan, kritik, atau sekedar menyapa.'}
                     </p>
                 </motion.div>
 
