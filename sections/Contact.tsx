@@ -62,7 +62,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-hidden">
+    <section id="contact" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-visible">
       <div className="max-w-7xl mx-auto relative">
 
         {/* Background blobs */}

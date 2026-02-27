@@ -69,7 +69,7 @@ const Landing: React.FC = () => {
     // Animations will be handled by Framer Motion's initial/animate props
 
     return (
-        <section id="home" className="relative z-10 min-h-screen flex flex-col justify-center overflow-hidden pt-32 pb-20">
+        <section id="home" className="relative z-10 min-h-screen flex flex-col justify-center overflow-visible pt-32 pb-20">
             {/* Unified Backdrop */}
             <motion.div
                 className="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen overflow-hidden"

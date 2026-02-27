@@ -102,7 +102,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0], index: n
 
 const Services: React.FC = () => {
     return (
-        <section id="services" className="relative z-10 py-12 md:py-16 px-4 sm:px-6 overflow-hidden">
+        <section id="services" className="relative z-10 py-12 md:py-16 px-4 sm:px-6 overflow-visible">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6 relative z-10">
                     <div className="space-y-4 max-w-2xl">

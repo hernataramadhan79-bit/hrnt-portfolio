@@ -161,7 +161,7 @@ const Skills: React.FC = () => {
   const centerPhotoY = useTransform(springY, (y) => y * 0.01);
 
   return (
-    <section id="skills" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-hidden">
+    <section id="skills" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-visible">
       <div className="max-w-7xl mx-auto relative">
         <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-cyan-900/10 blur-[150px] rounded-full pointer-events-none" />
 

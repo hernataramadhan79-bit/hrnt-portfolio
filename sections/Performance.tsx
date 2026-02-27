@@ -171,7 +171,7 @@ const Performance: React.FC = () => {
     if (!mounted) return null;
 
     return (
-        <section id="performance" className="relative z-10 py-16 px-4 sm:px-6 overflow-hidden">
+        <section id="performance" className="relative z-10 py-16 px-4 sm:px-6 overflow-visible">
             <div className="max-w-7xl mx-auto">
 
                 {/* Header */}

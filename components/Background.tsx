@@ -45,36 +45,36 @@ ShootingStar.displayName = 'ShootingStar';
 const Background: React.FC = () => {
   const { scrollY } = useScroll();
 
-  const y1 = useTransform(scrollY, [0, 5000], [0, -1000]);
-  const y2 = useTransform(scrollY, [0, 5000], [0, -600]);
-  const y3 = useTransform(scrollY, [0, 5000], [0, -300]);
+  const y1 = useTransform(scrollY, [0, 10000], [0, -2500]);
+  const y2 = useTransform(scrollY, [0, 10000], [0, -1500]);
+  const y3 = useTransform(scrollY, [0, 10000], [0, -800]);
 
   const stars1 = useMemo(() =>
-    Array.from({ length: 50 }, (_, i) => ({
+    Array.from({ length: 500 }, (_, i) => ({
       id: `s1-${i}`,
       width: Math.random() * 2,
       height: Math.random() * 2,
-      top: Math.random() * 200,
+      top: Math.random() * 100,
       left: Math.random() * 100,
     })), []
   );
 
   const stars2 = useMemo(() =>
-    Array.from({ length: 30 }, (_, i) => ({
+    Array.from({ length: 400 }, (_, i) => ({
       id: `s2-${i}`,
       width: Math.random() * 3,
       height: Math.random() * 3,
-      top: Math.random() * 200,
+      top: Math.random() * 100,
       left: Math.random() * 100,
     })), []
   );
 
   const stars3 = useMemo(() =>
-    Array.from({ length: 15 }, (_, i) => ({
+    Array.from({ length: 200 }, (_, i) => ({
       id: `s3-${i}`,
       width: Math.random() * 4,
       height: Math.random() * 4,
-      top: Math.random() * 200,
+      top: Math.random() * 100,
       left: Math.random() * 100,
     })), []
   );
@@ -92,7 +92,7 @@ const Background: React.FC = () => {
         style={{ willChange: 'opacity, transform' }}
       />
 
-      <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
+      <motion.div style={{ y: y1 }} className="absolute top-0 left-0 h-[1000%] w-full z-0">
         {stars1.map((star) => (
           <div
             key={star.id}
@@ -107,7 +107,7 @@ const Background: React.FC = () => {
         ))}
       </motion.div>
 
-      <motion.div style={{ y: y2 }} className="absolute inset-0 z-0">
+      <motion.div style={{ y: y2 }} className="absolute top-0 left-0 h-[1000%] w-full z-0">
         {stars2.map((star) => (
           <div
             key={star.id}
@@ -122,7 +122,7 @@ const Background: React.FC = () => {
         ))}
       </motion.div>
 
-      <motion.div style={{ y: y3 }} className="absolute inset-0 z-0">
+      <motion.div style={{ y: y3 }} className="absolute top-0 left-0 h-[1000%] w-full z-0">
         {stars3.map((star) => (
           <div
             key={star.id}

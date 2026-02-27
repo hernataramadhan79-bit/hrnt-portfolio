@@ -7,7 +7,7 @@ import { experiences } from '@/constants';
 
 const Experience: React.FC = () => {
     return (
-        <section id="experience" className="relative z-10 py-20 px-4 sm:px-6 overflow-hidden bg-[#030305]">
+        <section id="experience" className="relative z-10 py-20 px-4 sm:px-6 overflow-visible">
             {/* Background Accents */}
             <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
             <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
