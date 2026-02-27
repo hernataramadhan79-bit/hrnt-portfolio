@@ -49,10 +49,49 @@ export const certificates: Certificate[] = [
   { id: 2, title: 'Photography Expertise Level III KKNI', issuer: 'LESKOFI', date: '2025', image: '/logoleskofi.webp', certificateImage: '/sertifikat2.jpg', credentialLink: '/sertifikat2.jpg' },
 ];
 
-export const experience = [
-  { year: '2022 - Present', role: 'Senior Fullstack Dev', company: 'TechCorp Inc.', description: 'Frontend architecture & cloud strategies.' },
-  { year: '2020 - 2022', role: 'Fullstack Developer', company: 'Creative Agency', description: 'Interactive platforms & UI libraries.' },
+export const experiences = [
+  {
+    type: 'work',
+    role: 'Fullstack Freelancer',
+    company: 'Self-Employed',
+    period: '2023 - Present',
+    description: 'Providing bespoke digital solutions for local and international clients, focusing on React, Next.js, and high-performance infrastructure.',
+    tags: ['React', 'Next.js', 'PostgreSQL', 'UI/UX']
+  },
+  {
+    type: 'edu',
+    role: 'University Student',
+    company: 'University of PGRI Madiun',
+    period: '2025 - Present',
+    description: 'Pursuing academic excellence in Computer Science, deepening knowledge in distributed systems and software orchestration.',
+    tags: ['Algorithms', 'Logic', 'Architecture']
+  },
+  {
+    type: 'work',
+    role: 'Sales Executive & Content Creator',
+    company: 'PT. Indraco (Suncity Waterpark)',
+    period: '2025 (3 Months)',
+    description: 'Executed sales strategies and managed creative content production to enhance brand presence and customer engagement.',
+    tags: ['Marketing', 'Content Creation', 'Sales']
+  },
+  {
+    type: 'work',
+    role: 'Operator & Graphic Designer',
+    company: 'AA Victory Digital Printing',
+    period: '2025 (3 Months)',
+    description: 'Managed high-scale printing production and technical design workflows, ensuring precision in large-format media output.',
+    tags: ['Printing', 'Graphic Design', 'Production']
+  },
+  {
+    type: 'edu',
+    role: 'High School Graduate',
+    company: 'SMKN 1 Wonoasri',
+    period: '2022 - 2025',
+    description: 'Specialized in Visual Communication Design, establishing a robust foundation in design principles, digital media, and creative aesthetics.',
+    tags: ['Design', 'Visual Arts', 'Multimedia']
+  }
 ];
+
 
 // Web3Forms Configuration
 export const WEB3FORMS_ACCESS_KEY = 'af23608b-4dd2-4d9f-b068-645d6609c143';
