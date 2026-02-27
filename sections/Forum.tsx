@@ -340,7 +340,7 @@ const Forum: React.FC = () => {
                                                 value={message}
                                                 onChange={(e) => setMessage(e.target.value)}
                                                 className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.08] transition-all resize-none"
-                                                placeholder="Say something to the community..."
+                                                placeholder="Say something..."
                                                 required
                                             />
                                         </div>
