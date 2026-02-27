@@ -176,23 +176,25 @@ const Navbar: React.FC = () => {
           </nav>
 
           {/* Right Side - Balanced Spacer (Flexible container to push center) */}
-          <div className="flex-1 flex justify-end items-center z-20 gap-4">
-            {/* Forum Button - Desktop Only (Menonjol/Mencolok) */}
+          <div className="flex-1 flex justify-end items-center z-20 gap-2 md:gap-4">
+            {/* Forum Button */}
             <button
               onClick={() => scrollToSection('forum', 'forum')}
-              className={`hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 pointer-events-auto group ${activeTab === 'forum'
-                  ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.6)]'
-                  : 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]'
+              className={`flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 pointer-events-auto group ${activeTab === 'forum'
+                ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.6)]'
+                : 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]'
                 }`}
             >
-              <MessageSquare size={14} className={`transition-colors ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
-              Forum
+              <MessageSquare size={14} className={`transition-colors hidden md:block ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
+              <MessageSquare size={12} className={`transition-colors block md:hidden ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
+              <span className="hidden md:block">Forum</span>
+              <span className="block md:hidden">Forum</span>
             </button>
 
             {/* Mobile Menu Trigger */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-3 bg-white/5 border border-white/10 rounded-md text-white hover:bg-white/10 transition-colors pointer-events-auto"
+              className="lg:hidden p-2 md:p-3 bg-white/5 border border-white/10 rounded-md text-white hover:bg-white/10 transition-colors pointer-events-auto flex items-center justify-center"
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>

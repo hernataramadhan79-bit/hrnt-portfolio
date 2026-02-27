@@ -118,7 +118,7 @@ export default function Home() {
                                 </div>
                             </div>
                         }>
-                            <main className="relative z-10">
+                            <main className="relative z-10 w-full overflow-hidden">
                                 <Landing />
                                 <Experience />
                                 <Skills />

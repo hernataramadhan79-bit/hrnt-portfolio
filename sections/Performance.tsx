@@ -474,46 +474,72 @@ const Performance: React.FC = () => {
                                                         <Box size={16} className="text-cyan-400" />
                                                         Repository Intelligence
                                                     </h4>
-                                                    <div className="overflow-x-auto custom-scrollbar">
-                                                        <table className="w-full text-left font-mono min-w-full md:min-w-[600px]">
-                                                            <thead>
-                                                                <tr className="border-b border-white/5 text-[10px] text-slate-500 uppercase tracking-widest">
-                                                                    <th className="pb-2 md:pb-3 px-2">Project Name</th>
-                                                                    <th className="pb-2 md:pb-3 px-2">Tech Stack</th>
-                                                                    <th className="pb-2 md:pb-3 px-2 text-right">Activity Hub</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody className="text-[10px]">
-                                                                {stats.github.topRepos.map((repo: any) => (
-                                                                    <tr key={repo.id} className="border-b border-white/[0.03] group/repo">
-                                                                        <td className="py-2 px-2">
-                                                                            <div className="flex flex-col">
-                                                                                <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:text-cyan-400 transition-colors uppercase tracking-wider">
-                                                                                    {repo.name}
-                                                                                </a>
-                                                                                {repo.description && (
-                                                                                    <p className="text-[9px] text-slate-500 mt-0.5 line-clamp-1 group-hover/repo:text-slate-300 transition-colors max-w-[200px]">
-                                                                                        {repo.description}
-                                                                                    </p>
-                                                                                )}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="py-2 px-2 text-right">
-                                                                            <div className="flex items-center justify-end gap-3 text-slate-400">
-                                                                                <span className="flex items-center gap-1">
-                                                                                    {repo.stargazers_count}
-                                                                                    <Sparkles size={10} className="text-yellow-500/50" />
-                                                                                </span>
-                                                                                <span className="flex items-center gap-1 border-l border-white/10 pl-3">
-                                                                                    {repo.forks_count}
-                                                                                    <GitBranch size={10} className="text-cyan-500/50" />
-                                                                                </span>
-                                                                            </div>
-                                                                        </td>
+                                                    <div className="">
+                                                        <div className="hidden md:block overflow-x-auto custom-scrollbar">
+                                                            <table className="w-full text-left font-mono min-w-[600px]">
+                                                                <thead>
+                                                                    <tr className="border-b border-white/5 text-[10px] text-slate-500 uppercase tracking-widest">
+                                                                        <th className="pb-2 md:pb-3 px-2">Project Name</th>
+                                                                        <th className="pb-2 md:pb-3 px-2 text-right">Activity Hub</th>
                                                                     </tr>
-                                                                ))}
-                                                            </tbody>
-                                                        </table>
+                                                                </thead>
+                                                                <tbody className="text-[10px]">
+                                                                    {stats.github.topRepos.map((repo: any) => (
+                                                                        <tr key={repo.id} className="border-b border-white/[0.03] group/repo">
+                                                                            <td className="py-2 px-2">
+                                                                                <div className="flex flex-col">
+                                                                                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:text-cyan-400 transition-colors uppercase tracking-wider">
+                                                                                        {repo.name}
+                                                                                    </a>
+                                                                                    {repo.description && (
+                                                                                        <p className="text-[9px] text-slate-500 mt-0.5 line-clamp-1 group-hover/repo:text-slate-300 transition-colors max-w-[300px]">
+                                                                                            {repo.description}
+                                                                                        </p>
+                                                                                    )}
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="py-2 px-2 text-right">
+                                                                                <div className="flex items-center justify-end gap-3 text-slate-400">
+                                                                                    <span className="flex items-center gap-1">
+                                                                                        {repo.stargazers_count}
+                                                                                        <Sparkles size={10} className="text-yellow-500/50" />
+                                                                                    </span>
+                                                                                    <span className="flex items-center gap-1 border-l border-white/10 pl-3">
+                                                                                        {repo.forks_count}
+                                                                                        <GitBranch size={10} className="text-cyan-500/50" />
+                                                                                    </span>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        {/* Mobile View for Github Repos */}
+                                                        <div className="flex flex-col gap-4 md:hidden font-mono mt-2">
+                                                            {stats.github.topRepos.map((repo: any) => (
+                                                                <div key={repo.id} className="p-4 rounded-xl border border-white/5 bg-white/[0.01]">
+                                                                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:text-cyan-400 transition-colors text-xs uppercase tracking-wider block mb-1">
+                                                                        {repo.name}
+                                                                    </a>
+                                                                    {repo.description && (
+                                                                        <p className="text-[9px] text-slate-500 mb-3 line-clamp-2">
+                                                                            {repo.description}
+                                                                        </p>
+                                                                    )}
+                                                                    <div className="flex items-center gap-4 text-slate-400 text-[10px]">
+                                                                        <span className="flex items-center gap-1">
+                                                                            <Sparkles size={12} className="text-yellow-500/50" />
+                                                                            {repo.stargazers_count} Stars
+                                                                        </span>
+                                                                        <span className="flex items-center gap-1">
+                                                                            <GitBranch size={12} className="text-cyan-500/50" />
+                                                                            {repo.forks_count} Forks
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -567,39 +593,72 @@ const Performance: React.FC = () => {
 
                                         {selectedStat === 'analytics' && (
                                             <div className="space-y-8">
-                                                <div className="overflow-x-auto pb-4 custom-scrollbar">
-                                                    <table className="w-full text-left font-mono min-w-full md:min-w-[600px]">
-                                                        <thead>
-                                                            <tr className="border-b border-white/5 text-[10px] text-slate-500 uppercase tracking-widest">
-                                                                <th className="pb-4 md:pb-6 px-1">Metric</th>
-                                                                <th className="pb-4 md:pb-6 px-1">Current Period</th>
-                                                                <th className="pb-4 md:pb-6 px-1 text-right">Previous Period</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {stats.umami.stats ? (
-                                                                [
-                                                                    { label: 'Total Page Views', value: stats.umami.stats?.pageviews ?? 0, prev: stats.umami.stats?.comparison?.pageviews ?? 0, color: 'text-yellow-500' },
-                                                                    { label: 'Unique Visitors', value: stats.umami.stats?.visitors ?? 0, prev: stats.umami.stats?.comparison?.visitors ?? 0, color: 'text-emerald-400' },
-                                                                    { label: 'Total Visits', value: stats.umami.stats?.visits ?? 0, prev: stats.umami.stats?.comparison?.visits ?? 0, color: 'text-cyan-400' },
-                                                                    { label: 'Bounce Rate', value: `${Math.round(((stats.umami.stats?.bounces ?? 0) / (stats.umami.stats?.visits || 1)) * 100)}%`, prev: `${Math.round(((stats.umami.stats?.comparison?.bounces ?? 0) / (stats.umami.stats?.comparison?.visits || 1)) * 100)}%`, color: 'text-purple-400' },
-                                                                    { label: 'Average Time', value: `${Math.round((stats.umami.stats?.totaltime ?? 0) / (stats.umami.stats?.visits || 1) / 60)}m`, prev: `${Math.round((stats.umami.stats?.comparison?.totaltime ?? 0) / (stats.umami.stats?.comparison?.visits || 1) / 60)}m`, color: 'text-rose-400' }
-                                                                ].map((item, i) => (
-                                                                    <tr key={i} className="border-b border-white/[0.03] group hover:bg-white/[0.01]">
-                                                                        <td className="py-4 md:py-6 px-1 text-white font-bold">{item.label}</td>
-                                                                        <td className={`py-4 md:py-6 px-1 text-2xl md:text-xl md:text-4xl font-black ${item.color} tracking-tighter`}>{item.value}</td>
-                                                                        <td className="py-4 md:py-6 px-1 text-slate-500 font-bold text-right">{item.prev}</td>
-                                                                    </tr>
-                                                                ))
-                                                            ) : (
-                                                                <tr>
-                                                                    <td colSpan={3} className="py-20 text-center">
-                                                                        <p className="text-slate-500 text-[10px] uppercase tracking-[0.3em] italic mb-4">Awaiting Analytics Engine Sync</p>
-                                                                    </td>
+                                                <div className="pb-4">
+                                                    <div className="hidden md:block overflow-x-auto custom-scrollbar">
+                                                        <table className="w-full text-left font-mono min-w-[600px]">
+                                                            <thead>
+                                                                <tr className="border-b border-white/5 text-[10px] text-slate-500 uppercase tracking-widest">
+                                                                    <th className="pb-4 md:pb-6 px-1">Metric</th>
+                                                                    <th className="pb-4 md:pb-6 px-1">Current Period</th>
+                                                                    <th className="pb-4 md:pb-6 px-1 text-right">Previous Period</th>
                                                                 </tr>
-                                                            )}
-                                                        </tbody>
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                                {stats.umami.stats ? (
+                                                                    [
+                                                                        { label: 'Total Page Views', value: stats.umami.stats?.pageviews ?? 0, prev: stats.umami.stats?.comparison?.pageviews ?? 0, color: 'text-yellow-500' },
+                                                                        { label: 'Unique Visitors', value: stats.umami.stats?.visitors ?? 0, prev: stats.umami.stats?.comparison?.visitors ?? 0, color: 'text-emerald-400' },
+                                                                        { label: 'Total Visits', value: stats.umami.stats?.visits ?? 0, prev: stats.umami.stats?.comparison?.visits ?? 0, color: 'text-cyan-400' },
+                                                                        { label: 'Bounce Rate', value: `${Math.round(((stats.umami.stats?.bounces ?? 0) / (stats.umami.stats?.visits || 1)) * 100)}%`, prev: `${Math.round(((stats.umami.stats?.comparison?.bounces ?? 0) / (stats.umami.stats?.comparison?.visits || 1)) * 100)}%`, color: 'text-purple-400' },
+                                                                        { label: 'Average Time', value: `${Math.round((stats.umami.stats?.totaltime ?? 0) / (stats.umami.stats?.visits || 1) / 60)}m`, prev: `${Math.round((stats.umami.stats?.comparison?.totaltime ?? 0) / (stats.umami.stats?.comparison?.visits || 1) / 60)}m`, color: 'text-rose-400' }
+                                                                    ].map((item, i) => (
+                                                                        <tr key={i} className="border-b border-white/[0.03] group hover:bg-white/[0.01]">
+                                                                            <td className="py-4 md:py-6 px-1 text-white font-bold">{item.label}</td>
+                                                                            <td className={`py-4 md:py-6 px-1 text-xl md:text-4xl font-black ${item.color} tracking-tighter`}>{item.value}</td>
+                                                                            <td className="py-4 md:py-6 px-1 text-slate-500 font-bold text-right">{item.prev}</td>
+                                                                        </tr>
+                                                                    ))
+                                                                ) : (
+                                                                    <tr>
+                                                                        <td colSpan={3} className="py-20 text-center">
+                                                                            <p className="text-slate-500 text-[10px] uppercase tracking-[0.3em] italic mb-4">Awaiting Analytics Engine Sync</p>
+                                                                        </td>
+                                                                    </tr>
+                                                                )}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    {/* Mobile View for Analytics */}
+                                                    <div className="flex flex-col gap-3 md:hidden font-mono mt-2">
+                                                        {stats.umami.stats ? (
+                                                            [
+                                                                { label: 'Total Page Views', value: stats.umami.stats?.pageviews ?? 0, prev: stats.umami.stats?.comparison?.pageviews ?? 0, color: 'text-yellow-500' },
+                                                                { label: 'Unique Visitors', value: stats.umami.stats?.visitors ?? 0, prev: stats.umami.stats?.comparison?.visitors ?? 0, color: 'text-emerald-400' },
+                                                                { label: 'Total Visits', value: stats.umami.stats?.visits ?? 0, prev: stats.umami.stats?.comparison?.visits ?? 0, color: 'text-cyan-400' },
+                                                                { label: 'Bounce Rate', value: `${Math.round(((stats.umami.stats?.bounces ?? 0) / (stats.umami.stats?.visits || 1)) * 100)}%`, prev: `${Math.round(((stats.umami.stats?.comparison?.bounces ?? 0) / (stats.umami.stats?.comparison?.visits || 1)) * 100)}%`, color: 'text-purple-400' },
+                                                                { label: 'Average Time', value: `${Math.round((stats.umami.stats?.totaltime ?? 0) / (stats.umami.stats?.visits || 1) / 60)}m`, prev: `${Math.round((stats.umami.stats?.comparison?.totaltime ?? 0) / (stats.umami.stats?.comparison?.visits || 1) / 60)}m`, color: 'text-rose-400' }
+                                                            ].map((item, i) => (
+                                                                <div key={i} className="p-4 rounded-xl border border-white/5 bg-white/[0.01] flex flex-col gap-2">
+                                                                    <div className="text-[10px] text-slate-500 uppercase tracking-widest">{item.label}</div>
+                                                                    <div className="flex justify-between items-end">
+                                                                        <div className="flex-1">
+                                                                            <div className="text-xs text-slate-500 uppercase tracking-wider mb-1">Current</div>
+                                                                            <div className={`text-2xl font-black ${item.color} tracking-tighter leading-none`}>{item.value}</div>
+                                                                        </div>
+                                                                        <div className="flex-1 text-right">
+                                                                            <div className="text-xs text-slate-500 uppercase tracking-wider mb-1">Previous</div>
+                                                                            <div className="text-lg font-bold text-slate-400 leading-none">{item.prev}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))
+                                                        ) : (
+                                                            <div className="py-12 text-center">
+                                                                <p className="text-slate-500 text-[10px] uppercase tracking-[0.3em] italic">Awaiting Analytics Engine Sync</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         )}
