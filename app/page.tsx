@@ -59,6 +59,7 @@ const Skills = React.lazy(() => import('@/sections/Skills'));
 const Performance = React.lazy(() => import('@/sections/Performance'));
 const Library = React.lazy(() => import('@/sections/Library'));
 const Contact = React.lazy(() => import('@/sections/Contact'));
+const Forum = React.lazy(() => import('@/sections/Forum'));
 
 export default function Home() {
     const [loading, setLoading] = useState(true);
@@ -124,6 +125,7 @@ export default function Home() {
                                 <Performance />
                                 <Library />
                                 <Contact />
+                                <Forum />
                             </main>
                         </Suspense>
                     </motion.div>

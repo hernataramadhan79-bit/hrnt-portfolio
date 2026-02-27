@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Home, User, Code, BookOpen, Mail, Briefcase, Activity, Menu, X, Terminal, ArrowRight } from 'lucide-react';
+import { Home, User, Code, BookOpen, Mail, Briefcase, Activity, Menu, X, Terminal, ArrowRight, MessageSquare } from 'lucide-react';
 import { NavItem } from '../types';
 
 const navItems: NavItem[] = [
@@ -12,6 +12,7 @@ const navItems: NavItem[] = [
   { id: 'performance', label: 'Performance', icon: Activity, sectionId: 'performance' },
   { id: 'library', label: 'Library', icon: BookOpen, sectionId: 'library' },
   { id: 'contact', label: 'Contact', icon: Mail, sectionId: 'contact' },
+  { id: 'forum', label: 'Forum', icon: MessageSquare, sectionId: 'forum' },
 ];
 
 const Navbar: React.FC = () => {
@@ -144,7 +145,7 @@ const Navbar: React.FC = () => {
 
           {/* Main Navigation - ABSOLUTE CENTER */}
           <nav className="hidden lg:flex items-center gap-0.5 z-30 relative px-4">
-            {navItems.map((item) => {
+            {navItems.filter(item => item.id !== 'forum').map((item) => {
               const isActive = activeTab === item.id;
               return (
                 <button
@@ -175,7 +176,19 @@ const Navbar: React.FC = () => {
           </nav>
 
           {/* Right Side - Balanced Spacer (Flexible container to push center) */}
-          <div className="flex-1 flex justify-end items-center z-20">
+          <div className="flex-1 flex justify-end items-center z-20 gap-4">
+            {/* Forum Button - Desktop Only (Menonjol/Mencolok) */}
+            <button
+              onClick={() => scrollToSection('forum', 'forum')}
+              className={`hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 pointer-events-auto group ${activeTab === 'forum'
+                  ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.6)]'
+                  : 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]'
+                }`}
+            >
+              <MessageSquare size={14} className={`transition-colors ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
+              Forum
+            </button>
+
             {/* Mobile Menu Trigger */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
