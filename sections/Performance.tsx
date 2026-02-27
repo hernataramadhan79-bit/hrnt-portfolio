@@ -352,7 +352,7 @@ const Performance: React.FC = () => {
                                 />
 
                                 <motion.div
-                                    className="relative w-full max-w-4xl md:max-w-5xl bg-[#050508] border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_0_100px_rgba(34,211,238,0.1)] z-[1000000]"
+                                    className="relative w-full max-w-3xl md:max-w-4xl lg:max-w-5xl bg-[#050508] border border-white/10 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-[0_0_100px_rgba(34,211,238,0.1)] z-[1000000]"
                                     initial={{ scale: 0.9, opacity: 0, y: 50 }}
                                     animate={{ scale: 1, opacity: 1, y: 0 }}
                                     exit={{ scale: 0.9, opacity: 0, y: 50 }}
@@ -362,14 +362,14 @@ const Performance: React.FC = () => {
                                     <div className="absolute inset-0 bg-grid-white/[0.03] pointer-events-none" />
 
                                     {/* Modal Header */}
-                                    <div className="relative z-10 p-4 md:p-12 border-b border-white/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                                    <div className="relative z-10 p-4 md:p-8 border-b border-white/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                                         <div>
-                                            <h3 className="text-2xl md:text-5xl font-black text-white italic tracking-tighter uppercase leading-[0.8] flex items-center gap-2 md:gap-4">
+                                            <h3 className="text-xl md:text-3xl lg:text-4xl font-black text-white italic tracking-tighter uppercase leading-[0.8] flex items-center gap-2 md:gap-4">
                                                 {selectedStat === 'github' && "GitHub Analysis"}
                                                 {selectedStat === 'wakatime' && "Development Metrics"}
                                                 {selectedStat === 'analytics' && "Traffic Intelligence"}
                                             </h3>
-                                            <p className="text-slate-500 text-[10px] font-mono mt-4 uppercase tracking-widest">Protocol Sync_Status: {stats.loading ? 'Syncing...' : 'Real-time'}</p>
+                                            <p className="text-slate-500 text-[9px] md:text-[10px] font-mono mt-2 md:mt-4 uppercase tracking-widest">Protocol Sync_Status: {stats.loading ? 'Syncing...' : 'Real-time'}</p>
                                         </div>
 
                                         <div className="flex items-center gap-4">
@@ -400,7 +400,7 @@ const Performance: React.FC = () => {
 
                                     {/* Modal Body */}
                                     <div
-                                        className="relative z-10 p-4 md:p-12 max-h-[70vh] overflow-y-auto custom-scrollbar"
+                                        className="relative z-10 p-4 md:p-8 max-h-[60vh] md:max-h-[70vh] overflow-y-auto custom-scrollbar"
                                         data-lenis-prevent
                                     >
                                         {selectedStat === 'github' && (
@@ -413,23 +413,23 @@ const Performance: React.FC = () => {
                                                         { label: 'Network', value: stats.github.followers, color: 'text-emerald-400' }
                                                     ].map((s, i) => (
                                                         <div key={i} className="flex flex-col">
-                                                            <span className={`text-4xl font-black ${s.color} leading-none mb-2 tracking-tighter`}>{s.value}</span>
-                                                            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">{s.label}</span>
+                                                            <span className={`text-2xl md:text-4xl font-black ${s.color} leading-none mb-1 md:mb-2 tracking-tighter`}>{s.value}</span>
+                                                            <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-widest text-slate-500">{s.label}</span>
                                                         </div>
                                                     ))}
                                                 </div>
-                                                <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 relative group/contrib">
+                                                <div className="p-4 md:p-8 rounded-2xl md:rounded-3xl bg-white/[0.02] border border-white/5 relative group/contrib">
                                                     {/* ... (Matrix code) */}
-                                                    <div className="flex items-center justify-between mb-8">
-                                                        <h4 className="text-white font-bold flex items-center gap-2 text-xs uppercase tracking-widest">
-                                                            <History size={16} className="text-cyan-400" />
-                                                            Technical Contribution Matrix
+                                                    <div className="flex items-center justify-between mb-4 md:mb-8">
+                                                        <h4 className="text-white font-bold flex items-center gap-1 md:gap-2 text-[10px] md:text-xs uppercase tracking-widest">
+                                                            <History size={14} className="text-cyan-400 md:w-4 md:h-4 w-3.5 h-3.5" />
+                                                            Technical Contribution
                                                         </h4>
-                                                        <div className="flex items-center gap-2 text-[8px] font-mono text-slate-500 uppercase">
+                                                        <div className="flex items-center gap-1 md:gap-2 text-[8px] font-mono text-slate-500 uppercase">
                                                             <span>Less</span>
                                                             <div className="flex gap-1">
                                                                 {[0, 1, 2, 3, 4].map(v => (
-                                                                    <div key={v} className={`w-2 h-2 rounded-[1px] ${v === 0 ? 'bg-white/5' : v === 1 ? 'bg-cyan-950' : v === 2 ? 'bg-cyan-800' : v === 3 ? 'bg-cyan-600' : 'bg-cyan-400'}`} />
+                                                                    <div key={v} className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-[1px] ${v === 0 ? 'bg-white/5' : v === 1 ? 'bg-cyan-950' : v === 2 ? 'bg-cyan-800' : v === 3 ? 'bg-cyan-600' : 'bg-cyan-400'}`} />
                                                                 ))}
                                                             </div>
                                                             <span>More</span>
@@ -437,10 +437,10 @@ const Performance: React.FC = () => {
                                                     </div>
 
                                                     <div className="relative overflow-x-auto custom-scrollbar pb-4">
-                                                        <div className="flex gap-1 lg:gap-1.5 min-w-max">
+                                                        <div className="flex gap-0.5 lg:gap-1 min-w-max">
                                                             {stats.github.contributions.length > 0 ? (
                                                                 stats.github.contributions.slice(-24).map((week: any, weekIndex: number) => (
-                                                                    <div key={weekIndex} className="flex flex-col gap-1 lg:gap-1.5">
+                                                                    <div key={weekIndex} className="flex flex-col gap-0.5 lg:gap-1">
                                                                         {week.map((day: any, dayIndex: number) => (
                                                                             <div
                                                                                 key={`${weekIndex}-${dayIndex}`}
@@ -454,7 +454,7 @@ const Performance: React.FC = () => {
                                                                                     });
                                                                                 }}
                                                                                 onMouseLeave={() => setHoveredDay(null)}
-                                                                                className="w-3 h-3 lg:w-4 lg:h-4 rounded-[1px] lg:rounded-[2px] transition-all duration-300 hover:scale-125 cursor-pointer"
+                                                                                className="w-2 h-2 lg:w-3 lg:h-3 rounded-[1px] lg:rounded-[2px] transition-all duration-300 hover:scale-125 cursor-pointer"
                                                                                 style={{
                                                                                     backgroundColor: (day.count || day.contributionCount || 0) > 0
                                                                                         ? ((day.count || day.contributionCount || 0) > 10 ? '#22d3ee' : (day.count || day.contributionCount || 0) > 5 ? '#0891b2' : (day.count || day.contributionCount || 0) > 2 ? '#155e75' : '#164e63')
@@ -475,35 +475,30 @@ const Performance: React.FC = () => {
                                                         Repository Intelligence
                                                     </h4>
                                                     <div className="overflow-x-auto custom-scrollbar">
-                                                        <table className="w-full text-left font-mono min-w-[600px]">
+                                                        <table className="w-full text-left font-mono min-w-full md:min-w-[600px]">
                                                             <thead>
                                                                 <tr className="border-b border-white/5 text-[10px] text-slate-500 uppercase tracking-widest">
-                                                                    <th className="pb-4 px-2">Project Name</th>
-                                                                    <th className="pb-4 px-2">Tech Stack</th>
-                                                                    <th className="pb-4 px-2 text-right">Activity Hub</th>
+                                                                    <th className="pb-2 md:pb-3 px-2">Project Name</th>
+                                                                    <th className="pb-2 md:pb-3 px-2">Tech Stack</th>
+                                                                    <th className="pb-2 md:pb-3 px-2 text-right">Activity Hub</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody className="text-[11px]">
+                                                            <tbody className="text-[10px]">
                                                                 {stats.github.topRepos.map((repo: any) => (
                                                                     <tr key={repo.id} className="border-b border-white/[0.03] group/repo">
-                                                                        <td className="py-4 px-2">
+                                                                        <td className="py-2 px-2">
                                                                             <div className="flex flex-col">
                                                                                 <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="text-white font-bold hover:text-cyan-400 transition-colors uppercase tracking-wider">
                                                                                     {repo.name}
                                                                                 </a>
                                                                                 {repo.description && (
-                                                                                    <p className="text-[9px] text-slate-500 mt-1 line-clamp-1 group-hover/repo:text-slate-300 transition-colors max-w-[200px]">
+                                                                                    <p className="text-[9px] text-slate-500 mt-0.5 line-clamp-1 group-hover/repo:text-slate-300 transition-colors max-w-[200px]">
                                                                                         {repo.description}
                                                                                     </p>
                                                                                 )}
                                                                             </div>
                                                                         </td>
-                                                                        <td className="py-4 px-2">
-                                                                            <span className="px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 uppercase text-[9px]">
-                                                                                {repo.language || "Shell"}
-                                                                            </span>
-                                                                        </td>
-                                                                        <td className="py-4 px-2 text-right">
+                                                                        <td className="py-2 px-2 text-right">
                                                                             <div className="flex items-center justify-end gap-3 text-slate-400">
                                                                                 <span className="flex items-center gap-1">
                                                                                     {repo.stargazers_count}
@@ -573,12 +568,12 @@ const Performance: React.FC = () => {
                                         {selectedStat === 'analytics' && (
                                             <div className="space-y-8">
                                                 <div className="overflow-x-auto pb-4 custom-scrollbar">
-                                                    <table className="w-full text-left font-mono min-w-[600px]">
+                                                    <table className="w-full text-left font-mono min-w-full md:min-w-[600px]">
                                                         <thead>
                                                             <tr className="border-b border-white/5 text-[10px] text-slate-500 uppercase tracking-widest">
-                                                                <th className="pb-6 px-1">Metric</th>
-                                                                <th className="pb-6 px-1">Current Period</th>
-                                                                <th className="pb-6 px-1 text-right">Previous Period</th>
+                                                                <th className="pb-4 md:pb-6 px-1">Metric</th>
+                                                                <th className="pb-4 md:pb-6 px-1">Current Period</th>
+                                                                <th className="pb-4 md:pb-6 px-1 text-right">Previous Period</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -592,8 +587,8 @@ const Performance: React.FC = () => {
                                                                 ].map((item, i) => (
                                                                     <tr key={i} className="border-b border-white/[0.03] group hover:bg-white/[0.01]">
                                                                         <td className="py-4 md:py-6 px-1 text-white font-bold">{item.label}</td>
-                                                                        <td className={`py-4 md:py-6 px-1 text-2xl md:text-4xl font-black ${item.color} tracking-tighter`}>{item.value}</td>
-                                                                        <td className="py-6 px-1 text-slate-500 font-bold text-right">{item.prev}</td>
+                                                                        <td className={`py-4 md:py-6 px-1 text-2xl md:text-xl md:text-4xl font-black ${item.color} tracking-tighter`}>{item.value}</td>
+                                                                        <td className="py-4 md:py-6 px-1 text-slate-500 font-bold text-right">{item.prev}</td>
                                                                     </tr>
                                                                 ))
                                                             ) : (
@@ -611,10 +606,10 @@ const Performance: React.FC = () => {
                                     </div>
 
                                     {/* Modal Footer */}
-                                    <div className="p-8 border-t border-white/5 bg-white/[0.01] flex justify-center">
+                                    <div className="p-4 md:p-6 border-t border-white/5 bg-white/[0.01] flex justify-center">
                                         <button
                                             onClick={() => setSelectedStat(null)}
-                                            className="px-10 py-5 bg-white text-black font-black rounded-2xl hover:bg-cyan-400 transition-all uppercase text-[10px] tracking-[0.2em] shadow-2xl"
+                                            className="px-6 md:px-8 py-3 md:py-4 bg-white text-black font-black rounded-xl md:rounded-2xl hover:bg-cyan-400 transition-all uppercase text-[9px] md:text-[10px] tracking-[0.2em] shadow-2xl"
                                         >
                                             Return to Dashboard
                                         </button>
