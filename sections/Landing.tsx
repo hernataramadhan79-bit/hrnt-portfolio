@@ -149,7 +149,7 @@ const Landing: React.FC = () => {
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    onClick={() => document.getElementById('library')?.scrollIntoView({ behavior: 'smooth' })}
+                                    onClick={() => { window.location.hash = 'library'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                                     className="group relative px-10 py-5 bg-white text-black rounded-2xl font-black uppercase tracking-[0.2em] overflow-hidden text-[10px] shadow-2xl transition-all"
                                 >
                                     <div className="absolute inset-0 bg-cyan-400 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
@@ -160,7 +160,7 @@ const Landing: React.FC = () => {
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                                    onClick={() => { window.location.hash = 'contact'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                                     className="group relative px-10 py-5 bg-white/5 border border-white/10 rounded-2xl font-black uppercase tracking-[0.2em] text-white hover:border-cyan-400/50 hover:bg-white/[0.08] transition-all text-[10px]"
                                 >
                                     <span className="relative z-10 transition-colors group-hover:text-cyan-400 flex items-center gap-2">
@@ -297,20 +297,20 @@ const Landing: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.5 }}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-32"
+                    className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-16 max-w-4xl mx-auto"
                 >
                     {[
                         { label: 'Pro Experience', val: '3+', sub: 'Years Pro', color: 'cyan' },
                         { label: 'Completed Projects', val: '40+', sub: 'Projects Done', color: 'purple' },
                         { label: 'Client Satisfaction', val: '100%', sub: 'Satisfaction', color: 'white' }
                     ].map((stat, i) => (
-                        <div key={i} className="group p-8 bg-white/5 border border-white/10 rounded-[2rem] hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 relative overflow-hidden">
+                        <div key={i} className="group p-4 sm:p-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 relative overflow-hidden">
                             <div className="relative z-10 flex flex-col items-center text-center">
-                                <div className="text-4xl lg:text-5xl font-black text-white group-hover:scale-110 transition-transform duration-500 tracking-tighter">
+                                <div className="text-2xl lg:text-3xl font-black text-white group-hover:scale-110 transition-transform duration-500 tracking-tighter">
                                     {stat.val}
                                 </div>
-                                <div className="mt-2 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">{stat.label}</div>
-                                <div className="text-[9px] text-cyan-400 font-mono mt-1 opacity-60">{stat.sub}</div>
+                                <div className="mt-1 text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em]">{stat.label}</div>
+                                <div className="text-[8px] text-cyan-400 font-mono mt-0.5 opacity-60">{stat.sub}</div>
                             </div>
                         </div>
                     ))}
@@ -321,34 +321,34 @@ const Landing: React.FC = () => {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mt-24 max-w-4xl mx-auto"
+                    className="mt-12 max-w-3xl mx-auto"
                 >
-                    <div className="flex items-center gap-4 mb-10 overflow-hidden">
+                    <div className="flex items-center gap-4 mb-6 overflow-hidden">
                         <div className="h-px bg-white/10 flex-1" />
-                        <h3 className="text-sm font-black text-white/40 tracking-[0.5em] uppercase whitespace-nowrap">Academic Journey</h3>
+                        <h3 className="text-[10px] sm:text-xs font-black text-white/40 tracking-[0.5em] uppercase whitespace-nowrap">Academic Journey</h3>
                         <div className="h-px bg-white/10 flex-1" />
                     </div>
 
-                    <div className="grid gap-6">
+                    <div className="grid gap-3">
                         {[
                             { institution: 'Vocational High School SMKN 1 Wonoasri', period: '2022-2025', type: 'High School' },
                             { institution: 'University of PGRI Madiun', period: '2025-Present', type: 'University' }
                         ].map((edu, index) => (
                             <div
                                 key={index}
-                                className="group relative p-6 rounded-3xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-cyan-500/30 transition-all duration-500"
+                                className="group relative p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-cyan-500/30 transition-all duration-500"
                             >
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                    <div className="flex items-center gap-5">
-                                        <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-cyan-500/10 transition-colors">
-                                            <GraduationCap size={20} className="text-slate-500 group-hover:text-cyan-400" />
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                    <div className="flex items-center gap-3 sm:gap-4">
+                                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-cyan-500/10 transition-colors shrink-0">
+                                            <GraduationCap size={16} className="text-slate-500 group-hover:text-cyan-400" />
                                         </div>
                                         <div>
-                                            <div className="text-lg font-bold text-white group-hover:text-cyan-50 transition-colors">{edu.institution}</div>
-                                            <div className="text-xs text-slate-500 font-mono mt-1 tracking-widest">{edu.period}</div>
+                                            <div className="text-sm sm:text-base font-bold text-white group-hover:text-cyan-50 transition-colors">{edu.institution}</div>
+                                            <div className="text-[10px] sm:text-xs text-slate-500 font-mono tracking-widest">{edu.period}</div>
                                         </div>
                                     </div>
-                                    <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] text-slate-400 uppercase tracking-widest font-black group-hover:border-cyan-500/20 group-hover:text-cyan-400">
+                                    <div className="px-3 py-1.5 w-fit rounded-lg bg-white/5 border border-white/10 text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest font-black group-hover:border-cyan-500/20 group-hover:text-cyan-400">
                                         {edu.type}
                                     </div>
                                 </div>

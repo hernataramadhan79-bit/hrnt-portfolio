@@ -6,12 +6,14 @@ import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ArrowUpRight, Award, Box, X } from 'lucide-react';
 import TiltCard from '../components/TiltCard';
 import { projects, certificates } from '../constants';
-import { Certificate } from '../types';
+import { Certificate, Project } from '../types';
 
 const Library: React.FC = () => {
   const [filter, setFilter] = useState<'projects' | 'certificates'>('projects');
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -100,52 +102,56 @@ const Library: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
             >
               {projects.map((project, index) => (
                 <motion.div
                   key={project.id}
-                  initial={{ opacity: 0, y: 50 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
+                  onClick={() => { setSelectedProject(project); setIsProjectModalOpen(true); }}
                 >
-                  <a href={project.link} target="_blank" rel="noopener noreferrer">
-                    <TiltCard className="h-[450px] w-full relative group cursor-pointer overflow-hidden rounded-[2.5rem] border border-white/5 shadow-2xl">
-                      <div className="absolute inset-0">
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-70"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-                      </div>
+                  <TiltCard className="h-[280px] w-full relative group cursor-pointer overflow-hidden rounded-[1.5rem] border border-white/5 shadow-2xl">
+                    <div className="absolute inset-0">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-70"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+                    </div>
 
-                      <div className="absolute inset-0 p-10 flex flex-col justify-end text-left">
-                        <div className="mb-4">
-                          <span className="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] rounded-lg">
-                            {project.category}
+                    <div className="absolute inset-0 p-6 flex flex-col justify-end text-left">
+                      <div className="mb-3">
+                        <span className="px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[8px] font-mono uppercase tracking-[0.2em] rounded-md">
+                          {project.category}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-black text-white mb-2 group-hover:text-cyan-400 transition-colors uppercase italic tracking-tighter leading-tight">
+                        {project.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5 line-clamp-1">
+                        {project.tags.slice(0, 2).map(tag => (
+                          <span key={tag} className="text-[8px] font-mono text-slate-400 uppercase tracking-widest px-1.5 py-0.5 bg-white/5 rounded-[4px] border border-white/5">
+                            {tag}
                           </span>
-                        </div>
-                        <h3 className="text-3xl font-black text-white mb-4 group-hover:text-cyan-400 transition-colors uppercase italic tracking-tighter leading-tight">
-                          {project.title}
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                          {project.tags.map(tag => (
-                            <span key={tag} className="text-[10px] font-mono text-slate-400 uppercase tracking-widest px-2 py-1 bg-white/5 rounded-md border border-white/5">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                        ))}
+                        {project.tags.length > 2 && (
+                          <span className="text-[8px] font-mono text-slate-400 uppercase tracking-widest px-1.5 py-0.5 bg-white/5 rounded-[4px] border border-white/5">
+                            +{project.tags.length - 2}
+                          </span>
+                        )}
                       </div>
+                    </div>
 
-                      <div className="absolute top-10 right-10">
-                        <div className="w-12 h-12 rounded-xl bg-white text-black flex items-center justify-center -translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                          <ArrowUpRight size={20} strokeWidth={2.5} />
-                        </div>
+                    <div className="absolute top-4 right-4">
+                      <div className="w-8 h-8 rounded-lg bg-white/10 text-white flex items-center justify-center -translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm">
+                        <ArrowUpRight size={14} strokeWidth={2.5} />
                       </div>
-                    </TiltCard>
-                  </a>
+                    </div>
+                  </TiltCard>
                 </motion.div>
               ))}
             </motion.div>
@@ -192,32 +198,75 @@ const Library: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Certificate Modal */}
-        {mounted && isModalOpen && selectedCertificate && createPortal(
+        {/* Project Modal */}
+        {mounted && isProjectModalOpen && selectedProject && createPortal(
           <AnimatePresence>
             <div
-              className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#020617]/95 backdrop-blur-3xl p-4"
-              onClick={() => setIsModalOpen(false)}
+              className="fixed inset-0 z-[100000] flex items-center justify-center p-4 md:p-8 pointer-events-auto"
             >
               <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsProjectModalOpen(false)}
+                className="absolute inset-0 bg-black/90 backdrop-blur-3xl cursor-pointer"
+              />
+
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 50 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                className="relative max-w-4xl w-full"
+                exit={{ scale: 0.9, opacity: 0, y: 50 }}
+                transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                className="relative max-w-4xl w-full bg-[#050508] border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(34,211,238,0.15)] z-[100001] flex flex-col md:flex-row"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all border border-white/10"
-                >
-                  <X size={20} />
-                </button>
-                <div className="overflow-hidden rounded-2xl border border-white/10 shadow-[0_0_100px_rgba(34,211,238,0.2)]">
+                <div className="w-full md:w-1/2 h-[300px] md:h-[500px] relative">
                   <img
-                    src={selectedCertificate.certificateImage}
-                    alt={selectedCertificate.title}
-                    className="w-full h-auto max-h-[80vh] object-contain"
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
+                    className="w-full h-full object-cover"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#050508] via-[#050508]/60 to-transparent" />
+                </div>
+
+                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative z-10">
+                  <button
+                    onClick={() => setIsProjectModalOpen(false)}
+                    className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all border border-white/5 hover:border-white/20"
+                  >
+                    <X size={18} />
+                  </button>
+
+                  <div className="mb-6">
+                    <span className="px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] rounded-lg">
+                      {selectedProject.category}
+                    </span>
+                  </div>
+
+                  <h3 className="text-3xl md:text-5xl font-black text-white mb-6 uppercase tracking-tighter leading-none italic">
+                    {selectedProject.title}
+                  </h3>
+
+                  <p className="text-slate-400 text-sm md:text-base leading-relaxed mb-8">
+                    {selectedProject.description || 'No detailed description provided for this project. Focuses on robust architecture and seamless user experience.'}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-10">
+                    {selectedProject.tags.map(tag => (
+                      <span key={tag} className="text-[10px] font-mono text-slate-300 uppercase tracking-widest px-3 py-1.5 bg-white/5 rounded-lg border border-white/10">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <a
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-center gap-3 w-full py-4 bg-white text-black font-black uppercase tracking-[0.2em] text-[10px] rounded-xl hover:bg-cyan-400 transition-all duration-300 shadow-2xl"
+                  >
+                    Initialize Demo <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </a>
                 </div>
               </motion.div>
             </div>

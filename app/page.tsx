@@ -63,6 +63,22 @@ const Forum = React.lazy(() => import('@/sections/Forum'));
 
 export default function Home() {
     const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState('home');
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash.replace('#', '');
+            if (['home', 'experience', 'skills', 'performance', 'library', 'contact', 'forum'].includes(hash)) {
+                setActiveTab(hash);
+            }
+        };
+
+        window.addEventListener('hashchange', handleHashChange);
+        if (window.location.hash) {
+            handleHashChange();
+        }
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
 
     useEffect(() => {
         if (loading) return;
@@ -109,7 +125,7 @@ export default function Home() {
                         transition={{ duration: 0.5 }}
                     >
                         <Background />
-                        <Navbar />
+                        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
                         <Suspense fallback={
                             <div className="min-h-screen flex items-center justify-center">
                                 <div className="flex flex-col items-center gap-4">
@@ -118,14 +134,44 @@ export default function Home() {
                                 </div>
                             </div>
                         }>
-                            <main className="relative z-10 w-full overflow-hidden">
-                                <Landing />
-                                <Experience />
-                                <Skills />
-                                <Performance />
-                                <Library />
-                                <Contact />
-                                <Forum />
+                            <main className={`relative z-10 w-full overflow-hidden min-h-screen ${activeTab === 'home' ? '' : 'pt-16 md:pt-24'}`}>
+                                <AnimatePresence mode="wait">
+                                    {activeTab === 'home' && (
+                                        <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                            <Landing />
+                                        </motion.div>
+                                    )}
+                                    {activeTab === 'experience' && (
+                                        <motion.div key="experience" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                            <Experience />
+                                        </motion.div>
+                                    )}
+                                    {activeTab === 'skills' && (
+                                        <motion.div key="skills" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                            <Skills />
+                                        </motion.div>
+                                    )}
+                                    {activeTab === 'performance' && (
+                                        <motion.div key="performance" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                            <Performance />
+                                        </motion.div>
+                                    )}
+                                    {activeTab === 'library' && (
+                                        <motion.div key="library" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                            <Library />
+                                        </motion.div>
+                                    )}
+                                    {activeTab === 'contact' && (
+                                        <motion.div key="contact" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                            <Contact />
+                                        </motion.div>
+                                    )}
+                                    {activeTab === 'forum' && (
+                                        <motion.div key="forum" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                            <Forum />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </main>
                         </Suspense>
                     </motion.div>

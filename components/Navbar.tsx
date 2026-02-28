@@ -15,13 +15,16 @@ const navItems: NavItem[] = [
   { id: 'forum', label: 'Forum', icon: MessageSquare, sectionId: 'forum' },
 ];
 
-const Navbar: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('home');
+interface NavbarProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
-  const isManualScroll = useRef(false);
   const lastScrollY = useRef(0);
 
   const { scrollY } = useScroll();
@@ -44,73 +47,11 @@ const Navbar: React.FC = () => {
     };
   }, [isMobileMenuOpen]);
 
-  useEffect(() => {
-    const handleActiveTab = () => {
-      if (isManualScroll.current) return;
-
-      const viewportMiddle = window.innerHeight / 2;
-      let closestId = 'home';
-      let minDistance = Infinity;
-
-      navItems.forEach((item) => {
-        const element = document.getElementById(item.sectionId);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          // Distance from viewport center to section center
-          const elementCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(elementCenter - viewportMiddle);
-
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestId = item.id;
-          }
-        }
-      });
-
-      setActiveTab((prevActive) => {
-        if (prevActive !== closestId) return closestId;
-        return prevActive;
-      });
-    };
-
-    window.addEventListener('scroll', handleActiveTab, { passive: true });
-
-    // Sync check for lazy-loaded sections
-    const intervalId = setInterval(handleActiveTab, 1000);
-
-    // Initial sync
-    handleActiveTab();
-
-    return () => {
-      window.removeEventListener('scroll', handleActiveTab);
-      clearInterval(intervalId);
-    };
-  }, []); // Empty dependency array prevents the Error shown in your screenshot
-
   const scrollToSection = (id: string, sectionId: string) => {
-    isManualScroll.current = true;
     setActiveTab(id);
+    window.location.hash = id;
     setIsMobileMenuOpen(false);
-
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offset = 0;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-
-      setTimeout(() => {
-        isManualScroll.current = false;
-      }, 1200);
-    } else {
-      isManualScroll.current = false;
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

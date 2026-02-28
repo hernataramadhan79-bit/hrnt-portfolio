@@ -64,11 +64,8 @@ const Footer: React.FC = () => {
                                         key={item}
                                         onClick={() => {
                                             const sectionId = item.toLowerCase();
-                                            const element = document.getElementById(sectionId);
-                                            if (element) {
-                                                const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-                                                window.scrollTo({ top: elementPosition, behavior: 'smooth' });
-                                            }
+                                            window.location.hash = sectionId;
+                                            window.scrollTo({ top: 0, behavior: 'smooth' });
                                         }}
                                         className="text-white/60 hover:text-cyan-400 transition-colors text-left font-bold uppercase tracking-[0.2em] text-[10px] w-fit"
                                     >

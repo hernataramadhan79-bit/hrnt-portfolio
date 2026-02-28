@@ -14,6 +14,7 @@ export interface Project {
   image: string;
   tags: string[];
   link: string;
+  description?: string;
 }
 
 export interface Certificate {

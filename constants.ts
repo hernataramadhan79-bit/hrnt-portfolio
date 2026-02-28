@@ -37,11 +37,12 @@ export const detailedSkills = {
 };
 
 export const projects: Project[] = [
-  { id: 1, title: 'Sakuku Wallet', category: 'Web App', image: '/sakukuimg.png', tags: ['React', 'Tailwind'], link: 'https://sakuku-wallet.vercel.app/' },
-  { id: 2, title: 'OryonWeb', category: 'Web App', image: '/owgimg.png', tags: ['React', 'Tailwind'], link: 'https://oryonweb.com/' },
-  { id: 3, title: 'Oryon AI', category: 'Web App', image: '/oryonaiimg.png', tags: ['React', 'Gemini API'], link: 'https://oryon-ai-three.vercel.app/' },
-  { id: 4, title: 'Renova Mobil', category: 'Web App', image: '/renovaimg.png', tags: ['React', 'Supabase', 'PostgreSQL'], link: 'https://renovamobil.vercel.app/' },
-  { id: 5, title: 'RSUD Dolopo', category: 'Web App', image: '/rsdolopoimg.png', tags: ['React', 'Firebase', 'PostgreSQL'], link: 'https://rsuddoloponew.netlify.app/' },
+  { id: 6, title: 'MyBoard Lite', category: 'Web App', image: '/myboard.png', tags: ['Vite', 'Tailwind', 'Firebase'], link: 'https://myboard-lite.vercel.app/', description: 'A lightweight cashier application for managing transactions, inventory, and daily sales reports. Built with Vite and Firebase for real-time data synchronization and modern UI experience.' },
+  { id: 1, title: 'Sakuku Wallet', category: 'Web App', image: '/sakukuimg.png', tags: ['React', 'Tailwind'], link: 'https://sakuku-wallet.vercel.app/', description: 'A modern digital wallet application built with React and Tailwind CSS. Provides a sleek user interface for tracking transactions, managing cards, and monitoring financial health with real-time analytics.' },
+  { id: 2, title: 'OryonWeb', category: 'Web App', image: '/owgimg.png', tags: ['React', 'Tailwind'], link: 'https://oryonweb.com/', description: 'A professional agency website showcasing services, portfolio, and company profile. Designed with performance and SEO in mind to deliver high-quality digital experiences for clients.' },
+  { id: 3, title: 'Oryon AI', category: 'Web App', image: '/oryonaiimg.png', tags: ['React', 'Gemini API'], link: 'https://oryon-ai-three.vercel.app/', description: 'An intelligent conversational AI application utilizing the Gemini API. Features include context-aware assistance, code generation, and complex problem-solving wrapped in a cyberpunk-inspired UI.' },
+  { id: 4, title: 'Renova Mobil', category: 'Web App', image: '/renovaimg.png', tags: ['React', 'Supabase', 'PostgreSQL'], link: 'https://renovamobil.vercel.app/', description: 'A comprehensive car rental management system built with Supabase and React. Allows administrators to track fleets, manage customer bookings, and view financial reports securely.' },
+  { id: 5, title: 'RSUD Dolopo', category: 'Web App', image: '/rsdolopoimg.png', tags: ['React', 'Firebase', 'PostgreSQL'], link: 'https://rsuddoloponew.netlify.app/', description: 'A digital healthcare portal for RSUD Dolopo to streamline patient appointments, manage medical records, and provide accessible institutional information for the public.' },
 ];
 
 export const certificates: Certificate[] = [
