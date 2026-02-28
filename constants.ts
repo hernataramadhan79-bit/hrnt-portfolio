@@ -47,6 +47,7 @@ export const projects: Project[] = [
 export const certificates: Certificate[] = [
   { id: 1, title: 'Learn The Basics Of web Programming', issuer: 'Dicoding', date: '2025', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat1.png', credentialLink: '/sertifikat1.png' },
   { id: 2, title: 'Photography Expertise Level III KKNI', issuer: 'LESKOFI', date: '2025', image: '/logoleskofi.webp', certificateImage: '/sertifikat2.jpg', credentialLink: '/sertifikat2.jpg' },
+  { id: 3, title: 'Learning AI Basics', issuer: 'Dicoding', date: '2025', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat3.png', credentialLink: '/sertifikat3.png' },
 ];
 
 export const experiences = [
