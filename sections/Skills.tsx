@@ -9,9 +9,9 @@ const CategoryPanel = ({ type, items, color }: { type: string, items: any[], col
   const isCyan = color === 'cyan';
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <div className={`w-2 h-2 rounded-full ${isCyan ? 'bg-cyan-400' : 'bg-purple-400'} animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]`} />
-        <h3 className="text-xl lg:text-2xl font-black text-white uppercase tracking-[0.4em]">{type}</h3>
+      <div className="flex items-center gap-3 lg:gap-4">
+        <div className={`w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full ${isCyan ? 'bg-cyan-400' : 'bg-purple-400'} animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]`} />
+        <h3 className="text-lg lg:text-2xl font-black text-white uppercase tracking-[0.3em] lg:tracking-[0.4em]">{type}</h3>
       </div>
       <div className="space-y-3">
         {items.map((skill, i) => (
@@ -45,7 +45,7 @@ const OrbitLayer = ({ skills, radius, duration, direction, color, xMove, yMove }
     >
       <div className="absolute rounded-full border border-white/5" style={{ width: radius * 2, height: radius * 2 }} />
       <motion.div
-        className="absolute inset-0 flex items-center justify-center"
+        className="absolute inset-0 flex items-center justify-center transform-gpu"
         animate={{ rotate: 360 * direction }}
         transition={{ duration, repeat: Infinity, ease: "linear" }}
       >
@@ -65,18 +65,18 @@ const OrbitLayer = ({ skills, radius, duration, direction, color, xMove, yMove }
               >
                 {/* Tech Name Label - Appears on Hover */}
                 <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-12 transition-all duration-300 pointer-events-none z-50">
-                  <div className="px-3 py-1 rounded-lg bg-black/80 backdrop-blur-xl border border-white/10 shadow-2xl">
-                    <span className="text-[10px] font-black text-white uppercase tracking-widest whitespace-nowrap">
+                  <div className="px-2 py-0.5 lg:px-3 lg:py-1 rounded-lg bg-black/80 backdrop-blur-xl border border-white/10 shadow-2xl">
+                    <span className="text-[8px] lg:text-[10px] font-black text-white uppercase tracking-widest whitespace-nowrap">
                       {skill.name}
                     </span>
                   </div>
                   {/* Tooltip Arrow */}
-                  <div className="w-2 h-2 bg-black/80 border-r border-b border-white/10 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
+                  <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-black/80 border-r border-b border-white/10 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
                 </div>
 
                 <div className="absolute inset-0 rounded-xl blur-md opacity-0 group-hover:opacity-40 transition-opacity" style={{ backgroundColor: color }} />
-                <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-[#050508]/60 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:border-white/30 transition-all cursor-pointer">
-                  <img src={skill.icon} alt={skill.name} className="w-5 h-5 lg:w-6 lg:h-6 object-contain" />
+                <div className="w-8 h-8 lg:w-12 lg:h-12 rounded-lg lg:rounded-xl bg-[#050508]/60 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:border-white/30 transition-all cursor-pointer">
+                  <img src={skill.icon} alt={skill.name} className="w-4 h-4 lg:w-6 lg:h-6 object-contain" />
                 </div>
               </motion.div>
             </motion.div>
@@ -94,7 +94,14 @@ const Skills: React.FC = () => {
   const springX = useSpring(mouseX, springConfig);
   const springY = useSpring(mouseY, springConfig);
 
+  const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 });
+
   useEffect(() => {
+    setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    const handleResize = () => {
+      setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       const centerX = window.innerWidth / 2;
@@ -102,9 +109,21 @@ const Skills: React.FC = () => {
       mouseX.set(clientX - centerX);
       mouseY.set(clientY - centerY);
     };
+
+    window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, [mouseX, mouseY]);
+
+  const isMobile = dimensions.width < 768;
+  const isTablet = dimensions.width >= 768 && dimensions.width < 1024;
+
+  const innerRadius = isMobile ? 115 : isTablet ? 120 : 150;
+  const outerRadius = isMobile ? 190 : isTablet ? 200 : 250;
+  const hubScale = isMobile ? 0.9 : isTablet ? 0.8 : 1;
 
   const innerX = useTransform(springX, (x) => x * 0.02);
   const innerY = useTransform(springY, (y) => y * 0.02);
@@ -129,7 +148,7 @@ const Skills: React.FC = () => {
               <div className="w-12 h-[1px] bg-cyan-500/50" />
               <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.5em]">System.Core.Interface</span>
             </motion.div>
-            <h2 className="text-4xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.8]">
+            <h2 className="text-3xl sm:text-4xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.8]">
               TECH <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">MATRIX</span>
             </h2>
           </div>
@@ -140,48 +159,48 @@ const Skills: React.FC = () => {
         </div>
 
         {/* MAIN DASHBOARD CONTENT */}
-        <div className="relative flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-0">
+        <div className="relative flex-1 flex flex-col lg:grid lg:grid-cols-12 gap-12 lg:gap-8 items-center min-h-0">
 
           {/* LEFT: FRONTEND HUD PANEL */}
-          <div className="lg:col-span-3 h-full flex flex-col justify-center">
+          <div className="w-full lg:col-span-3 lg:h-full flex flex-col justify-center order-2 lg:order-1">
             <CategoryPanel type="frontend" items={detailedSkills.frontend} color="cyan" />
           </div>
 
           {/* CENTER: MASSIVE ORBIT HUB */}
-          <div className="lg:col-span-6 h-full flex items-center justify-center relative">
+          <div className="w-full lg:col-span-6 lg:h-full flex items-center justify-center relative order-1 lg:order-2 py-12 lg:py-0 scale-[0.85] sm:scale-100 transition-transform">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
+              whileInView={{ scale: hubScale, opacity: 1 }}
               transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full aspect-square max-w-[550px] flex items-center justify-center"
+              className="relative w-full aspect-square max-w-[85vw] sm:max-w-[450px] lg:max-w-[550px] flex items-center justify-center"
             >
               {/* Central Core Pulse */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-[450px] h-[450px] bg-cyan-500/5 rounded-full blur-[100px] animate-pulse" />
+                <div className="w-[250px] h-[250px] lg:w-[450px] lg:h-[450px] bg-cyan-500/5 rounded-full blur-[60px] lg:blur-[100px] animate-pulse" />
                 <motion.div
                   style={{ x: centerPhotoX, y: centerPhotoY }}
-                  className="relative z-30 w-36 h-36 lg:w-48 lg:h-48 aspect-square rounded-full p-2 bg-gradient-to-br from-cyan-500/20 via-white/5 to-purple-500/20 backdrop-blur-3xl border border-white/10 shadow-[0_0_100px_rgba(34,211,238,0.1)]"
+                  className="relative z-30 w-28 h-28 sm:w-36 sm:h-36 lg:w-48 lg:h-48 aspect-square rounded-full p-1.5 lg:p-2 bg-gradient-to-br from-cyan-500/20 via-white/5 to-purple-500/20 backdrop-blur-3xl border border-white/10 shadow-[0_0_100px_rgba(34,211,238,0.1)]"
                 >
                   <div className="w-full h-full rounded-full overflow-hidden border border-white/10 relative group cursor-crosshair aspect-square">
                     <img src="/profile2.png" alt="Core" className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700" />
                     <div className="absolute inset-0 bg-cyan-500/10 mix-blend-overlay group-hover:bg-transparent transition-colors rounded-full" />
                   </div>
                   {/* Animated HUD ring */}
-                  <div className="absolute -inset-6 border border-cyan-500/20 rounded-full animate-[spin_15s_linear_infinite] border-dashed" />
-                  <div className="absolute -inset-10 border border-purple-500/10 rounded-full animate-[spin_25s_linear_infinite_reverse] border-dashed" />
+                  <div className="absolute -inset-4 lg:-inset-6 border border-cyan-500/20 rounded-full animate-[spin_15s_linear_infinite] border-dashed" />
+                  <div className="absolute -inset-8 lg:-inset-10 border border-purple-500/10 rounded-full animate-[spin_25s_linear_infinite_reverse] border-dashed" />
                 </motion.div>
               </div>
 
               {/* Orbit Layers */}
               <div className="absolute inset-0 pointer-events-none">
-                <OrbitLayer skills={innerSkills} radius={150} duration={60} direction={1} xMove={innerX} yMove={innerY} color="rgba(34,211,238,0.4)" />
-                <OrbitLayer skills={outerSkills} radius={250} duration={90} direction={-1} xMove={outerX} yMove={outerY} color="rgba(192,132,252,0.4)" />
+                <OrbitLayer skills={innerSkills} radius={innerRadius} duration={60} direction={1} xMove={innerX} yMove={innerY} color="rgba(34,211,238,0.4)" />
+                <OrbitLayer skills={outerSkills} radius={outerRadius} duration={90} direction={-1} xMove={outerX} yMove={outerY} color="rgba(192,132,252,0.4)" />
               </div>
             </motion.div>
           </div>
 
           {/* RIGHT: BACKEND HUD PANEL */}
-          <div className="lg:col-span-3 h-full flex flex-col justify-center">
+          <div className="w-full lg:col-span-3 lg:h-full flex flex-col justify-center order-3">
             <CategoryPanel type="backend" items={detailedSkills.backend} color="purple" />
           </div>
 
