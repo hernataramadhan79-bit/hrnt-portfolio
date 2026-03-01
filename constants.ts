@@ -1,4 +1,4 @@
-import { Skill, Project, Certificate } from './types';
+import { Skill, Project, Certificate, GalleryItem } from './types';
 import { Code, GitBranch, Sparkles, PenTool, Server, Database, Wifi, Cloud } from 'lucide-react';
 
 export const innerSkills: Skill[] = [
@@ -49,6 +49,27 @@ export const certificates: Certificate[] = [
   { id: 1, title: 'Learn The Basics Of web Programming', issuer: 'Dicoding', date: '2025', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat1.png', credentialLink: '/sertifikat1.png' },
   { id: 2, title: 'Photography Expertise Level III KKNI', issuer: 'LESKOFI', date: '2025', image: '/logoleskofi.webp', certificateImage: '/sertifikat2.jpg', credentialLink: '/sertifikat2.jpg' },
   { id: 3, title: 'Learning AI Basics', issuer: 'Dicoding', date: '2025', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat3.png', credentialLink: '/sertifikat3.png' },
+];
+
+export const galleryItems: GalleryItem[] = [
+  {
+    id: 1,
+    image: '/gallery1.jpg',
+    title: 'Foto Bersama UPTPTKK Photography',
+    description: 'Sesi foto bersama tim UPTPTKK Kelas Akselerasi MJC Angkatan 1 Photography, sebuah momen spesial untuk merayakan kolaborasi kreatif dan mempererat solidaritas antar sesama penggiat dunia fotografi dan multimedia.',
+    date: 'Desember 2025',
+    location: 'UPTPTKK Surabaya',
+    category: 'Education'
+  },
+  {
+    id: 2,
+    image: '/gallery2.jpg',
+    title: 'Momen Bersama Mentor UPTPTKK',
+    description: 'Sesi bimbingan dan foto bersama mentor di Kelas Akselerasi MJC Angkatan 1 Photography. Sebuah momen berharga untuk menyerap ilmu langsung dari praktisi profesional dan memperdalam wawasan di industri kreatif.',
+    date: 'Desember 2025',
+    location: 'UPTPTKK Surabaya',
+    category: 'Education'
+  },
 ];
 
 export const experiences = [

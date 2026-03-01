@@ -31,12 +31,18 @@ const CustomCursor = () => {
 
   const handleMouseOver = useCallback((e: MouseEvent) => {
     const target = e.target as HTMLElement;
+
+    // Check if the target or any parent wants to disable cursor expansion
+    const isExcluded = target.closest('.no-cursor') || target.classList.contains('no-cursor');
+
     if (
-      target.tagName === 'BUTTON' ||
-      target.tagName === 'A' ||
-      target.closest('button') ||
-      target.closest('.group') ||
-      target.classList.contains('cursor-pointer')
+      !isExcluded && (
+        target.tagName === 'BUTTON' ||
+        target.tagName === 'A' ||
+        target.closest('button') ||
+        target.closest('.group') ||
+        target.classList.contains('cursor-pointer')
+      )
     ) {
       setIsHovered(true);
     } else {

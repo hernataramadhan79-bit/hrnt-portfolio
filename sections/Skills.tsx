@@ -5,134 +5,87 @@ import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } fr
 import { Layout, Server } from 'lucide-react';
 import { innerSkills, outerSkills, detailedSkills } from '../constants';
 
-const SkillCard = React.memo(({ type }: { type: 'frontend' | 'backend' }) => {
-  const [activeIdx, setActiveIdx] = React.useState<number | null>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const handleMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  };
-
-  const isFrontend = type === 'frontend';
-  const Icon = isFrontend ? Layout : Server;
-  const skills = detailedSkills[type];
-
-  const spotlight = useMotionTemplate`radial-gradient(800px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.03), transparent 80%)`;
-  const borderLight = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${isFrontend ? 'rgba(34,211,238,0.3)' : 'rgba(192,132,252,0.3)'}, transparent 80%)`;
-
+const CategoryPanel = ({ type, items, color }: { type: string, items: any[], color: 'cyan' | 'purple' }) => {
+  const isCyan = color === 'cyan';
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      className="group relative rounded-[2rem] bg-[#030305] border border-white/5 transition-all duration-700 overflow-hidden"
-    >
-      {/* Dynamic Border Glow */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000"
-        style={{ background: borderLight }}
-      />
-
-      <div className="relative h-full bg-[#050508]/80 backdrop-blur-xl rounded-[1.95rem] overflow-hidden m-[1px] p-8 md:p-10 flex flex-col">
-        {/* Spotlighting Background */}
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"
-          style={{ background: spotlight }}
-        />
-
-        {/* Cyber Header */}
-        <div className="flex items-center justify-between mb-12 relative z-20">
-          <div className="flex items-center gap-6">
-            <div className={`relative w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-700 ${isFrontend ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400 group-hover:border-cyan-400/50' : 'bg-purple-500/10 border-purple-500/20 text-purple-400 group-hover:border-purple-400/50'}`}>
-              <Icon size={32} />
-              <div className={`absolute -inset-1 blur-lg opacity-0 group-hover:opacity-20 transition-opacity ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'}`} />
-            </div>
-            <div>
-              <h3 className="text-3xl font-black text-white uppercase tracking-tighter italic">{type}</h3>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.3em]">System.active()</p>
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <div className={`w-2 h-2 rounded-full ${isCyan ? 'bg-cyan-400' : 'bg-purple-400'} animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.5)]`} />
+        <h3 className="text-xl lg:text-2xl font-black text-white uppercase tracking-[0.4em]">{type}</h3>
+      </div>
+      <div className="space-y-3">
+        {items.map((skill, i) => (
+          <motion.div
+            key={i}
+            whileHover={{ x: 10, backgroundColor: 'rgba(255,255,255,0.05)' }}
+            className="group relative p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all duration-300"
+          >
+            <div className={`absolute left-0 top-0 bottom-0 w-[2px] ${isCyan ? 'bg-cyan-500' : 'bg-purple-500'} opacity-0 group-hover:opacity-100 transition-opacity`} />
+            <div className="flex items-center gap-4">
+              <div className="w-8 h-8 rounded-lg bg-black/40 border border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <skill.icon size={14} className={`${skill.color} opacity-70 group-hover:opacity-100 transition-opacity`} />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-white/80 group-hover:text-white transition-colors leading-none">{skill.name}</p>
+                <p className="text-[9px] text-slate-500 uppercase tracking-[0.2em] font-mono mt-1">{skill.tags[0]}</p>
               </div>
             </div>
-          </div>
-          <div className="hidden sm:block text-right">
-            <div className="text-[10px] font-mono text-slate-600 uppercase tracking-widest leading-none mb-1">Module ID</div>
-            <div className="text-xs font-black text-white/20 tracking-tighter">0X-{type === 'frontend' ? 'FE' : 'BE'}-2026</div>
-          </div>
-        </div>
-
-        {/* Skills Table-like List */}
-        <div className="space-y-4 relative z-20 flex-1">
-          {skills.map((skill: any, i) => (
-            <div
-              key={i}
-              onMouseEnter={() => setActiveIdx(i)}
-              onMouseLeave={() => setActiveIdx(null)}
-              className="group/item relative rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10 transition-all duration-500 p-4 overflow-hidden"
-            >
-              {/* Row Interactive Line */}
-              <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-500 ${activeIdx === i ? (isFrontend ? 'bg-cyan-400 h-full' : 'bg-purple-400 h-full') : 'bg-transparent h-0'}`} />
-
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 rounded-lg bg-black/40 border border-white/5 flex items-center justify-center transition-all duration-500 ${activeIdx === i ? 'scale-110 -rotate-6 border-white/20 shadow-lg' : ''}`}>
-                    <skill.icon size={18} className={skill.color} />
-                  </div>
-                  <div>
-                    <span className={`block font-bold transition-colors duration-300 ${activeIdx === i ? 'text-white' : 'text-slate-400'}`}>
-                      {skill.name}
-                    </span>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {skill.tags.map((tag: string) => (
-                        <span key={tag} className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 transform group-hover/item:translate-x-1 transition-transform">
-                  <div className={`w-1 h-1 rounded-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} opacity-0 group-hover/item:opacity-100 transition-opacity`} />
-                  <div className={`w-1 h-1 rounded-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} opacity-0 group-hover/item:opacity-40 transition-opacity delay-75`} />
-                  <div className={`w-1 h-1 rounded-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} opacity-0 group-hover/item:opacity-20 transition-opacity delay-150`} />
-                </div>
-              </div>
-
-              {/* Expansion Detail */}
-              <div className={`grid transition-all duration-500 ease-in-out ${activeIdx === i ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'}`}>
-                <div className="overflow-hidden">
-                  <div className="p-4 rounded-xl bg-black/40 border border-white/5">
-                    <p className="text-[11px] text-slate-500 font-light leading-relaxed">
-                      {skill.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Footer Stat Bar */}
-        <div className="mt-10 pt-6 border-t border-white/5 flex items-center justify-between opacity-40 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000">
-          <div className="flex gap-4">
-            <div className="h-1 w-8 bg-white/10 rounded-full overflow-hidden">
-              <div className={`h-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} w-[60%]`} />
-            </div>
-            <div className="h-1 w-8 bg-white/10 rounded-full overflow-hidden">
-              <div className={`h-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} w-[80%]`} />
-            </div>
-            <div className="h-1 w-8 bg-white/10 rounded-full overflow-hidden">
-              <div className={`h-full ${isFrontend ? 'bg-cyan-500' : 'bg-purple-500'} w-[40%]`} />
-            </div>
-          </div>
-          <span className="text-[9px] font-mono text-slate-500 uppercase tracking-[0.4em]">Optimized Core</span>
-        </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
-});
+};
 
-SkillCard.displayName = 'SkillCard';
+const OrbitLayer = ({ skills, radius, duration, direction, color, xMove, yMove }: any) => {
+  return (
+    <motion.div
+      className="absolute inset-0 flex items-center justify-center transition-transform duration-1000"
+      style={{ x: xMove, y: yMove }}
+    >
+      <div className="absolute rounded-full border border-white/5" style={{ width: radius * 2, height: radius * 2 }} />
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center"
+        animate={{ rotate: 360 * direction }}
+        transition={{ duration, repeat: Infinity, ease: "linear" }}
+      >
+        {skills.map((skill: any, index: number) => {
+          const angle = (index / skills.length) * 2 * Math.PI;
+          return (
+            <motion.div
+              key={skill.name}
+              className="absolute pointer-events-auto"
+              style={{ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius }}
+            >
+              <motion.div
+                animate={{ rotate: -360 * direction }}
+                transition={{ duration, repeat: Infinity, ease: "linear" }}
+                whileHover={{ scale: 1.25 }}
+                className="group relative"
+              >
+                {/* Tech Name Label - Appears on Hover */}
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-top-12 transition-all duration-300 pointer-events-none z-50">
+                  <div className="px-3 py-1 rounded-lg bg-black/80 backdrop-blur-xl border border-white/10 shadow-2xl">
+                    <span className="text-[10px] font-black text-white uppercase tracking-widest whitespace-nowrap">
+                      {skill.name}
+                    </span>
+                  </div>
+                  {/* Tooltip Arrow */}
+                  <div className="w-2 h-2 bg-black/80 border-r border-b border-white/10 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
+                </div>
+
+                <div className="absolute inset-0 rounded-xl blur-md opacity-0 group-hover:opacity-40 transition-opacity" style={{ backgroundColor: color }} />
+                <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-[#050508]/60 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:border-white/30 transition-all cursor-pointer">
+                  <img src={skill.icon} alt={skill.name} className="w-5 h-5 lg:w-6 lg:h-6 object-contain" />
+                </div>
+              </motion.div>
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </motion.div>
+  );
+};
 
 const Skills: React.FC = () => {
   const mouseX = useMotionValue(0);
@@ -161,110 +114,93 @@ const Skills: React.FC = () => {
   const centerPhotoY = useTransform(springY, (y) => y * 0.01);
 
   return (
-    <section id="skills" className="relative z-10 py-12 md:py-20 px-4 sm:px-6 overflow-visible">
-      <div className="max-w-7xl mx-auto relative">
-        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-cyan-900/10 blur-[150px] rounded-full pointer-events-none" />
+    <section id="skills" className="relative z-10 lg:h-screen flex flex-col justify-center items-center overflow-hidden py-12 lg:py-0">
+      {/* Background HUD Ambience - Now transparent to let global background shine */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.03)_0%,transparent_70%)]" />
+      </div>
 
-        <div className="text-center mb-16 relative z-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] mb-6 backdrop-blur-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              Technical Stack
-            </div>
-            <h2 className="text-5xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">System <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Architecture</span></h2>
-            <p className="text-slate-400 text-lg font-light max-w-xl mx-auto">Core technologies and frameworks powering my dynamic digital solutions.</p>
-          </motion.div>
+      <div className="w-full max-w-[1600px] px-6 lg:px-16 relative z-20 flex flex-col h-full lg:h-[90vh]">
+
+        {/* TOP HEADER: TACTICAL HUD STYLE */}
+        <div className="flex flex-col md:flex-row items-end justify-between mb-8 lg:mb-16 border-b border-white/5 pb-8">
+          <div className="text-left">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} className="flex items-center gap-3 mb-2">
+              <div className="w-12 h-[1px] bg-cyan-500/50" />
+              <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.5em]">System.Core.Interface</span>
+            </motion.div>
+            <h2 className="text-4xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.8]">
+              TECH <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">MATRIX</span>
+            </h2>
+          </div>
+          <div className="hidden md:block text-right font-mono text-[9px] text-slate-500 uppercase tracking-widest space-y-1">
+            <p>System_Status: <span className="text-green-500">Online</span></p>
+            <p>Tech_Stack_Module: v2.0.26</p>
+          </div>
         </div>
 
-        <div className="relative h-[280px] sm:h-[360px] md:h-[460px] lg:h-[560px] w-full flex items-center justify-center mb-12 md:mb-16 overflow-visible">
-          <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full h-full flex items-center justify-center scale-50 sm:scale-75 md:scale-100" style={{ willChange: 'transform' }}
-          >
-            <motion.div style={{ x: centerPhotoX, y: centerPhotoY }} className="absolute z-20 w-32 h-32 md:w-40 md:h-40 rounded-full border border-white/10 bg-black/40 backdrop-blur-md p-2 md:p-3 shadow-[0_0_50px_rgba(34,211,238,0.1)]">
-              <div className="w-full h-full rounded-full overflow-hidden relative border border-white/10">
-                <img src="/profile2.png" alt="Core" className="w-full h-full object-cover" />
+        {/* MAIN DASHBOARD CONTENT */}
+        <div className="relative flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-0">
+
+          {/* LEFT: FRONTEND HUD PANEL */}
+          <div className="lg:col-span-3 h-full flex flex-col justify-center">
+            <CategoryPanel type="frontend" items={detailedSkills.frontend} color="cyan" />
+          </div>
+
+          {/* CENTER: MASSIVE ORBIT HUB */}
+          <div className="lg:col-span-6 h-full flex items-center justify-center relative">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full aspect-square max-w-[550px] flex items-center justify-center"
+            >
+              {/* Central Core Pulse */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-[450px] h-[450px] bg-cyan-500/5 rounded-full blur-[100px] animate-pulse" />
+                <motion.div
+                  style={{ x: centerPhotoX, y: centerPhotoY }}
+                  className="relative z-30 w-36 h-36 lg:w-48 lg:h-48 aspect-square rounded-full p-2 bg-gradient-to-br from-cyan-500/20 via-white/5 to-purple-500/20 backdrop-blur-3xl border border-white/10 shadow-[0_0_100px_rgba(34,211,238,0.1)]"
+                >
+                  <div className="w-full h-full rounded-full overflow-hidden border border-white/10 relative group cursor-crosshair aspect-square">
+                    <img src="/profile2.png" alt="Core" className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700" />
+                    <div className="absolute inset-0 bg-cyan-500/10 mix-blend-overlay group-hover:bg-transparent transition-colors rounded-full" />
+                  </div>
+                  {/* Animated HUD ring */}
+                  <div className="absolute -inset-6 border border-cyan-500/20 rounded-full animate-[spin_15s_linear_infinite] border-dashed" />
+                  <div className="absolute -inset-10 border border-purple-500/10 rounded-full animate-[spin_25s_linear_infinite_reverse] border-dashed" />
+                </motion.div>
+              </div>
+
+              {/* Orbit Layers */}
+              <div className="absolute inset-0 pointer-events-none">
+                <OrbitLayer skills={innerSkills} radius={150} duration={60} direction={1} xMove={innerX} yMove={innerY} color="rgba(34,211,238,0.4)" />
+                <OrbitLayer skills={outerSkills} radius={250} duration={90} direction={-1} xMove={outerX} yMove={outerY} color="rgba(192,132,252,0.4)" />
               </div>
             </motion.div>
+          </div>
 
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center pointer-events-none"
-              style={{ x: innerX, y: innerY }}
-              initial={{ rotate: -90, opacity: 0 }}
-              whileInView={{ rotate: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.8, ease: "easeOut", delay: 0.2 }}
-            >
-              <div className="absolute w-[320px] h-[320px] border border-white/5 rounded-full border-dashed" />
-              <motion.div className="absolute inset-0 flex items-center justify-center" animate={{ rotate: 360 }} transition={{ duration: 50, repeat: Infinity, ease: "linear" }}>
-                {innerSkills.map((skill, index) => {
-                  const angle = (index / innerSkills.length) * 2 * Math.PI;
-                  const radius = 160;
-                  return (
-                    <motion.div key={skill.name} className="absolute" style={{ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius }}>
-                      <motion.div animate={{ rotate: -360 }} transition={{ duration: 50, repeat: Infinity, ease: "linear" }}>
-                        <div className="relative group pointer-events-auto">
-                          <div className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity" style={{ backgroundColor: skill.color }} />
-                          <div className="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
-                            <img src={skill.icon} alt={skill.name} className="w-7 h-7 object-contain" />
-                          </div>
-                          <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                            <div className="px-3 py-1.5 bg-white text-black text-[10px] font-bold rounded-lg shadow-xl whitespace-nowrap uppercase tracking-widest">
-                              {skill.name}
-                            </div>
-                            <div className="w-2 h-2 bg-white rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
-                          </div>
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
-            </motion.div>
+          {/* RIGHT: BACKEND HUD PANEL */}
+          <div className="lg:col-span-3 h-full flex flex-col justify-center">
+            <CategoryPanel type="backend" items={detailedSkills.backend} color="purple" />
+          </div>
 
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center pointer-events-none"
-              style={{ x: outerX, y: outerY }}
-              initial={{ rotate: 90, opacity: 0 }}
-              whileInView={{ rotate: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 2, ease: "easeOut", delay: 0.4 }}
-            >
-              <div className="absolute w-[560px] h-[560px] border border-white/5 rounded-full" />
-              <motion.div className="absolute inset-0 flex items-center justify-center" animate={{ rotate: -360 }} transition={{ duration: 70, repeat: Infinity, ease: "linear" }}>
-                {outerSkills.map((skill, index) => {
-                  const angle = (index / outerSkills.length) * 2 * Math.PI;
-                  const radius = 280;
-                  return (
-                    <motion.div key={skill.name} className="absolute" style={{ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius }}>
-                      <motion.div animate={{ rotate: 360 }} transition={{ duration: 70, repeat: Infinity, ease: "linear" }}>
-                        <div className="relative group pointer-events-auto">
-                          <div className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity" style={{ backgroundColor: skill.color }} />
-                          <div className="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer">
-                            <img src={skill.icon} alt={skill.name} className="w-7 h-7 object-contain" />
-                          </div>
-                          <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                            <div className="px-3 py-1.5 bg-white text-black text-[10px] font-bold rounded-lg shadow-xl whitespace-nowrap uppercase tracking-widest">
-                              {skill.name}
-                            </div>
-                            <div className="w-2 h-2 bg-white rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
-                          </div>
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
-            </motion.div>
-          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <SkillCard type="frontend" />
-          <SkillCard type="backend" />
+        {/* BOTTOM STATUS BAR */}
+        <div className="mt-8 py-6 border-t border-white/5 flex items-center justify-between opacity-50">
+          <div className="flex gap-12">
+            <div className="space-y-1">
+              <p className="text-[8px] font-mono uppercase tracking-widest text-slate-500">Core.Processing</p>
+              <div className="flex gap-1">
+                {[...Array(12)].map((_, i) => <div key={i} className={`w-3 h-1 rounded-full ${i < 8 ? 'bg-cyan-500/40' : 'bg-white/5'}`} />)}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-6">
+            <span className="text-[9px] font-mono text-slate-500 uppercase tracking-[0.5em]">HRNT_DASHBOARD_v2.0</span>
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          </div>
         </div>
       </div>
     </section>

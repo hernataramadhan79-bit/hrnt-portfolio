@@ -84,7 +84,7 @@ const Contact: React.FC = () => {
                 Open for Collaboration
               </div>
 
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[0.9] tracking-tighter mb-6">
+              <h2 className="text-3xl md:text-5xl font-black text-white leading-[0.9] tracking-tighter mb-6">
                 Let's start a <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-400 to-slate-600">conversation.</span>
               </h2>

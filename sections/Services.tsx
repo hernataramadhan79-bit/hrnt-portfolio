@@ -119,7 +119,7 @@ const Services: React.FC = () => {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-4xl md:text-6xl font-black leading-tight text-white tracking-tighter"
+                            className="text-3xl md:text-5xl font-black leading-tight text-white tracking-tighter"
                         >
                             Excellence <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">In Every Layer.</span>

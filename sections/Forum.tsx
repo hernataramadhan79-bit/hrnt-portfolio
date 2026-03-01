@@ -180,7 +180,7 @@ const Forum: React.FC = () => {
                             Guestbook & Comments
                         </span>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
+                    <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none">
                         Public <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Space.</span>
                     </h2>
                     <p className="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed">

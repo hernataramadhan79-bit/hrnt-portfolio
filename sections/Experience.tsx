@@ -30,7 +30,7 @@ const Experience: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-6"
+                        className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase mb-6"
                     >
                         The <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Evolution</span> Log
                     </motion.h2>

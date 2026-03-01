@@ -32,3 +32,13 @@ export interface Skill {
   icon: string; // Changed to string for Logo URLs
   color: string;
 }
+
+export interface GalleryItem {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  category: string;
+}

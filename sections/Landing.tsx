@@ -69,7 +69,7 @@ const Landing: React.FC = () => {
     // Animations will be handled by Framer Motion's initial/animate props
 
     return (
-        <section id="home" className="relative z-10 min-h-screen flex flex-col justify-center overflow-visible pt-32 pb-20">
+        <section id="home" className="relative z-10 min-h-screen lg:h-screen flex flex-col justify-center overflow-hidden pt-24 pb-10 lg:py-0">
             {/* Unified Backdrop */}
             <motion.div
                 className="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen overflow-hidden"
@@ -79,16 +79,16 @@ const Landing: React.FC = () => {
                 <div className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] bg-purple-700/10 rounded-full blur-[120px]" />
             </motion.div>
 
-            <div className="max-w-7xl mx-auto px-6 w-full relative z-20">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <div className="max-w-7xl mx-auto px-6 w-full relative z-20 flex flex-col justify-center h-full max-h-screen pt-12 lg:pt-20 pb-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center flex-1">
 
                     {/* LEFT COLUMN: HERO AREA */}
-                    <div className="lg:col-span-7 space-y-10 order-2 lg:order-1">
+                    <div className="lg:col-span-7 space-y-6 lg:space-y-8">
                         <motion.div
                             variants={containerVariants}
                             initial="hidden"
                             animate="visible"
-                            className="space-y-8"
+                            className="space-y-6 lg:space-y-8"
                         >
                             {/* Interactive Hero Title */}
                             <motion.div
@@ -99,27 +99,27 @@ const Landing: React.FC = () => {
                                         {text.split("").map((char, index) => (
                                             <motion.h1
                                                 key={index}
-                                                className="text-7xl sm:text-8xl md:text-[120px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                                                className="text-6xl sm:text-7xl md:text-8xl lg:text-[100px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                                             >
                                                 {char}
                                             </motion.h1>
                                         ))}
                                     </div>
                                     <motion.div
-                                        className="w-4 h-4 sm:w-8 sm:h-8 border-[4px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_30px_rgba(34,211,238,0.6)]"
+                                        className="w-4 h-4 sm:w-6 sm:h-6 border-[3px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_30px_rgba(34,211,238,0.6)]"
                                         animate={{ rotate: 225 }}
                                         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
                                     />
                                 </div>
                             </motion.div>
 
-                            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 lg:gap-6">
-                                <div className="px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-md">
-                                    <span className="text-[10px] md:text-xs font-black tracking-[0.3em] text-cyan-400 uppercase">
+                            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4">
+                                <div className="px-4 py-1.5 flex items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-md">
+                                    <span className="text-[10px] font-black tracking-[0.3em] text-cyan-400 uppercase leading-none">
                                         Creative Developer
                                     </span>
                                 </div>
-                                <div className="flex items-center gap-2 text-slate-500 font-mono text-[10px] uppercase tracking-widest">
+                                <div className="flex items-center gap-2 text-slate-500 font-mono text-[9px] uppercase tracking-widest">
                                     <span className="w-1.5 h-1.5 rounded-full bg-slate-500/50" />
                                     <span>Based in Madiun, ID</span>
                                 </div>
@@ -127,7 +127,7 @@ const Landing: React.FC = () => {
 
                             <motion.h2
                                 variants={itemVariants}
-                                className="text-3xl md:text-5xl font-black text-white leading-[1.1] tracking-tight"
+                                className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-[1.1] tracking-tight"
                             >
                                 Designing with <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">precision</span>,<br />
                                 building with <span className="text-white relative inline-block">passion.</span>
@@ -135,36 +135,36 @@ const Landing: React.FC = () => {
 
                             <motion.p
                                 variants={itemVariants}
-                                className="text-lg text-slate-400 font-light leading-relaxed max-w-2xl"
+                                className="text-sm md:text-base text-slate-400 font-light leading-relaxed max-w-xl"
                             >
                                 Engineering digital masterpieces where the "shapes" of code and interfaces define the journey.
-                                Specializing in full-stack development with a focus on high-performance architecture
+                                Specializing in full-stack development with a focus on architecture
                                 and immersive UI/UX experiences.
                             </motion.p>
 
                             <motion.div
                                 variants={itemVariants}
-                                className="flex flex-col sm:flex-row gap-6 pt-4"
+                                className="flex flex-row flex-wrap gap-4 pt-2"
                             >
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => { window.location.hash = 'library'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                    className="group relative px-10 py-5 bg-white text-black rounded-2xl font-black uppercase tracking-[0.2em] overflow-hidden text-[10px] shadow-2xl transition-all"
+                                    className="group relative px-6 py-4 bg-white text-black rounded-xl font-black uppercase tracking-[0.2em] overflow-hidden text-[9px] shadow-2xl transition-all"
                                 >
                                     <div className="absolute inset-0 bg-cyan-400 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                                     <span className="relative z-10 flex items-center gap-2">
-                                        Explore Works <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                        Explore Works <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                                     </span>
                                 </motion.button>
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => { window.location.hash = 'contact'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                    className="group relative px-10 py-5 bg-white/5 border border-white/10 rounded-2xl font-black uppercase tracking-[0.2em] text-white hover:border-cyan-400/50 hover:bg-white/[0.08] transition-all text-[10px]"
+                                    className="group relative px-6 py-4 bg-white/5 border border-white/10 rounded-xl font-black uppercase tracking-[0.2em] text-white hover:border-cyan-400/50 hover:bg-white/[0.08] transition-all text-[9px]"
                                 >
                                     <span className="relative z-10 transition-colors group-hover:text-cyan-400 flex items-center gap-2">
-                                        Contact Me <Mail size={14} />
+                                        Contact Me <Mail size={12} />
                                     </span>
                                 </motion.button>
                             </motion.div>
@@ -172,117 +172,75 @@ const Landing: React.FC = () => {
                     </div>
 
                     {/* RIGHT COLUMN: ABOUT PREVIEW */}
-                    <div id="about" className="lg:col-span-5 relative order-1 lg:order-2">
+                    <div id="about" className="lg:col-span-12 xl:col-span-5 relative flex items-center justify-center">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                            className="relative"
+                            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                            className="relative w-full max-w-[280px] lg:max-w-md"
                         >
-                            {/* Profile Card Fragment from About.tsx */}
-                            {/* Advanced Cinematic Profile Card */}
-                            <div className="relative group perspective-2000">
-                                {/* Dynamic Energy Field */}
-                                <div className="absolute -inset-16 bg-gradient-to-tr from-cyan-500/20 via-transparent to-purple-500/20 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 animate-pulse" />
+                            <div className="relative group perspective-2000 pointer-events-auto">
+                                {/* Ambient Glow Aura */}
+                                <div className="absolute -inset-20 bg-gradient-to-tr from-cyan-500/10 via-purple-500/5 to-transparent rounded-full blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
 
                                 <motion.div
-                                    whileHover={{
-                                        rotateY: 12,
-                                        rotateX: -8,
-                                        scale: 1.02
-                                    }}
-                                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
                                     style={{
-                                        transformStyle: "preserve-3d",
-                                        WebkitMaskImage: '-webkit-radial-gradient(white, black)' // Fix for Safari/Chrome overflow glitches
+                                        rotateX: useTransform(yTransform, [-25, 25], [10, -10]),
+                                        rotateY: useTransform(xTransform, [-25, 25], [-10, 10]),
+                                        transformStyle: 'preserve-3d'
                                     }}
-                                    className="relative aspect-[3/4] w-full max-w-md mx-auto rounded-[3rem] overflow-visible bg-[#050508] border border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] transition-all duration-700 group-hover:border-cyan-500/30 group-hover:shadow-[0_0_80px_rgba(34,211,238,0.1)] isolate transform-gpu mb-6"
+                                    className="relative aspect-[3/4] rounded-[2.5rem] lg:rounded-[3.5rem] overflow-hidden bg-[#030305] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-colors duration-700 group-hover:border-white/20"
                                 >
-                                    {/* Main Image Layer */}
+                                    {/* Scanline / HUD Grid Overlay */}
+                                    <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"
+                                        style={{ backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))', backgroundSize: '100% 4px, 3px 100%' }} />
+
+                                    {/* Image with Parallax Movement */}
                                     <motion.div
-                                        className="absolute inset-0"
-                                        whileHover={{ scale: 1.15 }}
-                                        transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                                        className="absolute -inset-4"
+                                        style={{
+                                            x: useTransform(xTransform, [-25, 25], [-10, 10]),
+                                            y: useTransform(yTransform, [-25, 25], [-10, 10]),
+                                            scale: 1.1
+                                        }}
                                     >
                                         <img
                                             src="/profile.jpg"
-                                            className="w-full h-full object-cover grayscale brightness-50 transition-all duration-1000 group-hover:grayscale-0 group-hover:brightness-110"
+                                            className="w-full h-full object-cover grayscale-[0.3] brightness-90 contrast-110 transition-all duration-1000 group-hover:grayscale-0 group-hover:brightness-110 group-hover:contrast-125"
                                             alt="Profile"
                                         />
-                                        {/* Holographic Glitch Mask */}
-                                        <div className="absolute inset-0 bg-cyan-500/10 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-90 group-hover:opacity-60 transition-opacity duration-700" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
                                     </motion.div>
 
-                                    {/* Scan Line Animation */}
-                                    <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
-                                        <motion.div
-                                            animate={{
-                                                top: ["-5%", "105%"]
-                                            }}
-                                            transition={{
-                                                duration: 3,
-                                                repeat: Infinity,
-                                                ease: "linear"
-                                            }}
-                                            className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_20px_rgba(34,211,238,1)] opacity-0 group-hover:opacity-50"
-                                        />
+                                    {/* Ambient Inner Glow */}
+                                    <div className="absolute inset-0 border border-white/5 rounded-[inherit] z-20 pointer-events-none group-hover:border-cyan-500/30 transition-colors duration-700" />
+
+                                    {/* HUD Elements: Corners */}
+                                    <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-700 p-8">
+                                        <div className="absolute top-8 left-8 w-6 h-6 border-t border-l border-cyan-400/50 rounded-tl-lg" />
+                                        <div className="absolute top-8 right-8 w-6 h-6 border-t border-r border-cyan-400/50 rounded-tr-lg" />
+                                        <div className="absolute bottom-8 left-8 w-6 h-6 border-b border-l border-purple-400/50 rounded-bl-lg" />
+                                        <div className="absolute bottom-8 right-8 w-6 h-6 border-b border-r border-purple-400/50 rounded-br-lg" />
                                     </div>
 
-                                    {/* Floating Data Nodes (Hologram Effect) */}
-                                    <div className="absolute inset-0 z-30 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-110">
-                                        <div className="absolute top-10 left-10 p-4 rounded-xl bg-black/40 border border-white/10 backdrop-blur-xl">
-                                            <div className="text-[8px] font-mono text-cyan-400/70 tracking-tighter mb-1">NODE ID: 1510</div>
-                                            <div className="h-0.5 w-8 bg-cyan-500/50" />
-                                        </div>
-                                    </div>
-
-                                    {/* Bottom Glass Content */}
-                                    <div className="absolute bottom-0 left-0 right-0 pb-8 px-5 z-30">
-                                        <div className="space-y-2">
-                                            <motion.div
-                                                className="hidden"
-                                                whileHover={{ x: 10 }}
-                                            >
-                                                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md w-fit">
-                                                    <div className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,1)]" />
-                                                    <span className="text-[8px] font-black text-white/80 tracking-widest uppercase">Identity Confirmed</span>
-                                                </div>
-                                            </motion.div>
-
-                                            <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tighter leading-none select-none">
+                                    {/* Main Name Label */}
+                                    <div className="absolute bottom-0 left-0 right-0 pb-10 px-8 z-30" style={{ transform: 'translateZ(60px)' }}>
+                                        <div className="space-y-1">
+                                            <div className="h-0.5 w-12 bg-cyan-400 rounded-full" />
+                                            <h3 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white tracking-tighter leading-[0.85] select-none">
                                                 HERNATA<br />
-                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-white">RAMADHAN</span>
+                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-purple-400">RAMADHAN</span>
                                             </h3>
                                         </div>
                                     </div>
 
-                                    {/* Cybernetic Frame Overlays */}
-                                    <div className="absolute inset-8 border border-white/5 rounded-[2rem] pointer-events-none group-hover:inset-6 group-hover:border-cyan-500/20 transition-all duration-700" />
-                                    <div className="absolute top-12 right-12 flex flex-col gap-1 items-end opacity-40 group-hover:opacity-100">
-                                        <div className="w-1 h-8 bg-cyan-500" />
-                                        <div className="w-1 h-2 bg-white" />
-                                    </div>
-                                </motion.div>
-
-                                {/* Floating Elements - Alternative to Processing Core */}
-                                <motion.div
-                                    animate={{
-                                        y: [0, -10, 0],
-                                        scale: [1, 1.05, 1],
-                                    }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    className="absolute -bottom-8 -right-8 z-40 hidden md:block"
-                                >
-                                    <div className="relative">
-                                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-white/10 backdrop-blur-md flex items-center justify-center group-hover:border-cyan-400/50 transition-colors">
-                                            <div className="w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.8)] animate-pulse" />
-                                        </div>
+                                    {/* Light sweep effect */}
+                                    <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-[inherit]">
                                         <motion.div
-                                            animate={{ opacity: [0.3, 0.8, 0.3] }}
-                                            transition={{ duration: 2, repeat: Infinity }}
-                                            className="absolute inset-0 rounded-full bg-cyan-400/20 blur-xl"
+                                            animate={{ x: ['-100%', '200%'] }}
+                                            transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                                            className="absolute top-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
                                         />
                                     </div>
                                 </motion.div>
@@ -291,76 +249,27 @@ const Landing: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Extended Stats Section (Mini-About) */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-16 max-w-4xl mx-auto"
-                >
-                    {[
-                        { label: 'Pro Experience', val: '3+', sub: 'Years Pro', color: 'cyan' },
-                        { label: 'Completed Projects', val: '40+', sub: 'Projects Done', color: 'purple' },
-                        { label: 'Client Satisfaction', val: '100%', sub: 'Satisfaction', color: 'white' }
-                    ].map((stat, i) => (
-                        <div key={i} className="group p-4 sm:p-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 relative overflow-hidden">
-                            <div className="relative z-10 flex flex-col items-center text-center">
-                                <div className="text-2xl lg:text-3xl font-black text-white group-hover:scale-110 transition-transform duration-500 tracking-tighter">
-                                    {stat.val}
-                                </div>
-                                <div className="mt-1 text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em]">{stat.label}</div>
-                                <div className="text-[8px] text-cyan-400 font-mono mt-0.5 opacity-60">{stat.sub}</div>
-                            </div>
-                        </div>
-                    ))}
-                </motion.div>
-
-                {/* Academic Journey Integration */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mt-12 max-w-3xl mx-auto"
-                >
-                    <div className="flex items-center gap-4 mb-6 overflow-hidden">
-                        <div className="h-px bg-white/10 flex-1" />
-                        <h3 className="text-[10px] sm:text-xs font-black text-white/40 tracking-[0.5em] uppercase whitespace-nowrap">Academic Journey</h3>
-                        <div className="h-px bg-white/10 flex-1" />
-                    </div>
-
-                    <div className="grid gap-3">
+                {/* Bottom Bar: Stats Only */}
+                <div className="mt-auto pt-6 lg:pt-8 border-t border-white/5 flex items-center justify-between">
+                    <div className="grid grid-cols-3 gap-4 w-full max-w-2xl">
                         {[
-                            { institution: 'Vocational High School SMKN 1 Wonoasri', period: '2022-2025', type: 'High School' },
-                            { institution: 'University of PGRI Madiun', period: '2025-Present', type: 'University' }
-                        ].map((edu, index) => (
-                            <div
-                                key={index}
-                                className="group relative p-3 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-cyan-500/30 transition-all duration-500"
-                            >
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                                    <div className="flex items-center gap-3 sm:gap-4">
-                                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-cyan-500/10 transition-colors shrink-0">
-                                            <GraduationCap size={16} className="text-slate-500 group-hover:text-cyan-400" />
-                                        </div>
-                                        <div>
-                                            <div className="text-sm sm:text-base font-bold text-white group-hover:text-cyan-50 transition-colors">{edu.institution}</div>
-                                            <div className="text-[10px] sm:text-xs text-slate-500 font-mono tracking-widest">{edu.period}</div>
-                                        </div>
-                                    </div>
-                                    <div className="px-3 py-1.5 w-fit rounded-lg bg-white/5 border border-white/10 text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest font-black group-hover:border-cyan-500/20 group-hover:text-cyan-400">
-                                        {edu.type}
-                                    </div>
-                                </div>
+                            { label: 'Experience', val: '3+', color: 'cyan' },
+                            { label: 'Projects', val: '40+', color: 'purple' },
+                            { label: 'Success', val: '100%', color: 'white' }
+                        ].map((stat, i) => (
+                            <div key={i} className="group p-3 lg:p-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/[0.08] transition-all duration-500 text-center relative overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="text-xl lg:text-3xl font-black text-white tracking-tighter relative z-10">{stat.val}</div>
+                                <div className="text-[8px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest relative z-10">{stat.label}</div>
                             </div>
                         ))}
                     </div>
-                </motion.div>
-            </div>
 
-            {/* Marquee at the transition point */}
-            <div className="mt-32">
-                <Marquee />
+                    <div className="hidden lg:flex items-center gap-4 text-slate-600 font-mono text-[9px] uppercase tracking-[0.4em]">
+                        <span>System.Ready()</span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    </div>
+                </div>
             </div>
         </section>
     );
