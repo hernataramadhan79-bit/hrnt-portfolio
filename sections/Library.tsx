@@ -8,6 +8,24 @@ import TiltCard from '../components/TiltCard';
 import { projects, certificates, galleryItems } from '../constants';
 import { Certificate, Project, GalleryItem } from '../types';
 
+const ImageWithLoader = ({ src, alt, className, ...props }: any) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  return (
+    <div className={`relative w-full h-full transition-opacity duration-700 ease-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-white/5 animate-pulse rounded-lg" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        onLoad={() => setIsLoaded(true)}
+        className={className}
+        {...props}
+      />
+    </div>
+  );
+};
+
 const Library: React.FC = () => {
   const [filter, setFilter] = useState<'projects' | 'certificates' | 'gallery'>('projects');
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
@@ -136,10 +154,10 @@ const Library: React.FC = () => {
                 >
                   <TiltCard className="h-[200px] sm:h-[220px] w-full relative group cursor-pointer overflow-hidden rounded-2xl border border-white/5 shadow-xl">
                     <div className="absolute inset-0">
-                      <img
+                      <ImageWithLoader
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-60"
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-60 transition-[filter,opacity] duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
                     </div>
@@ -207,7 +225,7 @@ const Library: React.FC = () => {
 
                     <div className="relative z-10 flex items-center gap-4 text-left">
                       <div className="w-12 h-12 rounded-xl overflow-hidden grayscale group-hover:grayscale-0 transition-all border border-white/10 group-hover:border-cyan-500/20 bg-white/5 p-1.5 flex-shrink-0">
-                        <img src={cert.image} alt={cert.issuer} className="w-full h-full object-contain" />
+                        <ImageWithLoader src={cert.image} alt={cert.issuer} className="w-full h-full object-contain" />
                       </div>
                       <div className="min-w-0">
                         <span className="text-[9px] font-mono text-cyan-500 uppercase tracking-[0.15em] mb-1 block">
@@ -247,10 +265,10 @@ const Library: React.FC = () => {
                 >
                   <div className="group cursor-pointer relative overflow-hidden rounded-2xl border border-white/5 hover:border-cyan-500/25 transition-all duration-500 bg-[#0a0a12]">
                     <div className="relative overflow-hidden aspect-[1/1] sm:aspect-[4/3]">
-                      <img
+                      <ImageWithLoader
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 grayscale-[40%] group-hover:grayscale-0"
+                        className="w-full h-full object-cover grayscale-[40%] group-hover:grayscale-0 transition-[filter] duration-500"
                       />
                       {/* Overlay gradient - now always visible but darker on hover */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-100 transition-all duration-500" />
