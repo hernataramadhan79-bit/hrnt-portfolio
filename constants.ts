@@ -54,7 +54,7 @@ export const certificates: Certificate[] = [
 export const galleryItems: GalleryItem[] = [
   {
     id: 1,
-    image: '/gallery1.jpg',
+    image: '/galeri1.jpg',
     title: 'Foto Bersama UPTPTKK Photography',
     description: 'Sesi foto bersama tim UPTPTKK Kelas Akselerasi MJC Angkatan 1 Photography, sebuah momen spesial untuk merayakan kolaborasi kreatif dan mempererat solidaritas antar sesama penggiat dunia fotografi dan multimedia.',
     date: 'Desember 2025',
