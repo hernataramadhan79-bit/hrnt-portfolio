@@ -134,7 +134,7 @@ export default function Home() {
                                 </div>
                             </div>
                         }>
-                            <main className={`relative z-10 w-full overflow-hidden min-h-screen ${activeTab === 'home' ? '' : 'pt-16 md:pt-24'}`}>
+                            <main className="relative z-10 w-full overflow-hidden min-h-screen pt-20 md:pt-24">
                                 <AnimatePresence mode="wait">
                                     {activeTab === 'home' && (
                                         <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>

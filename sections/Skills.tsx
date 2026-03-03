@@ -133,13 +133,13 @@ const Skills: React.FC = () => {
   const centerPhotoY = useTransform(springY, (y) => y * 0.01);
 
   return (
-    <section id="skills" className="relative z-10 lg:h-screen flex flex-col justify-center items-center overflow-hidden py-12 lg:py-0">
+    <section id="skills" className="relative z-10 min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-6rem)] flex flex-col justify-center items-center overflow-hidden py-8 lg:py-10">
       {/* Background HUD Ambience - Now transparent to let global background shine */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.03)_0%,transparent_70%)]" />
       </div>
 
-      <div className="w-full max-w-[1600px] px-6 lg:px-16 relative z-20 flex flex-col h-full lg:h-[90vh]">
+      <div className="w-full max-w-[1600px] px-6 lg:px-16 relative z-20 flex flex-col">
 
         {/* TOP HEADER: TACTICAL HUD STYLE */}
         <div className="flex flex-col md:flex-row items-end justify-between mb-8 lg:mb-16 border-b border-white/5 pb-8">
@@ -206,21 +206,7 @@ const Skills: React.FC = () => {
 
         </div>
 
-        {/* BOTTOM STATUS BAR */}
-        <div className="mt-8 py-6 border-t border-white/5 flex items-center justify-between opacity-50">
-          <div className="flex gap-12">
-            <div className="space-y-1">
-              <p className="text-[8px] font-mono uppercase tracking-widest text-slate-500">Core.Processing</p>
-              <div className="flex gap-1">
-                {[...Array(12)].map((_, i) => <div key={i} className={`w-3 h-1 rounded-full ${i < 8 ? 'bg-cyan-500/40' : 'bg-white/5'}`} />)}
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-6">
-            <span className="text-[9px] font-mono text-slate-500 uppercase tracking-[0.5em]">HRNT_DASHBOARD_v2.0</span>
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          </div>
-        </div>
+
       </div>
     </section>
   );

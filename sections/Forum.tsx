@@ -88,13 +88,34 @@ const Forum: React.FC = () => {
         };
     }, []);
 
+    const getFriendlyErrorMessage = (error: any) => {
+        const code = error.code;
+        switch (code) {
+            case 'auth/invalid-email':
+                return 'The email format is invalid. Please double-check and try again.';
+            case 'auth/user-not-found':
+            case 'auth/wrong-password':
+                return 'Incorrect email or password. Please verify your credentials.';
+            case 'auth/email-already-in-use':
+                return 'This email is already registered. Please login instead.';
+            case 'auth/weak-password':
+                return 'Password is too weak. Please use at least 6 characters.';
+            case 'auth/popup-closed-by-user':
+                return 'Authentication process was cancelled.';
+            case 'auth/network-request-failed':
+                return 'Network connection issue detected. Please check your internet.';
+            default:
+                return 'A system error occurred. Please try again in a few moments.';
+        }
+    };
+
     const handleSocialLogin = async (provider: 'google' | 'github') => {
         setAuthError('');
         try {
             const authProvider = provider === 'google' ? googleProvider : githubProvider;
             await signInWithPopup(auth, authProvider);
         } catch (error: any) {
-            setAuthError(error.message);
+            setAuthError(getFriendlyErrorMessage(error));
             console.error("Login Error: ", error);
         }
     };
@@ -115,7 +136,7 @@ const Forum: React.FC = () => {
                 await signInWithEmailAndPassword(auth, email, password);
             }
         } catch (error: any) {
-            setAuthError(error.message);
+            setAuthError(getFriendlyErrorMessage(error));
         } finally {
             setIsAuthLoading(false);
         }
@@ -163,7 +184,7 @@ const Forum: React.FC = () => {
     };
 
     return (
-        <section id="forum" className="relative z-10 py-24 md:py-32 px-4 sm:px-6 overflow-visible">
+        <section id="forum" className="relative z-10 py-12 lg:py-16 px-4 sm:px-6 overflow-visible">
             <div className="max-w-5xl mx-auto relative">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
                 <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
@@ -194,11 +215,11 @@ const Forum: React.FC = () => {
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="lg:col-span-5"
+                        className="lg:col-span-4"
                     >
                         <div
                             onMouseMove={handleMouseMove}
-                            className="relative group p-8 rounded-[2.5rem] bg-[#050508] border border-white/10 shadow-2xl overflow-hidden isolate"
+                            className="relative group p-6 rounded-[2rem] bg-[#050508] border border-white/5 shadow-2xl overflow-hidden isolate"
                         >
                             <motion.div
                                 className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10"
@@ -227,7 +248,7 @@ const Forum: React.FC = () => {
                                                         type="text"
                                                         value={displayName}
                                                         onChange={(e) => setDisplayName(e.target.value)}
-                                                        className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                                                        className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50"
                                                         placeholder="Your Name"
                                                         required
                                                     />
@@ -242,7 +263,7 @@ const Forum: React.FC = () => {
                                                     type="email"
                                                     value={email}
                                                     onChange={(e) => setEmail(e.target.value)}
-                                                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                                                    className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50"
                                                     placeholder="name@example.com"
                                                     required
                                                 />
@@ -256,7 +277,7 @@ const Forum: React.FC = () => {
                                                     type="password"
                                                     value={password}
                                                     onChange={(e) => setPassword(e.target.value)}
-                                                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                                                    className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50"
                                                     placeholder="Min. 6 characters"
                                                     required
                                                 />
@@ -271,7 +292,7 @@ const Forum: React.FC = () => {
                                             {isSignUpMode ? 'Initialize Account' : 'Authenticate'}
                                         </button>
 
-                                        {authError && <p className="text-[10px] text-red-400 text-center font-mono">{authError}</p>}
+                                        {authError && <p className="text-[10px] text-red-400 text-center font-medium bg-red-400/10 border border-red-400/20 py-2.5 px-3 rounded-lg animate-shake">{authError}</p>}
                                     </form>
 
                                     <div className="flex items-center gap-4 py-2">
@@ -348,11 +369,11 @@ const Forum: React.FC = () => {
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="w-full py-5 bg-gradient-to-r from-cyan-500 to-purple-500 text-black font-black uppercase tracking-[0.2em] rounded-2xl text-[10px] shadow-[0_0_30px_rgba(34,211,238,0.2)] hover:shadow-[0_0_40px_rgba(34,211,238,0.4)] hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
+                                            className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-black font-black uppercase tracking-[0.2em] rounded-xl text-[10px] shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                                         >
                                             <span className="flex items-center justify-center gap-2">
-                                                {isSubmitting ? 'Syncing...' : 'Broadcast Message'}
-                                                <Send size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                                {isSubmitting ? 'Syncing...' : 'Broadcast'}
+                                                <Send size={12} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                             </span>
                                         </button>
                                     </form>
@@ -362,7 +383,7 @@ const Forum: React.FC = () => {
                     </motion.div>
 
                     {/* Comments List */}
-                    <div className="lg:col-span-7 space-y-6 max-h-[700px] overflow-y-auto pr-2 custom-scrollbar">
+                    <div className="lg:col-span-8 space-y-4 max-h-[800px] overflow-y-auto pr-4 custom-scrollbar">
                         {isLoading ? (
                             <div className="flex flex-col items-center justify-center py-20 space-y-4">
                                 <div className="w-10 h-10 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
@@ -433,7 +454,7 @@ const Forum: React.FC = () => {
           background: rgba(34, 211, 238, 0.4);
         }
       `}</style>
-        </section>
+        </section >
     );
 };
 

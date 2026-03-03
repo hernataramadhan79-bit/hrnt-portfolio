@@ -69,7 +69,7 @@ const Landing: React.FC = () => {
     // Animations will be handled by Framer Motion's initial/animate props
 
     return (
-        <section id="home" className="relative z-10 min-h-screen lg:h-screen flex flex-col justify-center overflow-hidden pt-24 pb-10 lg:py-0">
+        <section id="home" className="relative z-10 min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-6rem)] flex flex-col justify-center overflow-hidden py-6 lg:py-4">
             {/* Unified Backdrop */}
             <motion.div
                 className="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen overflow-hidden"
@@ -79,7 +79,7 @@ const Landing: React.FC = () => {
                 <div className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] bg-purple-700/10 rounded-full blur-[120px]" />
             </motion.div>
 
-            <div className="max-w-7xl mx-auto px-6 w-full relative z-20 flex flex-col justify-center h-full max-h-screen pt-12 lg:pt-20 pb-8">
+            <div className="max-w-7xl mx-auto px-6 w-full relative z-20 flex flex-col justify-center pt-4 lg:pt-8 pb-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center flex-1">
 
                     {/* LEFT COLUMN: HERO AREA */}
@@ -178,7 +178,7 @@ const Landing: React.FC = () => {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                            className="relative w-full max-w-[280px] lg:max-w-md"
+                            className="relative w-full max-w-[280px] lg:max-w-[380px] xl:max-w-[420px]"
                         >
                             <div className="relative group perspective-2000 pointer-events-auto">
                                 {/* Ambient Glow Aura */}
@@ -228,7 +228,7 @@ const Landing: React.FC = () => {
                                     <div className="absolute bottom-0 left-0 right-0 pb-10 px-8 z-30" style={{ transform: 'translateZ(60px)' }}>
                                         <div className="space-y-1">
                                             <div className="h-0.5 w-12 bg-cyan-400 rounded-full" />
-                                            <h3 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white tracking-tighter leading-[0.85] select-none">
+                                            <h3 className="text-2xl lg:text-3xl xl:text-5xl font-black text-white tracking-tighter leading-[0.85] select-none">
                                                 HERNATA<br />
                                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-purple-400">RAMADHAN</span>
                                             </h3>
