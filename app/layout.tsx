@@ -51,7 +51,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="dns-prefetch" href="https://esm.sh" />
-        <script defer src="https://cloud.umami.is/script.js" data-website-id={process.env.UMAMI_WEBSITE_ID || '8558da82-ef6e-4f73-a6cb-89fc8671dbb2'}></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `

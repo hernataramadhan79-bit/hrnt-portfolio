@@ -42,7 +42,7 @@ Want to run this project in your own local environment? Follow these steps:
    npm install
    ```
 
-3. Environment Variables (if needed for APIs like Umami/Wakatime/Github):
+3. Environment Variables (if needed for APIs like Wakatime/Github):
    Create a `.env.local` file in the root directory and add any required tokens.
 
 4. Start the development server:
