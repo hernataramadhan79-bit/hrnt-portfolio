@@ -188,34 +188,71 @@ const GitHubHeatmap = React.memo(({
                 </div>
             )}
 
-            <div className={`p-4 rounded-2xl bg-white/[0.02] border border-white/5 relative group/matrix no-cursor ${compact ? 'py-4' : ''}`}>
+            <div className={`rounded-2xl bg-white/[0.02] border border-white/5 relative group/matrix no-cursor overflow-hidden ${compact ? 'py-0' : ''}`}>
                 <div
                     ref={scrollRef}
-                    className="flex justify-start md:justify-between gap-[3px] md:gap-1 h-auto overflow-x-auto custom-scrollbar-horizontal pb-2 items-end"
+                    className="overflow-x-auto custom-scrollbar-horizontal"
                 >
-                    {slicedData.map((week: any, i: number) => (
-                        <div key={i} className="flex flex-col gap-[4px] flex-1 min-w-[10px]">
-                            {(week.length === 7 ? week : [...Array(7 - week.length).fill({ count: 0 }), ...week]).map((day: any, j: number) => {
-                                const count = day?.count || day?.contributionCount || 0;
-                                const date = day?.date ? new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No Data';
-                                return (
-                                    <motion.div
-                                        key={j}
-                                        onMouseEnter={() => setHoveredDay({ count, date })}
-                                        onMouseLeave={() => setHoveredDay(null)}
-                                        className="w-full aspect-square rounded-[1.5px] relative group/dot shrink-0 cursor-pointer transition-colors"
-                                        style={{ backgroundColor: getLevelColor(count) }}
-                                    />
-                                );
-                            })}
-                        </div>
-                    ))}
-                </div>
-                {compact && (
-                    <div className="flex justify-start mt-2 px-1 gap-4 text-[7px] font-mono text-slate-500 uppercase tracking-widest leading-none">
-                        <span>Jan</span><span>Apr</span><span>Jul</span><span>Oct</span>
+                    {/* Month label row — inside scroll so it moves with the grid */}
+                    {compact && (() => {
+                        const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                        let lastMonth = -1;
+                        let lastLabelCol = -999;
+                        const MIN_GAP = 4;
+                        const labels: { label: string; colIndex: number }[] = [];
+                        slicedData.forEach((week: any, i: number) => {
+                            const days = Array.isArray(week) ? week : [];
+                            const firstDay = days.find((d: any) => d?.date);
+                            if (firstDay?.date) {
+                                const m = new Date(firstDay.date).getMonth();
+                                if (m !== lastMonth && (i - lastLabelCol) >= MIN_GAP) {
+                                    labels.push({ label: MONTH_NAMES[m], colIndex: i });
+                                    lastMonth = m;
+                                    lastLabelCol = i;
+                                } else if (m !== lastMonth) {
+                                    lastMonth = m; // track month change even if skipped
+                                }
+                            }
+                        });
+                        return (
+                            <div className="flex gap-[3px] md:gap-1 px-4 pt-3 pb-1">
+                                {slicedData.map((_: any, i: number) => {
+                                    const marker = labels.find(l => l.colIndex === i);
+                                    return (
+                                        <div key={i} className="flex-1 min-w-[10px]">
+                                            {marker ? (
+                                                <span className="text-[7px] font-mono text-slate-500 uppercase tracking-widest leading-none whitespace-nowrap">
+                                                    {marker.label}
+                                                </span>
+                                            ) : null}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        );
+                    })()}
+
+                    {/* Heatmap grid */}
+                    <div className={`flex justify-start md:justify-between gap-[3px] md:gap-1 px-4 pb-4 items-end ${compact ? '' : 'pt-4'}`}>
+                        {slicedData.map((week: any, i: number) => (
+                            <div key={i} className="flex flex-col gap-[4px] flex-1 min-w-[10px]">
+                                {(week.length === 7 ? week : [...Array(7 - week.length).fill({ count: 0 }), ...week]).map((day: any, j: number) => {
+                                    const count = day?.count || day?.contributionCount || 0;
+                                    const date = day?.date ? new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No Data';
+                                    return (
+                                        <motion.div
+                                            key={j}
+                                            onMouseEnter={() => { if (count > 0) setHoveredDay({ count, date }); }}
+                                            onMouseLeave={() => { if (count > 0) setHoveredDay(null); }}
+                                            className={`w-full aspect-square rounded-[1.5px] relative shrink-0 transition-colors ${count > 0 ? 'cursor-pointer group/dot' : 'cursor-default'}`}
+                                            style={{ backgroundColor: getLevelColor(count) }}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        ))}
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );
