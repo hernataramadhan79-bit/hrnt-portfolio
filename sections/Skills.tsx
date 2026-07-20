@@ -182,7 +182,7 @@ const Skills: React.FC = () => {
                   className="relative z-30 w-28 h-28 sm:w-36 sm:h-36 lg:w-48 lg:h-48 aspect-square rounded-full p-1.5 lg:p-2 bg-gradient-to-br from-cyan-500/20 via-white/5 to-purple-500/20 backdrop-blur-3xl border border-white/10 shadow-[0_0_100px_rgba(34,211,238,0.1)]"
                 >
                   <div className="w-full h-full rounded-full overflow-hidden border border-white/10 relative group cursor-crosshair aspect-square">
-                    <img src="/profile2.png" alt="Core" className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700" />
+                    <img src="/profile2.jpg" alt="Core" className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700" />
                     <div className="absolute inset-0 bg-cyan-500/10 mix-blend-overlay group-hover:bg-transparent transition-colors rounded-full" />
                   </div>
                   {/* Animated HUD ring */}
