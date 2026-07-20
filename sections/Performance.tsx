@@ -9,6 +9,20 @@ import {
     X, Code, Clock, ArrowUpRight, Award
 } from 'lucide-react';
 
+
+const timeAgo = (dateStr: string): string => {
+    if (!dateStr) return 'N/A';
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+    const months = Math.floor(days / 30);
+    if (mins < 60) return `${mins}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    if (days < 30) return `${days}d ago`;
+    return `${months}mo ago`;
+};
+
 const SkeletonPulse = ({ className = '' }: { className?: string }) => (
     <div className={`bg-white/5 rounded animate-pulse ${className}`} />
 );
@@ -590,11 +604,22 @@ const Performance: React.FC = () => {
                                                                                 </span>
                                                                             )}
                                                                         </div>
-                                                                        <div className="flex items-center gap-3 text-[9px] font-mono text-slate-500 shrink-0 ml-2">
-                                                                            <span className="flex items-center gap-1"><Sparkles size={10} /> {repo.stargazers_count}</span>
-                                                                            <span className="flex items-center gap-1"><GitBranch size={10} /> {repo.forks_count}</span>
+                                                                         <div className="flex items-center gap-2 text-[9px] font-mono text-slate-500 shrink-0 ml-2">
+                                                                            {repo.stargazers_count > 0 && (
+                                                                                <span className="flex items-center gap-1 text-yellow-400/70">
+                                                                                    <Sparkles size={10} /> {repo.stargazers_count}
+                                                                                </span>
+                                                                            )}
+                                                                            {repo.forks_count > 0 && (
+                                                                                <span className="flex items-center gap-1 text-cyan-400/70">
+                                                                                    <GitBranch size={10} /> {repo.forks_count}
+                                                                                </span>
+                                                                            )}
+                                                                            <span className="flex items-center gap-1">
+                                                                                <Clock size={10} /> {timeAgo(repo.pushed_at)}
+                                                                            </span>
                                                                             <ArrowUpRight size={12} className="opacity-0 group-hover/repo:opacity-100 transition-opacity text-cyan-400" />
-                                                                        </div>
+                                                                         </div>
                                                                     </a>
                                                                 ))
                                                             )}
