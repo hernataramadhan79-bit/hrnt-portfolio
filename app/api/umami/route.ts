@@ -1,12 +1,26 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-    const apiKey = process.env.UMAMI_API_KEY?.trim();
     const websiteId = process.env.UMAMI_WEBSITE_ID?.trim();
 
-    if (!apiKey || !websiteId) {
-        console.error('Umami env missing:', { hasKey: !!apiKey, hasId: !!websiteId });
-        return NextResponse.json({ error: 'Umami configuration missing' }, { status: 500 });
+    // Umami Cloud: tracking script works without API key.
+    // Stats API requires a Bearer token from Umami dashboard (API Keys section).
+    // If no token is configured, return graceful default so the UI still renders.
+    const apiKey = process.env.UMAMI_API_KEY?.trim();
+
+    if (!websiteId) {
+        console.error('Umami UMAMI_WEBSITE_ID is missing in .env.local');
+        return NextResponse.json({ error: 'Umami website ID missing' }, { status: 500 });
+    }
+
+    if (!apiKey) {
+        // No API key → return empty stats (tracking via script still works)
+        console.warn('UMAMI_API_KEY not set — analytics stats unavailable. Tracking via script still active.');
+        return NextResponse.json({
+            stats: null,
+            active: 0,
+            notice: 'UMAMI_API_KEY not configured. Add it from your Umami Cloud dashboard → Settings → API Keys.'
+        });
     }
 
     try {

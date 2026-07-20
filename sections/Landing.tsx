@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { motion, Variants, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { MapPin, ArrowRight, GraduationCap, User, Mail, Github } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
 import Marquee from '../components/Marquee';
 
 const Landing: React.FC = () => {
@@ -96,14 +97,18 @@ const Landing: React.FC = () => {
                             >
                                 <div className="flex items-center gap-4">
                                     <div className="flex items-baseline">
-                                        {text.split("").map((char, index) => (
-                                            <motion.h1
-                                                key={index}
-                                                className="text-6xl sm:text-7xl md:text-8xl lg:text-[100px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
-                                            >
-                                                {char}
-                                            </motion.h1>
-                                        ))}
+                                        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[100px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex">
+                                            {text.split("").map((char, index) => (
+                                                <motion.span
+                                                    key={index}
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ duration: 0.8, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                                                >
+                                                    {char}
+                                                </motion.span>
+                                            ))}
+                                        </h1>
                                     </div>
                                     <motion.div
                                         className="w-4 h-4 sm:w-6 sm:h-6 border-[3px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_30px_rgba(34,211,238,0.6)]"
@@ -205,10 +210,13 @@ const Landing: React.FC = () => {
                                             scale: 1.1
                                         }}
                                     >
-                                        <img
+                                        <Image
                                             src="/profile.jpg"
-                                            className="w-full h-full object-cover grayscale-[0.3] brightness-90 contrast-110 transition-all duration-1000 group-hover:grayscale-0 group-hover:brightness-110 group-hover:contrast-125"
-                                            alt="Profile"
+                                            alt="Hernata Ramadhan — Creative Developer"
+                                            fill
+                                            sizes="(max-width: 768px) 280px, (max-width: 1280px) 380px, 420px"
+                                            className="object-cover grayscale-[0.3] brightness-90 contrast-110 transition-all duration-1000 group-hover:grayscale-0 group-hover:brightness-110 group-hover:contrast-125"
+                                            priority
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
                                     </motion.div>

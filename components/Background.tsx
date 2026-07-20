@@ -42,6 +42,21 @@ const ShootingStar = React.memo(({ delay, top, left, duration, color, trailColor
 
 ShootingStar.displayName = 'ShootingStar';
 
+/**
+ * Lightweight seeded PRNG (mulberry32) — deterministic on both SSR and client.
+ * Eliminates hydration mismatch caused by Math.random().
+ */
+function createSeededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s |= 0;
+    s = s + 0x6d2b79f5 | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = t + Math.imul(t ^ (t >>> 7), 61 | t) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 const Background: React.FC = () => {
   const { scrollY } = useScroll();
 
@@ -49,35 +64,39 @@ const Background: React.FC = () => {
   const y2 = useTransform(scrollY, [0, 10000], [0, -1500]);
   const y3 = useTransform(scrollY, [0, 10000], [0, -800]);
 
-  const stars1 = useMemo(() =>
-    Array.from({ length: 500 }, (_, i) => ({
+  // Each layer uses a fixed seed so SSR and client produce identical values
+  const stars1 = useMemo(() => {
+    const rng = createSeededRandom(42);
+    return Array.from({ length: 500 }, (_, i) => ({
       id: `s1-${i}`,
-      width: Math.random() * 2,
-      height: Math.random() * 2,
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-    })), []
-  );
+      width: rng() * 2,
+      height: rng() * 2,
+      top: rng() * 100,
+      left: rng() * 100,
+    }));
+  }, []);
 
-  const stars2 = useMemo(() =>
-    Array.from({ length: 400 }, (_, i) => ({
+  const stars2 = useMemo(() => {
+    const rng = createSeededRandom(137);
+    return Array.from({ length: 400 }, (_, i) => ({
       id: `s2-${i}`,
-      width: Math.random() * 3,
-      height: Math.random() * 3,
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-    })), []
-  );
+      width: rng() * 3,
+      height: rng() * 3,
+      top: rng() * 100,
+      left: rng() * 100,
+    }));
+  }, []);
 
-  const stars3 = useMemo(() =>
-    Array.from({ length: 200 }, (_, i) => ({
+  const stars3 = useMemo(() => {
+    const rng = createSeededRandom(2048);
+    return Array.from({ length: 200 }, (_, i) => ({
       id: `s3-${i}`,
-      width: Math.random() * 4,
-      height: Math.random() * 4,
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-    })), []
-  );
+      width: rng() * 4,
+      height: rng() * 4,
+      top: rng() * 100,
+      left: rng() * 100,
+    }));
+  }, []);
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#020205]">

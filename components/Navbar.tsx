@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Home, User, Code, BookOpen, Mail, Briefcase, Activity, Menu, X, Terminal, ArrowRight, MessageSquare } from 'lucide-react';
 import { NavItem } from '../types';
@@ -25,15 +25,12 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
-  const lastScrollY = useRef(0);
-
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     // Keep visible at all times as per user request to avoid disappearing glitches
     setIsVisible(true);
     setIsScrolled(latest > 20);
-    lastScrollY.current = latest;
   });
 
   useEffect(() => {

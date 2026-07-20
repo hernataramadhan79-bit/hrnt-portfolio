@@ -9,6 +9,10 @@ import {
     GitBranch, Zap, Globe, X, Code, Clock, ArrowUpRight
 } from 'lucide-react';
 
+const SkeletonPulse = ({ className = '' }: { className?: string }) => (
+    <div className={`bg-white/5 rounded animate-pulse ${className}`} />
+);
+
 const MainframeCard = ({
     children,
     title,
@@ -16,7 +20,8 @@ const MainframeCard = ({
     icon: Icon,
     color = 'cyan',
     className = "",
-    onClick
+    onClick,
+    isLoading = false
 }: {
     children: React.ReactNode,
     title: string,
@@ -24,7 +29,8 @@ const MainframeCard = ({
     icon: any,
     color?: 'cyan' | 'purple' | 'emerald' | 'yellow' | 'rose',
     className?: string,
-    onClick?: () => void
+    onClick?: () => void,
+    isLoading?: boolean
 }) => {
     const accentColors = {
         cyan: 'from-cyan-500/10 to-transparent border-cyan-500/20 text-cyan-400',
@@ -52,7 +58,14 @@ const MainframeCard = ({
                         </div>
                         <div>
                             <h3 className="text-base font-black text-white uppercase tracking-tighter leading-none">{title}</h3>
-                            {subtitle && <p className="text-slate-500 text-[8px] font-mono tracking-widest uppercase mt-1">{subtitle}</p>}
+                            {isLoading ? (
+                                <span className="inline-flex items-center gap-1.5 mt-1">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                                    <span className="text-[8px] font-mono text-cyan-400/70 uppercase tracking-widest animate-pulse">Syncing...</span>
+                                </span>
+                            ) : (
+                                subtitle && <p className="text-slate-500 text-[8px] font-mono tracking-widest uppercase mt-1">{subtitle}</p>
+                            )}
                         </div>
                     </div>
                     <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/20 group-hover:text-white group-hover:bg-white/10 transition-all">
@@ -183,6 +196,7 @@ GitHubHeatmap.displayName = 'GitHubHeatmap';
 const Performance: React.FC = () => {
     const [selectedStat, setSelectedStat] = useState<'github' | 'wakatime' | 'analytics' | null>(null);
     const [mounted, setMounted] = useState(false);
+    const [loadingState, setLoadingState] = useState({ github: true, wakatime: true, umami: true });
     const [stats, setStats] = useState({
         github: {
             totalContributions: 0,
@@ -203,61 +217,73 @@ const Performance: React.FC = () => {
             stats: null as any,
             active: 0
         },
-        loading: true,
         error: false
     });
 
     useEffect(() => {
         setMounted(true);
-        const fetchStats = async () => {
+
+        // Fetch each API independently so each tab updates as soon as its data arrives
+        const fetchGitHub = async () => {
             try {
-                setStats(prev => ({ ...prev, loading: true }));
-
-                const [githubRes, wakaRes, umamiRes] = await Promise.all([
-                    fetch('/api/github'),
-                    fetch('/api/wakatime'),
-                    fetch('/api/umami')
-                ]);
-
-                let githubData = stats.github;
-                if (githubRes.ok) {
-                    const data = await githubRes.json();
-                    githubData = {
-                        totalContributions: data.profile.totalContributions,
-                        stars: data.profile.stars,
-                        repos: data.profile.repos,
-                        followers: data.profile.followers,
-                        contributions: data.contributions,
-                        topRepos: data.topRepos
-                    };
+                const res = await fetch('/api/github');
+                if (res.ok) {
+                    const data = await res.json();
+                    setStats(prev => ({
+                        ...prev,
+                        github: {
+                            totalContributions: data.profile.totalContributions,
+                            stars: data.profile.stars,
+                            repos: data.profile.repos,
+                            followers: data.profile.followers,
+                            contributions: data.contributions,
+                            topRepos: data.topRepos
+                        }
+                    }));
                 }
-
-                let wakatimeData = stats.wakatime;
-                if (wakaRes.ok) {
-                    const data = await wakaRes.json();
-                    if (data.isLoaded) wakatimeData = data;
-                }
-
-                let umamiData = stats.umami;
-                if (umamiRes.ok) {
-                    const data = await umamiRes.json();
-                    if (data && (data.stats || data.active !== undefined)) umamiData = data;
-                }
-
-                setStats({
-                    github: githubData,
-                    wakatime: wakatimeData,
-                    umami: umamiData,
-                    loading: false,
-                    error: !githubRes.ok && !wakaRes.ok && !umamiRes.ok
-                });
-            } catch (error) {
-                console.error("Performance stats error:", error);
-                setStats(prev => ({ ...prev, loading: false, error: true }));
+            } catch (e) {
+                console.error('GitHub fetch error:', e);
+            } finally {
+                setLoadingState(prev => ({ ...prev, github: false }));
             }
         };
 
-        fetchStats();
+        const fetchWakaTime = async () => {
+            try {
+                const res = await fetch('/api/wakatime');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.isLoaded) {
+                        setStats(prev => ({ ...prev, wakatime: data }));
+                    }
+                }
+            } catch (e) {
+                console.error('WakaTime fetch error:', e);
+            } finally {
+                setLoadingState(prev => ({ ...prev, wakatime: false }));
+            }
+        };
+
+        const fetchUmami = async () => {
+            try {
+                const res = await fetch('/api/umami');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && (data.stats || data.active !== undefined)) {
+                        setStats(prev => ({ ...prev, umami: data }));
+                    }
+                }
+            } catch (e) {
+                console.error('Umami fetch error:', e);
+            } finally {
+                setLoadingState(prev => ({ ...prev, umami: false }));
+            }
+        };
+
+        // Kick off all three in parallel
+        fetchGitHub();
+        fetchWakaTime();
+        fetchUmami();
     }, []);
 
     useEffect(() => {
@@ -299,37 +325,64 @@ const Performance: React.FC = () => {
                         color="cyan"
                         className="md:col-span-2"
                         onClick={() => setSelectedStat('github')}
+                        isLoading={loadingState.github}
                     >
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 pb-6 border-b border-white/5">
-                            <div>
-                                <div className="text-2xl font-black text-white tracking-tighter">
-                                    {stats.loading ? '--' : stats.github.totalContributions}
-                                </div>
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Commits</span>
-                            </div>
-                            <div>
-                                <div className="text-2xl font-black text-white tracking-tighter">
-                                    {stats.loading ? '--' : stats.github.repos}
-                                </div>
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Repos</span>
-                            </div>
-                            <div>
-                                <div className="text-2xl font-black text-cyan-400 tracking-tighter flex items-center gap-1.5">
-                                    <Sparkles size={16} className="text-yellow-500/50" />
-                                    {stats.loading ? '--' : stats.github.stars}
-                                </div>
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Stars</span>
-                            </div>
-                            <div>
-                                <div className="text-2xl font-black text-purple-400 tracking-tighter flex items-center gap-1.5">
-                                    <Users size={16} className="text-cyan-500/50" />
-                                    {stats.loading ? '--' : stats.github.followers}
-                                </div>
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Nodes</span>
-                            </div>
+                            {loadingState.github ? (
+                                Array.from({ length: 4 }).map((_, i) => (
+                                    <div key={i} className="space-y-2">
+                                        <SkeletonPulse className="h-7 w-16" />
+                                        <SkeletonPulse className="h-2 w-10" />
+                                    </div>
+                                ))
+                            ) : (
+                                <>
+                                    <div>
+                                        <div className="text-2xl font-black text-white tracking-tighter">
+                                            {stats.github.totalContributions}
+                                        </div>
+                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Commits</span>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-black text-white tracking-tighter">
+                                            {stats.github.repos}
+                                        </div>
+                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Repos</span>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-black text-cyan-400 tracking-tighter flex items-center gap-1.5">
+                                            <Sparkles size={16} className="text-yellow-500/50" />
+                                            {stats.github.stars}
+                                        </div>
+                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Stars</span>
+                                    </div>
+                                    <div>
+                                        <div className="text-2xl font-black text-purple-400 tracking-tighter flex items-center gap-1.5">
+                                            <Users size={16} className="text-cyan-500/50" />
+                                            {stats.github.followers}
+                                        </div>
+                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Nodes</span>
+                                    </div>
+                                </>
+                            )}
                         </div>
 
-                        <GitHubHeatmap contributions={stats.github.contributions} sliceCount={50} />
+                        {loadingState.github ? (
+                            <div className="pt-6 space-y-3">
+                                <SkeletonPulse className="h-3 w-28" />
+                                <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex gap-1 items-end">
+                                    {Array.from({ length: 50 }).map((_, i) => (
+                                        <div key={i} className="flex flex-col gap-[4px] flex-1 min-w-[10px]">
+                                            {Array.from({ length: 7 }).map((_, j) => (
+                                                <div key={j} className="w-full aspect-square bg-white/5 animate-pulse rounded-[1.5px]" style={{ animationDelay: `${(i * 7 + j) * 10}ms` }} />
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                            <GitHubHeatmap contributions={stats.github.contributions} sliceCount={50} />
+                        )}
                     </MainframeCard>
 
                     {/* WakaTime Metrics Card */}
@@ -339,26 +392,48 @@ const Performance: React.FC = () => {
                         icon={Zap}
                         color="purple"
                         onClick={() => setSelectedStat('wakatime')}
+                        isLoading={loadingState.wakatime}
                     >
                         <div className="flex items-center justify-between pb-4 border-b border-white/5">
-                            <div>
-                                <div className="text-2xl font-black text-white tracking-tighter">
-                                    {stats.loading ? '--' : stats.wakatime.totalTime}
-                                </div>
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Focus Time</span>
-                            </div>
-                            <div className="text-right">
-                                <div className="text-lg font-black text-purple-400 tracking-tighter">
-                                    {stats.wakatime.optimizationFactor}
-                                </div>
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Efficiency</span>
-                            </div>
+                            {loadingState.wakatime ? (
+                                <>
+                                    <div className="space-y-2">
+                                        <SkeletonPulse className="h-7 w-20" />
+                                        <SkeletonPulse className="h-2 w-14" />
+                                    </div>
+                                    <div className="space-y-2 text-right">
+                                        <SkeletonPulse className="h-5 w-12 ml-auto" />
+                                        <SkeletonPulse className="h-2 w-10 ml-auto" />
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div>
+                                        <div className="text-2xl font-black text-white tracking-tighter">
+                                            {stats.wakatime.totalTime}
+                                        </div>
+                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Focus Time</span>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-lg font-black text-purple-400 tracking-tighter">
+                                            {stats.wakatime.optimizationFactor}
+                                        </div>
+                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Efficiency</span>
+                                    </div>
+                                </>
+                            )}
                         </div>
 
                         <div className="space-y-3 pt-2">
-                            {stats.loading ? (
-                                Array.from({ length: 2 }).map((_, i) => (
-                                    <div key={i} className="h-4 w-full bg-white/5 rounded-full animate-pulse" />
+                            {loadingState.wakatime ? (
+                                Array.from({ length: 3 }).map((_, i) => (
+                                    <div key={i} className="space-y-1.5">
+                                        <div className="flex justify-between">
+                                            <SkeletonPulse className="h-2 w-16" />
+                                            <SkeletonPulse className="h-2 w-8" />
+                                        </div>
+                                        <SkeletonPulse className="h-1 w-full rounded-full" />
+                                    </div>
                                 ))
                             ) : (
                                 stats.wakatime.languages.slice(0, 3).map((lang: any, i: number) => (
@@ -388,19 +463,29 @@ const Performance: React.FC = () => {
                         icon={Globe}
                         color="yellow"
                         onClick={() => setSelectedStat('analytics')}
+                        isLoading={loadingState.umami}
                     >
                         <div className="grid grid-cols-2 gap-3">
-                            {[
-                                { label: 'Reach', value: stats.umami.stats?.pageviews ?? 0, color: 'text-yellow-400', icon: Globe },
-                                { label: 'Hosts', value: stats.umami.stats?.visitors ?? 0, color: 'text-emerald-400', icon: Users },
-                                { label: 'Active', value: stats.umami.active ?? 0, color: 'text-cyan-400', icon: Activity },
-                                { label: 'Mean', value: `${Math.round((stats.umami.stats?.totaltime ?? 0) / (stats.umami.stats?.visits || 1) / 60)}m`, color: 'text-purple-400', icon: Timer }
-                            ].map((m, i) => (
-                                <div key={i} className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center text-center">
-                                    <span className={`text-xl font-black ${m.color} tracking-tighter leading-none mb-1`}>{m.value}</span>
-                                    <span className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">{m.label}</span>
-                                </div>
-                            ))}
+                            {loadingState.umami ? (
+                                Array.from({ length: 4 }).map((_, i) => (
+                                    <div key={i} className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center gap-2">
+                                        <SkeletonPulse className="h-6 w-10" />
+                                        <SkeletonPulse className="h-2 w-8" />
+                                    </div>
+                                ))
+                            ) : (
+                                [
+                                    { label: 'Reach', value: stats.umami.stats?.pageviews?.value ?? 0, color: 'text-yellow-400', icon: Globe },
+                                    { label: 'Hosts', value: stats.umami.stats?.visitors?.value ?? 0, color: 'text-emerald-400', icon: Users },
+                                    { label: 'Active', value: stats.umami.active ?? 0, color: 'text-cyan-400', icon: Activity },
+                                    { label: 'Mean', value: `${Math.round((stats.umami.stats?.totaltime?.value ?? 0) / (stats.umami.stats?.visits?.value || 1) / 60)}m`, color: 'text-purple-400', icon: Timer }
+                                ].map((m, i) => (
+                                    <div key={i} className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col items-center text-center">
+                                        <span className={`text-xl font-black ${m.color} tracking-tighter leading-none mb-1`}>{m.value}</span>
+                                        <span className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">{m.label}</span>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </MainframeCard>
                 </div>

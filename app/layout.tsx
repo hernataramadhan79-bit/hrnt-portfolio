@@ -10,6 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'),
   title: 'HRNT | Creative Developer',
   description: 'HRNT - Creative Developer Portfolio. Engineering digital experiences with precision and imagination.',
   icons: {
@@ -20,6 +21,20 @@ export const metadata: Metadata = {
     title: 'HRNT | Creative Developer',
     description: 'HRNT - Creative Developer Portfolio. Engineering digital experiences with precision and imagination.',
     type: 'website',
+    images: [
+      {
+        url: '/profile.jpg',
+        width: 800,
+        height: 800,
+        alt: 'HRNT - Creative Developer',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HRNT | Creative Developer',
+    description: 'HRNT - Creative Developer Portfolio. Engineering digital experiences with precision and imagination.',
+    images: ['/profile.jpg'],
   },
 };
 
@@ -36,7 +51,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="dns-prefetch" href="https://esm.sh" />
-        <script defer src="https://cloud.umami.is/script.js" data-website-id="4d8ee441-b51d-4d88-9970-c1274389b579"></script>
+        <script defer src="https://cloud.umami.is/script.js" data-website-id={process.env.UMAMI_WEBSITE_ID || '8558da82-ef6e-4f73-a6cb-89fc8671dbb2'}></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `

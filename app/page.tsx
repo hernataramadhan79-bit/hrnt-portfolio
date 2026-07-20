@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, Suspense, Component, ErrorInfo, ReactNode } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, Suspense, Component, ErrorInfo, ReactNode } from 'react';
+import { motion } from 'framer-motion';
 import Lenis from 'lenis';
 import Navbar from '@/components/Navbar';
 import CustomCursor from '@/components/CustomCursor';
-import SplashScreen from '@/components/SplashScreen';
 import Background from '@/components/Background';
+import { useState } from 'react';
 
 // Error Boundary Component
 interface ErrorBoundaryProps {
@@ -62,7 +62,6 @@ const Contact = React.lazy(() => import('@/sections/Contact'));
 const Forum = React.lazy(() => import('@/sections/Forum'));
 
 export default function Home() {
-    const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('home');
 
     useEffect(() => {
@@ -81,8 +80,6 @@ export default function Home() {
     }, []);
 
     useEffect(() => {
-        if (loading) return;
-
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -97,86 +94,74 @@ export default function Home() {
 
         rafId = requestAnimationFrame(raf);
 
-        const handleResize = () => lenis.resize();
-        window.addEventListener('resize', handleResize);
-
-        const resizeInterval = setInterval(() => lenis.resize(), 1000);
-        setTimeout(() => clearInterval(resizeInterval), 5000);
+        // Use ResizeObserver instead of setInterval for efficient resize detection
+        const resizeObserver = new ResizeObserver(() => lenis.resize());
+        resizeObserver.observe(document.body);
 
         return () => {
             lenis.destroy();
             cancelAnimationFrame(rafId);
-            window.removeEventListener('resize', handleResize);
-            clearInterval(resizeInterval);
+            resizeObserver.disconnect();
         };
-    }, [loading]);
+    }, []);
 
     return (
         <ErrorBoundary>
             <CustomCursor />
-            <AnimatePresence mode="wait">
-                {loading ? (
-                    <SplashScreen key="splash" onComplete={() => setLoading(false)} />
-                ) : (
-                    <motion.div
-                        key="main"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <Background />
-                        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-                        <Suspense fallback={
-                            <div className="min-h-screen flex items-center justify-center">
-                                <div className="flex flex-col items-center gap-4">
-                                    <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-                                    <span className="text-cyan-400 font-mono text-sm">Loading...</span>
-                                </div>
-                            </div>
-                        }>
-                            <main className="relative z-10 w-full overflow-hidden min-h-screen pt-20 md:pt-24">
-                                <AnimatePresence mode="wait">
-                                    {activeTab === 'home' && (
-                                        <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                                            <Landing />
-                                        </motion.div>
-                                    )}
-                                    {activeTab === 'experience' && (
-                                        <motion.div key="experience" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                                            <Experience />
-                                        </motion.div>
-                                    )}
-                                    {activeTab === 'skills' && (
-                                        <motion.div key="skills" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                                            <Skills />
-                                        </motion.div>
-                                    )}
-                                    {activeTab === 'performance' && (
-                                        <motion.div key="performance" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                                            <Performance />
-                                        </motion.div>
-                                    )}
-                                    {activeTab === 'library' && (
-                                        <motion.div key="library" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                                            <Library />
-                                        </motion.div>
-                                    )}
-                                    {activeTab === 'contact' && (
-                                        <motion.div key="contact" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                                            <Contact />
-                                        </motion.div>
-                                    )}
-                                    {activeTab === 'forum' && (
-                                        <motion.div key="forum" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                                            <Forum />
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </main>
-                        </Suspense>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+            >
+                <Background />
+                <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+                <Suspense fallback={
+                    <div className="min-h-screen flex items-center justify-center">
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+                            <span className="text-cyan-400 font-mono text-sm">Loading...</span>
+                        </div>
+                    </div>
+                }>
+                    <main className="relative z-10 w-full overflow-hidden min-h-screen pt-20 md:pt-24">
+                        {activeTab === 'home' && (
+                            <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                <Landing />
+                            </motion.div>
+                        )}
+                        {activeTab === 'experience' && (
+                            <motion.div key="experience" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                <Experience />
+                            </motion.div>
+                        )}
+                        {activeTab === 'skills' && (
+                            <motion.div key="skills" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                <Skills />
+                            </motion.div>
+                        )}
+                        {activeTab === 'performance' && (
+                            <motion.div key="performance" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                <Performance />
+                            </motion.div>
+                        )}
+                        {activeTab === 'library' && (
+                            <motion.div key="library" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                <Library />
+                            </motion.div>
+                        )}
+                        {activeTab === 'contact' && (
+                            <motion.div key="contact" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                <Contact />
+                            </motion.div>
+                        )}
+                        {activeTab === 'forum' && (
+                            <motion.div key="forum" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                                <Forum />
+                            </motion.div>
+                        )}
+                    </main>
+                </Suspense>
+            </motion.div>
         </ErrorBoundary>
     );
 }

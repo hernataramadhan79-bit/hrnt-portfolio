@@ -116,8 +116,8 @@ export const experiences = [
 ];
 
 
-// Web3Forms Configuration
-export const WEB3FORMS_ACCESS_KEY = 'af23608b-4dd2-4d9f-b068-645d6609c143';
+// Web3Forms Configuration — key loaded from .env.local (NEXT_PUBLIC_WEB3FORMS_KEY)
+export const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? '';
 
 // Mock Real-time Stats for Library Section
 export const wakaTimeStats = {

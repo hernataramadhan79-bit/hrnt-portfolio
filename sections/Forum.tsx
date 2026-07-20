@@ -35,6 +35,29 @@ interface Comment {
     createdAt: Timestamp | null;
 }
 
+const UserAvatar: React.FC<{ src?: string; name: string; className?: string }> = ({ src, name, className = "w-10 h-10" }) => {
+    const [imgError, setImgError] = useState(false);
+    const initial = (name || 'U').charAt(0).toUpperCase();
+    const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=0891b2&color=fff&bold=true`;
+
+    const effectiveSrc = (!src || imgError) ? fallbackUrl : src;
+
+    return (
+        <div className={`${className} rounded-xl border border-white/10 overflow-hidden bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center text-cyan-400 font-bold shrink-0`}>
+            {!imgError ? (
+                <img
+                    src={effectiveSrc}
+                    alt={name}
+                    className="w-full h-full object-cover"
+                    onError={() => setImgError(true)}
+                />
+            ) : (
+                <span className="text-cyan-400 font-bold text-sm">{initial}</span>
+            )}
+        </div>
+    );
+};
+
 const Forum: React.FC = () => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [message, setMessage] = useState('');
@@ -128,10 +151,12 @@ const Forum: React.FC = () => {
         try {
             if (isSignUpMode) {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const generatedAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName || 'User')}&background=0891b2&color=fff&bold=true`;
                 await updateProfile(userCredential.user, {
-                    displayName: displayName
+                    displayName: displayName,
+                    photoURL: generatedAvatar
                 });
-                setUser({ ...userCredential.user, displayName });
+                setUser({ ...userCredential.user, displayName, photoURL: generatedAvatar });
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
             }
@@ -155,11 +180,14 @@ const Forum: React.FC = () => {
         if (!user || !message.trim()) return;
 
         setIsSubmitting(true);
+        const userName = user.displayName || 'Anonymous';
+        const userAvatar = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0891b2&color=fff&bold=true`;
+
         try {
             await addDoc(collection(db, "comments"), {
-                name: user.displayName || 'Anonymous',
+                name: userName,
                 userId: user.uid,
-                userImage: user.photoURL || '',
+                userImage: userAvatar,
                 message: message,
                 createdAt: serverTimestamp(),
             });
@@ -330,15 +358,9 @@ const Forum: React.FC = () => {
                                 <div className="space-y-6 relative z-10">
                                     <div className="flex items-center justify-between pb-4 border-b border-white/5">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-xl border border-white/10 overflow-hidden bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center text-cyan-400 font-bold">
-                                                {user.photoURL ? (
-                                                    <img src={user.photoURL} alt="" className="w-full h-full object-cover" />
-                                                ) : (
-                                                    user.displayName?.charAt(0).toUpperCase()
-                                                )}
-                                            </div>
+                                            <UserAvatar src={user.photoURL || undefined} name={user.displayName || 'User'} className="w-10 h-10" />
                                             <div>
-                                                <div className="text-white font-bold text-sm">{user.displayName}</div>
+                                                <div className="text-white font-bold text-sm">{user.displayName || 'User'}</div>
                                                 <div className="text-[10px] text-cyan-400 font-mono uppercase tracking-tighter">Authenticated</div>
                                             </div>
                                         </div>
@@ -407,13 +429,7 @@ const Forum: React.FC = () => {
                                     >
                                         <div className="flex justify-between items-start mb-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-xl border border-white/10 overflow-hidden bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                    {comment.userImage ? (
-                                                        <img src={comment.userImage} alt="" className="w-full h-full object-cover" />
-                                                    ) : (
-                                                        <div className="text-cyan-400 font-bold">{comment.name.charAt(0).toUpperCase()}</div>
-                                                    )}
-                                                </div>
+                                                <UserAvatar src={comment.userImage} name={comment.name} className="w-10 h-10" />
                                                 <div>
                                                     <div className="text-white font-bold tracking-tight">{comment.name}</div>
                                                     <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
