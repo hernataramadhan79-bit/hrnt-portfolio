@@ -61,16 +61,25 @@ export async function GET() {
         if (Array.isArray(repos)) {
             totalStars = repos.reduce((acc: number, r: any) => acc + (r.stargazers_count || 0), 0);
             topRepos = [...repos]
-                .sort((a, b) => (b.stargazers_count + b.forks_count) - (a.stargazers_count + a.forks_count))
-                .slice(0, 5)
+                .sort((a, b) => {
+                    // Primary sort: stars + forks score
+                    const scoreA = (a.stargazers_count || 0) + (a.forks_count || 0);
+                    const scoreB = (b.stargazers_count || 0) + (b.forks_count || 0);
+                    if (scoreB !== scoreA) return scoreB - scoreA;
+                    // Fallback: most recently pushed/updated
+                    return new Date(b.pushed_at || b.updated_at || 0).getTime() -
+                           new Date(a.pushed_at || a.updated_at || 0).getTime();
+                })
+                .slice(0, 10)
                 .map(r => ({
                     id: r.id,
                     name: r.name,
                     html_url: r.html_url,
                     description: r.description,
                     language: r.language,
-                    stargazers_count: r.stargazers_count,
-                    forks_count: r.forks_count
+                    stargazers_count: r.stargazers_count || 0,
+                    forks_count: r.forks_count || 0,
+                    pushed_at: r.pushed_at
                 }));
         }
 

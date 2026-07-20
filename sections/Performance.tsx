@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -98,6 +98,19 @@ const GitHubHeatmap = React.memo(({
     icon?: any
 }) => {
     const [hoveredDay, setHoveredDay] = useState<{ count: number; date: string } | null>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        const handler = (e: WheelEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            el.scrollLeft += e.deltaY;
+        };
+        el.addEventListener('wheel', handler, { passive: false });
+        return () => el.removeEventListener('wheel', handler);
+    }, []);
 
     const getLevelColor = (count: number) => {
         if (count === 0) return 'rgba(255,255,255,0.05)';
@@ -162,7 +175,10 @@ const GitHubHeatmap = React.memo(({
             )}
 
             <div className={`p-4 rounded-2xl bg-white/[0.02] border border-white/5 relative group/matrix no-cursor ${compact ? 'py-4' : ''}`}>
-                <div className="flex justify-start md:justify-between gap-[3px] md:gap-1 h-auto overflow-x-auto custom-scrollbar-horizontal pb-2 items-end">
+                <div
+                    ref={scrollRef}
+                    className="flex justify-start md:justify-between gap-[3px] md:gap-1 h-auto overflow-x-auto custom-scrollbar-horizontal pb-2 items-end"
+                >
                     {slicedData.map((week: any, i: number) => (
                         <div key={i} className="flex flex-col gap-[4px] flex-1 min-w-[10px]">
                             {(week.length === 7 ? week : [...Array(7 - week.length).fill({ count: 0 }), ...week]).map((day: any, j: number) => {
@@ -545,29 +561,44 @@ const Performance: React.FC = () => {
                                                     icon={Activity}
                                                 />
 
-                                                <div className="space-y-3">
+                                                	<div className="space-y-3">
                                                     <h4 className="text-[9px] font-black uppercase text-white tracking-widest flex items-center gap-2 opacity-50">
                                                         <Box size={14} className="text-cyan-400" /> Active Repositories
                                                     </h4>
-                                                    <div className="grid gap-2">
-                                                        {stats.github.topRepos.slice(0, 10).map((repo: any) => (
-                                                            <a
-                                                                key={repo.id}
-                                                                href={repo.html_url}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                className="group/repo p-3 rounded-xl bg-white/[0.01] border border-white/5 flex items-center justify-between transition-all hover:bg-white/[0.04] hover:border-white/10 hover:translate-x-1"
-                                                            >
-                                                                <span className="text-[12px] font-black text-white group-hover/repo:text-cyan-400 transition-colors uppercase tracking-widest truncate max-w-[150px] md:max-w-none">
-                                                                    {repo.name}
-                                                                </span>
-                                                                <div className="flex items-center gap-3 text-[9px] font-mono text-slate-500">
-                                                                    <span className="flex items-center gap-1"><Sparkles size={10} /> {repo.stargazers_count}</span>
-                                                                    <span className="flex items-center gap-1"><GitBranch size={10} /> {repo.forks_count}</span>
-                                                                    <ArrowUpRight size={12} className="opacity-0 group-hover/repo:opacity-100 transition-opacity text-cyan-400" />
+                                                    <div className="max-h-64 overflow-y-auto custom-scrollbar pr-1" onWheel={(e) => e.stopPropagation()}>
+                                                        <div className="grid gap-2">
+                                                            {stats.github.topRepos.length === 0 ? (
+                                                                <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center">
+                                                                    <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">No public repositories found</p>
                                                                 </div>
-                                                            </a>
-                                                        ))}
+                                                            ) : (
+                                                                stats.github.topRepos.map((repo: any) => (
+                                                                    <a
+                                                                        key={repo.id}
+                                                                        href={repo.html_url}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="group/repo p-3 rounded-xl bg-white/[0.01] border border-white/5 flex items-center justify-between transition-all hover:bg-white/[0.04] hover:border-white/10 hover:translate-x-1"
+                                                                    >
+                                                                        <div className="flex items-center gap-2 truncate">
+                                                                            <span className="text-[12px] font-black text-white group-hover/repo:text-cyan-400 transition-colors uppercase tracking-widest truncate max-w-[150px] md:max-w-[220px]">
+                                                                                {repo.name}
+                                                                            </span>
+                                                                            {repo.language && (
+                                                                                <span className="shrink-0 px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-[8px] font-mono text-slate-400 uppercase tracking-wider">
+                                                                                    {repo.language}
+                                                                                </span>
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="flex items-center gap-3 text-[9px] font-mono text-slate-500 shrink-0 ml-2">
+                                                                            <span className="flex items-center gap-1"><Sparkles size={10} /> {repo.stargazers_count}</span>
+                                                                            <span className="flex items-center gap-1"><GitBranch size={10} /> {repo.forks_count}</span>
+                                                                            <ArrowUpRight size={12} className="opacity-0 group-hover/repo:opacity-100 transition-opacity text-cyan-400" />
+                                                                        </div>
+                                                                    </a>
+                                                                ))
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
