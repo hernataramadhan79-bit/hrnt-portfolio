@@ -1,8 +1,18 @@
 import { NextResponse } from 'next/server';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
-export async function GET() {
+export async function GET(request: Request) {
+    const ip = getClientIp(request);
+    const { allowed, retryAfter } = checkRateLimit(ip);
+    if (!allowed) {
+        return NextResponse.json({ error: 'Too many requests. Please try again later.' }, {
+            status: 429,
+            headers: { 'Retry-After': String(retryAfter) },
+        });
+    }
+
     const token = process.env.GITHUB_TOKEN;
-    const username = 'hernataramadhan79-bit'; // From Library.tsx constant
+    const username = 'hernataramadhan79-bit';
 
     if (!token) {
         return NextResponse.json({ error: 'GitHub token missing' }, { status: 500 });
@@ -26,7 +36,6 @@ export async function GET() {
         let repos: any[] = [];
         let contribData: any = {};
 
-        // 1. Fetch User Profile
         try {
             const userRes = await fetch(`https://api.github.com/users/${username}`, fetchOptions);
             if (userRes.ok) userData = await userRes.json();
@@ -34,7 +43,6 @@ export async function GET() {
             console.error('GitHub profile fetch failed:', e);
         }
 
-        // 2. Fetch Repositories
         try {
             const repoRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, fetchOptions);
             if (repoRes.ok) repos = await repoRes.json();
@@ -42,7 +50,6 @@ export async function GET() {
             console.error('GitHub repos fetch failed:', e);
         }
 
-        // 3. Fetch Contributions
         try {
             const contribRes = await fetch(`https://github-contributions-api.deno.dev/${username}.json`, {
                 signal: controller.signal,
@@ -62,11 +69,9 @@ export async function GET() {
             totalStars = repos.reduce((acc: number, r: any) => acc + (r.stargazers_count || 0), 0);
             topRepos = [...repos]
                 .sort((a, b) => {
-                    // Primary sort: stars + forks score
                     const scoreA = (a.stargazers_count || 0) + (a.forks_count || 0);
                     const scoreB = (b.stargazers_count || 0) + (b.forks_count || 0);
                     if (scoreB !== scoreA) return scoreB - scoreA;
-                    // Fallback: most recently pushed/updated
                     return new Date(b.pushed_at || b.updated_at || 0).getTime() -
                            new Date(a.pushed_at || a.updated_at || 0).getTime();
                 })

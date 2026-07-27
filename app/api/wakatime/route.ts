@@ -1,6 +1,16 @@
 import { NextResponse } from 'next/server';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
-export async function GET() {
+export async function GET(request: Request) {
+    const ip = getClientIp(request);
+    const { allowed, retryAfter } = checkRateLimit(ip);
+    if (!allowed) {
+        return NextResponse.json({ error: 'Too many requests. Please try again later.' }, {
+            status: 429,
+            headers: { 'Retry-After': String(retryAfter) },
+        });
+    }
+
     const apiKey = process.env.WAKATIME_API_KEY;
 
     if (!apiKey) {
@@ -16,15 +26,12 @@ export async function GET() {
     };
 
     try {
-        // === 1. All-Time Stats ===
         const allTimeRes = await fetch(
             'https://wakatime.com/api/v1/users/current/all_time_since_today',
             { headers: authHeader, cache: 'no-store' }
         );
 
-        // === 2. Last 7 Days Summary ===
-        // Use WIB (UTC+7) timezone-aware dates to match WakaTime dashboard
-        const tzOffsetMs = 7 * 60 * 60 * 1000; // UTC+7 (WIB)
+        const tzOffsetMs = 7 * 60 * 60 * 1000;
         const nowWIB = new Date(Date.now() + tzOffsetMs);
         const endStr = nowWIB.toISOString().split('T')[0];
         const startStr = new Date(nowWIB.getTime() - 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
@@ -34,7 +41,6 @@ export async function GET() {
             { headers: authHeader, cache: 'no-store' }
         );
 
-        // === 3. Previous 7 Days (for growth) ===
         const prevEnd = new Date(nowWIB.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
         const prevStart = new Date(nowWIB.getTime() - 13 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
@@ -43,47 +49,38 @@ export async function GET() {
             { headers: authHeader, cache: 'no-store' }
         );
 
-
-        // --- Parse All-Time (optional, may return 0 while WakaTime is "calculating") ---
         let allTimeTotalText = '';
         if (allTimeRes.ok) {
             const allTimeData = await allTimeRes.json();
             const d = allTimeData?.data;
-            // Only use if WakaTime is not still calculating
             if (d && (d.total_seconds || 0) > 0) {
                 allTimeTotalText = d.text || d.human_readable_total || '';
             }
         }
 
-        // --- Parse 7-Day Summary ---
         let dailyAverageText = '0 mins';
         let bestDayText = 'N/A';
         let currentWeekSeconds = 0;
         const languagesMap: { [key: string]: { name: string; total_seconds: number } } = {};
         let langTotalSeconds = 0;
 
-        // Total time: prefer all_time if available, fallback to 7-day cumulative
         let totalTimeText = allTimeTotalText;
 
         if (summaryRes.ok) {
             const summaryData = await summaryRes.json();
             const summaries: any[] = summaryData.data || [];
 
-            // Daily average from WakaTime's own calculation
             dailyAverageText =
                 summaryData.daily_average?.text_including_other_language ||
                 summaryData.daily_average?.text ||
                 '0 mins';
 
-            // Use cumulative_total from summary
             currentWeekSeconds = summaryData.cumulative_total?.seconds || 0;
 
-            // If all_time is not available (still calculating), use 7-day cumulative as total
             if (!totalTimeText && summaryData.cumulative_total?.text) {
                 totalTimeText = summaryData.cumulative_total.text + ' (7d)';
             }
 
-            // Find best day & accumulate languages
             let bestDaySeconds = 0;
             summaries.forEach((day: any) => {
                 const dayTotal: number = day?.grand_total?.total_seconds || 0;
@@ -107,7 +104,6 @@ export async function GET() {
 
         if (!totalTimeText) totalTimeText = '0 mins';
 
-        // --- Parse Previous Week ---
         let growthFactor = '+0%';
         if (prevRes.ok) {
             const prevData = await prevRes.json();
@@ -121,7 +117,6 @@ export async function GET() {
             }
         }
 
-        // --- Build Languages Array ---
         const languages = Object.values(languagesMap)
             .sort((a, b) => b.total_seconds - a.total_seconds)
             .slice(0, 8)
@@ -133,7 +128,6 @@ export async function GET() {
                 color: getLanguageColor(lang.name)
             }));
 
-        // --- Format helper ---
         const cleanText = (text: string) =>
             text
                 .replace(/ hours?/g, 'h')
@@ -154,7 +148,6 @@ export async function GET() {
 
     } catch (error: any) {
         console.error('WakaTime route error:', error?.message || error);
-        // Return a valid response with default values instead of 500 error
         return NextResponse.json({
             languages: [],
             totalTime: '0h 0m',

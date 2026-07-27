@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
                     <div className="grid grid-cols-2 gap-10">
                         <div className="space-y-6">
                             <h3 className="text-xs font-mono text-slate-500 uppercase tracking-[0.3em]">Sections</h3>
-                            <nav className="flex flex-col gap-4">
+                            <nav className="flex flex-col gap-4" aria-label="Footer sections">
                                 {['Home', 'Skills', 'Library', 'Contact'].map((item) => (
                                     <button
                                         key={item}
@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
 
                         <div className="space-y-6">
                             <h3 className="text-xs font-mono text-slate-500 uppercase tracking-[0.3em]">Social Media</h3>
-                            <nav className="flex flex-col gap-4">
+                            <nav className="flex flex-col gap-4" aria-label="Footer social media">
                                 {socialLinks.map((social) => (
                                     <a
                                         key={social.label}

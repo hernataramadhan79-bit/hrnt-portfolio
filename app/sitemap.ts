@@ -1,42 +1,44 @@
 import type { MetadataRoute } from 'next';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hrnt-portfolio.vercel.app';
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://hrnt-portfolio.vercel.app';
+  const now = new Date();
 
   return [
     {
-      url: baseUrl,
-      lastModified: new Date(),
+      url: siteUrl,
+      lastModified: now,
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
-      url: `${baseUrl}/#experience`,
-      lastModified: new Date(),
+      url: `${siteUrl}/#experience`,
+      lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/#skills`,
-      lastModified: new Date(),
+      url: `${siteUrl}/#skills`,
+      lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/#performance`,
-      lastModified: new Date(),
+      url: `${siteUrl}/#performance`,
+      lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/#library`,
-      lastModified: new Date(),
+      url: `${siteUrl}/#library`,
+      lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/#contact`,
-      lastModified: new Date(),
+      url: `${siteUrl}/#contact`,
+      lastModified: now,
       changeFrequency: 'yearly',
       priority: 0.9,
     },

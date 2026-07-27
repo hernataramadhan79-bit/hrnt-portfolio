@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Home, User, Code, BookOpen, Mail, Briefcase, Activity, Menu, X, Terminal, ArrowRight, MessageSquare } from 'lucide-react';
 import { NavItem } from '../types';
+import VisuallyHidden from './__a11y/VisuallyHidden';
 
 const navItems: NavItem[] = [
   { id: 'home', label: 'Home', icon: Home, sectionId: 'home' },
@@ -28,7 +29,6 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    // Keep visible at all times as per user request to avoid disappearing glitches
     setIsVisible(true);
     setIsScrolled(latest > 20);
   });
@@ -68,11 +68,12 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center h-full relative">
-          {/* Brand - Left Side (Flexible container to push center) */}
+          {/* Brand */}
           <div className="flex-1 flex justify-start items-center z-20">
             <button
               onClick={() => scrollToSection('home', 'home')}
               className="flex items-center group pointer-events-auto"
+              aria-label="Go to home"
             >
               <span className="text-white font-black tracking-tighter text-2xl md:text-3xl leading-none transition-all duration-300 group-hover:text-cyan-400">
                 HRNT
@@ -81,8 +82,8 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
             </button>
           </div>
 
-          {/* Main Navigation - ABSOLUTE CENTER */}
-          <nav className="hidden lg:flex items-center gap-0.5 z-30 relative px-4">
+          {/* Desktop Navigation */}
+          <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-0.5 z-30 relative px-4">
             {navItems.filter(item => item.id !== 'forum').map((item) => {
               const isActive = activeTab === item.id;
               return (
@@ -91,13 +92,12 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                   onClick={() => scrollToSection(item.id, item.sectionId)}
                   className={`group relative px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 whitespace-nowrap pointer-events-auto ${isActive ? 'text-white' : 'text-slate-500 hover:text-slate-200'
                     }`}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     <item.icon size={12} className={`transition-colors duration-300 ${isActive ? 'text-cyan-400' : 'group-hover:text-cyan-400/70'}`} />
                     {item.label}
                   </span>
-
-                  {/* Indicator Line */}
                   {isActive && (
                     <motion.div
                       layoutId="nav-line"
@@ -105,23 +105,21 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                       transition={{ type: "spring", stiffness: 350, damping: 30 }}
                     />
                   )}
-
-                  {/* Hover Trace */}
                   <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-300 rounded-md -z-10" />
                 </button>
               );
             })}
           </nav>
 
-          {/* Right Side - Balanced Spacer (Flexible container to push center) */}
+          {/* Right Side */}
           <div className="flex-1 flex justify-end items-center z-20 gap-2 md:gap-4">
-            {/* Forum Button */}
             <button
               onClick={() => scrollToSection('forum', 'forum')}
               className={`flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 pointer-events-auto group ${activeTab === 'forum'
                 ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.6)]'
                 : 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]'
                 }`}
+              aria-label="Open forum"
             >
               <MessageSquare size={14} className={`transition-colors hidden md:block ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
               <MessageSquare size={12} className={`transition-colors block md:hidden ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
@@ -133,6 +131,9 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden p-2 md:p-3 bg-white/5 border border-white/10 rounded-md text-white hover:bg-white/10 transition-colors pointer-events-auto flex items-center justify-center"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -140,21 +141,23 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
         </div>
       </motion.header>
 
-      {/* Modern Fullscreen Navigation Overlay */}
+      {/* Mobile Navigation Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[110] bg-[#020617] lg:hidden overflow-hidden"
           >
-            {/* Background Aesthetics */}
             <div className="absolute inset-0 bg-grid-white/[0.02] pointer-events-none" />
             <div className="absolute top-0 right-0 w-[80%] h-[40%] bg-cyan-500/5 blur-[120px] rounded-full" />
             <div className="absolute bottom-0 left-0 w-[60%] h-[30%] bg-purple-500/5 blur-[100px] rounded-full" />
 
-            {/* Content Container */}
             <div className="relative h-full flex flex-col px-4 sm:px-10 pt-20 sm:pt-28 pb-6 overflow-y-auto">
               <div className="flex items-center justify-between mb-6 sm:mb-16">
                 <div className="flex flex-col">
@@ -164,12 +167,13 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-white/10 flex items-center justify-center text-white active:scale-90 transition-transform"
+                  aria-label="Close navigation menu"
                 >
                   <X size={24} />
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-1">
+              <nav aria-label="Mobile navigation" className="grid grid-cols-1 gap-1">
                 {navItems.map((item, index) => {
                   const isActive = activeTab === item.id;
                   return (
@@ -180,6 +184,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                       transition={{ delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
                       onClick={() => scrollToSection(item.id, item.sectionId)}
                       className="group flex flex-col py-4 sm:py-6 relative"
+                      aria-current={isActive ? 'page' : undefined}
                     >
                       <div className="flex items-baseline gap-4">
                         <span className="text-[10px] font-mono text-cyan-500/50 uppercase tracking-widest leading-none">0{index + 1}</span>
@@ -192,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                     </motion.button>
                   );
                 })}
-              </div>
+              </nav>
 
               <div className="mt-auto space-y-4">
                 <div className="h-px bg-white/5" />

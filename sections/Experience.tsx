@@ -57,6 +57,8 @@ const Experience: React.FC = () => {
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 }}
                         className="flex flex-wrap items-center justify-center gap-2 mt-8"
+                        role="tablist"
+                        aria-label="Filter experience by type"
                     >
                         {[
                             { id: 'all', label: 'All Protocols', count: counts.all, icon: Layers },
@@ -69,6 +71,9 @@ const Experience: React.FC = () => {
                                 <button
                                     key={tab.id}
                                     onClick={() => setFilter(tab.id as FilterType)}
+                                    role="tab"
+                                    aria-selected={isActive}
+                                    aria-controls={`experience-panel-${tab.id}`}
                                     className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                                         isActive
                                             ? 'text-white font-bold'
@@ -98,7 +103,7 @@ const Experience: React.FC = () => {
                 </div>
 
                 {/* Timeline Layout */}
-                <div className="relative pt-4">
+                <div className="relative pt-4" role="tabpanel" id={`experience-panel-${filter}`} aria-label={`${filter} experiences`}>
                     {/* Vertical Line - Desktop */}
                     <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/40 via-purple-500/20 to-transparent -translate-x-1/2 hidden md:block" />
 

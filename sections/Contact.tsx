@@ -231,6 +231,7 @@ const Contact: React.FC = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="text-green-400 text-sm text-center mt-4"
+                      role="status"
                     >
                       Message sent successfully! I'll get back to you soon.
                     </motion.div>
@@ -240,6 +241,7 @@ const Contact: React.FC = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="text-red-400 text-sm text-center mt-4"
+                      role="alert"
                     >
                       {error}
                     </motion.div>

@@ -6,6 +6,7 @@ import { motion, useSpring, useMotionValue } from 'framer-motion';
 const CustomCursor = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -14,7 +15,6 @@ const CustomCursor = () => {
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
-  // Check if device is mobile/touch
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window);
@@ -24,6 +24,14 @@ const CustomCursor = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
   const moveCursor = useCallback((e: MouseEvent) => {
     cursorX.set(e.clientX - 16);
     cursorY.set(e.clientY - 16);
@@ -31,8 +39,6 @@ const CustomCursor = () => {
 
   const handleMouseOver = useCallback((e: MouseEvent) => {
     const target = e.target as HTMLElement;
-
-    // Check if the target or any parent wants to disable cursor expansion
     const isExcluded = target.closest('.no-cursor') || target.classList.contains('no-cursor');
 
     if (
@@ -51,7 +57,7 @@ const CustomCursor = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || prefersReducedMotion) return;
 
     window.addEventListener('mousemove', moveCursor, { passive: true });
     window.addEventListener('mouseover', handleMouseOver, { passive: true });
@@ -60,9 +66,9 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', moveCursor);
       window.removeEventListener('mouseover', handleMouseOver);
     };
-  }, [moveCursor, handleMouseOver, isMobile]);
+  }, [moveCursor, handleMouseOver, isMobile, prefersReducedMotion]);
 
-  if (isMobile) return null;
+  if (isMobile || prefersReducedMotion) return null;
 
   return (
     <motion.div
@@ -84,6 +90,7 @@ const CustomCursor = () => {
         mass: 0.1,
         duration: 0.15
       }}
+      aria-hidden="true"
     >
       <motion.div
         className="w-1 h-1 bg-white rounded-full"
