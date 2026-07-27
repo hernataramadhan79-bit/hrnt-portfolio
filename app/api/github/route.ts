@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
+export const revalidate = 3600;
+
 export async function GET(request: Request) {
     const ip = getClientIp(request);
     const { allowed, retryAfter } = checkRateLimit(ip);

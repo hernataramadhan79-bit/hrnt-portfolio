@@ -70,8 +70,9 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center h-full relative">
           {/* Brand */}
           <div className="flex-1 flex justify-start items-center z-20">
-            <button
-              onClick={() => scrollToSection('home', 'home')}
+            <a
+              href="#home"
+              onClick={(e) => { e.preventDefault(); scrollToSection('home', 'home'); }}
               className="flex items-center group pointer-events-auto"
               aria-label="Go to home"
             >
@@ -79,7 +80,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                 HRNT
               </span>
               <div className="w-2.5 h-2.5 md:w-3 md:h-3 border-2 border-cyan-400 bg-transparent rotate-45 ml-2 md:ml-3 shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-all duration-500 group-hover:bg-cyan-400 group-hover:scale-110" />
-            </button>
+            </a>
           </div>
 
           {/* Desktop Navigation */}
@@ -87,9 +88,10 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
             {navItems.filter(item => item.id !== 'forum').map((item) => {
               const isActive = activeTab === item.id;
               return (
-                <button
+                <a
                   key={item.id}
-                  onClick={() => scrollToSection(item.id, item.sectionId)}
+                  href={`#${item.sectionId}`}
+                  onClick={(e) => { e.preventDefault(); scrollToSection(item.id, item.sectionId); }}
                   className={`group relative px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 whitespace-nowrap pointer-events-auto ${isActive ? 'text-white' : 'text-slate-500 hover:text-slate-200'
                     }`}
                   aria-current={isActive ? 'page' : undefined}
@@ -106,15 +108,16 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                     />
                   )}
                   <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-300 rounded-md -z-10" />
-                </button>
+                </a>
               );
             })}
           </nav>
 
           {/* Right Side */}
           <div className="flex-1 flex justify-end items-center z-20 gap-2 md:gap-4">
-            <button
-              onClick={() => scrollToSection('forum', 'forum')}
+            <a
+              href="#forum"
+              onClick={(e) => { e.preventDefault(); scrollToSection('forum', 'forum'); }}
               className={`flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 pointer-events-auto group ${activeTab === 'forum'
                 ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.6)]'
                 : 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]'
@@ -125,7 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
               <MessageSquare size={12} className={`transition-colors block md:hidden ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
               <span className="hidden md:block">Forum</span>
               <span className="block md:hidden">Forum</span>
-            </button>
+            </a>
 
             {/* Mobile Menu Trigger */}
             <button
@@ -177,12 +180,13 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                 {navItems.map((item, index) => {
                   const isActive = activeTab === item.id;
                   return (
-                    <motion.button
+                    <motion.a
                       key={item.id}
+                      href={`#${item.sectionId}`}
                       initial={{ opacity: 0, x: -30 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                      onClick={() => scrollToSection(item.id, item.sectionId)}
+                      onClick={(e) => { e.preventDefault(); scrollToSection(item.id, item.sectionId); }}
                       className="group flex flex-col py-4 sm:py-6 relative"
                       aria-current={isActive ? 'page' : undefined}
                     >
@@ -194,14 +198,14 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                         </span>
                       </div>
                       <div className={`mt-2 h-0.5 bg-cyan-500/20 transition-all duration-500 ${isActive ? 'w-full' : 'w-0 group-hover:w-1/4'}`} />
-                    </motion.button>
+                    </motion.a>
                   );
                 })}
               </nav>
 
               <div className="mt-auto space-y-4">
                 <div className="h-px bg-white/5" />
-                <div className="flex items-center justify-between group cursor-pointer" onClick={() => scrollToSection('contact', 'contact')}>
+                <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact', 'contact'); }} className="flex items-center justify-between group cursor-pointer">
                   <div className="flex flex-col">
                     <span className="text-white font-bold text-lg uppercase tracking-tight">Got a project?</span>
                     <span className="text-slate-500 text-xs">Let's create something meaningful</span>
@@ -209,7 +213,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                   <div className="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center group-hover:bg-cyan-400 group-hover:rotate-45 transition-all duration-500 shadow-xl">
                     <ArrowRight size={24} />
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </motion.div>
