@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import Lenis from 'lenis';
 import Navbar from '@/components/Navbar';
-import SplashScreen from '@/components/SplashScreen';
 import { useState } from 'react';
 
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
@@ -74,7 +73,6 @@ const sectionFallback = (
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('home');
-  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -92,8 +90,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (showSplash) return;
-
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -116,11 +112,7 @@ export default function Home() {
       cancelAnimationFrame(rafId);
       resizeObserver.disconnect();
     };
-  }, [showSplash]);
-
-  if (showSplash) {
-    return <SplashScreen onComplete={() => setShowSplash(false)} />;
-  }
+  }, []);
 
   return (
     <>
