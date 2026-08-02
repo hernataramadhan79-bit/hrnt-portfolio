@@ -52,12 +52,53 @@ export async function GET(request: Request) {
             console.error('GitHub repos fetch failed:', e);
         }
 
+        const from = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString();
+        const to = new Date().toISOString();
+
         try {
-            const contribRes = await fetch(`https://github-contributions-api.deno.dev/${username}.json`, {
+            const contribRes = await fetch('https://api.github.com/graphql', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'Portfolio-App'
+                },
+                body: JSON.stringify({
+                    query: `query ($login: String!, $from: DateTime!, $to: DateTime!) {
+                        user(login: $login) {
+                            contributionsCollection(from: $from, to: $to) {
+                                contributionCalendar {
+                                    totalContributions
+                                    weeks {
+                                        contributionDays {
+                                            date
+                                            contributionCount
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }`,
+                    variables: { login: username, from, to }
+                }),
                 signal: controller.signal,
                 next: { revalidate: 3600 }
             });
-            if (contribRes.ok) contribData = await contribRes.json();
+            if (contribRes.ok) {
+                const contribJson = await contribRes.json();
+                const calendar = contribJson?.data?.user?.contributionsCollection?.contributionCalendar;
+                if (calendar) {
+                    contribData = {
+                        totalContributions: calendar.totalContributions || 0,
+                        contributions: (calendar.weeks || []).map((week: any) =>
+                            (week.contributionDays || []).map((day: any) => ({
+                                date: day.date,
+                                count: day.contributionCount || 0
+                            }))
+                        )
+                    };
+                }
+            }
         } catch (e) {
             console.error('GitHub contributions fetch failed:', e);
         }
@@ -94,7 +135,7 @@ export async function GET(request: Request) {
             profile: {
                 repos: userData.public_repos || 0,
                 followers: userData.followers || 0,
-                totalContributions: contribData?.totalContributions || contribData?.total || 116,
+                totalContributions: contribData?.totalContributions || 0,
                 stars: totalStars,
             },
             topRepos,
