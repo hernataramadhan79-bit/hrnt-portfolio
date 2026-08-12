@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative z-10 min-h-[calc(100vh-6rem)] flex flex-col justify-center w-full py-12 md:py-20 px-4 sm:px-6 overflow-hidden">
+    <section id="contact" className="relative z-10 min-h-[calc(100dvh-5rem)] md:min-h-[calc(100vh-6rem)] flex flex-col justify-center w-full py-12 md:py-20 px-4 sm:px-6 overflow-hidden">
       {/* Full-bleed Ambient Background Gradient (Smooth & Seamless) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         {/* Soft radial gradient spanning full section */}

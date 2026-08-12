@@ -140,7 +140,7 @@ const Skills: React.FC = () => {
   const outerRadius = isMobile ? 180 : isTablet ? 210 : 260;
 
   return (
-    <section ref={sectionRef} id="skills" className="relative z-10 min-h-[calc(100vh-5rem)] flex flex-col justify-center overflow-hidden py-12 lg:py-16">
+    <section ref={sectionRef} id="skills" className="relative z-10 min-h-[calc(100dvh-5rem)] md:min-h-[calc(100vh-5rem)] flex flex-col justify-center overflow-hidden py-12 lg:py-16">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.03)_0%,transparent_70%)]" />
       </div>
