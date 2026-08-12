@@ -137,7 +137,7 @@ export default function Home() {
         <Background />
         <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
         <Suspense fallback={sectionFallback}>
-          <main id="main-content" className="relative z-10 w-full overflow-hidden min-h-screen pt-20 md:pt-24">
+          <main id="main-content" className="relative z-10 w-full overflow-x-clip min-h-screen pt-20 md:pt-24">
             {activeTab === 'home' && (
               <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
                 <SectionErrorBoundary>

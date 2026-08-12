@@ -130,11 +130,6 @@ body {
     }
 }
 
-/* Content visibility — browser skips paint for off-screen sections */
-section {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 700px;
-}
 
 /* Prevent cursor component interference with orbit tooltips */
 .no-cursor {
