@@ -86,24 +86,24 @@ const Background: React.FC = () => {
 
       // 1. Rich dark space radial base gradient
       const bg = ctx.createRadialGradient(W / 2, H * 0.4, 0, W / 2, H * 0.4, Math.max(W, H) * 0.85);
-      bg.addColorStop(0, '#0f172a');   // Rich dark slate indigo center
-      bg.addColorStop(0.5, '#0b0f19'); // Deep space dark blue
+      bg.addColorStop(0, '#151c38');   // Rich dark slate indigo center
+      bg.addColorStop(0.4, '#0d1326'); // Deep space dark blue
       bg.addColorStop(1, '#020617');   // Dark slate navy edges
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, W, H);
 
       // 2. Cyan Nebula Glow (Top Left)
-      const cyanGlow = ctx.createRadialGradient(W * 0.25, H * 0.25, 0, W * 0.25, H * 0.25, W * 0.6);
-      cyanGlow.addColorStop(0, 'rgba(34, 211, 238, 0.12)');
-      cyanGlow.addColorStop(0.5, 'rgba(34, 211, 238, 0.04)');
+      const cyanGlow = ctx.createRadialGradient(W * 0.25, H * 0.25, 0, W * 0.25, H * 0.25, W * 0.65);
+      cyanGlow.addColorStop(0, 'rgba(34, 211, 238, 0.22)');
+      cyanGlow.addColorStop(0.4, 'rgba(34, 211, 238, 0.08)');
       cyanGlow.addColorStop(1, 'transparent');
       ctx.fillStyle = cyanGlow;
       ctx.fillRect(0, 0, W, H);
 
       // 3. Purple Nebula Glow (Bottom Right)
-      const purpleGlow = ctx.createRadialGradient(W * 0.8, H * 0.75, 0, W * 0.8, H * 0.75, W * 0.6);
-      purpleGlow.addColorStop(0, 'rgba(168, 85, 247, 0.10)');
-      purpleGlow.addColorStop(0.5, 'rgba(168, 85, 247, 0.03)');
+      const purpleGlow = ctx.createRadialGradient(W * 0.75, H * 0.7, 0, W * 0.75, H * 0.7, W * 0.65);
+      purpleGlow.addColorStop(0, 'rgba(168, 85, 247, 0.18)');
+      purpleGlow.addColorStop(0.4, 'rgba(168, 85, 247, 0.06)');
       purpleGlow.addColorStop(1, 'transparent');
       ctx.fillStyle = purpleGlow;
       ctx.fillRect(0, 0, W, H);
