@@ -18,11 +18,18 @@ function mulberry32(seed: number) {
 interface Star {
   x: number; y: number;
   r: number; opacity: number; speed: number;
-  color: string;
 }
 
 /**
- * Background — High-Performance Canvas background with rich dark space nebula gradient.
+ * Background — Performance-optimised version.
+ *
+ * Changes vs. previous implementation:
+ * - 300 individual DOM <div> stars replaced by a single <canvas> (1 GPU composite layer)
+ * - Removed h-[1000%] parallax containers (no more 10× viewport memory allocation)
+ * - Removed scale animation on oversized element (was causing constant GPU repaint)
+ * - Removed SVG feTurbulence noise (was expensive & tiled full-screen)
+ * - Parallax now runs entirely on canvas — zero DOM reflows
+ * - Canvas renders only when tab is visible (Page Visibility API)
  */
 const Background: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -35,39 +42,35 @@ const Background: React.FC = () => {
 
     const rng = mulberry32(42);
 
-    const colors = [
-      'rgba(255, 255, 255,',     // White
-      'rgba(165, 243, 252,',     // Cyan-200
-      'rgba(147, 197, 253,',     // Blue-300
-      'rgba(192, 132, 252,',     // Purple-300
-    ];
-
     // Build star data once — 200 stars total across 3 virtual layers
     const stars: Star[] = Array.from({ length: 200 }, (_, i) => ({
-      x: rng(),
-      y: rng(),
-      r: rng() * 1.6 + 0.4,
-      opacity: rng() * 0.55 + 0.15,
-      speed: i < 100 ? 0.04 : i < 160 ? 0.02 : 0.01,
-      color: colors[Math.floor(rng() * colors.length)],
+      x: rng(),           // normalised [0,1]
+      y: rng(),           // normalised [0,1]
+      r: rng() * 1.5 + 0.3,
+      opacity: rng() * 0.5 + 0.1,
+      speed: i < 100 ? 0.04 : i < 160 ? 0.02 : 0.01,  // parallax depth tiers
     }));
 
     let scrollY = 0;
     let rafId: number;
     let isVisible = true;
 
+    // Track scroll without triggering layout
     const onScroll = () => { scrollY = window.scrollY; };
     window.addEventListener('scroll', onScroll, { passive: true });
 
+    // Pause rendering when tab is hidden — major battery/GPU saver
     const onVisibility = () => { isVisible = document.visibilityState === 'visible'; };
     document.addEventListener('visibilitychange', onVisibility);
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
-      canvas.width  = window.innerWidth  * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width  = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
+      const w = window.innerWidth;
+      const h = Math.max(window.innerHeight, document.documentElement.clientHeight);
+      canvas.width  = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width  = `${w}px`;
+      canvas.style.height = `${h}px`;
       ctx.scale(dpr, dpr);
     };
 
@@ -84,40 +87,30 @@ const Background: React.FC = () => {
 
       ctx.clearRect(0, 0, W, H);
 
-      // 1. Rich dark space radial base gradient
-      const bg = ctx.createRadialGradient(W / 2, H * 0.4, 0, W / 2, H * 0.4, Math.max(W, H) * 0.85);
-      bg.addColorStop(0, '#151c38');   // Rich dark slate indigo center
-      bg.addColorStop(0.4, '#0d1326'); // Deep space dark blue
-      bg.addColorStop(1, '#020617');   // Dark slate navy edges
+      // Dark radial base gradient — drawn once per frame (cheap, replaces complex DOM layers)
+      const bg = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.8);
+      bg.addColorStop(0, '#0f0c29');
+      bg.addColorStop(1, '#020205');
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, W, H);
 
-      // 2. Cyan Nebula Glow (Top Left)
-      const cyanGlow = ctx.createRadialGradient(W * 0.25, H * 0.25, 0, W * 0.25, H * 0.25, W * 0.65);
-      cyanGlow.addColorStop(0, 'rgba(34, 211, 238, 0.22)');
-      cyanGlow.addColorStop(0.4, 'rgba(34, 211, 238, 0.08)');
-      cyanGlow.addColorStop(1, 'transparent');
-      ctx.fillStyle = cyanGlow;
+      // Subtle cyan glow in top-left — replaces the animated oversized motion.div
+      const glow = ctx.createRadialGradient(W * 0.3, H * 0.3, 0, W * 0.3, H * 0.3, W * 0.5);
+      glow.addColorStop(0, 'rgba(34,211,238,0.06)');
+      glow.addColorStop(1, 'transparent');
+      ctx.fillStyle = glow;
       ctx.fillRect(0, 0, W, H);
 
-      // 3. Purple Nebula Glow (Bottom Right)
-      const purpleGlow = ctx.createRadialGradient(W * 0.75, H * 0.7, 0, W * 0.75, H * 0.7, W * 0.65);
-      purpleGlow.addColorStop(0, 'rgba(168, 85, 247, 0.18)');
-      purpleGlow.addColorStop(0.4, 'rgba(168, 85, 247, 0.06)');
-      purpleGlow.addColorStop(1, 'transparent');
-      ctx.fillStyle = purpleGlow;
-      ctx.fillRect(0, 0, W, H);
-
-      // 4. Multi-colored parallax stars
+      // Stars — parallax offset based on scroll
       stars.forEach(star => {
         const parallaxOffset = (scrollY * star.speed) % H;
         const sx = star.x * W;
         const sy = ((star.y * H * 10 - parallaxOffset) % (H * 10) + H * 10) % (H * 10);
-        if (sy < 0 || sy > H) return;
+        if (sy < 0 || sy > H) return; // skip off-screen
 
         ctx.beginPath();
         ctx.arc(sx, sy, star.r, 0, Math.PI * 2);
-        ctx.fillStyle = `${star.color}${star.opacity})`;
+        ctx.fillStyle = `rgba(255,255,255,${star.opacity})`;
         ctx.fill();
       });
     };
@@ -133,12 +126,15 @@ const Background: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#020617]">
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#020205]">
+      {/* Single canvas layer replaces 300 DOM star divs + 3 motion.div layers */}
       <canvas
         ref={canvasRef}
         aria-hidden="true"
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       />
+
+      {/* CSS-only shooting stars — no JavaScript, no framer-motion, 0 extra JS bundle */}
       <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
         <span className="shooting-star shooting-star--1" />
         <span className="shooting-star shooting-star--2" />

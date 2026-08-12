@@ -96,8 +96,8 @@ const Performance: React.FC = () => {
     if (!mounted) return null;
 
     return (
-        <section id="performance" className="relative z-10 py-16 px-4 sm:px-6">
-            <div className="max-w-7xl mx-auto">
+        <section id="performance" className="relative z-10 min-h-[calc(100dvh-5rem)] flex flex-col justify-center w-full py-16 px-4 sm:px-6">
+            <div className="max-w-7xl mx-auto w-full">
 
                 <div className="relative mb-12 text-center">
                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>

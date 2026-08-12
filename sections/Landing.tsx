@@ -120,7 +120,7 @@ const Landing: React.FC = () => {
     const allTags = [...detailedSkills.frontend, ...detailedSkills.backend].flatMap(d => d.tags);
 
     return (
-        <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-[calc(100dvh-5rem)] md:min-h-[calc(100vh-6rem)] lg:h-[calc(100vh-6rem)] py-8 px-4 sm:px-6">
+        <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-[calc(100dvh-5rem)] lg:min-h-[calc(100vh-6rem)] py-8 px-4 sm:px-6">
             {/* Unified Backdrop */}
             <div className="absolute inset-0 pointer-events-none opacity-30 overflow-visible">
                 <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-cyan-700/10 rounded-full blur-[140px]" />

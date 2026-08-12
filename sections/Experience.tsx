@@ -22,7 +22,7 @@ const Experience: React.FC = () => {
     });
 
     return (
-        <section id="experience" className="relative z-10 min-h-[calc(100dvh-5rem)] md:min-h-[calc(100vh-6rem)] flex flex-col justify-center w-full py-20 px-4 sm:px-6 overflow-visible">
+        <section id="experience" className="relative z-10 min-h-[calc(100dvh-5rem)] flex flex-col justify-center w-full py-20 px-4 sm:px-6 overflow-visible">
             {/* Ambient Background Glows */}
             <div className="absolute top-1/4 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
             <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-[140px] pointer-events-none" />
