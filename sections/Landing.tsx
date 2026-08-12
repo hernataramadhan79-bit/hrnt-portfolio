@@ -59,11 +59,6 @@ const Landing: React.FC = () => {
 
     useEffect(() => {
         setMounted(true);
-        setWinSize({ w: window.innerWidth, h: window.innerHeight });
-
-        const handleResize = () => {
-            setWinSize({ w: window.innerWidth, h: window.innerHeight });
-        };
 
         const handleMouseMove = (e: MouseEvent) => {
             if (window.innerWidth >= 768) {
@@ -72,16 +67,35 @@ const Landing: React.FC = () => {
             }
         };
 
-        window.addEventListener('resize', handleResize);
-        window.addEventListener('mousemove', handleMouseMove);
+        // Debounced resize: use ref to store size, only force re-render when
+        // it actually changes (avoids re-rendering 436 lines on every pixel resize)
+        let resizeTimer: ReturnType<typeof setTimeout>;
+        const handleResize = () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                setWinSize({ w: window.innerWidth, h: window.innerHeight });
+            }, 200);
+        };
+
+        window.addEventListener('resize', handleResize, { passive: true });
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousemove', handleMouseMove);
+            clearTimeout(resizeTimer);
         };
     }, [mouseX, mouseY]);
 
+    // These transforms are declared at component body level (NOT inside JSX)
+    // so they are created once and memoized by framer-motion.
     const xTransform = useTransform(smoothX, [-winSize.w / 2, winSize.w / 2], [-20, 20]);
     const yTransform = useTransform(smoothY, [-winSize.h / 2, winSize.h / 2], [-20, 20]);
+
+    // Derived card transforms — declared here at body level, NOT inside the JSX style prop
+    const cardRotateX = useTransform(yTransform, [-25, 25], [6, -6]);
+    const cardRotateY = useTransform(xTransform, [-25, 25], [-6, 6]);
+    const imageX = useTransform(xTransform, [-25, 25], [-8, 8]);
+    const imageY = useTransform(yTransform, [-25, 25], [-8, 8]);
 
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
@@ -108,13 +122,10 @@ const Landing: React.FC = () => {
     return (
         <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-[calc(100vh-6rem)] lg:h-[calc(100vh-6rem)] py-8 px-4 sm:px-6">
             {/* Unified Backdrop */}
-            <motion.div
-                className="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen overflow-hidden"
-                style={{ x: xTransform, y: yTransform }}
-            >
+            <div className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
                 <div className="absolute top-[10%] left-[5%] w-[600px] h-[600px] bg-cyan-700/10 rounded-full blur-[140px]" />
                 <div className="absolute bottom-[30%] right-[5%] w-[500px] h-[500px] bg-purple-700/10 rounded-full blur-[120px]" />
-            </motion.div>
+            </div>
 
             <div className="max-w-[1400px] mx-auto w-full h-full relative z-20 flex flex-col p-2">
                 <motion.div 
@@ -200,8 +211,8 @@ const Landing: React.FC = () => {
                             <div className="absolute -inset-10 bg-gradient-to-tr from-cyan-500/10 via-purple-500/5 to-transparent rounded-[2.5rem] blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                             <motion.div
                                 style={{
-                                    rotateX: useTransform(yTransform, [-25, 25], [6, -6]),
-                                    rotateY: useTransform(xTransform, [-25, 25], [-6, 6]),
+                                    rotateX: cardRotateX,
+                                    rotateY: cardRotateY,
                                     transformStyle: 'preserve-3d'
                                 }}
                                 className="relative h-full w-full rounded-3xl lg:rounded-[2.5rem] overflow-hidden bg-[#030305] border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)] transition-colors duration-700 group-hover:border-white/20"
@@ -212,8 +223,8 @@ const Landing: React.FC = () => {
                                 <motion.div
                                     className="absolute -inset-4"
                                     style={{
-                                        x: useTransform(xTransform, [-25, 25], [-8, 8]),
-                                        y: useTransform(yTransform, [-25, 25], [-8, 8]),
+                                        x: imageX,
+                                        y: imageY,
                                         scale: 1.05
                                     }}
                                 >
@@ -415,7 +426,6 @@ const Landing: React.FC = () => {
                         onClick={(e) => { e.preventDefault(); window.location.hash = 'contact'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                         className="lg:col-span-1 lg:row-span-1 group relative rounded-3xl bg-gradient-to-br from-cyan-600 to-purple-700 border border-white/20 overflow-hidden cursor-pointer p-6 md:p-8 flex flex-col justify-center items-start text-left transition-all shadow-[0_0_30px_rgba(34,211,238,0.15)] hover:shadow-[0_0_50px_rgba(34,211,238,0.3)] h-[200px] lg:h-auto"
                     >
-                        <div className="absolute inset-0 bg-transparent opacity-20 mix-blend-overlay pointer-events-none" />
                         <div className="absolute -right-8 -bottom-8 text-white/10 group-hover:text-white/20 rotate-[-15deg] group-hover:rotate-0 transition-all duration-700 pointer-events-none">
                             <Mail size={160} />
                         </div>

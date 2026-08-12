@@ -41,6 +41,106 @@ body {
 
 /* Modal visibility handled by Framer Motion in Navbar.tsx */
 
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+/* =====================================================
+   CSS-only shooting stars — replaces framer-motion ShootingStars.
+   Zero JavaScript, zero extra bundle cost.
+   ===================================================== */
+@keyframes shoot {
+    0%   { transform: translate(0, 0) rotate(-45deg); opacity: 0; }
+    5%   { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translate(-600px, 600px) rotate(-45deg); opacity: 0; }
+}
+
+.shooting-star {
+    position: absolute;
+    width: 150px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
+    border-radius: 9999px;
+    animation: shoot linear infinite;
+    will-change: transform, opacity;
+}
+
+.shooting-star--1 {
+    top: 5%;  left: 95%;
+    animation-duration: 1.2s;
+    animation-delay: 5s;
+    animation-iteration-count: infinite;
+    animation-delay: 0s;
+    animation-duration: 1.2s;
+    animation-timing-function: linear;
+    /* Use custom delay via animation-delay trick */
+    background: linear-gradient(90deg, rgba(34,211,238,0.9), transparent);
+}
+
+.shooting-star--2 {
+    top: 20%; left: 85%;
+    background: linear-gradient(90deg, rgba(192,132,252,0.9), transparent);
+    animation-duration: 2s;
+    animation-delay: 12s;
+}
+
+.shooting-star--3 {
+    top: 45%; left: 98%;
+    background: linear-gradient(90deg, rgba(236,72,153,0.9), transparent);
+    animation-duration: 1.5s;
+    animation-delay: 25s;
+}
+
+.animate-marquee {
+    animation: marquee 40s linear infinite;
+    will-change: transform;
+}
+
+/* =====================================================
+   Orbit CSS animations — replaces 18+ framer-motion
+   rotate-Infinity animations in Skills.tsx.
+   Runs on the compositor thread, zero JS overhead.
+   ===================================================== */
+@keyframes orbit-cw {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+@keyframes orbit-ccw {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-360deg); }
+}
+
+.orbit-spin-cw {
+    animation: orbit-cw linear infinite;
+    /* duration and play-state set via inline style per-element */
+}
+
+.orbit-spin-ccw {
+    animation: orbit-ccw linear infinite;
+}
+
+/* Pause orbits when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .orbit-spin-cw,
+    .orbit-spin-ccw {
+        animation: none !important;
+    }
+}
+
+/* Content visibility — browser skips paint for off-screen sections */
+section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 700px;
+}
+
+/* Prevent cursor component interference with orbit tooltips */
+.no-cursor {
+    cursor: none;
+}
+
 @keyframes dash {
     from {
         stroke-dashoffset: 100;

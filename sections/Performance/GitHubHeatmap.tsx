@@ -22,12 +22,18 @@ const GitHubHeatmap: React.FC<GitHubHeatmapProps> = ({
     useEffect(() => {
         const el = scrollRef.current;
         if (!el) return;
+
+        // Use pointer-based horizontal scroll — no preventDefault needed,
+        // so we can use passive: true which lets the browser keep its scroll optimizations.
+        // The wheel event now simply maps deltaY to scrollLeft without blocking.
         const handler = (e: WheelEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-            el.scrollLeft += e.deltaY;
+            // Only intercept horizontal scroll if the container itself is scrollable
+            if (el.scrollWidth > el.clientWidth) {
+                el.scrollLeft += e.deltaY;
+                // Do NOT call e.preventDefault() — this allows passive: true
+            }
         };
-        el.addEventListener('wheel', handler, { passive: false });
+        el.addEventListener('wheel', handler, { passive: true });
         return () => el.removeEventListener('wheel', handler);
     }, []);
 
@@ -132,7 +138,7 @@ const GitHubHeatmap: React.FC<GitHubHeatmapProps> = ({
                                     const count = day?.count || day?.contributionCount || 0;
                                     const date = day?.date ? new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No Data';
                                     return (
-                                        <motion.div
+                                        <div
                                             key={j}
                                             onMouseEnter={() => { if (count > 0) setHoveredDay({ count, date }); }}
                                             onMouseLeave={() => { if (count > 0) setHoveredDay(null); }}

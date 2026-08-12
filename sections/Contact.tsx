@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, Twitter, Send, Instagram } from 'lucide-react';
 import { WEB3FORMS_ACCESS_KEY } from '../constants';
 
@@ -11,18 +11,8 @@ const Contact: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
 
-  // Setup motion values for the spotlight effect matching the Skills section
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const handleMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  };
-
-  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(255,255,255,0.1), transparent 80%)`;
-  const borderLight = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, rgba(34,211,238,0.5), transparent 80%)`;
+  // Removed: useMotionValue + useMotionTemplate spotlight (was updating 2 radial-gradients
+  // on every mousemove — major GPU bottleneck). Replaced with CSS hover transition.
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,8 +56,8 @@ const Contact: React.FC = () => {
       <div className="max-w-7xl mx-auto relative">
 
         {/* Background blobs */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[80px] pointer-events-none mix-blend-screen" />
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[80px] pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
@@ -132,29 +122,15 @@ const Contact: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* --- RIGHT: 3D Form / Skills Themed --- */}
-          <div className="relative perspective-1000">
+          {/* --- RIGHT: Contact Form --- */}
+          <div className="relative">
             <div
-              onMouseMove={handleMouseMove}
-              className="group relative rounded-[3.5rem] bg-[#050508] border border-white/5 transition-all duration-500 hover:shadow-2xl overflow-hidden shadow-2xl"
+              className="group relative rounded-[3.5rem] bg-[#050508] border border-white/5 hover:border-cyan-500/20 transition-all duration-500 hover:shadow-[0_0_60px_rgba(34,211,238,0.08)] overflow-hidden shadow-2xl"
             >
-              <motion.div
-                className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
-                style={{ background: borderLight }}
-              />
+              {/* CSS-only border glow on hover — replaces useMotionTemplate borderLight */}
+              <div className="absolute inset-0 rounded-[3.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" style={{ boxShadow: 'inset 0 0 60px rgba(34,211,238,0.06)' }} />
 
               <div className="relative h-full bg-[#050508] rounded-[3.4rem] overflow-hidden m-[1px] p-6 md:p-10 z-20">
-                <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-md"
-                  style={{ background: spotlight }}
-                />
-
-                <div className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'repeat'
-                  }}
-                />
 
                 {/* Background Grid */}
                 <div

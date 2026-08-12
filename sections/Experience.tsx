@@ -130,7 +130,7 @@ const Experience: React.FC = () => {
                                     >
                                         {/* Connector Node - Desktop */}
                                         <div className="absolute left-1/2 top-8 w-4 h-4 rounded-full bg-[#050508] border-2 border-cyan-400 -translate-x-1/2 z-20 hidden md:flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.5)]">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                                         </div>
 
                                         {/* Connector Node - Mobile */}
@@ -140,7 +140,7 @@ const Experience: React.FC = () => {
 
                                         {/* Card Content Container */}
                                         <div className="w-full md:w-[46%]">
-                                            <div className="group relative p-6 rounded-2xl bg-[#08080c]/80 backdrop-blur-xl border border-white/10 hover:border-cyan-500/40 transition-all duration-500 hover:shadow-[0_0_35px_rgba(34,211,238,0.08)] overflow-hidden h-full flex flex-col justify-between">
+                                            <div className="group relative p-6 rounded-2xl bg-[#08080c]/95 border border-white/10 hover:border-cyan-500/40 transition-all duration-500 hover:shadow-[0_0_35px_rgba(34,211,238,0.08)] overflow-hidden h-full flex flex-col justify-between">
                                                 {/* Ambient top-right light accent */}
                                                 <div
                                                     className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl ${

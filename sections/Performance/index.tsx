@@ -256,6 +256,7 @@ const Performance: React.FC = () => {
                                                 key={lang.name}
                                                 initial={{ width: 0 }}
                                                 whileInView={{ width: `${lang.percent}%` }}
+                                                viewport={{ once: true }}
                                                 transition={{ duration: 0.8, delay: i * 0.05 }}
                                                 style={{ backgroundColor: lang.color || '#a855f7' }}
                                                 className="h-full rounded-full transition-all relative group/bar"

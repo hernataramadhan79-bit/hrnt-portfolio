@@ -97,12 +97,23 @@ export default function Home() {
     });
 
     let rafId: number;
+
     function raf(time: number) {
       lenis.raf(time);
       rafId = requestAnimationFrame(raf);
     }
 
+    // Pause Lenis RAF when tab is hidden to save GPU/CPU
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') {
+        cancelAnimationFrame(rafId);
+      } else {
+        rafId = requestAnimationFrame(raf);
+      }
+    };
+
     rafId = requestAnimationFrame(raf);
+    document.addEventListener('visibilitychange', onVisibility);
 
     const resizeObserver = new ResizeObserver(() => lenis.resize());
     resizeObserver.observe(document.body);
@@ -110,6 +121,7 @@ export default function Home() {
     return () => {
       lenis.destroy();
       cancelAnimationFrame(rafId);
+      document.removeEventListener('visibilitychange', onVisibility);
       resizeObserver.disconnect();
     };
   }, []);

@@ -54,17 +54,15 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   return (
     <>
       <motion.header
-        className="navbar fixed top-0 left-0 right-0 z-[100] bg-black/0"
+        className={`navbar fixed top-0 left-0 right-0 z-[100] transition-[background-color,border-color,padding] duration-500 ease-[0.22,1,0.36,1]
+          ${
+            isScrolled
+              ? 'bg-black/70 backdrop-blur-2xl border-b border-white/5 py-5'
+              : 'bg-transparent py-10'
+          }
+        `}
         initial={{ y: -160 }}
-        animate={{
-          y: isVisible ? 0 : -160,
-          backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0)',
-          backdropFilter: isScrolled ? 'blur(24px)' : 'blur(0px)',
-          borderBottomWidth: isScrolled ? '1px' : '0px',
-          borderColor: 'rgba(255, 255, 255, 0.05)',
-          paddingTop: isScrolled ? '1.25rem' : '2.5rem',
-          paddingBottom: isScrolled ? '1.25rem' : '2.5rem'
-        }}
+        animate={{ y: isVisible ? 0 : -160 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center h-full relative">

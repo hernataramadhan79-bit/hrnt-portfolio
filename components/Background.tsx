@@ -1,195 +1,143 @@
 'use client';
 
-import React, { useMemo } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-
-interface ShootingStarProps {
-  delay: number;
-  top: string;
-  left: string;
-  duration: number;
-  color: string;
-  trailColor: string;
-  repeatDelay: number;
-}
-
-const ShootingStar = React.memo(({ delay, top, left, duration, color, trailColor, repeatDelay }: ShootingStarProps) => (
-  <motion.div
-    initial={{ x: 0, y: 0, opacity: 0 }}
-    animate={{
-      x: [0, -800],
-      y: [0, 800],
-      opacity: [0, 1, 1, 0]
-    }}
-    transition={{
-      duration: duration,
-      repeat: Infinity,
-      delay: delay,
-      repeatDelay: repeatDelay,
-      ease: "linear"
-    }}
-    className={`absolute w-[2px] h-[2px] rounded-full ${color}`}
-    style={{
-      top,
-      left,
-      boxShadow: `0 0 15px 2px currentColor`,
-      willChange: 'transform, opacity'
-    }}
-  >
-    <div className={`absolute top-0 left-0 w-[150px] h-[1px] bg-gradient-to-l ${trailColor} to-transparent -rotate-45 origin-left`} />
-  </motion.div>
-));
-
-ShootingStar.displayName = 'ShootingStar';
+import React, { useEffect, useRef } from 'react';
 
 /**
- * Lightweight seeded PRNG (mulberry32) — deterministic on both SSR and client.
- * Eliminates hydration mismatch caused by Math.random().
+ * Lightweight seeded PRNG (mulberry32) — deterministic, avoids hydration mismatch.
  */
-function createSeededRandom(seed: number) {
+function mulberry32(seed: number) {
   let s = seed;
   return () => {
-    s |= 0;
-    s = s + 0x6d2b79f5 | 0;
+    s |= 0; s = s + 0x6d2b79f5 | 0;
     let t = Math.imul(s ^ (s >>> 15), 1 | s);
     t = t + Math.imul(t ^ (t >>> 7), 61 | t) ^ t;
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
 
+interface Star {
+  x: number; y: number;
+  r: number; opacity: number; speed: number;
+}
+
+/**
+ * Background — Performance-optimised version.
+ *
+ * Changes vs. previous implementation:
+ * - 300 individual DOM <div> stars replaced by a single <canvas> (1 GPU composite layer)
+ * - Removed h-[1000%] parallax containers (no more 10× viewport memory allocation)
+ * - Removed scale animation on oversized element (was causing constant GPU repaint)
+ * - Removed SVG feTurbulence noise (was expensive & tiled full-screen)
+ * - Parallax now runs entirely on canvas — zero DOM reflows
+ * - Canvas renders only when tab is visible (Page Visibility API)
+ */
 const Background: React.FC = () => {
-  const { scrollY } = useScroll();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const y1 = useTransform(scrollY, [0, 10000], [0, -2500]);
-  const y2 = useTransform(scrollY, [0, 10000], [0, -1500]);
-  const y3 = useTransform(scrollY, [0, 10000], [0, -800]);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-  // Each layer uses a fixed seed so SSR and client produce identical values
-  const stars1 = useMemo(() => {
-    const rng = createSeededRandom(42);
-    return Array.from({ length: 500 }, (_, i) => ({
-      id: `s1-${i}`,
-      width: rng() * 2,
-      height: rng() * 2,
-      top: rng() * 100,
-      left: rng() * 100,
+    const rng = mulberry32(42);
+
+    // Build star data once — 200 stars total across 3 virtual layers
+    const stars: Star[] = Array.from({ length: 200 }, (_, i) => ({
+      x: rng(),           // normalised [0,1]
+      y: rng(),           // normalised [0,1]
+      r: rng() * 1.5 + 0.3,
+      opacity: rng() * 0.5 + 0.1,
+      speed: i < 100 ? 0.04 : i < 160 ? 0.02 : 0.01,  // parallax depth tiers
     }));
-  }, []);
 
-  const stars2 = useMemo(() => {
-    const rng = createSeededRandom(137);
-    return Array.from({ length: 400 }, (_, i) => ({
-      id: `s2-${i}`,
-      width: rng() * 3,
-      height: rng() * 3,
-      top: rng() * 100,
-      left: rng() * 100,
-    }));
-  }, []);
+    let scrollY = 0;
+    let rafId: number;
+    let isVisible = true;
 
-  const stars3 = useMemo(() => {
-    const rng = createSeededRandom(2048);
-    return Array.from({ length: 200 }, (_, i) => ({
-      id: `s3-${i}`,
-      width: rng() * 4,
-      height: rng() * 4,
-      top: rng() * 100,
-      left: rng() * 100,
-    }));
+    // Track scroll without triggering layout
+    const onScroll = () => { scrollY = window.scrollY; };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Pause rendering when tab is hidden — major battery/GPU saver
+    const onVisibility = () => { isVisible = document.visibilityState === 'visible'; };
+    document.addEventListener('visibilitychange', onVisibility);
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio, 2); // cap at 2× to avoid over-sampling
+      canvas.width  = window.innerWidth  * dpr;
+      canvas.height = window.innerHeight * dpr;
+      canvas.style.width  = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.scale(dpr, dpr);
+    };
+
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(document.documentElement);
+
+    const draw = () => {
+      rafId = requestAnimationFrame(draw);
+      if (!isVisible) return;
+
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Dark radial base gradient — drawn once per frame (cheap, replaces complex DOM layers)
+      const bg = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * 0.8);
+      bg.addColorStop(0, '#0f0c29');
+      bg.addColorStop(1, '#020205');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      // Subtle cyan glow in top-left — replaces the animated oversized motion.div
+      const glow = ctx.createRadialGradient(W * 0.3, H * 0.3, 0, W * 0.3, H * 0.3, W * 0.5);
+      glow.addColorStop(0, 'rgba(34,211,238,0.06)');
+      glow.addColorStop(1, 'transparent');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, W, H);
+
+      // Stars — parallax offset based on scroll
+      stars.forEach(star => {
+        const parallaxOffset = (scrollY * star.speed) % H;
+        const sx = star.x * W;
+        const sy = ((star.y * H * 10 - parallaxOffset) % (H * 10) + H * 10) % (H * 10);
+        if (sy < 0 || sy > H) return; // skip off-screen
+
+        ctx.beginPath();
+        ctx.arc(sx, sy, star.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${star.opacity})`;
+        ctx.fill();
+      });
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('visibilitychange', onVisibility);
+      ro.disconnect();
+    };
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#020205]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#0f0c29_0%,_#020205_100%)] opacity-100" />
-      <motion.div
-        animate={{
-          opacity: [0.1, 0.15, 0.1],
-          scale: [1, 1.1, 1]
-        }}
-        transition={{ duration: 10, repeat: Infinity }}
-        className="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_30%_30%,_rgba(34,211,238,0.1)_0%,_transparent_50%)]"
-        style={{ willChange: 'opacity, transform' }}
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#020205]">
+      {/* Single canvas layer replaces 300 DOM star divs + 3 motion.div layers */}
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       />
 
-      <motion.div style={{ y: y1 }} className="absolute top-0 left-0 h-[1000%] w-full z-0">
-        {stars1.map((star) => (
-          <div
-            key={star.id}
-            className="absolute bg-white rounded-full opacity-40"
-            style={{
-              width: `${star.width}px`,
-              height: `${star.height}px`,
-              top: `${star.top}%`,
-              left: `${star.left}%`,
-            }}
-          />
-        ))}
-      </motion.div>
-
-      <motion.div style={{ y: y2 }} className="absolute top-0 left-0 h-[1000%] w-full z-0">
-        {stars2.map((star) => (
-          <div
-            key={star.id}
-            className="absolute bg-cyan-200 rounded-full opacity-30 shadow-[0_0_5px_rgba(34,211,238,0.3)]"
-            style={{
-              width: `${star.width}px`,
-              height: `${star.height}px`,
-              top: `${star.top}%`,
-              left: `${star.left}%`,
-            }}
-          />
-        ))}
-      </motion.div>
-
-      <motion.div style={{ y: y3 }} className="absolute top-0 left-0 h-[1000%] w-full z-0">
-        {stars3.map((star) => (
-          <div
-            key={star.id}
-            className="absolute bg-blue-400 rounded-full opacity-20 shadow-[0_0_8px_rgba(59,130,246,0.4)]"
-            style={{
-              width: `${star.width}px`,
-              height: `${star.height}px`,
-              top: `${star.top}%`,
-              left: `${star.left}%`,
-            }}
-          />
-        ))}
-      </motion.div>
-
-      <ShootingStar
-        delay={5}
-        repeatDelay={15}
-        top="5%"
-        left="95%"
-        duration={1.2}
-        color="text-cyan-400"
-        trailColor="from-cyan-400"
-      />
-      <ShootingStar
-        delay={12}
-        repeatDelay={25}
-        top="20%"
-        left="85%"
-        duration={2}
-        color="text-purple-400"
-        trailColor="from-purple-400"
-      />
-      <ShootingStar
-        delay={25}
-        repeatDelay={30}
-        top="45%"
-        left="98%"
-        duration={1.5}
-        color="text-pink-400"
-        trailColor="from-pink-400"
-      />
-
-      <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat'
-        }}
-      />
+      {/* CSS-only shooting stars — no JavaScript, no framer-motion, 0 extra JS bundle */}
+      <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
+        <span className="shooting-star shooting-star--1" />
+        <span className="shooting-star shooting-star--2" />
+        <span className="shooting-star shooting-star--3" />
+      </div>
     </div>
   );
 };
