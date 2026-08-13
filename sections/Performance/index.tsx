@@ -96,10 +96,10 @@ const Performance: React.FC = () => {
     if (!mounted) return null;
 
     return (
-        <section id="performance" className="relative z-10 min-h-[calc(100dvh-5rem)] flex flex-col justify-center w-full py-16 px-4 sm:px-6">
-            <div className="max-w-7xl mx-auto w-full">
+        <section id="performance" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center w-full py-8 lg:py-4 px-4 sm:px-6">
+            <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-center">
 
-                <div className="relative mb-12 text-center">
+                <div className="relative mb-6 lg:mb-10 text-center shrink-0">
                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] mb-4 backdrop-blur-sm">
                             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
@@ -111,7 +111,7 @@ const Performance: React.FC = () => {
                     </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 flex-1 min-h-0">
                     {/* GitHub Activity Card */}
                     <MainframeCard
                         title="GitHub Engine"

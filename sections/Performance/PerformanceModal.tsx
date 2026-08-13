@@ -22,7 +22,7 @@ const PerformanceModal: React.FC<PerformanceModalProps> = ({ selectedStat, setSe
     return (
         <AnimatePresence>
             {selectedStat && (
-                <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="perf-modal-title">
+                <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="perf-modal-title">
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -32,14 +32,14 @@ const PerformanceModal: React.FC<PerformanceModalProps> = ({ selectedStat, setSe
                     />
 
                     <motion.div
-                        className="relative w-full max-w-lg md:max-w-2xl max-h-[85vh] bg-[#050508] border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl z-10 pointer-events-auto flex flex-col"
+                        className="relative w-full max-w-lg md:max-w-2xl max-h-[90dvh] lg:max-h-[85vh] bg-[#050508] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl z-10 pointer-events-auto flex flex-col my-auto"
                         initial={{ scale: 0.95, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.95, opacity: 0, y: 20 }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="shrink-0 p-6 border-b border-white/5 flex items-center justify-between">
+                        <div className="shrink-0 p-5 md:p-6 border-b border-white/5 flex items-center justify-between">
                             <div>
                                 <div className="flex items-center gap-2 mb-1">
                                     <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
@@ -59,7 +59,7 @@ const PerformanceModal: React.FC<PerformanceModalProps> = ({ selectedStat, setSe
                             </button>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 space-y-6">
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-5 md:p-6 space-y-5 md:space-y-6">
                             {selectedStat === 'github' && (
                                 <div className="space-y-6">
                                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -183,10 +183,10 @@ const PerformanceModal: React.FC<PerformanceModalProps> = ({ selectedStat, setSe
                             )}
                         </div>
 
-                        <div className="shrink-0 p-6 border-t border-white/5 bg-black/40 flex justify-center">
+                        <div className="shrink-0 p-4 md:p-6 border-t border-white/5 bg-black/40 flex justify-center">
                             <button
                                 onClick={() => setSelectedStat(null)}
-                                className="px-8 py-2.5 bg-white text-black font-black rounded-xl hover:bg-cyan-400 transition-all uppercase text-[9px] tracking-widest cursor-pointer"
+                                className="px-8 py-2 md:py-2.5 bg-white text-black font-black rounded-xl hover:bg-cyan-400 transition-all uppercase text-[9px] md:text-[10px] tracking-widest cursor-pointer"
                             >
                                 Return to Telemetry
                             </button>

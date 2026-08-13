@@ -52,18 +52,18 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative z-10 min-h-[calc(100dvh-5rem)] flex flex-col justify-center w-full py-12 md:py-20 px-4 sm:px-6 overflow-hidden">
+    <section id="contact" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center w-full py-6 lg:py-4 px-4 sm:px-6 overflow-hidden">
       {/* Full-bleed Ambient Background Gradient (Smooth & Seamless) */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10 rounded-3xl">
         {/* Soft radial gradient spanning full section */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,rgba(34,211,238,0.06)_0%,rgba(168,85,247,0.05)_45%,transparent_100%)]" />
         {/* Centered blur orbs that fade out naturally before section edges */}
-        <div className="absolute top-1/4 right-10 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px]" />
-        <div className="absolute bottom-1/4 left-10 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[20%] right-10 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[10%] left-10 w-[350px] h-[350px] bg-purple-500/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="max-w-7xl mx-auto relative w-full h-full flex flex-col lg:justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center flex-1 min-h-0">
 
           {/* --- LEFT: Info --- */}
           <div className="space-y-8">

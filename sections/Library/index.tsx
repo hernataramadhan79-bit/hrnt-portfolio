@@ -36,10 +36,10 @@ const Library: React.FC = () => {
   if (!mounted) return null;
 
   return (
-    <section id="library" className="relative z-10 min-h-[calc(100dvh-5rem)] flex flex-col justify-center w-full py-12 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto w-full">
+    <section id="library" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center w-full py-6 lg:py-4 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-center">
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 relative z-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 lg:mb-10 gap-4 lg:gap-6 relative z-20 shrink-0">
           <div className="space-y-4 max-w-xl">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] backdrop-blur-sm">
@@ -57,7 +57,7 @@ const Library: React.FC = () => {
           </motion.p>
         </div>
 
-        <div className="flex justify-center sm:justify-start mb-10 w-full">
+        <div className="flex justify-center sm:justify-start mb-6 lg:mb-10 w-full shrink-0">
           <LayoutGroup>
             <nav className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto bg-[#0a0a12]/50 sm:bg-transparent p-1.5 sm:p-0 rounded-xl sm:rounded-none border border-white/5 sm:border-none backdrop-blur-sm" role="tablist" aria-label="Filter library content">
               {[
@@ -103,7 +103,7 @@ const Library: React.FC = () => {
           {filter === 'overview' && (
             <motion.div key="overview" role="tabpanel" id="library-panel-overview"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-1 min-h-0">
               
               {/* Featured Project */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
@@ -179,7 +179,7 @@ const Library: React.FC = () => {
           {filter === 'projects' && (
             <motion.div key="projects" role="tabpanel" id="library-panel-projects"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="flex flex-col gap-2">
+              className="flex flex-col gap-2 flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1">
               {projects.map((project, index) => (
                 <motion.div key={project.id} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }} transition={{ delay: index * 0.05 }}
@@ -228,7 +228,7 @@ const Library: React.FC = () => {
           {filter === 'certificates' && (
             <motion.div key="certificates" role="tabpanel" id="library-panel-certificates"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3">
+              className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3 flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1">
               {certificates.map((cert, index) => (
                 <motion.div key={cert.id} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }} transition={{ delay: index * 0.05 }}
@@ -265,7 +265,7 @@ const Library: React.FC = () => {
           {filter === 'gallery' && (
             <motion.div key="gallery" role="tabpanel" id="library-panel-gallery"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3">
+              className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3 flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1">
               {galleryItems.map((item, index) => (
                 <motion.div key={item.id} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }} transition={{ delay: index * 0.05 }}
