@@ -36,8 +36,8 @@ const Library: React.FC = () => {
   if (!mounted) return null;
 
   return (
-    <section id="library" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center w-full py-6 lg:py-4 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-center">
+    <section id="library" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center lg:justify-start w-full py-6 lg:pt-16 lg:pb-4 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-start">
 
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 lg:mb-10 gap-4 lg:gap-6 relative z-20 shrink-0">
           <div className="space-y-4 max-w-xl">

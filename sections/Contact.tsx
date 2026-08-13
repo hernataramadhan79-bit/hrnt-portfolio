@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center w-full py-6 lg:py-4 px-4 sm:px-6 overflow-hidden">
+    <section id="contact" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center lg:justify-start w-full py-6 lg:pt-20 lg:pb-4 px-4 sm:px-6 overflow-hidden">
       {/* Full-bleed Ambient Background Gradient (Smooth & Seamless) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10 rounded-3xl">
         {/* Soft radial gradient spanning full section */}
@@ -62,7 +62,7 @@ const Contact: React.FC = () => {
         <div className="absolute bottom-[10%] left-10 w-[350px] h-[350px] bg-purple-500/10 rounded-full blur-[100px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative w-full h-full flex flex-col lg:justify-center">
+      <div className="max-w-7xl mx-auto relative w-full h-full flex flex-col lg:justify-start">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center flex-1 min-h-0">
 
           {/* --- LEFT: Info --- */}

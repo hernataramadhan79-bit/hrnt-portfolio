@@ -32,7 +32,7 @@ const PerformanceModal: React.FC<PerformanceModalProps> = ({ selectedStat, setSe
                     />
 
                     <motion.div
-                        className="relative w-full max-w-lg md:max-w-2xl max-h-[90dvh] lg:max-h-[85vh] bg-[#050508] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl z-10 pointer-events-auto flex flex-col my-auto"
+                        className="relative w-full max-w-lg md:max-w-2xl max-h-[90dvh] lg:max-h-[85vh] bg-[#050508] border border-white/10 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-2xl z-10 pointer-events-auto flex flex-col"
                         initial={{ scale: 0.95, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -59,7 +59,7 @@ const PerformanceModal: React.FC<PerformanceModalProps> = ({ selectedStat, setSe
                             </button>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto custom-scrollbar p-5 md:p-6 space-y-5 md:space-y-6">
+                        <div className="shrink overflow-y-auto custom-scrollbar p-5 md:p-6 space-y-5 md:space-y-6">
                             {selectedStat === 'github' && (
                                 <div className="space-y-6">
                                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

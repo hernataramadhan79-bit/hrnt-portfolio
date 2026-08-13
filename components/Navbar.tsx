@@ -54,7 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   return (
     <>
       <motion.header
-        className={`navbar fixed top-0 left-0 right-0 z-[100] transition-[background-color,border-color,padding] duration-500 ease-[0.22,1,0.36,1]
+        className={`navbar fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-[0.22,1,0.36,1]
           ${
             isScrolled
               ? 'bg-black/70 backdrop-blur-2xl border-b border-white/5 py-5'

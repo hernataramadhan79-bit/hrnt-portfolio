@@ -42,6 +42,12 @@ body {
 }
 
 /* Modal visibility handled by Framer Motion in Navbar.tsx */
+body.modal-open .navbar {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-20px) !important;
+}
 
 @keyframes marquee {
     0% { transform: translateX(0%); }
