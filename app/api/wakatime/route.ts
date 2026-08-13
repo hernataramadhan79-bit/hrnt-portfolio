@@ -30,7 +30,7 @@ export async function GET(request: Request) {
     try {
         const allTimeRes = await fetch(
             'https://wakatime.com/api/v1/users/current/all_time_since_today',
-            { headers: authHeader, cache: 'no-store' }
+            { headers: authHeader, next: { revalidate: 3600 } }
         );
 
         const tzOffsetMs = 7 * 60 * 60 * 1000;
@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 
         const summaryRes = await fetch(
             `https://wakatime.com/api/v1/users/current/summaries?start=${startStr}&end=${endStr}&timezone=Asia%2FJakarta`,
-            { headers: authHeader, cache: 'no-store' }
+            { headers: authHeader, next: { revalidate: 3600 } }
         );
 
         const prevEnd = new Date(nowWIB.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
@@ -48,7 +48,7 @@ export async function GET(request: Request) {
 
         const prevRes = await fetch(
             `https://wakatime.com/api/v1/users/current/summaries?start=${prevStart}&end=${prevEnd}&timezone=Asia%2FJakarta`,
-            { headers: authHeader, cache: 'no-store' }
+            { headers: authHeader, next: { revalidate: 3600 } }
         );
 
         let allTimeTotalText = '';
