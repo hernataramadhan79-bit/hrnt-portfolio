@@ -2,7 +2,7 @@
 
 import React, { useEffect, Suspense, Component, ErrorInfo, ReactNode } from 'react';
 import dynamic from 'next/dynamic';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
@@ -54,13 +54,21 @@ class SectionErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 }
 
-const Landing = React.lazy(() => import('@/sections/Landing'));
-const Experience = React.lazy(() => import('@/sections/Experience'));
-const Skills = React.lazy(() => import('@/sections/Skills'));
-const Performance = React.lazy(() => import('@/sections/Performance'));
-const Library = React.lazy(() => import('@/sections/Library'));
-const Contact = React.lazy(() => import('@/sections/Contact'));
-const Forum = React.lazy(() => import('@/sections/Forum'));
+const loadLanding = () => import('@/sections/Landing');
+const loadExperience = () => import('@/sections/Experience');
+const loadSkills = () => import('@/sections/Skills');
+const loadPerformance = () => import('@/sections/Performance');
+const loadLibrary = () => import('@/sections/Library');
+const loadContact = () => import('@/sections/Contact');
+const loadForum = () => import('@/sections/Forum');
+
+const Landing = React.lazy(loadLanding);
+const Experience = React.lazy(loadExperience);
+const Skills = React.lazy(loadSkills);
+const Performance = React.lazy(loadPerformance);
+const Library = React.lazy(loadLibrary);
+const Contact = React.lazy(loadContact);
+const Forum = React.lazy(loadForum);
 
 const sectionFallback = (
   <div className="min-h-[40vh] flex items-center justify-center">
@@ -73,6 +81,23 @@ const sectionFallback = (
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('home');
+
+  useEffect(() => {
+    const preloadAll = () => {
+      loadExperience();
+      loadSkills();
+      loadPerformance();
+      loadLibrary();
+      loadContact();
+      loadForum();
+    };
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      window.requestIdleCallback(preloadAll);
+    } else {
+      setTimeout(preloadAll, 2000);
+    }
+  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -138,55 +163,57 @@ export default function Home() {
         <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
         <Suspense fallback={sectionFallback}>
           <main id="main-content" className="relative z-10 w-full overflow-x-clip min-h-[100dvh] pt-20 md:pt-24 pb-0">
-            {activeTab === 'home' && (
-              <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <SectionErrorBoundary>
-                  <Landing />
-                </SectionErrorBoundary>
-              </motion.div>
-            )}
-            {activeTab === 'experience' && (
-              <motion.div key="experience" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <SectionErrorBoundary>
-                  <Experience />
-                </SectionErrorBoundary>
-              </motion.div>
-            )}
-            {activeTab === 'skills' && (
-              <motion.div key="skills" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <SectionErrorBoundary>
-                  <Skills />
-                </SectionErrorBoundary>
-              </motion.div>
-            )}
-            {activeTab === 'performance' && (
-              <motion.div key="performance" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <SectionErrorBoundary>
-                  <Performance />
-                </SectionErrorBoundary>
-              </motion.div>
-            )}
-            {activeTab === 'library' && (
-              <motion.div key="library" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <SectionErrorBoundary>
-                  <Library />
-                </SectionErrorBoundary>
-              </motion.div>
-            )}
-            {activeTab === 'contact' && (
-              <motion.div key="contact" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <SectionErrorBoundary>
-                  <Contact />
-                </SectionErrorBoundary>
-              </motion.div>
-            )}
-            {activeTab === 'forum' && (
-              <motion.div key="forum" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <SectionErrorBoundary>
-                  <Forum />
-                </SectionErrorBoundary>
-              </motion.div>
-            )}
+            <AnimatePresence mode="wait">
+              {activeTab === 'home' && (
+                <motion.div key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <SectionErrorBoundary>
+                    <Landing />
+                  </SectionErrorBoundary>
+                </motion.div>
+              )}
+              {activeTab === 'experience' && (
+                <motion.div key="experience" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <SectionErrorBoundary>
+                    <Experience />
+                  </SectionErrorBoundary>
+                </motion.div>
+              )}
+              {activeTab === 'skills' && (
+                <motion.div key="skills" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <SectionErrorBoundary>
+                    <Skills />
+                  </SectionErrorBoundary>
+                </motion.div>
+              )}
+              {activeTab === 'performance' && (
+                <motion.div key="performance" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <SectionErrorBoundary>
+                    <Performance />
+                  </SectionErrorBoundary>
+                </motion.div>
+              )}
+              {activeTab === 'library' && (
+                <motion.div key="library" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <SectionErrorBoundary>
+                    <Library />
+                  </SectionErrorBoundary>
+                </motion.div>
+              )}
+              {activeTab === 'contact' && (
+                <motion.div key="contact" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <SectionErrorBoundary>
+                    <Contact />
+                  </SectionErrorBoundary>
+                </motion.div>
+              )}
+              {activeTab === 'forum' && (
+                <motion.div key="forum" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <SectionErrorBoundary>
+                    <Forum />
+                  </SectionErrorBoundary>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </main>
         </Suspense>
       </motion.div>
