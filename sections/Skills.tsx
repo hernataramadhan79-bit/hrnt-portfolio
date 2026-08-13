@@ -95,7 +95,7 @@ const OrbitLayer = ({ skills, radius, duration, direction, color, isHovered }: a
                 <div className="absolute inset-0 rounded-full blur-md opacity-20 group-hover:opacity-60 transition-opacity" style={{ backgroundColor: color }} />
                 <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#050508]/80 border border-white/10 flex items-center justify-center hover:border-white/30 transition-all shadow-2xl cursor-pointer">
                   {/* Use next/image or inline SVG — plain <img> is fine here as icons are small SVG from CDN */}
-                  <img src={skill.icon} alt={skill.name} width={20} height={20} className="w-4 h-4 lg:w-5 lg:h-5 object-contain" loading="lazy" />
+                  <img src={skill.icon} alt={skill.name} width={20} height={20} className="w-4 h-4 lg:w-5 lg:h-5 object-contain" />
                 </div>
               </div>
             </div>
