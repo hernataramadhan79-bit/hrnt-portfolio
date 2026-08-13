@@ -120,11 +120,11 @@ const Landing: React.FC = () => {
     const allTags = [...detailedSkills.frontend, ...detailedSkills.backend].flatMap(d => d.tags);
 
     return (
-        <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-[calc(100dvh-5rem)] lg:min-h-[calc(100vh-6rem)] py-8 px-4 sm:px-6">
+        <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 py-6 lg:py-4 px-4 sm:px-6">
             {/* Unified Backdrop */}
-            <div className="absolute inset-0 pointer-events-none opacity-30 overflow-visible">
-                <div className="absolute top-[5%] left-[5%] w-[600px] h-[600px] bg-cyan-700/10 rounded-full blur-[140px]" />
-                <div className="absolute bottom-[30%] right-[5%] w-[500px] h-[500px] bg-purple-700/10 rounded-full blur-[120px]" />
+            <div className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden rounded-3xl">
+                <div className="absolute top-[15%] left-[5%] w-[400px] h-[400px] xl:w-[500px] xl:h-[500px] bg-cyan-700/20 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] xl:w-[450px] xl:h-[450px] bg-purple-700/20 rounded-full blur-[100px]" />
             </div>
 
             <div className="max-w-[1400px] mx-auto w-full h-full relative z-20 flex flex-col p-2">
@@ -132,12 +132,12 @@ const Landing: React.FC = () => {
                     initial="hidden"
                     animate="visible"
                     variants={containerVariants}
-                    className="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-3 gap-4 lg:gap-5 flex-1 min-h-0"
+                    className="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-3 gap-4 lg:gap-5 flex-1 min-h-0 h-full"
                 >
                     {/* HERO TEXT: col-span-2, row-span-2 */}
-                    <motion.div variants={itemVariants} className="lg:col-span-2 lg:row-span-2 flex flex-col justify-center p-2 lg:pr-8 space-y-6 lg:space-y-8">
+                    <motion.div variants={itemVariants} className="lg:col-span-2 lg:row-span-2 flex flex-col justify-center p-2 lg:pr-8 space-y-4 lg:space-y-6">
                         <div className="flex items-center gap-4">
-                            <h1 className="text-6xl sm:text-7xl md:text-[90px] lg:text-[100px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex">
+                            <h1 className="text-6xl sm:text-7xl md:text-[80px] lg:text-[75px] xl:text-[95px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex">
                                 {text.split("").map((char, index) => (
                                     <motion.span
                                         key={index}
@@ -168,17 +168,17 @@ const Landing: React.FC = () => {
                             </div>
                         </div>
 
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-[1.1] tracking-tight">
+                        <h2 className="text-3xl md:text-4xl lg:text-3xl xl:text-5xl font-black text-white leading-[1.1] tracking-tight">
                             Designing with <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">precision</span>,<br />
                             building with <span className="text-white relative inline-block">passion.</span>
                         </h2>
 
-                        <p className="text-sm md:text-base text-slate-400 font-light leading-relaxed max-w-lg">
+                        <p className="text-sm md:text-base lg:text-sm xl:text-base text-slate-400 font-light leading-relaxed max-w-lg">
                             Engineering digital masterpieces where the "shapes" of code and interfaces define the journey.
                             Specializing in full-stack development with a focus on architecture and immersive UI/UX experiences.
                         </p>
 
-                        <div className="flex flex-row flex-wrap gap-4 pt-4 mb-6 lg:mb-8">
+                        <div className="flex flex-row flex-wrap gap-4 pt-2 xl:pt-4 mb-4 lg:mb-6">
                             <motion.a
                                 href="#library"
                                 whileHover={{ scale: 1.05 }}
