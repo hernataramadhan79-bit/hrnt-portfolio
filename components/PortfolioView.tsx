@@ -120,7 +120,7 @@ export default function PortfolioView() {
       <CustomCursor />
       <Background />
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="relative z-10 w-full overflow-x-clip min-h-[100dvh] pt-20 md:pt-24 pb-0">
+      <div className="relative z-10 w-full overflow-x-clip min-h-[100dvh] pt-16 sm:pt-20 lg:pt-[4.5rem] pb-0">
         <AnimatePresence mode="wait">
           {activeTab === 'home' && (
             <motion.div key="home" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>

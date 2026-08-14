@@ -52,38 +52,36 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center lg:justify-start w-full py-6 lg:pt-20 lg:pb-4 px-4 sm:px-6 overflow-hidden">
-      {/* Full-bleed Ambient Background Gradient (Smooth & Seamless) */}
+    <section id="contact" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center w-full py-6 lg:py-2 xl:py-6 px-4 sm:px-6 overflow-hidden">
+      {/* Full-bleed Ambient Background Gradient */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10 rounded-3xl">
-        {/* Soft radial gradient spanning full section */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,rgba(34,211,238,0.06)_0%,rgba(168,85,247,0.05)_45%,transparent_100%)]" />
-        {/* Centered blur orbs that fade out naturally before section edges */}
-        <div className="absolute top-[20%] right-10 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[10%] left-10 w-[350px] h-[350px] bg-purple-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-[20%] right-10 w-[350px] h-[350px] xl:w-[400px] xl:h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[10%] left-10 w-[300px] h-[300px] xl:w-[350px] xl:h-[350px] bg-purple-500/10 rounded-full blur-[90px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto relative w-full h-full flex flex-col lg:justify-start">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center flex-1 min-h-0">
+      <div className="max-w-7xl mx-auto relative w-full h-full flex flex-col lg:justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-12 items-center flex-1 min-h-0">
 
           {/* --- LEFT: Info --- */}
-          <div className="space-y-8">
+          <div className="space-y-4 lg:space-y-5 xl:space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.3em] mb-6 backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[9px] xl:text-[10px] font-mono uppercase tracking-[0.3em] mb-3 backdrop-blur-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 Open for Collaboration
               </div>
 
-              <h2 className="text-3xl md:text-5xl font-black text-white leading-[0.9] tracking-tighter mb-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-3xl xl:text-5xl font-black text-white leading-[0.95] tracking-tighter mb-3">
                 Let's start a <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-400 to-slate-600">conversation.</span>
               </h2>
 
-              <p className="text-base text-slate-400 max-w-md leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
                 Whether you need a complete platform overhaul or a touch of creative magic, I'm ready to engineer your vision into reality.
               </p>
             </motion.div>
@@ -93,19 +91,19 @@ const Contact: React.FC = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className="space-y-8"
+              className="space-y-4 lg:space-y-5"
             >
               <div>
-                <p className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-4">Direct Channel</p>
-                <a href="mailto:hernataramadhan79@gmail.com" className="group inline-flex items-center gap-4 text-xl md:text-2xl font-medium text-white hover:text-cyan-400 transition-colors">
-                  <Mail className="group-hover:scale-110 transition-transform duration-300" />
-                  <span>hernataramadhan79@gmail.com</span>
+                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1.5">Direct Channel</p>
+                <a href="mailto:hernataramadhan79@gmail.com" className="group inline-flex items-center gap-3 text-base sm:text-lg xl:text-xl font-medium text-white hover:text-cyan-400 transition-colors">
+                  <Mail size={18} className="group-hover:scale-110 transition-transform duration-300" />
+                  <span className="truncate">hernataramadhan79@gmail.com</span>
                 </a>
               </div>
 
               <div>
-                <p className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-4">Social Connect</p>
-                <div className="flex gap-4">
+                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-2">Social Connect</p>
+                <div className="flex gap-2.5 sm:gap-3">
                   {[
                     { icon: Github, href: 'https://github.com/hernataramadhan79-bit' },
                     { icon: Linkedin, href: 'https://www.linkedin.com/in/hernata-ramadhan-176b68338' },
@@ -113,12 +111,12 @@ const Contact: React.FC = () => {
                   ].map((item, idx) => (
                     <motion.button
                       key={idx}
-                      whileHover={{ scale: 1.1, y: -5 }}
-                      whileTap={{ scale: 0.9 }}
+                      whileHover={{ scale: 1.08, y: -3 }}
+                      whileTap={{ scale: 0.92 }}
                       onClick={() => window.open(item.href, '_blank')}
-                      className="w-14 h-14 rounded-2xl bg-[#0a0a0f] border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all duration-300 cursor-pointer"
+                      className="w-10 h-10 sm:w-11 sm:h-11 xl:w-12 xl:h-12 rounded-xl bg-[#0a0a0f] border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all duration-300 cursor-pointer"
                     >
-                      <item.icon size={20} />
+                      <item.icon size={16} />
                     </motion.button>
                   ))}
                 </div>
@@ -129,12 +127,11 @@ const Contact: React.FC = () => {
           {/* --- RIGHT: Contact Form --- */}
           <div className="relative">
             <div
-              className="group relative rounded-[3.5rem] bg-[#050508] border border-white/5 hover:border-cyan-500/20 transition-all duration-500 hover:shadow-[0_0_60px_rgba(34,211,238,0.08)] overflow-hidden shadow-2xl"
+              className="group relative rounded-2xl lg:rounded-[2rem] bg-[#050508] border border-white/5 hover:border-cyan-500/20 transition-all duration-500 hover:shadow-[0_0_60px_rgba(34,211,238,0.08)] overflow-hidden shadow-2xl"
             >
-              {/* CSS-only border glow on hover — replaces useMotionTemplate borderLight */}
-              <div className="absolute inset-0 rounded-[3.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" style={{ boxShadow: 'inset 0 0 60px rgba(34,211,238,0.06)' }} />
+              <div className="absolute inset-0 rounded-2xl lg:rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" style={{ boxShadow: 'inset 0 0 60px rgba(34,211,238,0.06)' }} />
 
-              <div className="relative h-full bg-[#050508] rounded-[3.4rem] overflow-hidden m-[1px] p-6 md:p-10 z-20">
+              <div className="relative h-full bg-[#050508] rounded-2xl lg:rounded-[2rem] overflow-hidden m-[1px] p-4 sm:p-6 xl:p-8 z-20">
 
                 {/* Background Grid */}
                 <div
@@ -147,44 +144,44 @@ const Contact: React.FC = () => {
                 />
 
                 {/* Layer 1: Inputs */}
-                <form onSubmit={handleSubmit} className="space-y-8 relative z-30">
+                <form onSubmit={handleSubmit} className="space-y-4 xl:space-y-5 relative z-30">
 
-                  <div className="grid grid-cols-2 gap-6" style={{ transform: "translateZ(20px)" }}>
-                    <div className="space-y-2 group">
-                      <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Name</label>
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4" style={{ transform: "translateZ(20px)" }}>
+                    <div className="space-y-1.5 group">
+                      <label className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Name</label>
                       <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full bg-[#0a0a0f]/90 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all shadow-lg hover:translate-y-[-2px]"
+                        className="w-full bg-[#0a0a0f]/90 border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all shadow-md"
                         placeholder="Your Name"
                         required
                       />
                     </div>
-                    <div className="space-y-2 group">
-                      <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Email</label>
+                    <div className="space-y-1.5 group">
+                      <label className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Email</label>
                       <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full bg-[#0a0a0f]/90 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all shadow-lg hover:translate-y-[-2px]"
+                        className="w-full bg-[#0a0a0f]/90 border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all shadow-md"
                         placeholder="Your Email Address"
                         required
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2 group relative" style={{ transform: "translateZ(30px)" }}>
-                    <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Message</label>
-                    <div className="relative group-hover:scale-[1.01] transition-transform duration-500 ease-out">
+                  <div className="space-y-1.5 group relative" style={{ transform: "translateZ(30px)" }}>
+                    <label className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Message</label>
+                    <div className="relative">
                       <textarea
-                        rows={5}
+                        rows={3}
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all resize-none shadow-xl"
+                        className="w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all resize-none shadow-md"
                         placeholder="Tell me about your project..."
                         required
                       />
@@ -192,11 +189,11 @@ const Contact: React.FC = () => {
                   </div>
 
                   {/* Layer 2: Button (Highest) */}
-                  <div className="pt-6" style={{ transform: "translateZ(50px)" }}>
+                  <div className="pt-2" style={{ transform: "translateZ(50px)" }}>
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="group relative w-full h-14 bg-white text-black rounded-2xl font-black uppercase tracking-wider overflow-hidden flex items-center justify-center transition-all hover:scale-[1.02] shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="group relative w-full h-11 sm:h-12 bg-white text-black rounded-xl font-black uppercase text-[10px] xl:text-xs tracking-wider overflow-hidden flex items-center justify-center transition-all hover:scale-[1.01] shadow-xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out" />
                       <span className="relative z-10 flex items-center gap-3 group-hover:text-black transition-colors text-base">

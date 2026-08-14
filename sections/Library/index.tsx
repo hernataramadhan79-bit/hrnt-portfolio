@@ -36,30 +36,30 @@ const Library: React.FC = () => {
   if (!mounted) return null;
 
   return (
-    <section id="library" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center lg:justify-start w-full py-6 lg:pt-16 lg:pb-4 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-start">
+    <section id="library" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center w-full py-6 lg:py-2 xl:py-6 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-center">
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 lg:mb-10 gap-4 lg:gap-6 relative z-20 shrink-0">
-          <div className="space-y-4 max-w-xl">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 lg:mb-5 xl:mb-8 gap-3 lg:gap-6 relative z-20 shrink-0">
+          <div className="space-y-2 lg:space-y-3 max-w-xl">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] backdrop-blur-sm">
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[9px] xl:text-[10px] font-mono uppercase tracking-[0.2em] backdrop-blur-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
               Creative Repository
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl md:text-5xl font-black leading-[0.9] text-white tracking-tighter uppercase">
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-5xl font-black leading-[0.95] text-white tracking-tighter uppercase">
               Library <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">& Archives.</span>
             </motion.h2>
           </div>
           <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-            className="max-w-sm md:text-right text-sm text-slate-400 font-light leading-relaxed">
+            className="max-w-sm md:text-right text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
             Digital archive of creative engineering, professional certifications, career gallery, and technical explorations.
           </motion.p>
         </div>
 
-        <div className="flex justify-center sm:justify-start mb-6 lg:mb-10 w-full shrink-0">
+        <div className="flex justify-center sm:justify-start mb-4 lg:mb-5 xl:mb-6 w-full shrink-0">
           <LayoutGroup>
-            <nav className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto bg-[#0a0a12]/50 sm:bg-transparent p-1.5 sm:p-0 rounded-xl sm:rounded-none border border-white/5 sm:border-none backdrop-blur-sm" role="tablist" aria-label="Filter library content">
+            <nav className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto bg-[#0a0a12]/50 sm:bg-transparent p-1 sm:p-0 rounded-xl sm:rounded-none border border-white/5 sm:border-none backdrop-blur-sm" role="tablist" aria-label="Filter library content">
               {[
                 { id: 'overview', label: 'Overview', icon: LayoutDashboard },
                 { id: 'projects', label: 'Projects', icon: Box },
@@ -68,19 +68,19 @@ const Library: React.FC = () => {
               ].map((tab) => (
                 <button key={tab.id} onClick={() => setFilter(tab.id as typeof filter)}
                   role="tab" aria-selected={filter === tab.id} aria-controls={`library-panel-${tab.id}`}
-                  className={`group relative flex items-center justify-center py-2.5 sm:px-1 transition-all duration-500 ease-out rounded-lg sm:rounded-none overflow-hidden
+                  className={`group relative flex items-center justify-center py-2 sm:px-1 transition-all duration-500 ease-out rounded-lg sm:rounded-none overflow-hidden
                     ${filter === tab.id ? 'text-white bg-white/5 sm:bg-transparent flex-[2] sm:flex-none px-3' : 'text-slate-500 hover:text-white flex-1 sm:flex-none px-0'}`}>
                   
-                  <tab.icon size={14} className={`relative z-10 shrink-0 transition-colors duration-500 ${filter === tab.id ? 'text-cyan-400' : 'group-hover:text-cyan-400/50'}`} />
+                  <tab.icon size={13} className={`relative z-10 shrink-0 transition-colors duration-500 ${filter === tab.id ? 'text-cyan-400' : 'group-hover:text-cyan-400/50'}`} />
                   
                   {/* Desktop text: always visible */}
-                  <span className="relative z-10 whitespace-nowrap text-[10px] font-black uppercase tracking-[0.25em] hidden sm:block ml-2">
+                  <span className="relative z-10 whitespace-nowrap text-[9px] xl:text-[10px] font-black uppercase tracking-[0.25em] hidden sm:block ml-2">
                     {tab.label}
                   </span>
 
-                  {/* Mobile text: expands with pure CSS to perfectly sync with flex container */}
+                  {/* Mobile text: expands with pure CSS */}
                   <span
-                    className={`relative z-10 whitespace-nowrap sm:hidden text-[10px] font-black uppercase tracking-[0.25em] overflow-hidden transition-all duration-500 ease-out
+                    className={`relative z-10 whitespace-nowrap sm:hidden text-[9px] font-black uppercase tracking-[0.25em] overflow-hidden transition-all duration-500 ease-out
                       ${filter === tab.id ? 'max-w-[100px] opacity-100 ml-2' : 'max-w-0 opacity-0 ml-0'}`}
                   >
                     {tab.label}
@@ -103,11 +103,11 @@ const Library: React.FC = () => {
           {filter === 'overview' && (
             <motion.div key="overview" role="tabpanel" id="library-panel-overview"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-1 min-h-0">
+              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-3.5 xl:gap-4 flex-1 min-h-0">
               
               {/* Featured Project */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-                className="md:col-span-2 lg:col-span-2 h-[220px]"
+                className="md:col-span-2 lg:col-span-2 h-[180px] sm:h-[190px] xl:h-[220px]"
                 onClick={() => { setSelectedProject(projects[0]); setIsProjectModalOpen(true); }}>
                 <article className="h-full w-full relative group cursor-pointer overflow-hidden rounded-2xl border border-white/5 shadow-xl">
                   <div className="absolute inset-0">
@@ -115,18 +115,18 @@ const Library: React.FC = () => {
                       className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 opacity-50 group-hover:opacity-80 transition-[filter,opacity] duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/60 to-transparent" />
                   </div>
-                  <div className="absolute inset-0 p-5 flex flex-col justify-end text-left z-10">
-                    <span className="px-2 py-1 w-fit bg-cyan-500/20 backdrop-blur-md border border-cyan-500/30 text-cyan-300 text-[9px] font-mono uppercase tracking-[0.2em] rounded mb-2">
+                  <div className="absolute inset-0 p-4 sm:p-5 flex flex-col justify-end text-left z-10">
+                    <span className="px-2 py-0.5 w-fit bg-cyan-500/20 backdrop-blur-md border border-cyan-500/30 text-cyan-300 text-[8px] xl:text-[9px] font-mono uppercase tracking-[0.2em] rounded mb-1.5">
                       Featured • {projects[0].category}
                     </span>
-                    <h3 className="text-xl md:text-2xl font-black text-white group-hover:text-cyan-400 transition-colors uppercase tracking-tighter leading-tight mb-2">
+                    <h3 className="text-lg sm:text-xl xl:text-2xl font-black text-white group-hover:text-cyan-400 transition-colors uppercase tracking-tighter leading-tight mb-1">
                       {projects[0].title}
                     </h3>
-                    <p className="text-xs text-slate-400 line-clamp-2 max-w-md">{projects[0].description}</p>
+                    <p className="text-[11px] xl:text-xs text-slate-400 line-clamp-2 max-w-md">{projects[0].description}</p>
                   </div>
-                  <div className="absolute top-4 right-4 z-10">
-                    <div className="w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center -translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 backdrop-blur-md">
-                      <ArrowUpRight size={14} strokeWidth={2.5} />
+                  <div className="absolute top-3.5 right-3.5 z-10">
+                    <div className="w-7 h-7 rounded-full bg-white/10 text-white flex items-center justify-center -translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 backdrop-blur-md">
+                      <ArrowUpRight size={13} strokeWidth={2.5} />
                     </div>
                   </div>
                 </article>
@@ -134,36 +134,36 @@ const Library: React.FC = () => {
 
               {/* Stats Widgets */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}
-                className="h-[220px]">
+                className="h-[180px] sm:h-[190px] xl:h-[220px]">
                 <WakaTimeWidget />
               </motion.div>
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
-                className="h-[220px]">
+                className="h-[180px] sm:h-[190px] xl:h-[220px]">
                 <GithubWidget />
               </motion.div>
 
               {/* Recent Certificate */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }}
-                className="md:col-span-1 lg:col-span-2 h-[120px]">
+                className="md:col-span-1 lg:col-span-2 h-[105px] sm:h-[115px] xl:h-[120px]">
                 <article
-                  className="h-full bg-[#0a0a12] border border-white/5 rounded-2xl p-4 flex items-center gap-4 group cursor-pointer hover:border-cyan-500/30 transition-all duration-500 overflow-hidden relative"
+                  className="h-full bg-[#0a0a12] border border-white/5 rounded-2xl p-3.5 flex items-center gap-3.5 group cursor-pointer hover:border-cyan-500/30 transition-all duration-500 overflow-hidden relative"
                   onClick={() => { setSelectedCertificate(certificates[0]); setIsModalOpen(true); }}>
                   <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
-                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-white/5 border border-white/10 p-2 shrink-0 group-hover:border-cyan-500/30 transition-colors relative">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-white/5 border border-white/10 p-2 shrink-0 group-hover:border-cyan-500/30 transition-colors relative">
                      <ImageWithLoader src={certificates[0].image} alt={`Logo penerbit ${certificates[0].issuer}`} className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1 min-w-0 z-10">
-                    <span className="text-[10px] text-cyan-500 font-mono uppercase tracking-widest mb-1 block">Recent Certification</span>
-                    <h3 className="text-sm font-bold text-white truncate group-hover:text-cyan-400 transition-colors">{certificates[0].title}</h3>
-                    <p className="text-xs text-slate-500 truncate">{certificates[0].issuer} • {certificates[0].date}</p>
+                    <span className="text-[9px] xl:text-[10px] text-cyan-500 font-mono uppercase tracking-widest mb-0.5 block">Recent Certification</span>
+                    <h3 className="text-xs sm:text-sm font-bold text-white truncate group-hover:text-cyan-400 transition-colors">{certificates[0].title}</h3>
+                    <p className="text-[11px] text-slate-500 truncate">{certificates[0].issuer} • {certificates[0].date}</p>
                   </div>
-                  <ArrowUpRight size={16} className="text-slate-600 group-hover:text-cyan-400 transition-colors shrink-0 mr-2 z-10" />
+                  <ArrowUpRight size={15} className="text-slate-600 group-hover:text-cyan-400 transition-colors shrink-0 mr-1.5 z-10" />
                 </article>
               </motion.div>
 
               {/* Recent Gallery Item */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}
-                className="md:col-span-2 lg:col-span-2 h-[120px]">
+                className="md:col-span-2 lg:col-span-2 h-[105px] sm:h-[115px] xl:h-[120px]">
                 <article
                   className="h-full bg-[#0a0a12] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer relative"
                   onClick={() => { setSelectedGallery(galleryItems[0]); setIsGalleryModalOpen(true); }}>
@@ -171,10 +171,10 @@ const Library: React.FC = () => {
                     <ImageWithLoader src={galleryItems[0].image} alt={galleryItems[0].title} className="w-full h-full object-cover grayscale-[40%] group-hover:grayscale-0 opacity-40 group-hover:opacity-70 transition-all duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a12] via-[#0a0a12]/80 to-transparent" />
                   </div>
-                  <div className="absolute inset-0 p-5 flex flex-col justify-center z-10">
-                     <span className="text-[10px] text-pink-400 font-mono uppercase tracking-widest mb-1 block">Latest from Gallery</span>
-                     <h3 className="text-sm font-bold text-white truncate group-hover:text-pink-400 transition-colors">{galleryItems[0].title}</h3>
-                     <p className="text-xs text-slate-400 truncate mt-1 flex items-center gap-1.5"><MapPin size={10} /> {galleryItems[0].location}</p>
+                  <div className="absolute inset-0 p-4 sm:p-5 flex flex-col justify-center z-10">
+                     <span className="text-[9px] xl:text-[10px] text-pink-400 font-mono uppercase tracking-widest mb-0.5 block">Latest from Gallery</span>
+                     <h3 className="text-xs sm:text-sm font-bold text-white truncate group-hover:text-pink-400 transition-colors">{galleryItems[0].title}</h3>
+                     <p className="text-[11px] text-slate-400 truncate mt-0.5 flex items-center gap-1.5"><MapPin size={10} /> {galleryItems[0].location}</p>
                   </div>
                 </article>
               </motion.div>

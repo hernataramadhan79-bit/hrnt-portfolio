@@ -96,22 +96,22 @@ const Performance: React.FC = () => {
     if (!mounted) return null;
 
     return (
-        <section id="performance" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col lg:justify-start w-full py-8 lg:pt-16 lg:pb-4 px-4 sm:px-6">
-            <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-start">
+        <section id="performance" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center w-full py-6 lg:py-2 xl:py-6 px-4 sm:px-6">
+            <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-center">
 
-                <div className="relative mb-6 lg:mb-10 text-center shrink-0">
+                <div className="relative mb-4 lg:mb-5 xl:mb-8 text-center shrink-0">
                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] mb-4 backdrop-blur-sm">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[9px] xl:text-[10px] font-mono uppercase tracking-[0.2em] mb-2.5 backdrop-blur-sm">
                             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                             System Intelligence
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-black text-white mb-4 uppercase tracking-tighter">
+                        <h2 className="text-2xl sm:text-3xl lg:text-3xl xl:text-5xl font-black text-white mb-2 uppercase tracking-tighter">
                             Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">Vitals</span>
                         </h2>
                     </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 lg:gap-4 xl:gap-6">
                     {/* GitHub Activity Card */}
                     <MainframeCard
                         title="GitHub Engine"
@@ -121,41 +121,41 @@ const Performance: React.FC = () => {
                         onClick={() => setSelectedStat('github')}
                         isLoading={loadingState.github}
                     >
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pb-6 border-b border-white/5">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pb-4 border-b border-white/5">
                             {loadingState.github ? (
                                 Array.from({ length: 4 }).map((_, i) => (
-                                    <div key={i} className="space-y-2">
-                                        <SkeletonPulse className="h-7 w-16" />
-                                        <SkeletonPulse className="h-2 w-10" />
+                                    <div key={i} className="space-y-1.5">
+                                        <SkeletonPulse className="h-6 w-14" />
+                                        <SkeletonPulse className="h-2 w-8" />
                                     </div>
                                 ))
                             ) : (
                                 <>
                                     <div>
-                                        <div className="text-xl sm:text-2xl font-black text-white tracking-tighter">
+                                        <div className="text-lg sm:text-xl xl:text-2xl font-black text-white tracking-tighter">
                                             {stats.github.totalContributions}
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Commits</span>
+                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Commits</span>
                                     </div>
                                     <div>
-                                        <div className="text-xl sm:text-2xl font-black text-white tracking-tighter">
+                                        <div className="text-lg sm:text-xl xl:text-2xl font-black text-white tracking-tighter">
                                             {stats.github.repos}
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Repos</span>
+                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Repos</span>
                                     </div>
                                     <div>
-                                        <div className="text-xl sm:text-2xl font-black text-cyan-400 tracking-tighter flex items-center gap-1">
-                                            <Sparkles size={14} className="text-yellow-500/50" />
+                                        <div className="text-lg sm:text-xl xl:text-2xl font-black text-cyan-400 tracking-tighter flex items-center gap-1">
+                                            <Sparkles size={13} className="text-yellow-500/50" />
                                             {stats.github.stars}
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Stars</span>
+                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Stars</span>
                                     </div>
                                     <div>
-                                        <div className="text-xl sm:text-2xl font-black text-purple-400 tracking-tighter flex items-center gap-1">
-                                            <Users size={14} className="text-cyan-500/50" />
+                                        <div className="text-lg sm:text-xl xl:text-2xl font-black text-purple-400 tracking-tighter flex items-center gap-1">
+                                            <Users size={13} className="text-cyan-500/50" />
                                             {stats.github.followers}
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Nodes</span>
+                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Nodes</span>
                                     </div>
                                 </>
                             )}
@@ -188,43 +188,43 @@ const Performance: React.FC = () => {
                         onClick={() => setSelectedStat('wakatime')}
                         isLoading={loadingState.wakatime}
                     >
-                        <div className="grid grid-cols-2 gap-3 pb-6 border-b border-white/5">
+                        <div className="grid grid-cols-2 gap-2.5 pb-4 border-b border-white/5">
                             {loadingState.wakatime ? (
                                 Array.from({ length: 4 }).map((_, i) => (
-                                    <div key={i} className="space-y-2">
-                                        <SkeletonPulse className="h-7 w-20" />
-                                        <SkeletonPulse className="h-2 w-14" />
+                                    <div key={i} className="space-y-1.5">
+                                        <SkeletonPulse className="h-6 w-16" />
+                                        <SkeletonPulse className="h-2 w-10" />
                                     </div>
                                 ))
                             ) : (
                                 <>
                                     <div>
-                                        <div className="text-xl sm:text-2xl font-black text-white tracking-tighter flex items-center gap-1">
-                                            <Clock size={15} className="text-purple-400 shrink-0" />
+                                        <div className="text-lg sm:text-xl xl:text-2xl font-black text-white tracking-tighter flex items-center gap-1">
+                                            <Clock size={14} className="text-purple-400 shrink-0" />
                                             <span className="truncate">{stats.wakatime.totalTime}</span>
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Focus Time</span>
+                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Focus Time</span>
                                     </div>
                                     <div>
-                                        <div className="text-xl sm:text-2xl font-black text-cyan-400 tracking-tighter flex items-center gap-1">
-                                            <Timer size={15} className="text-cyan-400 shrink-0" />
+                                        <div className="text-lg sm:text-xl xl:text-2xl font-black text-cyan-400 tracking-tighter flex items-center gap-1">
+                                            <Timer size={14} className="text-cyan-400 shrink-0" />
                                             <span className="truncate">{stats.wakatime.dailyAverage}</span>
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Daily Average</span>
+                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Daily Average</span>
                                     </div>
                                     <div>
-                                        <div className="text-xl sm:text-2xl font-black text-emerald-400 tracking-tighter flex items-center gap-1">
-                                            <TrendingUp size={15} className="text-emerald-400 shrink-0" />
+                                        <div className="text-lg sm:text-xl xl:text-2xl font-black text-emerald-400 tracking-tighter flex items-center gap-1">
+                                            <TrendingUp size={14} className="text-emerald-400 shrink-0" />
                                             <span>{stats.wakatime.optimizationFactor}</span>
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Weekly Growth</span>
+                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Weekly Growth</span>
                                     </div>
                                     <div>
-                                        <div className="text-base sm:text-lg font-black text-yellow-400 tracking-tighter truncate flex items-center gap-1">
-                                            <Award size={15} className="text-yellow-400 shrink-0" />
+                                        <div className="text-sm sm:text-base xl:text-lg font-black text-yellow-400 tracking-tighter truncate flex items-center gap-1">
+                                            <Award size={14} className="text-yellow-400 shrink-0" />
                                             <span className="truncate">{stats.wakatime.bestDay}</span>
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-slate-500">Peak Velocity</span>
+                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Peak Velocity</span>
                                     </div>
                                 </>
                             )}

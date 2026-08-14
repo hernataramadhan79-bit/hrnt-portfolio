@@ -7,21 +7,21 @@ import { innerSkills, outerSkills, detailedSkills } from '../constants';
 const SkillPills = ({ type, items, color }: { type: string, items: any[], color: 'cyan' | 'purple' }) => {
   const isCyan = color === 'cyan';
   return (
-    <div className="mb-8 lg:mb-10">
-      <div className="flex items-center gap-3 mb-5">
+    <div className="mb-4 lg:mb-5 xl:mb-6">
+      <div className="flex items-center gap-2.5 mb-3 lg:mb-3.5">
         <div className={`w-1.5 h-1.5 rounded-full ${isCyan ? 'bg-cyan-400' : 'bg-purple-400'} animate-pulse shadow-[0_0_10px_currentColor]`} />
-        <h3 className="text-xs lg:text-sm font-black text-white uppercase tracking-[0.3em] opacity-80">{type}</h3>
+        <h3 className="text-[11px] lg:text-xs font-black text-white uppercase tracking-[0.25em] opacity-80">{type}</h3>
         <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
       </div>
-      <div className="flex flex-wrap gap-2.5">
+      <div className="flex flex-wrap gap-2">
         {items.map((skill, i) => (
           <motion.div
             key={i}
             whileHover={{ y: -2, scale: 1.02 }}
-            className={`group flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/[0.03] border border-white/5 hover:border-${isCyan ? 'cyan' : 'purple'}-500/30 hover:bg-white/[0.08] transition-all duration-300 cursor-default`}
+            className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5 hover:border-${isCyan ? 'cyan' : 'purple'}-500/30 hover:bg-white/[0.08] transition-all duration-300 cursor-default`}
           >
-            <skill.icon size={14} className={`${skill.color} opacity-70 group-hover:opacity-100 transition-opacity drop-shadow-md`} />
-            <span className="text-[11px] font-bold text-white/70 group-hover:text-white transition-colors tracking-widest uppercase">{skill.name}</span>
+            <skill.icon size={13} className={`${skill.color} opacity-70 group-hover:opacity-100 transition-opacity drop-shadow-md`} />
+            <span className="text-[10px] xl:text-[11px] font-bold text-white/70 group-hover:text-white transition-colors tracking-wider uppercase">{skill.name}</span>
           </motion.div>
         ))}
       </div>
@@ -31,15 +31,6 @@ const SkillPills = ({ type, items, color }: { type: string, items: any[], color:
 
 /**
  * OrbitLayer — CSS animation instead of framer-motion rotate.
- *
- * Framer-motion rotate on each element required:
- *   - 1x framer AnimationPlaybackControls for the track
- *   - 1x framer AnimationPlaybackControls for the container
- *   - N framer AnimationPlaybackControls for each counter-rotating icon
- * = 18+ concurrent JS-driven animations.
- *
- * CSS animation handles all rotation on the compositor thread with ZERO JS overhead.
- * hover pause implemented via CSS animation-play-state.
  */
 const OrbitLayer = ({ skills, radius, duration, direction, color, isHovered }: any) => {
   const animStyle: React.CSSProperties = {
@@ -83,19 +74,18 @@ const OrbitLayer = ({ skills, radius, duration, direction, color, isHovered }: a
                 style={{ animationDuration: `${duration}s`, animationPlayState: isHovered ? 'paused' : 'running' }}
               >
                 {/* Tooltip */}
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50">
-                  <div className="px-3 py-1.5 rounded-lg bg-black/90 border border-white/10 shadow-2xl">
-                    <span className="text-[9px] font-black text-white uppercase tracking-widest whitespace-nowrap">
+                <div className="absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50">
+                  <div className="px-2.5 py-1 rounded-lg bg-black/90 border border-white/10 shadow-2xl">
+                    <span className="text-[8px] xl:text-[9px] font-black text-white uppercase tracking-widest whitespace-nowrap">
                       {skill.name}
                     </span>
                   </div>
-                  <div className="w-2 h-2 bg-black/90 border-r border-b border-white/10 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
+                  <div className="w-1.5 h-1.5 bg-black/90 border-r border-b border-white/10 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
                 </div>
 
                 <div className="absolute inset-0 rounded-full blur-md opacity-20 group-hover:opacity-60 transition-opacity" style={{ backgroundColor: color }} />
-                <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-[#050508]/80 border border-white/10 flex items-center justify-center hover:border-white/30 transition-all shadow-2xl cursor-pointer">
-                  {/* Use next/image or inline SVG — plain <img> is fine here as icons are small SVG from CDN */}
-                  <img src={skill.icon} alt={skill.name} width={20} height={20} className="w-4 h-4 lg:w-5 lg:h-5 object-contain" />
+                <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 xl:w-11 xl:h-11 rounded-full bg-[#050508]/80 border border-white/10 flex items-center justify-center hover:border-white/30 transition-all shadow-2xl cursor-pointer">
+                  <img src={skill.icon} alt={skill.name} width={18} height={18} className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-4.5 lg:h-4.5 object-contain" />
                 </div>
               </div>
             </div>
@@ -111,12 +101,14 @@ const Skills: React.FC = () => {
   const [isOrbitHovered, setIsOrbitHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [winHeight, setWinHeight] = useState(1080);
 
   useEffect(() => {
     // Debounced resize — only check breakpoints, no setState on every resize
     const checkBreakpoint = () => {
       setIsMobile(window.innerWidth < 768);
       setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+      setWinHeight(window.innerHeight);
     };
     checkBreakpoint();
 
@@ -132,33 +124,31 @@ const Skills: React.FC = () => {
     };
   }, []);
 
-  // No more global mousemove listener — orbit tilt removed.
-  // The orbit is visually stunning enough without mouse parallax,
-  // and removing the listener saves CPU on every mouse movement.
-
-  const innerRadius = isMobile ? 115 : isTablet ? 130 : 160;
-  const outerRadius = isMobile ? 180 : isTablet ? 210 : 260;
+  const isCompactHeight = winHeight < 780;
+  const isUltraCompact = winHeight < 680;
+  const innerRadius = isMobile ? 110 : isTablet ? 125 : isUltraCompact ? 120 : isCompactHeight ? 135 : 155;
+  const outerRadius = isMobile ? 175 : isTablet ? 195 : isUltraCompact ? 185 : isCompactHeight ? 210 : 250;
 
   return (
-    <section ref={sectionRef} id="skills" className="relative z-10 min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 flex flex-col justify-center lg:justify-start overflow-hidden py-8 lg:pt-16 lg:pb-4">
+    <section ref={sectionRef} id="skills" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center overflow-hidden py-6 lg:py-2 xl:py-6 px-4 sm:px-6">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.03)_0%,transparent_70%)]" />
       </div>
 
-      <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-12 relative z-20 flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 relative z-20 flex flex-col lg:flex-row gap-6 lg:gap-8 xl:gap-14 items-center">
 
         {/* LEFT COLUMN */}
         <div className="w-full lg:w-[45%] flex flex-col justify-center order-2 lg:order-1">
-          <div className="mb-10 lg:mb-14">
-            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-[2px] bg-cyan-500/50" />
-              <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.4em]">Core.Competencies</span>
+          <div className="mb-4 lg:mb-6 xl:mb-8">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex items-center gap-2.5 mb-2.5">
+              <div className="w-6 h-[2px] bg-cyan-500/50" />
+              <span className="text-[9px] xl:text-[10px] font-mono text-cyan-400 uppercase tracking-[0.35em]">Core.Competencies</span>
             </motion.div>
-            <h2 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-[0.9]">
+            <h2 className="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95]">
               TECH <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">MATRIX</span>
             </h2>
-            <p className="text-slate-400 text-sm mt-6 leading-relaxed max-w-md font-light">
+            <p className="text-slate-400 text-xs sm:text-sm mt-3 lg:mt-4 leading-relaxed max-w-md font-light">
               A meticulously curated arsenal of modern technologies. Engineered for high performance, scalability, and seamless user experiences across the stack.
             </p>
           </div>
@@ -170,23 +160,23 @@ const Skills: React.FC = () => {
         </div>
 
         {/* RIGHT COLUMN: Orbit */}
-        <div className="w-full lg:w-[55%] flex items-center justify-center order-1 lg:order-2 py-8 lg:py-0">
+        <div className="w-full lg:w-[55%] flex items-center justify-center order-1 lg:order-2 py-4 lg:py-0">
           <div
             onMouseEnter={() => setIsOrbitHovered(true)}
             onMouseLeave={() => setIsOrbitHovered(false)}
-            className="relative w-full aspect-square max-w-[85vw] sm:max-w-[450px] lg:max-w-[600px] flex items-center justify-center"
+            className="relative w-full aspect-square max-w-[85vw] sm:max-w-[420px] lg:max-w-[500px] xl:max-w-[580px] flex items-center justify-center"
           >
             {/* Central Core */}
             <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-              <div className="w-[150px] h-[150px] lg:w-[250px] lg:h-[250px] bg-cyan-500/10 rounded-full blur-[60px]" />
-              <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-40 lg:h-40 rounded-full p-1 lg:p-1.5 bg-gradient-to-br from-cyan-400/80 via-white/10 to-purple-500/80 shadow-[0_0_80px_rgba(34,211,238,0.2)] pointer-events-auto group cursor-crosshair">
+              <div className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] xl:w-[220px] xl:h-[220px] bg-cyan-500/10 rounded-full blur-[50px]" />
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 rounded-full p-1 bg-gradient-to-br from-cyan-400/80 via-white/10 to-purple-500/80 shadow-[0_0_60px_rgba(34,211,238,0.2)] pointer-events-auto group cursor-crosshair">
                 <div className="w-full h-full rounded-full overflow-hidden border-2 border-[#030305] relative bg-black">
                   <img src="/profile2.jpg" alt="Core" width={160} height={160} className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
                   <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/30 to-purple-500/30 mix-blend-overlay group-hover:opacity-0 transition-opacity" />
                 </div>
-                {/* CSS-only core rings (no framer-motion needed) */}
-                <div className="absolute -inset-3 lg:-inset-4 border border-cyan-500/40 rounded-full animate-[spin_8s_linear_infinite]" style={{ clipPath: 'polygon(50% 0, 100% 0, 100% 50%, 50% 50%)' }} />
-                <div className="absolute -inset-6 lg:-inset-8 border border-purple-500/20 rounded-full animate-[spin_12s_linear_infinite_reverse] border-dashed" />
+                {/* CSS-only core rings */}
+                <div className="absolute -inset-2.5 lg:-inset-3 border border-cyan-500/40 rounded-full animate-[spin_8s_linear_infinite]" style={{ clipPath: 'polygon(50% 0, 100% 0, 100% 50%, 50% 50%)' }} />
+                <div className="absolute -inset-5 lg:-inset-6 border border-purple-500/20 rounded-full animate-[spin_12s_linear_infinite_reverse] border-dashed" />
               </div>
             </div>
 

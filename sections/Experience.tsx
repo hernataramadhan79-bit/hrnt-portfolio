@@ -22,20 +22,20 @@ const Experience: React.FC = () => {
     });
 
     return (
-        <section id="experience" className="relative z-10 min-h-[calc(100dvh-5rem)] flex flex-col justify-center w-full py-20 px-4 sm:px-6 overflow-visible">
+        <section id="experience" className="relative z-10 min-h-[calc(100dvh-4.5rem)] flex flex-col justify-center w-full py-10 md:py-16 px-4 sm:px-6 overflow-visible">
             {/* Ambient Background Glows */}
             <div className="absolute top-1/4 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none" />
             <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-[140px] pointer-events-none" />
 
             <div className="max-w-5xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-12 md:mb-16">
+                <div className="text-center mb-8 md:mb-12">
                     <motion.h2
                         initial={{ opacity: 0, y: 15 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase mb-4"
+                        className="text-2xl sm:text-3xl md:text-5xl font-black text-white tracking-tighter uppercase mb-2 sm:mb-3"
                     >
                         The <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">Evolution</span> Log
                     </motion.h2>
@@ -45,7 +45,7 @@ const Experience: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="text-slate-400 text-sm md:text-base font-light max-w-xl mx-auto leading-relaxed"
+                        className="text-slate-400 text-xs sm:text-sm md:text-base font-light max-w-xl mx-auto leading-relaxed"
                     >
                         A systematic chronicle of technical milestones, corporate contributions, and academic growth.
                     </motion.p>
@@ -56,7 +56,7 @@ const Experience: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 }}
-                        className="flex flex-wrap items-center justify-center gap-2 mt-8"
+                        className="flex flex-wrap items-center justify-center gap-2 mt-5 sm:mt-6"
                         role="tablist"
                         aria-label="Filter experience by type"
                     >
@@ -74,7 +74,7 @@ const Experience: React.FC = () => {
                                     role="tab"
                                     aria-selected={isActive}
                                     aria-controls={`experience-panel-${tab.id}`}
-                                    className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                                    className={`relative flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                                         isActive
                                             ? 'text-white font-bold'
                                             : 'text-slate-400 hover:text-slate-200 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5'
@@ -87,10 +87,10 @@ const Experience: React.FC = () => {
                                             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                         />
                                     )}
-                                    <Icon size={14} className={`relative z-10 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
-                                    <span className="relative z-10">{tab.label}</span>
+                                    <Icon size={13} className={`relative z-10 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
+                                    <span className="relative z-10 text-[11px] sm:text-xs">{tab.label}</span>
                                     <span
-                                        className={`relative z-10 px-1.5 py-0.5 rounded-full text-[10px] ${
+                                        className={`relative z-10 px-1.5 py-0.5 rounded-full text-[9px] sm:text-[10px] ${
                                             isActive ? 'bg-cyan-400/20 text-cyan-300' : 'bg-white/10 text-slate-400'
                                         }`}
                                     >
@@ -103,14 +103,14 @@ const Experience: React.FC = () => {
                 </div>
 
                 {/* Timeline Layout */}
-                <div className="relative pt-4" role="tabpanel" id={`experience-panel-${filter}`} aria-label={`${filter} experiences`}>
+                <div className="relative pt-2 sm:pt-4" role="tabpanel" id={`experience-panel-${filter}`} aria-label={`${filter} experiences`}>
                     {/* Vertical Line - Desktop */}
                     <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/40 via-purple-500/20 to-transparent -translate-x-1/2 hidden md:block" />
 
                     {/* Vertical Line - Mobile */}
                     <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/40 via-purple-500/20 to-transparent md:hidden" />
 
-                    <motion.div layout className="space-y-8 md:space-y-12">
+                    <motion.div layout className="space-y-6 md:space-y-8">
                         <AnimatePresence mode="popLayout">
                             {filteredExperiences.map((exp, index) => {
                                 const isWork = exp.type === 'work';

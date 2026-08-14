@@ -117,27 +117,25 @@ const Landing: React.FC = () => {
     const text = "HRNT";
     
     // Extract tags for the third skills marquee row
-    const allTags = [...detailedSkills.frontend, ...detailedSkills.backend].flatMap(d => d.tags);
-
-    return (
-        <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-[calc(100dvh-5rem)] lg:h-[calc(100vh-6rem)] lg:min-h-0 py-6 lg:py-4 px-4 sm:px-6">
+    const allTags = [...detailedSkills.frontend, ...detailedSkills.backend].flatMap(d => d.tags);    return (
+        <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] py-4 lg:py-2 xl:py-4 px-4 sm:px-6">
             {/* Unified Backdrop */}
             <div className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden rounded-3xl">
                 <div className="absolute top-[15%] left-[5%] w-[400px] h-[400px] xl:w-[500px] xl:h-[500px] bg-cyan-700/20 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] xl:w-[450px] xl:h-[450px] bg-purple-700/20 rounded-full blur-[100px]" />
             </div>
 
-            <div className="max-w-[1400px] mx-auto w-full h-full relative z-20 flex flex-col p-2">
+            <div className="max-w-[1400px] mx-auto w-full h-full relative z-20 flex flex-col p-1 sm:p-2">
                 <motion.div 
                     initial="hidden"
                     animate="visible"
                     variants={containerVariants}
-                    className="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-3 gap-4 lg:gap-5 flex-1 min-h-0 h-full"
+                    className="grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-3 gap-3 lg:gap-3.5 xl:gap-4 flex-1 min-h-0 h-full"
                 >
                     {/* HERO TEXT: col-span-2, row-span-2 */}
-                    <motion.div variants={itemVariants} className="lg:col-span-2 lg:row-span-2 flex flex-col justify-center p-2 lg:pr-8 space-y-4 lg:space-y-6">
-                        <div className="flex items-center gap-4">
-                            <h1 className="text-6xl sm:text-7xl md:text-[80px] lg:text-[75px] xl:text-[95px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex items-center">
+                    <motion.div variants={itemVariants} className="lg:col-span-2 lg:row-span-2 flex flex-col justify-center p-2 lg:pr-6 space-y-3 lg:space-y-3 xl:space-y-4">
+                        <div className="flex items-center gap-3">
+                            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-5xl xl:text-7xl 2xl:text-8xl font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex items-center">
                                 {text.split("").map((char, index) => (
                                     <motion.span
                                         key={index}
@@ -151,63 +149,63 @@ const Landing: React.FC = () => {
                                 <span className="sr-only">Hernata Ramadhan — Full-Stack Developer & Software Engineer</span>
                             </h1>
                             <motion.div
-                                className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 border-[3px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_30px_rgba(34,211,238,0.6)]"
+                                className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 border-[2.5px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_20px_rgba(34,211,238,0.6)]"
                                 animate={{ rotate: 225 }}
                                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
                             />
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-4">
-                            <div className="px-4 py-1.5 flex items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-md">
-                                <span className="text-[10px] font-black tracking-[0.2em] text-cyan-400 uppercase leading-none">
+                        <div className="flex flex-wrap items-center gap-3">
+                            <div className="px-3 py-1 flex items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-md">
+                                <span className="text-[9px] xl:text-[10px] font-black tracking-[0.2em] text-cyan-400 uppercase leading-none">
                                     Creative Developer
                                 </span>
                             </div>
-                            <div className="flex items-center gap-2 text-slate-500 font-mono text-[10px] uppercase tracking-widest">
+                            <div className="flex items-center gap-2 text-slate-500 font-mono text-[9px] xl:text-[10px] uppercase tracking-widest">
                                 <span className="w-1.5 h-1.5 rounded-full bg-slate-500/50" />
                                 <span>Based in Madiun, ID</span>
                             </div>
                         </div>
 
-                        <h2 className="text-3xl md:text-4xl lg:text-3xl xl:text-5xl font-black text-white leading-[1.1] tracking-tight">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-black text-white leading-[1.1] tracking-tight">
                             Designing with <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">precision</span>,<br />
                             building with <span className="text-white relative inline-block">passion.</span>
                         </h2>
 
-                        <p className="text-sm md:text-base lg:text-sm xl:text-base text-slate-400 font-light leading-relaxed max-w-lg">
+                        <p className="text-xs sm:text-sm lg:text-xs xl:text-sm text-slate-400 font-light leading-relaxed max-w-lg">
                             Engineering digital masterpieces where the "shapes" of code and interfaces define the journey.
                             Specializing in full-stack development with a focus on architecture and immersive UI/UX experiences.
                         </p>
 
-                        <div className="flex flex-row flex-wrap gap-4 pt-2 xl:pt-4 mb-4 lg:mb-6">
+                        <div className="flex flex-row flex-wrap gap-3 pt-1 xl:pt-2 mb-2 lg:mb-3">
                             <motion.a
                                 href="#library"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                                whileHover={{ scale: 1.04 }}
+                                whileTap={{ scale: 0.96 }}
                                 onClick={(e) => { e.preventDefault(); window.location.hash = 'library'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                className="group relative px-6 py-4 bg-white text-black rounded-xl font-black uppercase tracking-[0.2em] overflow-hidden text-[10px] shadow-2xl transition-all"
+                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white text-black rounded-xl font-black uppercase tracking-[0.2em] overflow-hidden text-[9px] xl:text-[10px] shadow-2xl transition-all"
                             >
                                 <div className="absolute inset-0 bg-cyan-400 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                                 <span className="relative z-10 flex items-center gap-2">
-                                    Explore Works <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                    Explore Works <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                                 </span>
                             </motion.a>
                             <motion.a
                                 href="#contact"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                                whileHover={{ scale: 1.04 }}
+                                whileTap={{ scale: 0.96 }}
                                 onClick={(e) => { e.preventDefault(); window.location.hash = 'contact'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                className="group relative px-6 py-4 bg-white/5 border border-white/10 rounded-xl font-black uppercase tracking-[0.2em] text-white hover:border-cyan-400/50 hover:bg-white/[0.08] transition-all text-[10px]"
+                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white/5 border border-white/10 rounded-xl font-black uppercase tracking-[0.2em] text-white hover:border-cyan-400/50 hover:bg-white/[0.08] transition-all text-[9px] xl:text-[10px]"
                             >
                                 <span className="relative z-10 transition-colors group-hover:text-cyan-400 flex items-center gap-2">
-                                    Contact Me <Mail size={14} />
+                                    Contact Me <Mail size={13} />
                                 </span>
                             </motion.a>
                         </div>
                     </motion.div>
 
                     {/* PROFILE IMAGE: col-span-1, row-span-2 */}
-                    <motion.div variants={itemVariants} className="lg:col-span-1 lg:row-span-2 relative flex items-center justify-center h-[350px] lg:h-full py-2">
+                    <motion.div variants={itemVariants} className="lg:col-span-1 lg:row-span-2 relative flex items-center justify-center h-[300px] lg:h-full py-1">
                         <div className="relative group perspective-2000 pointer-events-auto h-full w-full max-w-[280px] lg:max-w-none">
                             <div className="absolute -inset-10 bg-gradient-to-tr from-cyan-500/10 via-purple-500/5 to-transparent rounded-[2.5rem] blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                             <motion.div
@@ -216,7 +214,7 @@ const Landing: React.FC = () => {
                                     rotateY: cardRotateY,
                                     transformStyle: 'preserve-3d'
                                 }}
-                                className="relative h-full w-full rounded-3xl lg:rounded-[2.5rem] overflow-hidden bg-[#030305] border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)] transition-colors duration-700 group-hover:border-white/20"
+                                className="relative h-full w-full rounded-2xl lg:rounded-[2rem] overflow-hidden bg-[#030305] border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)] transition-colors duration-700 group-hover:border-white/20"
                             >
                                 <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"
                                     style={{ backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))', backgroundSize: '100% 4px, 3px 100%' }} />
@@ -240,17 +238,17 @@ const Landing: React.FC = () => {
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-700" />
                                 </motion.div>
 
-                                <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-700 p-6">
-                                    <div className="absolute top-6 left-6 w-4 h-4 border-t border-l border-cyan-400/50 rounded-tl" />
-                                    <div className="absolute top-6 right-6 w-4 h-4 border-t border-r border-cyan-400/50 rounded-tr" />
-                                    <div className="absolute bottom-6 left-6 w-4 h-4 border-b border-l border-purple-400/50 rounded-bl" />
-                                    <div className="absolute bottom-6 right-6 w-4 h-4 border-b border-r border-purple-400/50 rounded-br" />
+                                <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-700 p-4 lg:p-6">
+                                    <div className="absolute top-4 left-4 lg:top-6 lg:left-6 w-3.5 h-3.5 border-t border-l border-cyan-400/50 rounded-tl" />
+                                    <div className="absolute top-4 right-4 lg:top-6 lg:right-6 w-3.5 h-3.5 border-t border-r border-cyan-400/50 rounded-tr" />
+                                    <div className="absolute bottom-4 left-4 lg:bottom-6 lg:left-6 w-3.5 h-3.5 border-b border-l border-purple-400/50 rounded-bl" />
+                                    <div className="absolute bottom-4 right-4 lg:bottom-6 lg:right-6 w-3.5 h-3.5 border-b border-r border-purple-400/50 rounded-br" />
                                 </div>
 
-                                <div className="absolute bottom-0 left-0 right-0 pb-8 px-6 z-30" style={{ transform: 'translateZ(40px)' }}>
+                                <div className="absolute bottom-0 left-0 right-0 pb-5 lg:pb-6 px-4 lg:px-5 z-30" style={{ transform: 'translateZ(40px)' }}>
                                     <div className="space-y-1">
-                                        <div className="h-0.5 w-10 bg-cyan-400 rounded-full" />
-                                        <h3 className="text-xl lg:text-3xl font-black text-white tracking-tighter leading-[0.85] select-none">
+                                        <div className="h-0.5 w-8 bg-cyan-400 rounded-full" />
+                                        <h3 className="text-lg lg:text-xl xl:text-2xl font-black text-white tracking-tighter leading-[0.85] select-none">
                                             HERNATA<br />
                                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-purple-400">RAMADHAN</span>
                                         </h3>
@@ -264,48 +262,48 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#performance"
                         variants={itemVariants}
-                        whileHover={{ y: -5 }}
+                        whileHover={{ y: -4 }}
                         onClick={(e) => { e.preventDefault(); window.location.hash = 'performance'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-1 lg:row-span-1 group relative rounded-3xl bg-[#0d1117] border border-white/10 overflow-hidden cursor-pointer p-6 flex flex-col hover:border-green-500/50 transition-all h-[250px] lg:h-auto"
+                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-[#0d1117] border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:border-green-500/50 transition-all h-[220px] lg:h-auto"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         
-                        <div className="relative z-10 flex justify-between items-start mb-2">
+                        <div className="relative z-10 flex justify-between items-start mb-1.5">
                             <div className="flex items-center gap-2">
-                                <Github size={20} className="text-slate-300 group-hover:text-green-400 transition-colors" />
-                                <span className="text-sm font-medium text-slate-300">Performance</span>
+                                <Github size={16} className="text-slate-300 group-hover:text-green-400 transition-colors" />
+                                <span className="text-xs font-medium text-slate-300">Performance</span>
                             </div>
-                            <ArrowRight size={16} className="text-slate-500 -rotate-45 group-hover:text-green-400 group-hover:rotate-0 transition-all" />
+                            <ArrowRight size={14} className="text-slate-500 -rotate-45 group-hover:text-green-400 group-hover:rotate-0 transition-all" />
                         </div>
                         
-                        <div className="relative z-10 flex-1 flex flex-col justify-end w-full gap-3 mt-4">
-                            <div className="grid grid-cols-2 gap-3 w-full">
-                                <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex flex-col justify-center items-center shadow-inner">
+                        <div className="relative z-10 flex-1 flex flex-col justify-end w-full gap-2 mt-2">
+                            <div className="grid grid-cols-2 gap-2 w-full">
+                                <div className="bg-white/5 border border-white/5 rounded-xl p-2.5 flex flex-col justify-center items-center shadow-inner">
                                     {loadingStats ? (
-                                        <div className="w-12 h-8 bg-white/10 rounded animate-pulse mb-1" />
+                                        <div className="w-10 h-6 bg-white/10 rounded animate-pulse mb-1" />
                                     ) : (
-                                        <span className="text-3xl font-black text-white">{realStats.github.totalContributions}</span>
+                                        <span className="text-xl sm:text-2xl xl:text-3xl font-black text-white">{realStats.github.totalContributions}</span>
                                     )}
-                                    <span className="text-[10px] text-green-400 font-bold uppercase tracking-widest mt-1">Commits</span>
+                                    <span className="text-[8px] xl:text-[9px] text-green-400 font-bold uppercase tracking-widest mt-0.5">Commits</span>
                                 </div>
-                                <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex flex-col justify-center items-center shadow-inner">
+                                <div className="bg-white/5 border border-white/5 rounded-xl p-2.5 flex flex-col justify-center items-center shadow-inner">
                                     {loadingStats ? (
-                                        <div className="w-8 h-8 bg-white/10 rounded animate-pulse mb-1" />
+                                        <div className="w-8 h-6 bg-white/10 rounded animate-pulse mb-1" />
                                     ) : (
-                                        <span className="text-3xl font-black text-white">{realStats.github.repos}</span>
+                                        <span className="text-xl sm:text-2xl xl:text-3xl font-black text-white">{realStats.github.repos}</span>
                                     )}
-                                    <span className="text-[10px] text-yellow-400 font-bold uppercase tracking-widest mt-1">Repos</span>
+                                    <span className="text-[8px] xl:text-[9px] text-yellow-400 font-bold uppercase tracking-widest mt-0.5">Repos</span>
                                 </div>
                             </div>
-                            <div className="bg-white/5 border border-white/5 rounded-xl p-3 flex items-center justify-between shadow-inner">
-                                <div className="flex items-center gap-2">
-                                    <Clock size={14} className="text-blue-400" />
-                                    <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Time Coded</span>
+                            <div className="bg-white/5 border border-white/5 rounded-lg p-2 flex items-center justify-between shadow-inner">
+                                <div className="flex items-center gap-1.5">
+                                    <Clock size={12} className="text-blue-400" />
+                                    <span className="text-[8px] xl:text-[9px] text-slate-400 font-medium uppercase tracking-wider">Time Coded</span>
                                 </div>
                                 {loadingStats ? (
-                                    <div className="w-16 h-4 bg-white/10 rounded animate-pulse" />
+                                    <div className="w-12 h-3 bg-white/10 rounded animate-pulse" />
                                 ) : (
-                                    <span className="text-xs font-bold text-white">{realStats.wakatime.totalTime}</span>
+                                    <span className="text-[10px] xl:text-xs font-bold text-white truncate max-w-[100px]">{realStats.wakatime.totalTime}</span>
                                 )}
                             </div>
                         </div>
@@ -315,24 +313,24 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#skills"
                         variants={itemVariants}
-                        whileHover={{ y: -5 }}
+                        whileHover={{ y: -4 }}
                         onClick={(e) => { e.preventDefault(); window.location.hash = 'skills'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-1 lg:row-span-1 group relative rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-6 flex flex-col hover:bg-white/[0.08] transition-all h-[250px] lg:h-auto"
+                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:bg-white/[0.08] transition-all h-[220px] lg:h-auto"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <div className="relative z-10 flex justify-between items-start mb-2">
+                        <div className="relative z-10 flex justify-between items-start mb-1.5">
                             <div className="flex items-center gap-2">
-                                <Terminal size={20} className="text-slate-300 group-hover:text-pink-400 transition-colors" />
-                                <h3 className="text-sm font-medium text-slate-300">Tech Stack</h3>
+                                <Terminal size={16} className="text-slate-300 group-hover:text-pink-400 transition-colors" />
+                                <h3 className="text-xs font-medium text-slate-300">Tech Stack</h3>
                             </div>
-                            <ArrowRight size={16} className="text-slate-500 -rotate-45 group-hover:text-pink-400 group-hover:rotate-0 transition-all" />
+                            <ArrowRight size={14} className="text-slate-500 -rotate-45 group-hover:text-pink-400 group-hover:rotate-0 transition-all" />
                         </div>
                         
-                        <div className="relative z-10 flex-1 flex flex-col justify-end w-full mt-2">
-                            <div className="flex flex-wrap gap-2.5">
-                                {[...innerSkills, ...outerSkills].map((skill, i) => (
-                                    <div key={i} className="group/skill relative flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-pink-500/30 transition-all shadow-inner">
-                                        <img src={skill.icon} alt={skill.name} className="w-5 h-5 object-contain filter grayscale group-hover/skill:grayscale-0 group-hover/skill:scale-110 transition-all duration-300" />
+                        <div className="relative z-10 flex-1 flex flex-col justify-end w-full mt-1.5">
+                            <div className="flex flex-wrap gap-1.5 xl:gap-2">
+                                {[...innerSkills, ...outerSkills].slice(0, 10).map((skill, i) => (
+                                    <div key={i} className="group/skill relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 xl:w-9 xl:h-9 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 hover:border-pink-500/30 transition-all shadow-inner">
+                                        <img src={skill.icon} alt={skill.name} className="w-3.5 h-3.5 sm:w-4 sm:h-4 xl:w-4.5 xl:h-4.5 object-contain filter grayscale group-hover/skill:grayscale-0 group-hover/skill:scale-110 transition-all duration-300" />
                                         <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#030305] rounded border border-white/10 text-[9px] font-bold text-white opacity-0 group-hover/skill:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
                                             {skill.name}
                                         </div>
@@ -346,42 +344,42 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#library"
                         variants={itemVariants}
-                        whileHover={{ y: -5 }}
+                        whileHover={{ y: -4 }}
                         onClick={(e) => { e.preventDefault(); window.location.hash = 'library'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-2 lg:row-span-1 group relative rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-6 md:p-8 flex flex-col justify-between hover:bg-white/[0.08] transition-all h-[250px] lg:h-auto"
+                        className="lg:col-span-2 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-4 sm:p-5 xl:p-6 flex flex-col justify-between hover:bg-white/[0.08] transition-all h-[220px] lg:h-auto"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         
-                        <div className="relative z-10 flex flex-row items-center justify-between w-full h-full gap-4">
+                        <div className="relative z-10 flex flex-row items-center justify-between w-full h-full gap-3">
                             {/* Text Area (Left) */}
-                            <div className="flex flex-col justify-between h-full max-w-[40%]">
+                            <div className="flex flex-col justify-between h-full max-w-[45%]">
                                 <div>
-                                    <h3 className="text-xl lg:text-3xl font-bold text-white mb-2">Featured Works</h3>
-                                    <p className="text-xs lg:text-sm text-slate-400 leading-relaxed">Discover my latest digital creations and case studies.</p>
+                                    <h3 className="text-base sm:text-lg xl:text-2xl font-bold text-white mb-1">Featured Works</h3>
+                                    <p className="text-[11px] xl:text-xs text-slate-400 leading-relaxed line-clamp-2">Discover my latest digital creations and case studies.</p>
                                 </div>
                                 
-                                <div className="flex items-center gap-3 mt-auto">
-                                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:text-cyan-400 transition-colors">
-                                        <ArrowRight size={16} className="-rotate-45 group-hover:rotate-0 transition-transform" />
+                                <div className="flex items-center gap-2 mt-auto">
+                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:text-cyan-400 transition-colors">
+                                        <ArrowRight size={13} className="-rotate-45 group-hover:rotate-0 transition-transform" />
                                     </div>
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-white transition-colors">View All Projects</span>
+                                    <span className="text-[9px] xl:text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-white transition-colors">View All</span>
                                 </div>
                             </div>
                             
                             {/* Images Stack Area (Right) */}
-                            <div className="relative flex-1 h-full flex items-center justify-end pr-4">
+                            <div className="relative flex-1 h-full flex items-center justify-end pr-2">
                                 {projects.slice(0, 3).map((project, idx) => (
                                     <div 
                                         key={project.id} 
-                                        className={`absolute w-36 lg:w-44 h-24 lg:h-28 rounded-xl overflow-hidden border border-white/20 shadow-2xl transition-all duration-500 group-hover:-translate-y-2
-                                        ${idx === 0 ? 'right-[40%] lg:right-[35%] z-10 rotate-[-12deg] group-hover:rotate-[-16deg] group-hover:right-[40%]' : 
-                                          idx === 1 ? 'right-[20%] lg:right-[15%] z-20 rotate-[-4deg] group-hover:rotate-[-8deg] group-hover:right-[20%]' :
-                                          'right-[0%] lg:right-[-5%] z-30 rotate-[4deg] group-hover:rotate-[0deg] group-hover:right-[0%]'}`}
+                                        className={`absolute w-28 sm:w-32 lg:w-36 xl:w-44 h-18 sm:h-20 lg:h-22 xl:h-28 rounded-xl overflow-hidden border border-white/20 shadow-2xl transition-all duration-500 group-hover:-translate-y-2
+                                        ${idx === 0 ? 'right-[36%] lg:right-[32%] z-10 rotate-[-12deg] group-hover:rotate-[-16deg]' : 
+                                          idx === 1 ? 'right-[18%] lg:right-[15%] z-20 rotate-[-4deg] group-hover:rotate-[-8deg]' : 
+                                          'right-[0%] z-30 rotate-[4deg] group-hover:rotate-[0deg]'}`}
                                     >
                                         <Image src={project.image} alt={project.title} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                         <div className="absolute inset-0 bg-gradient-to-t from-[#030305] via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
-                                        <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                            <span className="text-[9px] font-black text-white truncate drop-shadow-md">{project.title}</span>
+                                        <div className="absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                            <span className="text-[8px] xl:text-[9px] font-black text-white truncate drop-shadow-md">{project.title}</span>
                                         </div>
                                     </div>
                                 ))}
@@ -393,27 +391,27 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#experience"
                         variants={itemVariants}
-                        whileHover={{ y: -5 }}
+                        whileHover={{ y: -4 }}
                         onClick={(e) => { e.preventDefault(); window.location.hash = 'experience'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-1 lg:row-span-1 group relative rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-6 flex flex-col hover:bg-white/[0.08] transition-all h-[250px] lg:h-auto"
+                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:bg-white/[0.08] transition-all h-[220px] lg:h-auto"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        <div className="relative z-10 flex justify-between items-start mb-6">
+                        <div className="relative z-10 flex justify-between items-start mb-2">
                             <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
-                                    <Briefcase size={16} />
+                                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                                    <Briefcase size={14} />
                                 </div>
-                                <h3 className="text-lg font-bold text-white">Experience</h3>
+                                <h3 className="text-xs sm:text-sm font-bold text-white">Experience</h3>
                             </div>
-                            <ArrowRight size={16} className="text-slate-500 -rotate-45 group-hover:text-purple-400 group-hover:rotate-0 transition-all" />
+                            <ArrowRight size={14} className="text-slate-500 -rotate-45 group-hover:text-purple-400 group-hover:rotate-0 transition-all" />
                         </div>
                         
-                        <div className="relative z-10 flex-1 flex flex-col justify-center gap-4">
+                        <div className="relative z-10 flex-1 flex flex-col justify-center gap-2.5">
                             {experiences.slice(0, 2).map((exp, i) => (
-                                <div key={i} className="flex flex-col border-l-2 border-purple-500/40 pl-4 group-hover:border-purple-400 transition-colors">
-                                    <div className="text-[9px] font-mono text-purple-400 mb-1 uppercase tracking-widest">{exp.period}</div>
-                                    <h3 className="text-sm font-bold text-white leading-tight mb-0.5">{exp.role}</h3>
-                                    <p className="text-[11px] text-slate-400 truncate">{exp.company}</p>
+                                <div key={i} className="flex flex-col border-l-2 border-purple-500/40 pl-3 group-hover:border-purple-400 transition-colors">
+                                    <div className="text-[8px] xl:text-[9px] font-mono text-purple-400 mb-0.5 uppercase tracking-widest">{exp.period}</div>
+                                    <h3 className="text-xs font-bold text-white leading-tight mb-0.5 truncate">{exp.role}</h3>
+                                    <p className="text-[10px] text-slate-400 truncate">{exp.company}</p>
                                 </div>
                             ))}
                         </div>
@@ -423,21 +421,21 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#contact"
                         variants={itemVariants}
-                        whileHover={{ y: -5 }}
+                        whileHover={{ y: -4 }}
                         onClick={(e) => { e.preventDefault(); window.location.hash = 'contact'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-1 lg:row-span-1 group relative rounded-3xl bg-gradient-to-br from-cyan-600 to-purple-700 border border-white/20 overflow-hidden cursor-pointer p-6 md:p-8 flex flex-col justify-center items-start text-left transition-all shadow-[0_0_30px_rgba(34,211,238,0.15)] hover:shadow-[0_0_50px_rgba(34,211,238,0.3)] h-[200px] lg:h-auto"
+                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-gradient-to-br from-cyan-600 to-purple-700 border border-white/20 overflow-hidden cursor-pointer p-4 sm:p-5 xl:p-6 flex flex-col justify-center items-start text-left transition-all shadow-[0_0_30px_rgba(34,211,238,0.15)] hover:shadow-[0_0_50px_rgba(34,211,238,0.3)] h-[180px] lg:h-auto"
                     >
-                        <div className="absolute -right-8 -bottom-8 text-white/10 group-hover:text-white/20 rotate-[-15deg] group-hover:rotate-0 transition-all duration-700 pointer-events-none">
-                            <Mail size={160} />
+                        <div className="absolute -right-6 -bottom-6 text-white/10 group-hover:text-white/20 rotate-[-15deg] group-hover:rotate-0 transition-all duration-700 pointer-events-none">
+                            <Mail size={120} />
                         </div>
                         
                         <div className="relative z-10 flex flex-col items-start w-full">
-                            <h3 className="text-3xl font-black text-white tracking-tight mb-2 leading-tight">
+                            <h3 className="text-xl sm:text-2xl xl:text-3xl font-black text-white tracking-tight mb-1 leading-tight">
                                 Let's build <br/> together.
                             </h3>
-                            <p className="text-[11px] text-white/70 mb-6 max-w-[80%]">Open for new opportunities and exciting projects.</p>
-                            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-full font-black text-[10px] uppercase tracking-wider group-hover:scale-105 transition-transform shadow-xl">
-                                Start Project <ArrowRight size={12} />
+                            <p className="text-[9px] xl:text-[10px] text-white/70 mb-3 sm:mb-4 max-w-[85%]">Open for new opportunities and exciting projects.</p>
+                            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 bg-white text-black rounded-full font-black text-[8px] xl:text-[9px] uppercase tracking-wider group-hover:scale-105 transition-transform shadow-xl">
+                                Start Project <ArrowRight size={10} />
                             </div>
                         </div>
                     </motion.a>
