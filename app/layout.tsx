@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import SkipLink from '@/components/__a11y/SkipLink';
@@ -11,72 +11,107 @@ const inter = Inter({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hrnt-portfolio.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hernata.web.id';
+
+export const viewport: Viewport = {
+  themeColor: '#020205',
+  width: 'device-width',
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'HRNT | Creative Developer',
-  description: 'HRNT - Creative Developer Portfolio. Engineering digital experiences with precision and imagination.',
+  title: {
+    default: 'Hernata | Full-Stack Software Developer',
+    template: '%s | Hernata',
+  },
+  description:
+    'Portfolio resmi Hernata Ramadhan, Full-Stack Developer spesialis modern web application, Next.js, React, TypeScript, dan performa tinggi.',
+  keywords: [
+    'Hernata',
+    'Hernata Ramadhan',
+    'Full-Stack Developer Indonesia',
+    'Web Developer Madiun',
+    'Next.js Developer',
+    'React Developer',
+    'Software Engineer Portfolio',
+  ],
+  authors: [{ name: 'Hernata Ramadhan', url: siteUrl }],
+  creator: 'Hernata Ramadhan',
+  publisher: 'Hernata Ramadhan',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   alternates: {
-    canonical: siteUrl,
+    canonical: '/',
   },
   icons: {
     icon: '/profile.jpg',
     apple: '/profile.jpg',
   },
   openGraph: {
-    title: 'HRNT | Creative Developer',
-    description: 'HRNT - Creative Developer Portfolio. Engineering digital experiences with precision and imagination.',
-    type: 'website',
+    title: 'Hernata | Full-Stack Software Developer',
+    description:
+      'Koleksi proyek web, studi kasus performa, dan tech stack modern oleh Hernata.',
     url: siteUrl,
+    siteName: 'Hernata Portfolio',
     images: [
       {
-        url: '/profile.jpg',
-        width: 800,
-        height: 800,
-        alt: 'HRNT - Creative Developer',
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Hernata - Full-Stack Developer Portfolio',
       },
     ],
+    locale: 'id_ID',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'HRNT | Creative Developer',
-    description: 'HRNT - Creative Developer Portfolio. Engineering digital experiences with precision and imagination.',
-    images: ['/profile.jpg'],
+    title: 'Hernata | Full-Stack Software Developer',
+    description: 'Koleksi proyek web dan tech stack modern oleh Hernata.',
+    images: ['/og-image.png'],
   },
-};
-
-export const viewport = {
-  themeColor: '#020205',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Person',
-      '@id': `${siteUrl}/#person`,
-      name: 'Hernata Ramadhan',
-      givenName: 'Hernata',
-      familyName: 'Ramadhan',
-      jobTitle: 'Creative Developer',
-      url: siteUrl,
-      image: `${siteUrl}/profile.jpg`,
-      sameAs: [
-        'https://github.com/hernataramadhan79-bit',
-        'https://www.linkedin.com/in/hernata-ramadhan-176b68338',
-        'https://www.instagram.com/hrnt.dev/',
-      ],
-    },
-    {
-      '@type': 'WebSite',
-      '@id': `${siteUrl}/#website`,
-      url: siteUrl,
-      name: 'HRNT | Creative Developer',
-      description: 'HRNT - Creative Developer Portfolio. Engineering digital experiences with precision and imagination.',
-      publisher: { '@id': `${siteUrl}/#person` },
-    },
-  ],
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: 'Hernata Ramadhan',
+    alternateName: 'Hernata',
+    jobTitle: 'Full-Stack Developer',
+    url: siteUrl,
+    image: `${siteUrl}/profile.jpg`,
+    sameAs: [
+      'https://github.com/hernataramadhan79-bit',
+      'https://www.linkedin.com/in/hernata-ramadhan-176b68338',
+      'https://www.instagram.com/hrnt.dev/',
+    ],
+    knowsAbout: [
+      'Web Development',
+      'JavaScript',
+      'TypeScript',
+      'React',
+      'Next.js',
+      'Tailwind CSS',
+      'Full-Stack Engineering',
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -85,7 +120,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="id">
       <head>
         <link rel="preconnect" href="https://cdn.simpleicons.org" crossOrigin="anonymous" />
         <script

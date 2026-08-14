@@ -137,7 +137,7 @@ const Landing: React.FC = () => {
                     {/* HERO TEXT: col-span-2, row-span-2 */}
                     <motion.div variants={itemVariants} className="lg:col-span-2 lg:row-span-2 flex flex-col justify-center p-2 lg:pr-8 space-y-4 lg:space-y-6">
                         <div className="flex items-center gap-4">
-                            <h1 className="text-6xl sm:text-7xl md:text-[80px] lg:text-[75px] xl:text-[95px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex">
+                            <h1 className="text-6xl sm:text-7xl md:text-[80px] lg:text-[75px] xl:text-[95px] font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex items-center">
                                 {text.split("").map((char, index) => (
                                     <motion.span
                                         key={index}
@@ -148,6 +148,7 @@ const Landing: React.FC = () => {
                                         {char}
                                     </motion.span>
                                 ))}
+                                <span className="sr-only">Hernata Ramadhan — Full-Stack Developer & Software Engineer</span>
                             </h1>
                             <motion.div
                                 className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 border-[3px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_30px_rgba(34,211,238,0.6)]"

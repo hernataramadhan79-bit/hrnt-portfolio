@@ -140,7 +140,7 @@ const Experience: React.FC = () => {
 
                                         {/* Card Content Container */}
                                         <div className="w-full md:w-[46%]">
-                                            <div className="group relative p-6 rounded-2xl bg-[#08080c]/95 border border-white/10 hover:border-cyan-500/40 transition-all duration-500 hover:shadow-[0_0_35px_rgba(34,211,238,0.08)] overflow-hidden h-full flex flex-col justify-between">
+                                            <article className="group relative p-6 rounded-2xl bg-[#08080c]/95 border border-white/10 hover:border-cyan-500/40 transition-all duration-500 hover:shadow-[0_0_35px_rgba(34,211,238,0.08)] overflow-hidden h-full flex flex-col justify-between">
                                                 {/* Ambient top-right light accent */}
                                                 <div
                                                     className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl ${
@@ -203,7 +203,7 @@ const Experience: React.FC = () => {
                                                         </span>
                                                     ))}
                                                 </div>
-                                            </div>
+                                            </article>
                                         </div>
 
                                         {/* Balance spacer for MD screens */}

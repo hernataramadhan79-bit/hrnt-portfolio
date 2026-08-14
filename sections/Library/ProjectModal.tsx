@@ -4,6 +4,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 import { Project } from '@/types';
 
 interface ProjectModalProps {
@@ -35,7 +36,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
           onClick={(e) => e.stopPropagation()}
         >
           <div className="w-full md:w-1/2 h-[220px] md:h-[420px] relative">
-            <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+            <Image
+              src={project.image}
+              alt={`Tampilan antarmuka proyek ${project.title}`}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#050508] via-[#050508]/60 to-transparent" />
           </div>
           <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center relative z-10">

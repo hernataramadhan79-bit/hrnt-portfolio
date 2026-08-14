@@ -4,6 +4,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import Image from 'next/image';
 import { Certificate } from '@/types';
 
 interface CertificateModalProps {
@@ -37,8 +38,15 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ open, cert, onClose
           <button onClick={onClose} className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all border border-white/5 hover:border-white/20 z-10" aria-label="Close modal">
             <X size={16} />
           </button>
-          <div className="p-4 md:p-6 flex items-center justify-center bg-black/50">
-            <img src={cert.certificateImage} alt={cert.title} className="w-full h-auto max-h-[65vh] object-contain rounded-lg" />
+          <div className="p-4 md:p-6 flex items-center justify-center bg-black/50 relative min-h-[300px]">
+            <Image
+              src={cert.certificateImage}
+              alt={`Sertifikat kompetensi ${cert.title} dari ${cert.issuer}`}
+              width={1200}
+              height={800}
+              sizes="(max-width: 768px) 100vw, 80vw"
+              className="w-full h-auto max-h-[65vh] object-contain rounded-lg"
+            />
           </div>
           <div className="px-6 pb-6">
             <span className="px-2.5 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[9px] font-mono uppercase tracking-[0.2em] rounded-lg">

@@ -63,7 +63,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0], index: n
     };
 
     return (
-        <motion.div
+        <motion.article
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -96,7 +96,7 @@ const ServiceCard = ({ service, index }: { service: typeof services[0], index: n
                     <ArrowUpRight size={16} strokeWidth={2} />
                 </div>
             </div>
-        </motion.div>
+        </motion.article>
     );
 };
 

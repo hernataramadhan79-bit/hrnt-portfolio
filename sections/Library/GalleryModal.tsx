@@ -4,6 +4,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Tag, Calendar, MapPin } from 'lucide-react';
+import Image from 'next/image';
 import { GalleryItem } from '@/types';
 
 interface GalleryModalProps {
@@ -38,8 +39,15 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ open, item, onClose, mounte
             <X size={16} />
           </button>
 
-          <div className="relative w-full">
-            <img src={item.image} alt={item.title} className="w-full h-auto max-h-[55vh] object-cover" />
+          <div className="relative w-full min-h-[250px] bg-black/40">
+            <Image
+              src={item.image}
+              alt={`Dokumentasi galeri kegiatan ${item.title} di ${item.location}`}
+              width={1200}
+              height={800}
+              sizes="(max-width: 768px) 100vw, 80vw"
+              className="w-full h-auto max-h-[55vh] object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent" />
           </div>
 
