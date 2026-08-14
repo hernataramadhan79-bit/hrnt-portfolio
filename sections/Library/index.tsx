@@ -36,10 +36,10 @@ const Library: React.FC = () => {
   if (!mounted) return null;
 
   return (
-    <section id="library" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center w-full py-6 lg:py-2 xl:py-6 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-center">
+    <section id="library" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-start w-full py-4 sm:py-6 lg:py-4 xl:py-6 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto w-full flex flex-col h-full justify-start">
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 lg:mb-5 xl:mb-8 gap-3 lg:gap-6 relative z-20 shrink-0">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-3 sm:mb-4 lg:mb-5 gap-3 lg:gap-6 relative z-20 shrink-0">
           <div className="space-y-2 lg:space-y-3 max-w-xl">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[9px] xl:text-[10px] font-mono uppercase tracking-[0.2em] backdrop-blur-sm">
@@ -57,7 +57,7 @@ const Library: React.FC = () => {
           </motion.p>
         </div>
 
-        <div className="flex justify-center sm:justify-start mb-4 lg:mb-5 xl:mb-6 w-full shrink-0">
+        <div className="flex justify-center sm:justify-start mb-3 sm:mb-4 lg:mb-5 w-full shrink-0">
           <LayoutGroup>
             <nav className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto bg-[#0a0a12]/50 sm:bg-transparent p-1 sm:p-0 rounded-xl sm:rounded-none border border-white/5 sm:border-none backdrop-blur-sm" role="tablist" aria-label="Filter library content">
               {[
