@@ -371,7 +371,7 @@ const Landing: React.FC = () => {
                                           idx === 1 ? 'right-[18%] lg:right-[15%] z-20 rotate-[-4deg] group-hover:rotate-[-8deg]' : 
                                           'right-[0%] z-30 rotate-[4deg] group-hover:rotate-[0deg]'}`}
                                     >
-                                        <Image src={project.image} alt={project.title} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                        <Image src={project.image} alt={project.title} fill sizes="(max-width: 768px) 150px, 200px" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                         <div className="absolute inset-0 bg-gradient-to-t from-[#030305] via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
                                         <div className="absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                                             <span className="text-[8px] xl:text-[9px] font-black text-white truncate drop-shadow-md">{project.title}</span>

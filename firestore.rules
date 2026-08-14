@@ -1,0 +1,22 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /comments/{commentId} {
+      // Siapa saja bisa membaca daftar pesan/komentar
+      allow read: if true;
+      
+      // Hanya pengguna yang sudah login yang bisa membuat komentar baru
+      allow create: if request.auth != null;
+      
+      // Pengguna HANYA bisa menghapus komentarnya sendiri
+      allow delete: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        request.auth.token.email == "hernataramadhan79@gmail.com"
+      );
+      
+      // Mencegah edit dokumen
+      allow update: if false;
+    }
+  }
+}

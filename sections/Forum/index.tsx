@@ -6,6 +6,7 @@ import { MessageSquare } from 'lucide-react';
 import { User, auth, onAuthStateChanged, signOut } from '../../lib/firebase';
 import AuthCard from './AuthCard';
 import CommentList from './CommentList';
+import CommentForm from './CommentForm';
 
 const Forum: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -76,7 +77,9 @@ const Forum: React.FC = () => {
                                 isAuthLoading={isAuthLoading}
                                 onAuthStateChange={setUser}
                                 onLogout={handleLogout}
-                            />
+                            >
+                                {user && <CommentForm user={user} />}
+                            </AuthCard>
                         </div>
                     </motion.div>
 

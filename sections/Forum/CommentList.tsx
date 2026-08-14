@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
-import { Timestamp } from 'firebase/firestore';
-import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import React, { useState } from 'react';
+import { Timestamp, collection, query, orderBy, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { MessageSquare, Calendar } from 'lucide-react';
+import { MessageSquare, Calendar, Trash2, Loader2, Check, X, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import UserAvatar from './UserAvatar';
 
@@ -30,8 +29,11 @@ let cachedComments: Comment[] = [];
 let hasInitiallyLoaded = false;
 
 const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) => {
-  const [comments, setComments] = React.useState<Comment[]>(cachedComments);
-  const [isLoading, setIsLoading] = React.useState(!hasInitiallyLoaded && cachedComments.length === 0);
+  const [comments, setComments] = useState<Comment[]>(cachedComments);
+  const [isLoading, setIsLoading] = useState(!hasInitiallyLoaded && cachedComments.length === 0);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   React.useEffect(() => {
     const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
@@ -50,6 +52,20 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
     });
     return () => unsubscribe();
   }, []);
+
+  const confirmDeleteComment = async (commentId: string) => {
+    setDeletingId(commentId);
+    setDeleteError(null);
+    try {
+      await deleteDoc(doc(db, 'comments', commentId));
+      setConfirmDeleteId(null);
+    } catch (error: any) {
+      console.error('Error deleting comment: ', error);
+      setDeleteError('Failed to delete message. Please try again.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -70,38 +86,109 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
   }
 
   return (
-    <AnimatePresence initial={false}>
-      {comments.map((comment, index) => (
+    <div className="space-y-4">
+      {deleteError && (
         <motion.div
-          key={comment.id}
-          initial={{ opacity: 0, y: 20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 0.4, delay: index * 0.05 }}
-          className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all group"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center justify-between"
         >
-          <div className="flex justify-between items-start mb-4">
-            <div className="flex items-center gap-3">
-              <UserAvatar src={comment.userImage} name={comment.name} className="w-10 h-10" />
-              <div>
-                <div className="text-white font-bold tracking-tight">{comment.name}</div>
-                <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
-                  <Calendar size={10} /> {formatDate(comment.createdAt)}
+          <span className="flex items-center gap-1.5 font-medium">
+            <AlertCircle size={14} /> {deleteError}
+          </span>
+          <button onClick={() => setDeleteError(null)} className="p-1 hover:text-white">
+            <X size={14} />
+          </button>
+        </motion.div>
+      )}
+
+      <AnimatePresence initial={false}>
+        {comments.map((comment, index) => (
+          <motion.div
+            key={comment.id}
+            layout
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9, y: -10, transition: { duration: 0.25 } }}
+            transition={{ duration: 0.4, delay: index * 0.05 }}
+            className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all group"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex items-center gap-3">
+                <UserAvatar src={comment.userImage} name={comment.name} className="w-10 h-10" />
+                <div>
+                  <div className="text-white font-bold tracking-tight">{comment.name}</div>
+                  <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
+                    <Calendar size={10} /> {formatDate(comment.createdAt)}
+                  </div>
                 </div>
               </div>
+              {currentUserId === comment.userId && (
+                <div className="flex items-center gap-2">
+                  <AnimatePresence mode="wait">
+                    {confirmDeleteId === comment.id ? (
+                      <motion.div
+                        key="confirm-delete"
+                        initial={{ opacity: 0, scale: 0.9, x: 10 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, x: 10 }}
+                        className="flex items-center gap-1.5 p-1 bg-red-500/10 border border-red-500/30 rounded-xl backdrop-blur-md"
+                      >
+                        <span className="text-[10px] font-mono text-red-300 font-bold px-1.5">Delete?</span>
+                        <button
+                          onClick={() => confirmDeleteComment(comment.id)}
+                          disabled={deletingId === comment.id}
+                          className="px-2 py-1 bg-red-500 text-white rounded-lg text-[9px] font-mono font-bold uppercase tracking-wider hover:bg-red-600 transition-colors flex items-center gap-1 cursor-pointer"
+                        >
+                          {deletingId === comment.id ? (
+                            <Loader2 size={10} className="animate-spin" />
+                          ) : (
+                            <Check size={11} />
+                          )}
+                          <span>Yes</span>
+                        </button>
+                        <button
+                          onClick={() => setConfirmDeleteId(null)}
+                          disabled={deletingId === comment.id}
+                          className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                          title="Cancel"
+                          aria-label="Cancel delete"
+                        >
+                          <X size={12} />
+                        </button>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="default-delete"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        className="flex items-center gap-2"
+                      >
+                        <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-[8px] text-cyan-400 font-bold uppercase tracking-widest">
+                          You
+                        </span>
+                        <button
+                          onClick={() => setConfirmDeleteId(comment.id)}
+                          title="Delete message"
+                          aria-label="Delete message"
+                          className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all cursor-pointer"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
             </div>
-            {currentUserId === comment.userId && (
-              <div className="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-[8px] text-cyan-400 font-bold uppercase tracking-widest">
-                You
-              </div>
-            )}
-          </div>
-          <p className="text-slate-300 leading-relaxed text-sm whitespace-pre-wrap">
-            {comment.message}
-          </p>
-        </motion.div>
-      ))}
-    </AnimatePresence>
+            <p className="text-slate-300 leading-relaxed text-sm whitespace-pre-wrap">
+              {comment.message}
+            </p>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
   );
 };
 
