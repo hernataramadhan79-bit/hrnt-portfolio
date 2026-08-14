@@ -37,37 +37,109 @@ export const detailedSkills = {
 };
 
 export const projects: Project[] = [
-  { id: 6, title: 'MyBoard Lite — Aplikasi Kasir & POS Realtime', category: 'Web App', image: '/myboard.webp', tags: ['Vite', 'Tailwind', 'Firebase'], link: 'https://myboard-lite.vercel.app/', description: 'Aplikasi kasir (Point of Sale) & manajemen inventaris inventif untuk monitoring transaksi dan laporan penjualan harian secara realtime. Dibangun menggunakan Vite, Tailwind CSS, dan Firebase Realtime Database.' },
-  { id: 1, title: 'Sakuku — Pemantau Pengeluaran & Finansial Pribadi', category: 'Web App', image: '/sakukuimg.webp', tags: ['React', 'Tailwind'], link: 'https://sakuku-wallet.vercel.app/', description: 'Aplikasi dompet digital dan pemantau pengeluaran personal modern dengan analitik visual realtime, pelacakan mutasi kartu, dan manajemen anggaran berbasis React dan Tailwind CSS.' },
-  { id: 2, title: 'OryonWeb — Website Agency Digital & Profil Kreatif', category: 'Web App', image: '/owgimg.webp', tags: ['React', 'Tailwind'], link: 'https://oryonweb.com/', description: 'Portal agency digital dan portofolio kreatif profesional dengan arsitektur performa tinggi, skor Core Web Vitals optimal, dan technical SEO menyeluruh.' },
-  { id: 3, title: 'Oryon AI — Asisten Chatbot AI & Generator Kode', category: 'Web App', image: '/oryonaiimg.webp', tags: ['React', 'Gemini API'], link: 'https://oryon-ai-three.vercel.app/', description: 'Platform asisten percakapan cerdas berbasis Google Gemini API dengan kapabilitas penalaran kontekstual, generasi kode terstruktur, dan antarmuka futuristik responsif.' },
-  { id: 4, title: 'Renova — Sistem Rental Mobil & Katalog Showroom', category: 'Web App', image: '/renovaimg.webp', tags: ['React', 'Supabase', 'PostgreSQL'], link: 'https://renovamobil.vercel.app/', description: 'Sistem manajemen persewaan mobil dan showroom interaktif dengan otentikasi aman, pelacakan armada, serta integrasi database Supabase dan PostgreSQL.' },
-  { id: 5, title: 'Website RSUD Dolopo — Portal Layanan Kesehatan & Pasien', category: 'Web App', image: '/rsdolopoimg.webp', tags: ['React', 'Firebase', 'PostgreSQL'], link: 'https://rsuddoloponew.netlify.app/', description: 'Portal informasi layanan kesehatan dan manajemen jadwal antrean pasien berbasis web untuk kemudahan akses informasi medis publik yang terintegrasi Firebase dan PostgreSQL.' },
+  {
+    id: 6,
+    title: 'MyBoard Lite — Real-time Cloud POS & Inventory System',
+    category: 'Web App',
+    image: '/myboard.webp',
+    tags: ['Vite', 'Tailwind', 'Firebase'],
+    link: 'https://myboard-lite.vercel.app/',
+    description: 'An intuitive Point of Sale (POS) and inventory management platform for real-time transaction monitoring and daily sales analytics. Engineered with Vite, Tailwind CSS, and Firebase Realtime Database.'
+  },
+  {
+    id: 1,
+    title: 'Sakuku — Personal Finance & Expense Tracker',
+    category: 'Web App',
+    image: '/sakukuimg.webp',
+    tags: ['React', 'Tailwind'],
+    link: 'https://sakuku-wallet.vercel.app/',
+    description: 'A modern digital wallet and expense tracking application featuring real-time visual analytics, transaction monitoring, and budget management built with React and Tailwind CSS.'
+  },
+  {
+    id: 2,
+    title: 'OryonWeb — Digital Agency & Creative Portfolio',
+    category: 'Web App',
+    image: '/owgimg.webp',
+    tags: ['React', 'Tailwind'],
+    link: 'https://oryonweb.com/',
+    description: 'A high-performance digital agency web application and creative showcase engineered with optimized Core Web Vitals, modular architecture, and comprehensive technical SEO.'
+  },
+  {
+    id: 3,
+    title: 'Oryon AI — Contextual AI Assistant & Code Generator',
+    category: 'Web App',
+    image: '/oryonaiimg.webp',
+    tags: ['React', 'Gemini API'],
+    link: 'https://oryon-ai-three.vercel.app/',
+    description: 'An intelligent conversational platform powered by Google Gemini API with contextual reasoning, structured code generation capabilities, and a responsive futuristic user interface.'
+  },
+  {
+    id: 4,
+    title: 'Renova — Car Rental & Fleet Management System',
+    category: 'Web App',
+    image: '/renovaimg.webp',
+    tags: ['React', 'Supabase', 'PostgreSQL'],
+    link: 'https://renovamobil.vercel.app/',
+    description: 'A robust vehicle rental management platform and interactive digital showroom featuring secure authentication, fleet tracking, and Supabase PostgreSQL integration.'
+  },
+  {
+    id: 5,
+    title: 'RSUD Dolopo — Hospital Healthcare & Patient Queue Portal',
+    category: 'Web App',
+    image: '/rsdolopoimg.webp',
+    tags: ['React', 'Firebase', 'PostgreSQL'],
+    link: 'https://rsuddoloponew.netlify.app/',
+    description: 'A responsive healthcare portal and patient queuing management system designed for seamless public access to medical information, integrated with Firebase and PostgreSQL.'
+  },
 ];
 
 export const certificates: Certificate[] = [
-  { id: 1, title: 'Learn The Basics Of web Programming', issuer: 'Dicoding', date: '2025', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat1.webp', credentialLink: '/sertifikat1.webp' },
-  { id: 2, title: 'Photography Expertise Level III KKNI', issuer: 'LESKOFI', date: '2025', image: '/logoleskofi.webp', certificateImage: '/sertifikat2.jpg', credentialLink: '/sertifikat2.jpg' },
-  { id: 3, title: 'Learning AI Basics', issuer: 'Dicoding', date: '2025', image: '/dicodinglogo.jpg', certificateImage: '/sertifikat3.webp', credentialLink: '/sertifikat3.webp' },
+  {
+    id: 1,
+    title: 'Learn The Basics Of Web Programming',
+    issuer: 'Dicoding',
+    date: '2025',
+    image: '/dicodinglogo.jpg',
+    certificateImage: '/sertifikat1.webp',
+    credentialLink: '/sertifikat1.webp'
+  },
+  {
+    id: 2,
+    title: 'Photography Expertise Level III KKNI',
+    issuer: 'LESKOFI',
+    date: '2025',
+    image: '/logoleskofi.webp',
+    certificateImage: '/sertifikat2.jpg',
+    credentialLink: '/sertifikat2.jpg'
+  },
+  {
+    id: 3,
+    title: 'Learning AI Basics',
+    issuer: 'Dicoding',
+    date: '2025',
+    image: '/dicodinglogo.jpg',
+    certificateImage: '/sertifikat3.webp',
+    credentialLink: '/sertifikat3.webp'
+  },
 ];
 
 export const galleryItems: GalleryItem[] = [
   {
     id: 1,
     image: '/galeri1.webp',
-    title: 'Foto Bersama UPTPTKK Photography',
-    description: 'Sesi foto bersama tim UPTPTKK Kelas Akselerasi MJC Angkatan 1 Photography, sebuah momen spesial untuk merayakan kolaborasi kreatif dan mempererat solidaritas antar sesama penggiat dunia fotografi dan multimedia.',
-    date: 'Desember 2025',
-    location: 'UPTPTKK Surabaya',
+    title: 'UPTPTKK Photography Cohort Session',
+    description: 'A collaborative group photo session with the UPTPTKK Acceleration Class (MJC Photography Cohort 1), celebrating creative collaboration and fostering professional networking in digital media.',
+    date: 'December 2025',
+    location: 'Surabaya, ID',
     category: 'Education'
   },
   {
     id: 2,
     image: '/gallery2.webp',
-    title: 'Momen Bersama Mentor UPTPTKK',
-    description: 'Sesi bimbingan dan foto bersama mentor di Kelas Akselerasi MJC Angkatan 1 Photography. Sebuah momen berharga untuk menyerap ilmu langsung dari praktisi profesional dan memperdalam wawasan di industri kreatif.',
-    date: 'Desember 2025',
-    location: 'UPTPTKK Surabaya',
+    title: 'Mentorship Session at UPTPTKK',
+    description: 'A valuable mentorship session and documentation with industry experts in the MJC Photography Acceleration Class, gaining hands-on professional insights and creative media production techniques.',
+    date: 'December 2025',
+    location: 'Surabaya, ID',
     category: 'Education'
   },
 ];
@@ -115,7 +187,6 @@ export const experiences = [
   }
 ];
 
-
 // Web3Forms Configuration — key loaded from .env.local (NEXT_PUBLIC_WEB3FORMS_KEY)
 export const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? '';
 
@@ -143,4 +214,3 @@ export const githubStats = {
   repos: 45,
   followers: 86
 };
-

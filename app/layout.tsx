@@ -26,15 +26,18 @@ export const metadata: Metadata = {
     template: '%s | Hernata',
   },
   description:
-    'Portfolio resmi Hernata Ramadhan, Full-Stack Developer spesialis modern web application, Next.js, React, TypeScript, dan performa tinggi.',
+    'Official portfolio of Hernata Ramadhan, Full-Stack Developer specializing in high-performance web applications, Next.js, React, TypeScript, and modern UI/UX engineering.',
   keywords: [
     'Hernata',
     'Hernata Ramadhan',
-    'Full-Stack Developer Indonesia',
-    'Web Developer Madiun',
+    'Full-Stack Developer',
+    'Software Engineer Portfolio',
     'Next.js Developer',
     'React Developer',
-    'Software Engineer Portfolio',
+    'TypeScript Engineer',
+    'Frontend Engineer',
+    'Web Application Developer',
+    'Creative Developer',
   ],
   authors: [{ name: 'Hernata Ramadhan', url: siteUrl }],
   creator: 'Hernata Ramadhan',
@@ -54,7 +57,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Hernata | Full-Stack Software Developer',
     description:
-      'Koleksi proyek web, studi kasus performa, dan tech stack modern oleh Hernata.',
+      'Explore web applications, performance metrics, and modern tech stacks engineered by Hernata Ramadhan.',
     url: siteUrl,
     siteName: 'Hernata Portfolio',
     images: [
@@ -62,16 +65,17 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Hernata - Full-Stack Developer Portfolio',
+        alt: 'Hernata - Full-Stack Software Developer Portfolio',
       },
     ],
-    locale: 'id_ID',
+    locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Hernata | Full-Stack Software Developer',
-    description: 'Koleksi proyek web dan tech stack modern oleh Hernata.',
+    description:
+      'Explore web applications, performance metrics, and modern tech stacks engineered by Hernata Ramadhan.',
     images: ['/og-image.png'],
   },
   robots: {
@@ -94,7 +98,9 @@ const jsonLd = {
     '@type': 'Person',
     name: 'Hernata Ramadhan',
     alternateName: 'Hernata',
-    jobTitle: 'Full-Stack Developer',
+    jobTitle: 'Full-Stack Developer & Software Engineer',
+    description:
+      'Full-Stack Developer specializing in modern web architecture, Next.js, React, TypeScript, and high-performance user interfaces.',
     url: siteUrl,
     image: `${siteUrl}/profile.jpg`,
     sameAs: [
@@ -103,13 +109,18 @@ const jsonLd = {
       'https://www.instagram.com/hrnt.dev/',
     ],
     knowsAbout: [
-      'Web Development',
+      'Full-Stack Development',
+      'Web Application Architecture',
       'JavaScript',
       'TypeScript',
       'React',
       'Next.js',
       'Tailwind CSS',
-      'Full-Stack Engineering',
+      'Node.js',
+      'PostgreSQL',
+      'Cloud Architecture',
+      'UI/UX Design Systems',
+      'REST & GraphQL APIs',
     ],
   },
 };
@@ -120,7 +131,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://cdn.simpleicons.org" crossOrigin="anonymous" />
         <script

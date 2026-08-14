@@ -150,7 +150,7 @@ const Library: React.FC = () => {
                   onClick={() => { setSelectedCertificate(certificates[0]); setIsModalOpen(true); }}>
                   <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
                   <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-white/5 border border-white/10 p-2 shrink-0 group-hover:border-cyan-500/30 transition-colors relative">
-                     <ImageWithLoader src={certificates[0].image} alt={`Logo penerbit ${certificates[0].issuer}`} className="w-full h-full object-contain" />
+                     <ImageWithLoader src={certificates[0].image} alt={`Issuer logo for ${certificates[0].issuer}`} className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1 min-w-0 z-10">
                     <span className="text-[9px] xl:text-[10px] text-cyan-500 font-mono uppercase tracking-widest mb-0.5 block">Recent Certification</span>
@@ -245,7 +245,7 @@ const Library: React.FC = () => {
                     
                     <div className="flex items-start gap-4 mb-3">
                       <div className="w-12 h-12 rounded-xl overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/10 group-hover:border-cyan-500/30 bg-white/5 p-1.5 shrink-0 relative">
-                        <ImageWithLoader src={cert.image} alt={`Logo penerbit ${cert.issuer}`} className="w-full h-full object-contain" />
+                        <ImageWithLoader src={cert.image} alt={`Issuer logo for ${cert.issuer}`} className="w-full h-full object-contain" />
                       </div>
                       <div className="flex-1 min-w-0 pt-1">
                         <h3 className="text-sm font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug uppercase tracking-tight">

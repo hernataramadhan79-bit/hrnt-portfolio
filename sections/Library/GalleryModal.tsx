@@ -42,7 +42,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ open, item, onClose, mounte
           <div className="relative w-full min-h-[250px] bg-black/40">
             <Image
               src={item.image}
-              alt={`Dokumentasi galeri kegiatan ${item.title} di ${item.location}`}
+              alt={`Gallery documentation of ${item.title} in ${item.location}`}
               width={1200}
               height={800}
               sizes="(max-width: 768px) 100vw, 80vw"

@@ -171,7 +171,7 @@ const Skills: React.FC = () => {
               <div className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] xl:w-[220px] xl:h-[220px] bg-cyan-500/10 rounded-full blur-[50px]" />
               <div className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 rounded-full p-1 bg-gradient-to-br from-cyan-400/80 via-white/10 to-purple-500/80 shadow-[0_0_60px_rgba(34,211,238,0.2)] pointer-events-auto group cursor-crosshair">
                 <div className="w-full h-full rounded-full overflow-hidden border-2 border-[#030305] relative bg-black">
-                  <img src="/profile2.jpg" alt="Core" width={160} height={160} className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
+                  <img src="/profile2.jpg" alt="Hernata Ramadhan Core Skill Matrix Visualizer" width={160} height={160} className="w-full h-full object-cover grayscale brightness-110 group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
                   <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/30 to-purple-500/30 mix-blend-overlay group-hover:opacity-0 transition-opacity" />
                 </div>
                 {/* CSS-only core rings */}

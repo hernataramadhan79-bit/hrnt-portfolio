@@ -38,7 +38,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
           <div className="w-full md:w-1/2 h-[220px] md:h-[420px] relative">
             <Image
               src={project.image}
-              alt={`Tampilan antarmuka proyek ${project.title}`}
+              alt={`Interactive interface preview of ${project.title}`}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"

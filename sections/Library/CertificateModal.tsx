@@ -41,7 +41,7 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ open, cert, onClose
           <div className="p-4 md:p-6 flex items-center justify-center bg-black/50 relative min-h-[300px]">
             <Image
               src={cert.certificateImage}
-              alt={`Sertifikat kompetensi ${cert.title} dari ${cert.issuer}`}
+              alt={`Professional certification for ${cert.title} issued by ${cert.issuer}`}
               width={1200}
               height={800}
               sizes="(max-width: 768px) 100vw, 80vw"
