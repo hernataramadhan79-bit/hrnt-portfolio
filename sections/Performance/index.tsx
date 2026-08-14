@@ -12,18 +12,22 @@ import MainframeCard from './MainframeCard';
 import GitHubHeatmap from './GitHubHeatmap';
 import PerformanceModal from './PerformanceModal';
 import { SkeletonPulse } from './utils';
+import { fetchGithubData, fetchWakaTimeData } from '../../lib/clientDataCache';
 
 const Performance: React.FC = () => {
     const [selectedStat, setSelectedStat] = useState<'github' | 'wakatime' | null>(null);
     const [mounted, setMounted] = useState(false);
-    const [loadingState, setLoadingState] = useState({ github: true, wakatime: true });
+    const [loadingState, setLoadingState] = useState({
+        github: true,
+        wakatime: true
+    });
     const [stats, setStats] = useState({
         github: {
             totalContributions: 0,
             stars: 0,
             repos: 0,
             followers: 0,
-            contributions: [] as any[],
+            contributions: [] as { date: string; count: number }[][],
             topRepos: [] as any[]
         },
         wakatime: {
@@ -41,9 +45,8 @@ const Performance: React.FC = () => {
 
         const fetchGitHub = async () => {
             try {
-                const res = await fetch('/api/github');
-                if (res.ok) {
-                    const data = await res.json();
+                const data = await fetchGithubData();
+                if (data && data.profile) {
                     setStats(prev => ({
                         ...prev,
                         github: {
@@ -65,12 +68,9 @@ const Performance: React.FC = () => {
 
         const fetchWakaTime = async () => {
             try {
-                const res = await fetch('/api/wakatime');
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.isLoaded) {
-                        setStats(prev => ({ ...prev, wakatime: data }));
-                    }
+                const data = await fetchWakaTimeData();
+                if (data && (data.isLoaded || data.totalTime)) {
+                    setStats(prev => ({ ...prev, wakatime: data }));
                 }
             } catch (e) {
                 console.error('WakaTime fetch error:', e);

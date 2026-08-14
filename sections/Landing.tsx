@@ -6,6 +6,7 @@ import { motion, Variants, useMotionValue, useSpring, useTransform } from 'frame
 import { ArrowRight, Mail, Briefcase, Github, Clock, Star, Terminal } from 'lucide-react';
 import Marquee from '../components/Marquee';
 import { projects, innerSkills, outerSkills, experiences, githubStats, wakaTimeStats, detailedSkills } from '../constants';
+import { fetchGithubData, fetchWakaTimeData } from '../lib/clientDataCache';
 
 const Landing: React.FC = () => {
     const mouseX = useMotionValue(0);
@@ -26,16 +27,10 @@ const Landing: React.FC = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const [ghRes, wkRes] = await Promise.all([
-                    fetch('/api/github').catch(() => null),
-                    fetch('/api/wakatime').catch(() => null)
+                const [ghData, wkData] = await Promise.all([
+                    fetchGithubData().catch(() => null),
+                    fetchWakaTimeData().catch(() => null)
                 ]);
-                
-                let ghData = null;
-                let wkData = null;
-                
-                if (ghRes && ghRes.ok) ghData = await ghRes.json();
-                if (wkRes && wkRes.ok) wkData = await wkRes.json();
                 
                 if (ghData || wkData) {
                     setRealStats({

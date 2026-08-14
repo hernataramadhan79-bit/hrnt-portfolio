@@ -1,7 +1,7 @@
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 
 const WINDOW_MS = 60 * 1000;
-const MAX_REQUESTS = 30;
+const DEFAULT_MAX_REQUESTS = 100;
 const MAX_MAP_SIZE = 1000; // Prevent infinite growth
 
 function cleanupMap() {
@@ -15,18 +15,22 @@ function cleanupMap() {
     }
 }
 
-export function checkRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
+export function checkRateLimit(
+    ip: string,
+    maxRequests: number = DEFAULT_MAX_REQUESTS,
+    windowMs: number = WINDOW_MS
+): { allowed: boolean; retryAfter?: number } {
     const now = Date.now();
     const record = rateLimitMap.get(ip);
 
     cleanupMap();
 
     if (!record || now > record.resetTime) {
-        rateLimitMap.set(ip, { count: 1, resetTime: now + WINDOW_MS });
+        rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
         return { allowed: true };
     }
 
-    if (record.count >= MAX_REQUESTS) {
+    if (record.count >= maxRequests) {
         const retryAfter = Math.ceil((record.resetTime - now) / 1000);
         return { allowed: false, retryAfter };
     }

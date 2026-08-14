@@ -3,9 +3,25 @@ import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export const revalidate = 3600;
 
+// Server-side in-memory cache (10 menit) untuk mencegah spam ke WakaTime API
+let serverCache: { data: any; timestamp: number } | null = null;
+const SERVER_CACHE_TTL = 10 * 60 * 1000;
+
 export async function GET(request: Request) {
     const ip = getClientIp(request);
     const { allowed, retryAfter } = checkRateLimit(ip);
+
+    // Jika ada cache server yang valid, sajikan langsung bahkan jika rate limit client tercapai
+    const now = Date.now();
+    if (serverCache && (now - serverCache.timestamp < SERVER_CACHE_TTL)) {
+        return NextResponse.json(serverCache.data, {
+            headers: {
+                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+                'X-Cache-Status': 'HIT'
+            }
+        });
+    }
+
     if (!allowed) {
         return NextResponse.json({ error: 'Too many requests. Please try again later.' }, {
             status: 429,
@@ -139,17 +155,35 @@ export async function GET(request: Request) {
 
         console.log('WakaTime OK | total:', totalTimeText, '| avg:', dailyAverageText, '| best:', bestDayText, '| growth:', growthFactor);
 
-        return NextResponse.json({
+        const responseData = {
             languages,
             totalTime: cleanText(totalTimeText),
             dailyAverage: cleanText(dailyAverageText),
             bestDay: bestDayText,
             optimizationFactor: growthFactor,
             isLoaded: true
+        };
+
+        // Simpan ke in-memory server cache
+        serverCache = {
+            data: responseData,
+            timestamp: Date.now()
+        };
+
+        return NextResponse.json(responseData, {
+            headers: {
+                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+                'X-Cache-Status': 'MISS'
+            }
         });
 
     } catch (error: any) {
         console.error('WakaTime route error:', error?.message || error);
+        if (serverCache) {
+            return NextResponse.json(serverCache.data, {
+                headers: { 'X-Cache-Status': 'STALE-FALLBACK' }
+            });
+        }
         return NextResponse.json({
             languages: [],
             totalTime: '0h 0m',

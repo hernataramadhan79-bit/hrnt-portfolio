@@ -25,9 +25,13 @@ const formatDate = (timestamp: Timestamp | null) => {
   }).format(date);
 };
 
+// Module-level in-memory cache untuk comments agar tidak re-hydrate saat ganti tab
+let cachedComments: Comment[] = [];
+let hasInitiallyLoaded = false;
+
 const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) => {
-  const [comments, setComments] = React.useState<Comment[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [comments, setComments] = React.useState<Comment[]>(cachedComments);
+  const [isLoading, setIsLoading] = React.useState(!hasInitiallyLoaded && cachedComments.length === 0);
 
   React.useEffect(() => {
     const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
@@ -36,6 +40,8 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
       snapshot.forEach((doc) => {
         commentsData.push({ id: doc.id, ...doc.data() } as Comment);
       });
+      cachedComments = commentsData;
+      hasInitiallyLoaded = true;
       setComments(commentsData);
       setIsLoading(false);
     }, (error) => {
