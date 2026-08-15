@@ -13,7 +13,7 @@ const services = [
     },
     {
         icon: Database,
-        title: "Scaleable Backend",
+        title: "Scalable Backend",
         description: "Robust server-side architecture featuring secure data management and high-throughput API protocols for massive growth.",
         color: "purple"
     },
@@ -62,24 +62,51 @@ const ServiceCard = ({ service, index }: { service: typeof services[0], index: n
         blue: 'bg-blue-400/10',
     };
 
+    const fromGradient = {
+        cyan: 'from-cyan-500/5',
+        purple: 'from-purple-500/5',
+        pink: 'from-pink-500/5',
+        yellow: 'from-yellow-500/5',
+        emerald: 'from-emerald-500/5',
+        blue: 'from-blue-500/5',
+    };
+
+    const hoverArrowBg = {
+        cyan: 'group-hover:bg-cyan-400',
+        purple: 'group-hover:bg-purple-400',
+        pink: 'group-hover:bg-pink-400',
+        yellow: 'group-hover:bg-yellow-400',
+        emerald: 'group-hover:bg-emerald-400',
+        blue: 'group-hover:bg-blue-400',
+    };
+
+    const footerTextColor = {
+        cyan: 'text-cyan-400',
+        purple: 'text-purple-400',
+        pink: 'text-pink-400',
+        yellow: 'text-yellow-400',
+        emerald: 'text-emerald-400',
+        blue: 'text-blue-400',
+    };
+
     return (
         <motion.article
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: index * 0.1 }}
-            className="group relative flex flex-col p-6 rounded-[1.5rem] bg-[#050508] border border-white/5 hover:border-white/10 transition-all duration-500 overflow-hidden h-full shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.05)]"
+            className="group relative flex flex-col p-6 rounded-[1.5rem] bg-[#050508] border border-white/5 hover:border-white/20 hover:-translate-y-2 transition-all duration-500 overflow-hidden h-full shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)]"
         >
-            <div className={`absolute top-0 right-0 w-64 h-64 blur-[80px] rounded-full transition-all duration-700 opacity-0 group-hover:opacity-100 ${accentGlow[service.color as keyof typeof accentGlow]} translate-x-1/2 -translate-y-1/2`} />
-            <div className={`absolute inset-0 bg-gradient-to-br from-${service.color}-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
+            <div className={`absolute top-0 right-0 w-64 h-64 blur-[80px] rounded-full transition-all duration-700 opacity-0 group-hover:opacity-100 group-hover:scale-125 ${accentGlow[service.color as keyof typeof accentGlow]} translate-x-1/2 -translate-y-1/2 pointer-events-none`} />
+            <div className={`absolute inset-0 bg-gradient-to-br ${fromGradient[service.color as keyof typeof fromGradient]} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
             <div className="absolute inset-0 bg-grid-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-all duration-500 mb-6 shadow-md relative z-10 bg-[#050508] ${colorMap[service.color as keyof typeof colorMap]} group-hover:scale-110 group-hover:-rotate-6 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]`}>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-all duration-500 mb-6 shadow-md relative z-10 bg-[#050508] ${colorMap[service.color as keyof typeof colorMap]} group-hover:scale-115 group-hover:-rotate-6 group-hover:shadow-[0_0_25px_rgba(255,255,255,0.08)]`}>
                 <service.icon size={22} strokeWidth={1.5} />
             </div>
 
             <div className="flex-1 space-y-3 relative z-10">
-                <h3 className="text-xl font-black text-white transition-colors duration-300 tracking-tighter uppercase">
+                <h3 className="text-xl font-black text-white group-hover:text-white transition-colors duration-300 tracking-tighter uppercase">
                     {service.title}
                 </h3>
 
@@ -90,9 +117,9 @@ const ServiceCard = ({ service, index }: { service: typeof services[0], index: n
 
             <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between opacity-60 group-hover:opacity-100 transition-all duration-500 relative z-10">
                 <div className="flex items-center gap-3">
-                    <p className={`text-[9px] font-mono text-${service.color}-400 uppercase tracking-[0.2em] font-bold`}>Protocol 0{index + 1}</p>
+                    <p className={`text-[9px] font-mono uppercase tracking-[0.2em] font-bold ${footerTextColor[service.color as keyof typeof footerTextColor]}`}>Protocol 0{index + 1}</p>
                 </div>
-                <div className={`w-10 h-10 rounded-full bg-white/[0.02] border border-white/10 flex items-center justify-center group-hover:bg-${service.color}-400 group-hover:text-black transition-all duration-500 transform group-hover:rotate-45 shadow-sm`}>
+                <div className={`w-10 h-10 rounded-full bg-white/[0.02] border border-white/10 flex items-center justify-center ${hoverArrowBg[service.color as keyof typeof hoverArrowBg]} group-hover:text-black group-hover:scale-110 transition-all duration-500 transform group-hover:rotate-45 shadow-sm`}>
                     <ArrowUpRight size={16} strokeWidth={2} />
                 </div>
             </div>

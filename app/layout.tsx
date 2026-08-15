@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import Script from 'next/script';
 import SkipLink from '@/components/__a11y/SkipLink';
 import './globals.css';
 
@@ -141,31 +140,6 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <SkipLink />
-        <Script id="image-protection" strategy="lazyOnload">
-          {`
-            document.addEventListener('contextmenu', function (e) {
-              if (e.target.tagName === 'IMG') e.preventDefault();
-            }, { passive: false });
-
-            document.addEventListener('dragstart', function (e) {
-              if (e.target.tagName === 'IMG') e.preventDefault();
-            }, { passive: false });
-
-            document.addEventListener('keydown', function (e) {
-              if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
-                const selection = window.getSelection();
-                if (selection && selection.rangeCount > 0) {
-                  const range = selection.getRangeAt(0);
-                  const container = range.commonAncestorContainer;
-                  const parent = container.nodeType === Node.TEXT_NODE ? container.parentElement : container;
-                  if (parent && parent instanceof HTMLElement && parent.querySelector('img')) {
-                    e.preventDefault();
-                  }
-                }
-              }
-            });
-          `}
-        </Script>
         {children}
       </body>
     </html>

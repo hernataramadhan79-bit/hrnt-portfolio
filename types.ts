@@ -15,6 +15,11 @@ export interface Project {
   tags: string[];
   link: string;
   description?: string;
+  // Case study fields
+  problem?: string;
+  approach?: string;
+  outcome?: string;
+  highlights?: string[];
 }
 
 export interface Certificate {
@@ -29,8 +34,20 @@ export interface Certificate {
 
 export interface Skill {
   name: string;
-  icon: string; // Changed to string for Logo URLs
+  icon: string; // URL string for CDN-hosted skill icons
   color: string;
+}
+
+export type SkillProficiency = 'Expert' | 'Advanced' | 'Proficient';
+
+export interface DetailedSkill {
+  name: string;
+  proficiency: SkillProficiency;
+  icon: LucideIcon;
+  color: string;
+  barColor: string;
+  tags: string[];
+  description: string;
 }
 
 export interface GalleryItem {

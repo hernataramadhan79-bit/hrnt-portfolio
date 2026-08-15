@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Twitter, Send, Instagram } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, Instagram, Loader2 } from 'lucide-react';
 import { WEB3FORMS_ACCESS_KEY } from '../constants';
 
 const Contact: React.FC = () => {
@@ -41,6 +41,8 @@ const Contact: React.FC = () => {
       if (response.ok) {
         setIsSuccess(true);
         setFormData({ name: '', email: '', message: '' });
+        // Auto-clear success message after 5 seconds
+        setTimeout(() => setIsSuccess(false), 5000);
       } else {
         throw new Error('Failed to send message');
       }
@@ -101,26 +103,29 @@ const Contact: React.FC = () => {
                 </a>
               </div>
 
-              <div>
-                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-2">Social Connect</p>
-                <div className="flex gap-2.5 sm:gap-3">
-                  {[
-                    { icon: Github, href: 'https://github.com/hernataramadhan79-bit' },
-                    { icon: Linkedin, href: 'https://www.linkedin.com/in/hernata-ramadhan-176b68338' },
-                    { icon: Instagram, href: 'https://www.instagram.com/heropakentanq15_?igsh=eWJqaW5qMGoxZWVh' }
-                  ].map((item, idx) => (
-                    <motion.button
-                      key={idx}
-                      whileHover={{ scale: 1.08, y: -3 }}
-                      whileTap={{ scale: 0.92 }}
-                      onClick={() => window.open(item.href, '_blank')}
-                      className="w-10 h-10 sm:w-11 sm:h-11 xl:w-12 xl:h-12 rounded-xl bg-[#0a0a0f] border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all duration-300 cursor-pointer"
-                    >
-                      <item.icon size={16} />
-                    </motion.button>
-                  ))}
+                <div>
+                  <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-2">Social Connect</p>
+                  <div className="flex gap-2.5 sm:gap-3">
+                    {[
+                      { icon: Github, href: 'https://github.com/hernataramadhan79-bit', label: 'GitHub profile' },
+                      { icon: Linkedin, href: 'https://www.linkedin.com/in/hernata-ramadhan-176b68338', label: 'LinkedIn profile' },
+                      { icon: Instagram, href: 'https://www.instagram.com/heropakentanq15_', label: 'Instagram profile' }
+                    ].map((item, idx) => (
+                      <motion.a
+                        key={idx}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={item.label}
+                        whileHover={{ scale: 1.12, y: -4 }}
+                        whileTap={{ scale: 0.92 }}
+                        className="w-10 h-10 sm:w-11 sm:h-11 xl:w-12 xl:h-12 rounded-xl bg-[#0a0a0f] border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-400 hover:bg-cyan-500/10 hover:shadow-[0_0_25px_rgba(34,211,238,0.35)] transition-all duration-300 shadow-md"
+                      >
+                        <item.icon size={17} className="transition-transform group-hover:scale-110" />
+                      </motion.a>
+                    ))}
+                  </div>
                 </div>
-              </div>
             </motion.div>
           </div>
 
@@ -148,24 +153,28 @@ const Contact: React.FC = () => {
 
                   <div className="grid grid-cols-2 gap-3 sm:gap-4" style={{ transform: "translateZ(20px)" }}>
                     <div className="space-y-1.5 group">
-                      <label className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Name</label>
+                      <label htmlFor="contact-name" className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Name</label>
                       <input
+                        id="contact-name"
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
+                        maxLength={100}
                         className="w-full bg-[#0a0a0f]/90 border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all shadow-md"
                         placeholder="Your Name"
                         required
                       />
                     </div>
                     <div className="space-y-1.5 group">
-                      <label className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Email</label>
+                      <label htmlFor="contact-email" className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Email</label>
                       <input
+                        id="contact-email"
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
+                        maxLength={254}
                         className="w-full bg-[#0a0a0f]/90 border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all shadow-md"
                         placeholder="Your Email Address"
                         required
@@ -174,15 +183,18 @@ const Contact: React.FC = () => {
                   </div>
 
                   <div className="space-y-1.5 group relative" style={{ transform: "translateZ(30px)" }}>
-                    <label className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Message</label>
+                    <label htmlFor="contact-message" className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Message</label>
                     <div className="relative">
                       <textarea
+                        id="contact-message"
                         rows={3}
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
+                        minLength={20}
+                        maxLength={2000}
                         className="w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all resize-none shadow-md"
-                        placeholder="Tell me about your project..."
+                        placeholder="Tell me about your project... (min. 20 characters)"
                         required
                       />
                     </div>
@@ -197,7 +209,11 @@ const Contact: React.FC = () => {
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-500 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out" />
                       <span className="relative z-10 flex items-center gap-3 group-hover:text-black transition-colors text-base">
-                        {isLoading ? 'Sending...' : 'Send Message'} <Send size={20} className={`transition-transform ${isLoading ? 'animate-spin' : 'group-hover:translate-x-1 group-hover:-translate-y-1'}`} />
+                      {isLoading ? 'Sending...' : 'Send Message'}
+                        {isLoading
+                          ? <Loader2 size={18} className="animate-spin" />
+                          : <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        }
                       </span>
                     </button>
                   </div>

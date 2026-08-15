@@ -67,16 +67,27 @@ export default function PortfolioView() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['home', 'experience', 'skills', 'performance', 'library', 'contact', 'forum'].includes(hash)) {
+      if (['home', 'experience', 'skills', 'performance', 'library', 'services', 'contact', 'forum'].includes(hash)) {
         setActiveTab(hash);
       }
     };
 
+    // Custom event listener — allows Landing.tsx CTAs to trigger navigation
+    // without needing direct access to setActiveTab via props
+    const handleNavigate = (e: CustomEvent<{ tab: string }>) => {
+      setActiveTab(e.detail.tab);
+      window.location.hash = e.detail.tab;
+    };
+
     window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('navigate', handleNavigate as EventListener);
     if (window.location.hash) {
       handleHashChange();
     }
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('navigate', handleNavigate as EventListener);
+    };
   }, []);
 
   useEffect(() => {

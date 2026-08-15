@@ -8,10 +8,10 @@ import VisuallyHidden from './__a11y/VisuallyHidden';
 
 const navItems: NavItem[] = [
   { id: 'home', label: 'Home', icon: Home, sectionId: 'home' },
-  { id: 'experience', label: 'Experience', icon: Briefcase, sectionId: 'experience' },
   { id: 'skills', label: 'Skills', icon: Code, sectionId: 'skills' },
-  { id: 'performance', label: 'Performance', icon: Activity, sectionId: 'performance' },
-  { id: 'library', label: 'Library', icon: BookOpen, sectionId: 'library' },
+  { id: 'library', label: 'Projects', icon: BookOpen, sectionId: 'library' },
+  { id: 'experience', label: 'Experience', icon: Briefcase, sectionId: 'experience' },
+  { id: 'performance', label: 'Stats', icon: Activity, sectionId: 'performance' },
   { id: 'contact', label: 'Contact', icon: Mail, sectionId: 'contact' },
   { id: 'forum', label: 'Forum', icon: MessageSquare, sectionId: 'forum' },
 ];
@@ -44,11 +44,10 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
     };
   }, [isMobileMenuOpen]);
 
-  const scrollToSection = (id: string, sectionId: string) => {
+  const scrollToSection = (id: string) => {
     setActiveTab(id);
-    window.location.hash = id;
+    window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: id } }));
     setIsMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -70,7 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
           <div className="flex-1 flex justify-start items-center z-20">
             <a
               href="#home"
-              onClick={(e) => { e.preventDefault(); scrollToSection('home', 'home'); }}
+              onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}
               className="flex items-center group pointer-events-auto"
               aria-label="Go to home"
             >
@@ -89,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                 <a
                   key={item.id}
                   href={`#${item.sectionId}`}
-                  onClick={(e) => { e.preventDefault(); scrollToSection(item.id, item.sectionId); }}
+                  onClick={(e) => { e.preventDefault(); scrollToSection(item.id); }}
                   className={`group relative px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 whitespace-nowrap pointer-events-auto ${isActive ? 'text-white' : 'text-slate-500 hover:text-slate-200'
                     }`}
                   aria-current={isActive ? 'page' : undefined}
@@ -111,21 +110,21 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
             })}
           </nav>
 
-          {/* Right Side */}
-          <div className="flex-1 flex justify-end items-center z-20 gap-2 md:gap-4">
+          {/* Right Side — Standalone Forum Button + Mobile Menu */}
+          <div className="flex-1 flex justify-end items-center z-20 gap-2 md:gap-3">
+            {/* Standalone Forum Button */}
             <a
               href="#forum"
-              onClick={(e) => { e.preventDefault(); scrollToSection('forum', 'forum'); }}
-              className={`flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-white text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 pointer-events-auto group ${activeTab === 'forum'
-                ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.6)]'
-                : 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-500/30 hover:bg-cyan-500/20 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]'
+              onClick={(e) => { e.preventDefault(); scrollToSection('forum'); }}
+              className={`flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] transition-all duration-300 pointer-events-auto group border ${
+                activeTab === 'forum'
+                  ? 'bg-cyan-500/20 border-cyan-400 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
+                  : 'bg-white/5 hover:bg-cyan-500/10 border-white/10 hover:border-cyan-500/40 text-slate-300 hover:text-white hover:shadow-[0_0_15px_rgba(34,211,238,0.2)]'
                 }`}
               aria-label="Open forum"
             >
-              <MessageSquare size={14} className={`transition-colors hidden md:block ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
-              <MessageSquare size={12} className={`transition-colors block md:hidden ${activeTab === 'forum' ? 'text-cyan-400 animate-pulse' : 'text-cyan-400/70 group-hover:text-cyan-400'}`} />
-              <span className="hidden md:block">Forum</span>
-              <span className="block md:hidden">Forum</span>
+              <MessageSquare size={13} className={`transition-colors ${activeTab === 'forum' ? 'text-cyan-400' : 'text-cyan-400/80 group-hover:text-cyan-300'}`} />
+              <span>Forum</span>
             </a>
 
             {/* Mobile Menu Trigger */}
@@ -184,7 +183,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
                       initial={{ opacity: 0, x: -30 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                      onClick={(e) => { e.preventDefault(); scrollToSection(item.id, item.sectionId); }}
+                      onClick={(e) => { e.preventDefault(); scrollToSection(item.id); }}
                       className="group flex flex-col py-4 sm:py-6 relative"
                       aria-current={isActive ? 'page' : undefined}
                     >
@@ -203,7 +202,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
 
               <div className="mt-auto space-y-4">
                 <div className="h-px bg-white/5" />
-                <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact', 'contact'); }} className="flex items-center justify-between group cursor-pointer">
+                <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }} className="flex items-center justify-between group cursor-pointer">
                   <div className="flex flex-col">
                     <span className="text-white font-bold text-lg uppercase tracking-tight">Got a project?</span>
                     <span className="text-slate-500 text-xs">Let's create something meaningful</span>

@@ -3,9 +3,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { innerSkills, outerSkills, detailedSkills } from '../constants';
+import { DetailedSkill } from '../types';
 
-const SkillPills = ({ type, items, color }: { type: string, items: any[], color: 'cyan' | 'purple' }) => {
+const proficiencyBadgeStyles: Record<string, { bg: string; text: string; border: string }> = {
+  Expert: { bg: 'bg-cyan-500/10', text: 'text-cyan-400', border: 'border-cyan-500/20' },
+  Advanced: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
+  Proficient: { bg: 'bg-slate-500/10', text: 'text-slate-300', border: 'border-slate-500/20' },
+};
+
+const SkillPills = ({ type, items, color }: { type: string; items: DetailedSkill[]; color: 'cyan' | 'purple' }) => {
   const isCyan = color === 'cyan';
+  const borderHoverClass = isCyan 
+    ? 'hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(34,211,238,0.22)]' 
+    : 'hover:border-purple-400/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.22)]';
+
   return (
     <div className="mb-4 lg:mb-5 xl:mb-6">
       <div className="flex items-center gap-2.5 mb-3 lg:mb-3.5">
@@ -13,17 +24,25 @@ const SkillPills = ({ type, items, color }: { type: string, items: any[], color:
         <h3 className="text-[11px] lg:text-xs font-black text-white uppercase tracking-[0.25em] opacity-80">{type}</h3>
         <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
       </div>
-      <div className="flex flex-wrap gap-2">
-        {items.map((skill, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ y: -2, scale: 1.02 }}
-            className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5 hover:border-${isCyan ? 'cyan' : 'purple'}-500/30 hover:bg-white/[0.08] transition-all duration-300 cursor-default`}
-          >
-            <skill.icon size={13} className={`${skill.color} opacity-70 group-hover:opacity-100 transition-opacity drop-shadow-md`} />
-            <span className="text-[10px] xl:text-[11px] font-bold text-white/70 group-hover:text-white transition-colors tracking-wider uppercase">{skill.name}</span>
-          </motion.div>
-        ))}
+      <div className="flex flex-wrap gap-2 sm:gap-2.5">
+        {items.map((skill, i) => {
+          const badge = proficiencyBadgeStyles[skill.proficiency] || proficiencyBadgeStyles.Proficient;
+          return (
+            <motion.div
+              key={i}
+              whileHover={{ y: -3, scale: 1.04 }}
+              className={`group flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/5 ${borderHoverClass} hover:bg-white/[0.08] transition-all duration-300 cursor-default`}
+            >
+              <skill.icon size={13} className={`${skill.color} opacity-80 group-hover:opacity-100 group-hover:scale-125 group-hover:-rotate-6 transition-all duration-300 drop-shadow-md`} />
+              <span className="text-[10px] xl:text-[11px] font-bold text-white/80 group-hover:text-white transition-colors tracking-wider uppercase">
+                {skill.name}
+              </span>
+              <span className={`text-[8px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded-md border ${badge.bg} ${badge.text} ${badge.border} group-hover:scale-105 transition-transform`}>
+                {skill.proficiency}
+              </span>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );

@@ -140,12 +140,12 @@ const Experience: React.FC = () => {
 
                                         {/* Card Content Container */}
                                         <div className="w-full md:w-[46%]">
-                                            <article className="group relative p-6 rounded-2xl bg-[#08080c]/95 border border-white/10 hover:border-cyan-500/40 transition-all duration-500 hover:shadow-[0_0_35px_rgba(34,211,238,0.08)] overflow-hidden h-full flex flex-col justify-between">
+                                            <article className="group relative p-6 rounded-2xl bg-[#08080c]/95 border border-white/10 hover:border-cyan-500/50 hover:bg-[#0a0a10] hover:-translate-y-1.5 transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(34,211,238,0.18)] overflow-hidden h-full flex flex-col justify-between">
                                                 {/* Ambient top-right light accent */}
                                                 <div
                                                     className={`absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl ${
                                                         isWork ? 'from-cyan-500/10' : 'from-purple-500/10'
-                                                    } to-transparent pointer-events-none group-hover:scale-125 transition-transform duration-700`}
+                                                    } to-transparent pointer-events-none group-hover:scale-150 transition-transform duration-700`}
                                                 />
 
                                                 <div>
@@ -155,8 +155,8 @@ const Experience: React.FC = () => {
                                                             <div
                                                                 className={`w-11 h-11 rounded-xl flex items-center justify-center border shrink-0 transition-all duration-500 shadow-md ${
                                                                     isWork
-                                                                        ? 'bg-cyan-500/10 border-cyan-500/25 text-cyan-400 group-hover:bg-cyan-400 group-hover:text-black group-hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]'
-                                                                        : 'bg-purple-500/10 border-purple-500/25 text-purple-400 group-hover:bg-purple-400 group-hover:text-black group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]'
+                                                                        ? 'bg-cyan-500/10 border-cyan-500/25 text-cyan-400 group-hover:bg-cyan-400 group-hover:text-black group-hover:scale-115 group-hover:-rotate-6 group-hover:shadow-[0_0_25px_rgba(34,211,238,0.5)]'
+                                                                        : 'bg-purple-500/10 border-purple-500/25 text-purple-400 group-hover:bg-purple-400 group-hover:text-black group-hover:scale-115 group-hover:-rotate-6 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.5)]'
                                                                 }`}
                                                             >
                                                                 {isWork ? <Briefcase size={20} /> : <GraduationCap size={20} />}
@@ -179,7 +179,7 @@ const Experience: React.FC = () => {
                                                                     ACTIVE
                                                                 </span>
                                                             )}
-                                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-[10px] font-mono text-slate-300 font-medium">
+                                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-[10px] font-mono text-slate-300 font-medium group-hover:border-white/20 transition-colors">
                                                                 <Calendar size={11} className={isWork ? 'text-cyan-400' : 'text-purple-400'} />
                                                                 {exp.period}
                                                             </span>
@@ -187,7 +187,7 @@ const Experience: React.FC = () => {
                                                     </div>
 
                                                     {/* Description */}
-                                                    <p className="text-xs md:text-sm text-slate-300 font-light leading-relaxed mb-5 group-hover:text-slate-200 transition-colors">
+                                                    <p className="text-xs md:text-sm text-slate-300 font-light leading-relaxed mb-5 group-hover:text-slate-100 transition-colors">
                                                         {exp.description}
                                                     </p>
                                                 </div>
@@ -197,7 +197,7 @@ const Experience: React.FC = () => {
                                                     {exp.tags.map((tag) => (
                                                         <span
                                                             key={tag}
-                                                            className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/5 text-[10px] font-mono text-slate-400 font-medium group-hover:border-cyan-500/20 group-hover:text-cyan-300 transition-colors"
+                                                            className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/5 text-[10px] font-mono text-slate-400 font-medium group-hover:border-cyan-500/30 group-hover:text-cyan-300 hover:bg-cyan-500/10 hover:-translate-y-0.5 transition-all"
                                                         >
                                                             #{tag}
                                                         </span>
@@ -227,13 +227,13 @@ const Experience: React.FC = () => {
                         href="/Hernata%20CV.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative flex items-center gap-3 px-7 py-3.5 rounded-xl bg-[#08080c] border border-white/10 hover:border-cyan-500/40 transition-all duration-500 shadow-2xl overflow-hidden hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
+                        className="group relative flex items-center gap-3 px-7 py-3.5 rounded-xl bg-[#08080c] border border-white/10 hover:border-cyan-400/60 hover:-translate-y-1 transition-all duration-500 shadow-2xl overflow-hidden hover:shadow-[0_15px_35px_-5px_rgba(34,211,238,0.25)]"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/15 via-purple-500/15 to-emerald-500/15 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <span className="text-xs font-mono font-bold text-slate-200 uppercase tracking-widest group-hover:text-white transition-colors relative z-10">
                             Download Technical Resume
                         </span>
-                        <div className="w-7 h-7 rounded-lg bg-white/10 text-white flex items-center justify-center group-hover:bg-cyan-400 group-hover:text-black transition-all duration-300 group-hover:rotate-45 relative z-10">
+                        <div className="w-7 h-7 rounded-lg bg-white/10 text-white flex items-center justify-center group-hover:bg-cyan-400 group-hover:text-black group-hover:scale-110 transition-all duration-300 group-hover:rotate-45 relative z-10 shadow-md">
                             <ArrowUpRight size={15} strokeWidth={2.5} />
                         </div>
                     </a>

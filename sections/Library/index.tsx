@@ -44,11 +44,11 @@ const Library: React.FC = () => {
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[9px] xl:text-[10px] font-mono uppercase tracking-[0.2em] backdrop-blur-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              Creative Repository
+              Project Repository
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-5xl font-black leading-[0.95] text-white tracking-tighter uppercase">
-              Library <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">& Archives.</span>
+              Projects <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">& Archives.</span>
             </motion.h2>
           </div>
           <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
@@ -103,17 +103,17 @@ const Library: React.FC = () => {
           {filter === 'overview' && (
             <motion.div key="overview" role="tabpanel" id="library-panel-overview"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-3.5 xl:gap-4 flex-1 min-h-0">
+              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-3.5 xl:gap-4 flex-1 min-h-0 pt-2 px-1 pb-4">
               
               {/* Featured Project */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
                 className="md:col-span-2 lg:col-span-2 h-[180px] sm:h-[190px] xl:h-[220px]"
                 onClick={() => { setSelectedProject(projects[0]); setIsProjectModalOpen(true); }}>
-                <article className="h-full w-full relative group cursor-pointer overflow-hidden rounded-2xl border border-white/5 shadow-xl">
-                  <div className="absolute inset-0">
+                <article className="h-full w-full relative group cursor-pointer overflow-hidden rounded-2xl border border-white/5 hover:border-cyan-500/40 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.6),0_4px_20px_rgba(34,211,238,0.12)] hover:-translate-y-1 transition-all duration-300 ease-out">
+                  <div className="absolute inset-0 pointer-events-none">
                     <ImageWithLoader src={projects[0].image} alt={projects[0].title}
-                      className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 opacity-50 group-hover:opacity-80 transition-[filter,opacity] duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/60 to-transparent" />
+                      className="w-full h-full object-cover opacity-60" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/70 to-transparent" />
                   </div>
                   <div className="absolute inset-0 p-4 sm:p-5 flex flex-col justify-end text-left z-10">
                     <span className="px-2 py-0.5 w-fit bg-cyan-500/20 backdrop-blur-md border border-cyan-500/30 text-cyan-300 text-[8px] xl:text-[9px] font-mono uppercase tracking-[0.2em] rounded mb-1.5">
@@ -125,8 +125,8 @@ const Library: React.FC = () => {
                     <p className="text-[11px] xl:text-xs text-slate-400 line-clamp-2 max-w-md">{projects[0].description}</p>
                   </div>
                   <div className="absolute top-3.5 right-3.5 z-10">
-                    <div className="w-7 h-7 rounded-full bg-white/10 text-white flex items-center justify-center -translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 backdrop-blur-md">
-                      <ArrowUpRight size={13} strokeWidth={2.5} />
+                    <div className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md text-slate-400 group-hover:text-cyan-400 border border-white/10 flex items-center justify-center transition-colors">
+                      <ArrowUpRight size={14} strokeWidth={2.5} />
                     </div>
                   </div>
                 </article>
@@ -143,21 +143,29 @@ const Library: React.FC = () => {
               </motion.div>
 
               {/* Recent Certificate */}
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }}
-                className="md:col-span-1 lg:col-span-2 h-[105px] sm:h-[115px] xl:h-[120px]">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                transition={{ delay: 0.4 }}
+                className="md:col-span-1 lg:col-span-2 h-[105px] sm:h-[115px] xl:h-[120px]"
+              >
                 <article
-                  className="h-full bg-[#0a0a12] border border-white/5 rounded-2xl p-3.5 flex items-center gap-3.5 group cursor-pointer hover:border-cyan-500/30 transition-all duration-500 overflow-hidden relative"
-                  onClick={() => { setSelectedCertificate(certificates[0]); setIsModalOpen(true); }}>
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-white/5 border border-white/10 p-2 shrink-0 group-hover:border-cyan-500/30 transition-colors relative">
+                  className="h-full bg-[#0a0a12] border border-white/5 rounded-2xl p-3.5 flex items-center gap-3.5 group cursor-pointer hover:border-cyan-500/40 hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.5),0_4px_15px_rgba(34,211,238,0.12)] transition-all duration-300 ease-out overflow-hidden relative"
+                  onClick={() => { setSelectedCertificate(certificates[0]); setIsModalOpen(true); }}
+                >
+                  <div className="absolute inset-0 opacity-20 pointer-events-none">
+                    <ImageWithLoader src={certificates[0].certificateImage} alt="" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a12] via-[#0a0a12]/80 to-transparent" />
+                  </div>
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-black/80 backdrop-blur-md border border-white/10 p-2 shrink-0 relative z-10">
                      <ImageWithLoader src={certificates[0].image} alt={`Issuer logo for ${certificates[0].issuer}`} className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1 min-w-0 z-10">
-                    <span className="text-[9px] xl:text-[10px] text-cyan-500 font-mono uppercase tracking-widest mb-0.5 block">Recent Certification</span>
+                    <span className="text-[9px] xl:text-[10px] text-cyan-400 font-mono uppercase tracking-widest mb-0.5 block">Recent Certification</span>
                     <h3 className="text-xs sm:text-sm font-bold text-white truncate group-hover:text-cyan-400 transition-colors">{certificates[0].title}</h3>
-                    <p className="text-[11px] text-slate-500 truncate">{certificates[0].issuer} • {certificates[0].date}</p>
+                    <p className="text-[11px] text-slate-400 truncate">{certificates[0].issuer} • {certificates[0].date}</p>
                   </div>
-                  <ArrowUpRight size={15} className="text-slate-600 group-hover:text-cyan-400 transition-colors shrink-0 mr-1.5 z-10" />
+                  <ArrowUpRight size={15} className="text-slate-500 group-hover:text-cyan-400 transition-colors shrink-0 mr-1.5 z-10" />
                 </article>
               </motion.div>
 
@@ -165,10 +173,10 @@ const Library: React.FC = () => {
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}
                 className="md:col-span-2 lg:col-span-2 h-[105px] sm:h-[115px] xl:h-[120px]">
                 <article
-                  className="h-full bg-[#0a0a12] border border-white/5 rounded-2xl overflow-hidden group cursor-pointer relative"
+                  className="h-full bg-[#0a0a12] border border-white/5 hover:border-pink-500/40 hover:-translate-y-1 hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.5),0_4px_15px_rgba(236,72,153,0.12)] transition-all duration-300 ease-out rounded-2xl overflow-hidden group cursor-pointer relative"
                   onClick={() => { setSelectedGallery(galleryItems[0]); setIsGalleryModalOpen(true); }}>
-                  <div className="absolute inset-0">
-                    <ImageWithLoader src={galleryItems[0].image} alt={galleryItems[0].title} className="w-full h-full object-cover grayscale-[40%] group-hover:grayscale-0 opacity-40 group-hover:opacity-70 transition-all duration-500" />
+                  <div className="absolute inset-0 opacity-25 pointer-events-none">
+                    <ImageWithLoader src={galleryItems[0].image} alt={galleryItems[0].title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a12] via-[#0a0a12]/80 to-transparent" />
                   </div>
                   <div className="absolute inset-0 p-4 sm:p-5 flex flex-col justify-center z-10">
@@ -185,44 +193,44 @@ const Library: React.FC = () => {
           {filter === 'projects' && (
             <motion.div key="projects" role="tabpanel" id="library-panel-projects"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="flex flex-col gap-2 flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1">
+              className="flex flex-col gap-3 flex-1 min-h-0 overflow-y-auto custom-scrollbar pt-2.5 px-1.5 pb-6">
               {projects.map((project, index) => (
                 <motion.div key={project.id} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }} transition={{ delay: index * 0.05 }}
                   onClick={() => { setSelectedProject(project); setIsProjectModalOpen(true); }}>
-                  <article className="group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#0a0a12] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 cursor-pointer overflow-hidden">
-                    {/* Hover Image Reveal Background (Subtle) */}
-                    <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" style={{ WebkitMaskImage: 'linear-gradient(to left, black, transparent)' }}>
-                      <ImageWithLoader src={project.image} alt="" className="w-full h-full object-cover grayscale" />
+                  <article className="group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#0a0a12] border border-white/5 hover:border-cyan-500/40 hover:bg-[#0c0c16] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-5px_rgba(34,211,238,0.15)] transition-all duration-300 cursor-pointer overflow-hidden">
+                    {/* Hover Image Reveal Background (Static, Smooth Fade) */}
+                    <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none" style={{ WebkitMaskImage: 'linear-gradient(to left, black, transparent)' }}>
+                      <ImageWithLoader src={project.image} alt="" className="w-full h-full object-cover" />
                     </div>
                     
                     <div className="flex-1 min-w-0 relative z-10 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
-                      <div className="w-16 shrink-0 hidden sm:block">
-                        <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">0{index + 1}</span>
+                      <div className="w-12 shrink-0 hidden sm:block">
+                        <span className="text-[10px] font-mono text-slate-500 group-hover:text-cyan-400 uppercase tracking-widest transition-colors font-bold">0{index + 1}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-400 transition-colors uppercase tracking-tight truncate">
+                        <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors uppercase tracking-tight truncate">
                           {project.title}
                         </h3>
                         <div className="flex items-center gap-3 mt-1.5">
-                          <span className="px-1.5 py-0.5 bg-cyan-500/10 text-cyan-400 text-[8px] font-mono uppercase tracking-widest rounded border border-cyan-500/20">
+                          <span className="px-1.5 py-0.5 bg-cyan-500/10 text-cyan-400 text-[8px] font-mono uppercase tracking-widest rounded border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-colors">
                             {project.category}
                           </span>
-                          <span className="text-xs text-slate-400 truncate hidden sm:block max-w-sm">
+                          <span className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors truncate hidden sm:block max-w-sm">
                             {project.description}
                           </span>
                         </div>
                       </div>
                       <div className="flex gap-1 shrink-0 flex-wrap sm:flex-nowrap">
                         {project.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className="text-[9px] font-mono text-slate-400 uppercase tracking-widest px-2 py-1 bg-white/5 rounded-lg border border-white/5">{tag}</span>
+                          <span key={tag} className="text-[9px] font-mono text-slate-400 group-hover:text-slate-300 uppercase tracking-widest px-2 py-1 bg-white/5 rounded-lg border border-white/5 group-hover:border-cyan-500/20 transition-colors">{tag}</span>
                         ))}
                       </div>
                     </div>
 
                     <div className="ml-4 shrink-0 relative z-10">
-                      <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-cyan-500/20 border border-transparent group-hover:border-cyan-500/30 flex items-center justify-center transition-all duration-300">
-                        <ArrowUpRight size={14} className="text-slate-500 group-hover:text-cyan-400" />
+                      <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-cyan-500/20 border border-transparent group-hover:border-cyan-500/40 flex items-center justify-center transition-all duration-300">
+                        <ArrowUpRight size={14} className="text-slate-500 group-hover:text-cyan-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                       </div>
                     </div>
                   </article>
@@ -234,33 +242,52 @@ const Library: React.FC = () => {
           {filter === 'certificates' && (
             <motion.div key="certificates" role="tabpanel" id="library-panel-certificates"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3 flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1">
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 flex-1 min-h-0 overflow-y-auto custom-scrollbar pt-3 px-1.5 pb-6">
               {certificates.map((cert, index) => (
-                <motion.div key={cert.id} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }} transition={{ delay: index * 0.05 }}
+                <motion.div 
+                  key={cert.id} 
+                  initial={{ opacity: 0, scale: 0.95 }} 
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }} 
+                  transition={{ delay: index * 0.05 }}
                   onClick={() => { setSelectedCertificate(cert); setIsModalOpen(true); }}
-                  className="break-inside-avoid">
-                  <article className="group cursor-pointer p-4 rounded-2xl bg-[#0a0a12] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 relative overflow-hidden flex flex-col h-full">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-cyan-500/10 transition-colors pointer-events-none" />
-                    
-                    <div className="flex items-start gap-4 mb-3">
-                      <div className="w-12 h-12 rounded-xl overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-500 border border-white/10 group-hover:border-cyan-500/30 bg-white/5 p-1.5 shrink-0 relative">
-                        <ImageWithLoader src={cert.image} alt={`Issuer logo for ${cert.issuer}`} className="w-full h-full object-contain" />
+                  className="h-full"
+                >
+                  <article className="group cursor-pointer rounded-2xl bg-[#090912] border border-white/5 hover:border-cyan-500/40 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.6),0_4px_20px_rgba(34,211,238,0.12)] transition-all duration-300 ease-out overflow-hidden flex flex-col h-full">
+                    {/* Static Certificate Document Preview */}
+                    <div className="relative aspect-[16/11] w-full overflow-hidden bg-black/60">
+                      <ImageWithLoader
+                        src={cert.certificateImage}
+                        alt={`Certificate preview of ${cert.title}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#090912] via-transparent to-transparent opacity-70" />
+                      
+                      {/* Issuer logo badge */}
+                      <div className="absolute top-3 left-3 w-9 h-9 rounded-xl overflow-hidden bg-black/80 backdrop-blur-md border border-white/10 p-1.5 shrink-0 z-10">
+                        <ImageWithLoader src={cert.image} alt={cert.issuer} className="w-full h-full object-contain" />
                       </div>
-                      <div className="flex-1 min-w-0 pt-1">
-                        <h3 className="text-sm font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug uppercase tracking-tight">
-                          {cert.title}
-                        </h3>
+
+                      <div className="absolute top-3 right-3 z-10">
+                        <div className="w-7 h-7 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-slate-400 group-hover:text-cyan-400 transition-colors flex items-center justify-center">
+                          <ArrowUpRight size={13} strokeWidth={2.5} />
+                        </div>
                       </div>
                     </div>
-                    
-                    <div className="mt-auto pt-3 border-t border-white/5 flex items-center justify-between">
-                       <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest truncate max-w-[120px]">
-                          {cert.issuer}
-                       </span>
-                       <span className="text-[9px] font-mono text-cyan-500 px-2 py-0.5 bg-cyan-500/10 rounded">
-                          {cert.date}
-                       </span>
+
+                    <div className="p-4 flex flex-col flex-1">
+                      <h3 className="text-sm font-bold text-white group-hover:text-cyan-400 transition-colors duration-300 leading-snug uppercase tracking-tight mb-3">
+                        {cert.title}
+                      </h3>
+                      
+                      <div className="mt-auto pt-3 border-t border-white/5 flex items-center justify-between">
+                         <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest truncate max-w-[140px]">
+                            {cert.issuer}
+                         </span>
+                         <span className="text-[9px] font-mono text-cyan-400 px-2 py-0.5 bg-cyan-500/10 rounded-md border border-cyan-500/20">
+                            {cert.date}
+                         </span>
+                      </div>
                     </div>
                   </article>
                 </motion.div>
@@ -271,37 +298,37 @@ const Library: React.FC = () => {
           {filter === 'gallery' && (
             <motion.div key="gallery" role="tabpanel" id="library-panel-gallery"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3 flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1">
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 flex-1 min-h-0 overflow-y-auto custom-scrollbar pt-3 px-1.5 pb-6">
               {galleryItems.map((item, index) => (
                 <motion.div key={item.id} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }} transition={{ delay: index * 0.05 }}
                   onClick={() => { setSelectedGallery(item); setIsGalleryModalOpen(true); }}
-                  className="break-inside-avoid">
-                  <article className="group cursor-pointer relative overflow-hidden rounded-2xl border border-white/5 hover:border-pink-500/30 transition-all duration-500 bg-[#0a0a12]">
+                  className="h-full">
+                  <article className="group cursor-pointer relative overflow-hidden rounded-2xl border border-white/5 hover:border-pink-500/40 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.6),0_4px_20px_rgba(236,72,153,0.12)] transition-all duration-300 ease-out bg-[#0a0a12]">
                     <div className="relative aspect-[16/10] w-full overflow-hidden">
                       <ImageWithLoader src={item.image} alt={item.title}
-                        className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-[filter] duration-500" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/40 to-transparent opacity-90 group-hover:opacity-100 transition-all duration-500" />
+                        className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-[#0a0a12]/40 to-transparent opacity-85" />
                       
                       <div className="absolute top-3 left-3 z-10">
-                        <span className="px-2 py-1 bg-pink-500/20 backdrop-blur-md border border-pink-500/30 text-pink-300 text-[9px] font-mono uppercase tracking-[0.2em] rounded-lg">
+                        <span className="px-2 py-1 bg-black/70 backdrop-blur-md border border-pink-500/30 text-pink-300 text-[9px] font-mono uppercase tracking-[0.2em] rounded-lg">
                           {item.category}
                         </span>
                       </div>
                       
+                      <div className="absolute top-3 right-3 z-10">
+                        <div className="w-7 h-7 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-slate-400 group-hover:text-pink-400 transition-colors flex items-center justify-center">
+                          <ArrowUpRight size={13} strokeWidth={2.5} />
+                        </div>
+                      </div>
+
                       <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
-                        <h3 className="text-sm font-bold text-white leading-snug mb-1.5 group-hover:text-pink-400 transition-colors">
+                        <h3 className="text-sm font-bold text-white leading-snug mb-1.5 group-hover:text-pink-400 transition-colors duration-300">
                           {item.title}
                         </h3>
                         <div className="flex items-center gap-3 text-[9px] text-slate-400 font-mono uppercase tracking-widest">
-                          <span className="flex items-center gap-1"><Calendar size={10} /> {item.date}</span>
-                          <span className="flex items-center gap-1 truncate"><MapPin size={10} /> {item.location}</span>
-                        </div>
-                      </div>
-                      
-                      <div className="absolute top-3 right-3 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-400 z-10">
-                        <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
-                          <ArrowUpRight size={14} className="text-white" />
+                          <span className="flex items-center gap-1"><Calendar size={10} className="text-pink-400" /> {item.date}</span>
+                          <span className="flex items-center gap-1 truncate"><MapPin size={10} className="text-pink-400" /> {item.location}</span>
                         </div>
                       </div>
                     </div>

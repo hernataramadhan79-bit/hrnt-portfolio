@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, Variants, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, Mail, Briefcase, Github, Clock, Star, Terminal } from 'lucide-react';
+import { ArrowRight, Mail, Briefcase, Github, Clock, Star, Terminal, Activity, FileDown } from 'lucide-react';
 import Marquee from '../components/Marquee';
-import { projects, innerSkills, outerSkills, experiences, githubStats, wakaTimeStats, detailedSkills } from '../constants';
+import { projects, innerSkills, outerSkills, experiences, detailedSkills } from '../constants';
 import { fetchGithubData, fetchWakaTimeData } from '../lib/clientDataCache';
 
 const Landing: React.FC = () => {
@@ -129,31 +129,42 @@ const Landing: React.FC = () => {
                 >
                     {/* HERO TEXT: col-span-2, row-span-2 */}
                     <motion.div variants={itemVariants} className="lg:col-span-2 lg:row-span-2 flex flex-col justify-center p-2 lg:pr-6 space-y-3 lg:space-y-3 xl:space-y-4">
-                        <div className="flex items-center gap-3">
-                            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-5xl xl:text-7xl 2xl:text-8xl font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex items-center">
-                                {text.split("").map((char, index) => (
-                                    <motion.span
-                                        key={index}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.8, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                                    >
-                                        {char}
-                                    </motion.span>
-                                ))}
-                                <span className="sr-only">Hernata Ramadhan — Full-Stack Developer & Software Engineer</span>
-                            </h1>
-                            <motion.div
-                                className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 border-[2.5px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_20px_rgba(34,211,238,0.6)]"
-                                animate={{ rotate: 225 }}
-                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                            />
+                        <div className="flex flex-col items-start">
+                            <div className="flex items-center gap-3">
+                                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-5xl xl:text-7xl 2xl:text-8xl font-black tracking-tighter leading-none text-white select-none filter drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] flex items-center">
+                                    {text.split("").map((char, index) => (
+                                        <motion.span
+                                            key={index}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.8, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                                        >
+                                            {char}
+                                        </motion.span>
+                                    ))}
+                                </h1>
+                                <motion.div
+                                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 border-[2.5px] border-cyan-400 bg-transparent rounded-sm rotate-45 shadow-[0_0_20px_rgba(34,211,238,0.6)]"
+                                    animate={{ rotate: 225 }}
+                                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                                />
+                            </div>
+
+                            {/* Full name — Sans-serif flush left alignment matching HRNT, bold & enlarged */}
+                            <motion.p
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.4 }}
+                                className="text-sm sm:text-base md:text-lg font-black text-slate-200 uppercase tracking-[0.22em] mt-2 leading-none"
+                            >
+                                Hernata Ramadhan
+                            </motion.p>
                         </div>
 
                         <div className="flex flex-wrap items-center gap-3">
                             <div className="px-3 py-1 flex items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-md">
                                 <span className="text-[9px] xl:text-[10px] font-black tracking-[0.2em] text-cyan-400 uppercase leading-none">
-                                    Creative Developer
+                                    Fullstack Engineer
                                 </span>
                             </div>
                             <div className="flex items-center gap-2 text-slate-500 font-mono text-[9px] xl:text-[10px] uppercase tracking-widest">
@@ -163,21 +174,30 @@ const Landing: React.FC = () => {
                         </div>
 
                         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-black text-white leading-[1.1] tracking-tight">
-                            Designing with <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">precision</span>,<br />
-                            building with <span className="text-white relative inline-block">passion.</span>
+                            Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">production-grade</span><br />
+                            web apps, <span className="text-white relative inline-block">end to end.</span>
                         </h2>
 
                         <p className="text-xs sm:text-sm lg:text-xs xl:text-sm text-slate-400 font-light leading-relaxed max-w-lg">
-                            Engineering digital masterpieces where the "shapes" of code and interfaces define the journey.
-                            Specializing in full-stack development with a focus on architecture and immersive UI/UX experiences.
+                            Fullstack developer specialized in React, Next.js, Node.js, and TypeScript.
+                            From architecture decisions to pixel-perfect UI — shipping fast, scalable products.
                         </p>
+
+                        {/* Tech stack subtitle */}
+                        <div className="flex flex-wrap gap-1.5 -mt-1">
+                            {['React', 'Next.js', 'TypeScript', 'Node.js'].map((tech) => (
+                                <span key={tech} className="text-[9px] font-mono text-slate-500 uppercase tracking-widest px-2 py-0.5 bg-white/[0.03] border border-white/5 rounded-md">
+                                    {tech}
+                                </span>
+                            ))}
+                        </div>
 
                         <div className="flex flex-row flex-wrap gap-3 pt-1 xl:pt-2 mb-2 lg:mb-3">
                             <motion.a
                                 href="#library"
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.96 }}
-                                onClick={(e) => { e.preventDefault(); window.location.hash = 'library'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'library' } })); }}
                                 className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white text-black rounded-xl font-black uppercase tracking-[0.2em] overflow-hidden text-[9px] xl:text-[10px] shadow-2xl transition-all"
                             >
                                 <div className="absolute inset-0 bg-cyan-400 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
@@ -189,11 +209,23 @@ const Landing: React.FC = () => {
                                 href="#contact"
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.96 }}
-                                onClick={(e) => { e.preventDefault(); window.location.hash = 'contact'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'contact' } })); }}
                                 className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white/5 border border-white/10 rounded-xl font-black uppercase tracking-[0.2em] text-white hover:border-cyan-400/50 hover:bg-white/[0.08] transition-all text-[9px] xl:text-[10px]"
                             >
                                 <span className="relative z-10 transition-colors group-hover:text-cyan-400 flex items-center gap-2">
                                     Contact Me <Mail size={13} />
+                                </span>
+                            </motion.a>
+                            <motion.a
+                                href="/Hernata%20CV.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                whileHover={{ scale: 1.04 }}
+                                whileTap={{ scale: 0.96 }}
+                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white/5 border border-white/10 rounded-xl font-black uppercase tracking-[0.2em] text-slate-400 hover:border-white/20 hover:text-white hover:bg-white/[0.06] transition-all text-[9px] xl:text-[10px]"
+                            >
+                                <span className="relative z-10 flex items-center gap-2">
+                                    Download CV <FileDown size={13} />
                                 </span>
                             </motion.a>
                         </div>
@@ -257,48 +289,51 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#performance"
                         variants={itemVariants}
-                        whileHover={{ y: -4 }}
-                        onClick={(e) => { e.preventDefault(); window.location.hash = 'performance'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-[#0d1117] border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:border-green-500/50 transition-all h-[220px] lg:h-auto"
+                        whileHover={{ y: -6, scale: 1.015 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'performance' } })); }}
+                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-[#0d1117]/90 border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:border-emerald-500/50 hover:shadow-[0_15px_35px_-10px_rgba(16,185,129,0.2)] transition-all duration-500 h-[220px] lg:h-auto"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                         
                         <div className="relative z-10 flex justify-between items-start mb-1.5">
                             <div className="flex items-center gap-2">
-                                <Github size={16} className="text-slate-300 group-hover:text-green-400 transition-colors" />
-                                <span className="text-xs font-medium text-slate-300">Performance</span>
+                                <Activity size={16} className="text-slate-300 group-hover:text-emerald-400 group-hover:scale-110 transition-all duration-300" />
+                                <span className="text-xs font-medium text-slate-300 group-hover:text-white transition-colors">Performance</span>
                             </div>
-                            <ArrowRight size={14} className="text-slate-500 -rotate-45 group-hover:text-green-400 group-hover:rotate-0 transition-all" />
+                            <div className="w-7 h-7 rounded-full bg-white/5 group-hover:bg-emerald-500/20 flex items-center justify-center transition-colors">
+                                <ArrowRight size={13} className="text-slate-500 -rotate-45 group-hover:text-emerald-400 group-hover:rotate-0 group-hover:translate-x-0.5 transition-all duration-300" />
+                            </div>
                         </div>
                         
                         <div className="relative z-10 flex-1 flex flex-col justify-end w-full gap-2 mt-2">
                             <div className="grid grid-cols-2 gap-2 w-full">
-                                <div className="bg-white/5 border border-white/5 rounded-xl p-2.5 flex flex-col justify-center items-center shadow-inner">
+                                <div className="bg-white/5 border border-white/5 rounded-xl p-2.5 flex flex-col justify-center items-center shadow-inner group-hover:border-emerald-500/20 group-hover:bg-white/[0.08] transition-all duration-300">
                                     {loadingStats ? (
                                         <div className="w-10 h-6 bg-white/10 rounded animate-pulse mb-1" />
                                     ) : (
-                                        <span className="text-xl sm:text-2xl xl:text-3xl font-black text-white">{realStats.github.totalContributions}</span>
+                                        <span className="text-xl sm:text-2xl xl:text-3xl font-black text-white group-hover:text-emerald-300 transition-colors">{realStats.github.totalContributions}</span>
                                     )}
-                                    <span className="text-[8px] xl:text-[9px] text-green-400 font-bold uppercase tracking-widest mt-0.5">Commits</span>
+                                    <span className="text-[8px] xl:text-[9px] text-emerald-400 font-bold uppercase tracking-widest mt-0.5">Commits</span>
                                 </div>
-                                <div className="bg-white/5 border border-white/5 rounded-xl p-2.5 flex flex-col justify-center items-center shadow-inner">
+                                <div className="bg-white/5 border border-white/5 rounded-xl p-2.5 flex flex-col justify-center items-center shadow-inner group-hover:border-yellow-500/20 group-hover:bg-white/[0.08] transition-all duration-300">
                                     {loadingStats ? (
                                         <div className="w-8 h-6 bg-white/10 rounded animate-pulse mb-1" />
                                     ) : (
-                                        <span className="text-xl sm:text-2xl xl:text-3xl font-black text-white">{realStats.github.repos}</span>
+                                        <span className="text-xl sm:text-2xl xl:text-3xl font-black text-white group-hover:text-yellow-300 transition-colors">{realStats.github.repos}</span>
                                     )}
                                     <span className="text-[8px] xl:text-[9px] text-yellow-400 font-bold uppercase tracking-widest mt-0.5">Repos</span>
                                 </div>
                             </div>
-                            <div className="bg-white/5 border border-white/5 rounded-lg p-2 flex items-center justify-between shadow-inner">
+                            <div className="bg-white/5 border border-white/5 rounded-lg p-2 flex items-center justify-between shadow-inner group-hover:border-cyan-500/20 group-hover:bg-white/[0.08] transition-all duration-300">
                                 <div className="flex items-center gap-1.5">
-                                    <Clock size={12} className="text-blue-400" />
-                                    <span className="text-[8px] xl:text-[9px] text-slate-400 font-medium uppercase tracking-wider">Time Coded</span>
+                                    <Clock size={12} className="text-cyan-400 group-hover:rotate-45 transition-transform duration-500" />
+                                    <span className="text-[8px] xl:text-[9px] text-slate-400 font-medium uppercase tracking-wider group-hover:text-slate-300">Time Coded</span>
                                 </div>
                                 {loadingStats ? (
                                     <div className="w-12 h-3 bg-white/10 rounded animate-pulse" />
                                 ) : (
-                                    <span className="text-[10px] xl:text-xs font-bold text-white truncate max-w-[100px]">{realStats.wakatime.totalTime}</span>
+                                    <span className="text-[10px] xl:text-xs font-bold text-white group-hover:text-cyan-300 transition-colors truncate max-w-[100px]">{realStats.wakatime.totalTime}</span>
                                 )}
                             </div>
                         </div>
@@ -308,24 +343,27 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#skills"
                         variants={itemVariants}
-                        whileHover={{ y: -4 }}
-                        onClick={(e) => { e.preventDefault(); window.location.hash = 'skills'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:bg-white/[0.08] transition-all h-[220px] lg:h-auto"
+                        whileHover={{ y: -6, scale: 1.015 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'skills' } })); }}
+                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/[0.03] border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:border-pink-500/40 hover:bg-white/[0.06] hover:shadow-[0_15px_35px_-10px_rgba(236,72,153,0.18)] transition-all duration-500 h-[220px] lg:h-auto"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                         <div className="relative z-10 flex justify-between items-start mb-1.5">
                             <div className="flex items-center gap-2">
-                                <Terminal size={16} className="text-slate-300 group-hover:text-pink-400 transition-colors" />
-                                <h3 className="text-xs font-medium text-slate-300">Tech Stack</h3>
+                                <Terminal size={16} className="text-slate-300 group-hover:text-pink-400 group-hover:scale-110 transition-all duration-300" />
+                                <h3 className="text-xs font-medium text-slate-300 group-hover:text-white transition-colors">Tech Stack</h3>
                             </div>
-                            <ArrowRight size={14} className="text-slate-500 -rotate-45 group-hover:text-pink-400 group-hover:rotate-0 transition-all" />
+                            <div className="w-7 h-7 rounded-full bg-white/5 group-hover:bg-pink-500/20 flex items-center justify-center transition-colors">
+                                <ArrowRight size={13} className="text-slate-500 -rotate-45 group-hover:text-pink-400 group-hover:rotate-0 group-hover:translate-x-0.5 transition-all duration-300" />
+                            </div>
                         </div>
                         
                         <div className="relative z-10 flex-1 flex flex-col justify-end w-full mt-1.5">
                             <div className="flex flex-wrap gap-1.5 xl:gap-2">
                                 {[...innerSkills, ...outerSkills].slice(0, 10).map((skill, i) => (
-                                    <div key={i} className="group/skill relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 xl:w-9 xl:h-9 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 hover:border-pink-500/30 transition-all shadow-inner">
-                                        <img src={skill.icon} alt={skill.name} className="w-3.5 h-3.5 sm:w-4 sm:h-4 xl:w-4.5 xl:h-4.5 object-contain filter grayscale group-hover/skill:grayscale-0 group-hover/skill:scale-110 transition-all duration-300" />
+                                    <div key={i} className="group/skill relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 xl:w-9 xl:h-9 rounded-lg bg-white/5 border border-white/5 hover:bg-white/15 hover:border-pink-500/40 hover:scale-110 hover:-translate-y-0.5 transition-all duration-300 shadow-inner">
+                                        <img src={skill.icon} alt={skill.name} className="w-3.5 h-3.5 sm:w-4 sm:h-4 xl:w-4.5 xl:h-4.5 object-contain filter grayscale group-hover/skill:grayscale-0 transition-all duration-300" />
                                         <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#030305] rounded border border-white/10 text-[9px] font-bold text-white opacity-0 group-hover/skill:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
                                             {skill.name}
                                         </div>
@@ -339,23 +377,24 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#library"
                         variants={itemVariants}
-                        whileHover={{ y: -4 }}
-                        onClick={(e) => { e.preventDefault(); window.location.hash = 'library'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-2 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-4 sm:p-5 xl:p-6 flex flex-col justify-between hover:bg-white/[0.08] transition-all h-[220px] lg:h-auto"
+                        whileHover={{ y: -6, scale: 1.012 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'library' } })); }}
+                        className="lg:col-span-2 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/[0.03] border border-white/10 overflow-hidden cursor-pointer p-4 sm:p-5 xl:p-6 flex flex-col justify-between hover:bg-white/[0.06] hover:border-cyan-500/40 hover:shadow-[0_15px_40px_-10px_rgba(34,211,238,0.18)] transition-all duration-500 h-[220px] lg:h-auto"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                         
                         <div className="relative z-10 flex flex-row items-center justify-between w-full h-full gap-3">
                             {/* Text Area (Left) */}
                             <div className="flex flex-col justify-between h-full max-w-[45%]">
                                 <div>
-                                    <h3 className="text-base sm:text-lg xl:text-2xl font-bold text-white mb-1">Featured Works</h3>
+                                    <h3 className="text-base sm:text-lg xl:text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300 mb-1">Featured Works</h3>
                                     <p className="text-[11px] xl:text-xs text-slate-400 leading-relaxed line-clamp-2">Discover my latest digital creations and case studies.</p>
                                 </div>
                                 
                                 <div className="flex items-center gap-2 mt-auto">
-                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:text-cyan-400 transition-colors">
-                                        <ArrowRight size={13} className="-rotate-45 group-hover:rotate-0 transition-transform" />
+                                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-cyan-500/20 group-hover:text-cyan-400 transition-all duration-300">
+                                        <ArrowRight size={13} className="-rotate-45 group-hover:rotate-0 group-hover:scale-110 transition-transform duration-300" />
                                     </div>
                                     <span className="text-[9px] xl:text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-white transition-colors">View All</span>
                                 </div>
@@ -366,13 +405,13 @@ const Landing: React.FC = () => {
                                 {projects.slice(0, 3).map((project, idx) => (
                                     <div 
                                         key={project.id} 
-                                        className={`absolute w-28 sm:w-32 lg:w-36 xl:w-44 h-18 sm:h-20 lg:h-22 xl:h-28 rounded-xl overflow-hidden border border-white/20 shadow-2xl transition-all duration-500 group-hover:-translate-y-2
-                                        ${idx === 0 ? 'right-[36%] lg:right-[32%] z-10 rotate-[-12deg] group-hover:rotate-[-16deg]' : 
-                                          idx === 1 ? 'right-[18%] lg:right-[15%] z-20 rotate-[-4deg] group-hover:rotate-[-8deg]' : 
-                                          'right-[0%] z-30 rotate-[4deg] group-hover:rotate-[0deg]'}`}
+                                        className={`absolute w-28 sm:w-32 lg:w-36 xl:w-44 h-18 sm:h-20 lg:h-22 xl:h-28 rounded-xl overflow-hidden border border-white/20 shadow-2xl transition-all duration-700 ease-out group-hover:-translate-y-3
+                                        ${idx === 0 ? 'right-[36%] lg:right-[32%] z-10 rotate-[-12deg] group-hover:rotate-[-18deg] group-hover:scale-105' : 
+                                          idx === 1 ? 'right-[18%] lg:right-[15%] z-20 rotate-[-4deg] group-hover:rotate-[-8deg] group-hover:scale-108' : 
+                                          'right-[0%] z-30 rotate-[4deg] group-hover:rotate-[2deg] group-hover:scale-110'}`}
                                     >
-                                        <Image src={project.image} alt={project.title} fill sizes="(max-width: 768px) 150px, 200px" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#030305] via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
+                                        <Image src={project.image} alt={project.title} fill sizes="(max-width: 768px) 150px, 200px" className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#030305] via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
                                         <div className="absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                                             <span className="text-[8px] xl:text-[9px] font-black text-white truncate drop-shadow-md">{project.title}</span>
                                         </div>
@@ -386,26 +425,29 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#experience"
                         variants={itemVariants}
-                        whileHover={{ y: -4 }}
-                        onClick={(e) => { e.preventDefault(); window.location.hash = 'experience'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/5 border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:bg-white/[0.08] transition-all h-[220px] lg:h-auto"
+                        whileHover={{ y: -6, scale: 1.015 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'experience' } })); }}
+                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/[0.03] border border-white/10 overflow-hidden cursor-pointer p-3.5 sm:p-4 xl:p-5 flex flex-col hover:bg-white/[0.06] hover:border-purple-500/40 hover:shadow-[0_15px_35px_-10px_rgba(168,85,247,0.18)] transition-all duration-500 h-[220px] lg:h-auto"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                         <div className="relative z-10 flex justify-between items-start mb-2">
                             <div className="flex items-center gap-2">
-                                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-purple-500/20 text-purple-400 group-hover:scale-110 group-hover:bg-purple-500/30 flex items-center justify-center transition-all duration-300">
                                     <Briefcase size={14} />
                                 </div>
-                                <h3 className="text-xs sm:text-sm font-bold text-white">Experience</h3>
+                                <h3 className="text-xs sm:text-sm font-bold text-white group-hover:text-purple-300 transition-colors">Experience</h3>
                             </div>
-                            <ArrowRight size={14} className="text-slate-500 -rotate-45 group-hover:text-purple-400 group-hover:rotate-0 transition-all" />
+                            <div className="w-7 h-7 rounded-full bg-white/5 group-hover:bg-purple-500/20 flex items-center justify-center transition-colors">
+                                <ArrowRight size={13} className="text-slate-500 -rotate-45 group-hover:text-purple-400 group-hover:rotate-0 group-hover:translate-x-0.5 transition-all duration-300" />
+                            </div>
                         </div>
                         
                         <div className="relative z-10 flex-1 flex flex-col justify-center gap-2.5">
                             {experiences.slice(0, 2).map((exp, i) => (
-                                <div key={i} className="flex flex-col border-l-2 border-purple-500/40 pl-3 group-hover:border-purple-400 transition-colors">
+                                <div key={i} className="flex flex-col border-l-2 border-purple-500/40 pl-3 group-hover:border-purple-400 group-hover:translate-x-0.5 transition-all duration-300">
                                     <div className="text-[8px] xl:text-[9px] font-mono text-purple-400 mb-0.5 uppercase tracking-widest">{exp.period}</div>
-                                    <h3 className="text-xs font-bold text-white leading-tight mb-0.5 truncate">{exp.role}</h3>
+                                    <h3 className="text-xs font-bold text-white leading-tight mb-0.5 truncate group-hover:text-white">{exp.role}</h3>
                                     <p className="text-[10px] text-slate-400 truncate">{exp.company}</p>
                                 </div>
                             ))}
@@ -416,21 +458,23 @@ const Landing: React.FC = () => {
                     <motion.a 
                         href="#contact"
                         variants={itemVariants}
-                        whileHover={{ y: -4 }}
-                        onClick={(e) => { e.preventDefault(); window.location.hash = 'contact'; window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-gradient-to-br from-cyan-600 to-purple-700 border border-white/20 overflow-hidden cursor-pointer p-4 sm:p-5 xl:p-6 flex flex-col justify-center items-start text-left transition-all shadow-[0_0_30px_rgba(34,211,238,0.15)] hover:shadow-[0_0_50px_rgba(34,211,238,0.3)] h-[180px] lg:h-auto"
+                        whileHover={{ y: -6, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'contact' } })); }}
+                        className="lg:col-span-1 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-gradient-to-br from-cyan-600 to-purple-700 border border-white/20 overflow-hidden cursor-pointer p-4 sm:p-5 xl:p-6 flex flex-col justify-center items-start text-left transition-all duration-500 shadow-[0_0_30px_rgba(34,211,238,0.2)] hover:shadow-[0_20px_50px_rgba(34,211,238,0.4)] h-[180px] lg:h-auto"
                     >
-                        <div className="absolute -right-6 -bottom-6 text-white/10 group-hover:text-white/20 rotate-[-15deg] group-hover:rotate-0 transition-all duration-700 pointer-events-none">
+                        <div className="absolute -right-6 -bottom-6 text-white/10 group-hover:text-white/25 rotate-[-15deg] group-hover:rotate-0 group-hover:scale-110 transition-all duration-700 pointer-events-none">
                             <Mail size={120} />
                         </div>
                         
                         <div className="relative z-10 flex flex-col items-start w-full">
-                            <h3 className="text-xl sm:text-2xl xl:text-3xl font-black text-white tracking-tight mb-1 leading-tight">
+                            <h3 className="text-xl sm:text-2xl xl:text-3xl font-black text-white tracking-tight mb-1 leading-tight group-hover:translate-x-0.5 transition-transform">
                                 Let's build <br/> together.
                             </h3>
-                            <p className="text-[9px] xl:text-[10px] text-white/70 mb-3 sm:mb-4 max-w-[85%]">Open for new opportunities and exciting projects.</p>
-                            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 bg-white text-black rounded-full font-black text-[8px] xl:text-[9px] uppercase tracking-wider group-hover:scale-105 transition-transform shadow-xl">
-                                Start Project <ArrowRight size={10} />
+                            <p className="text-[9px] xl:text-[10px] text-white/80 mb-3 sm:mb-4 max-w-[85%] font-light">Open for new opportunities and exciting projects.</p>
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full font-black text-[9px] xl:text-[10px] uppercase tracking-wider group-hover:scale-105 group-hover:bg-cyan-300 transition-all duration-300 shadow-xl">
+                                <span>Start Project</span>
+                                <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
                             </div>
                         </div>
                     </motion.a>

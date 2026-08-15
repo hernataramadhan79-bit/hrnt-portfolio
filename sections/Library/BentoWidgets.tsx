@@ -23,17 +23,17 @@ export const WakaTimeWidget = () => {
   }, []);
 
   return (
-    <div className="h-full w-full bg-[#0a0a12] border border-white/5 rounded-2xl p-4 sm:p-5 flex flex-col relative overflow-hidden group hover:border-cyan-500/30 transition-all duration-500">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
+    <div className="h-full w-full bg-[#0a0a12] border border-white/5 rounded-2xl p-4 sm:p-5 flex flex-col relative overflow-hidden group hover:border-cyan-500/40 hover:-translate-y-1 hover:shadow-[0_15px_30px_-10px_rgba(34,211,238,0.18)] transition-all duration-500">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl -mr-10 -mt-10 group-hover:scale-125 group-hover:bg-cyan-500/20 transition-all duration-700 pointer-events-none" />
       
       <div className="flex items-center justify-between mb-3 sm:mb-4 relative z-10">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
-            <Clock size={13} className="text-cyan-400" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 group-hover:scale-110 group-hover:bg-cyan-500/20 group-hover:border-cyan-400/40 transition-all duration-300">
+            <Clock size={13} className="text-cyan-400 group-hover:rotate-45 transition-transform duration-500" />
           </div>
-          <span className="text-xs font-bold text-white uppercase tracking-wider">Coding Activity</span>
+          <span className="text-xs font-bold text-white uppercase tracking-wider group-hover:text-cyan-300 transition-colors">Coding Activity</span>
         </div>
-        <span className="text-[10px] text-slate-400 font-mono">WAKATIME</span>
+        <span className="text-[10px] text-slate-400 font-mono group-hover:text-cyan-400 transition-colors">WAKATIME</span>
       </div>
 
       <div className="mb-2 sm:mb-3 relative z-10">
@@ -44,7 +44,7 @@ export const WakaTimeWidget = () => {
           </div>
         ) : (
           <>
-            <h4 className="text-xl sm:text-2xl font-black text-white leading-none mb-1">{data?.totalTime || '0 hrs 0 mins'}</h4>
+            <h4 className="text-xl sm:text-2xl font-black text-white leading-none mb-1 group-hover:text-cyan-200 transition-colors">{data?.totalTime || '0 hrs 0 mins'}</h4>
             <p className="text-[9px] sm:text-[10px] text-cyan-400 uppercase tracking-widest font-mono">Total Time Logged</p>
           </>
         )}
@@ -64,11 +64,11 @@ export const WakaTimeWidget = () => {
         ) : (
           <div className="space-y-1.5">
             {(data?.languages || []).slice(0, 4).map((lang: any, idx: number) => (
-              <div key={lang.name} className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: lang.color }} />
+              <div key={lang.name} className="flex items-center gap-3 group/lang">
+                <div className="w-1.5 h-1.5 rounded-full transition-transform group-hover/lang:scale-150" style={{ backgroundColor: lang.color }} />
                 <div className="flex-1 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-300 font-medium">{lang.name}</span>
-                  <span className="text-[10px] text-slate-500 font-mono">{lang.percent}%</span>
+                  <span className="text-[11px] text-slate-300 font-medium group-hover/lang:text-white transition-colors">{lang.name}</span>
+                  <span className="text-[10px] text-slate-500 font-mono group-hover/lang:text-cyan-400 transition-colors">{lang.percent}%</span>
                 </div>
                 <div className="w-16 sm:w-20 h-1 bg-white/5 rounded-full overflow-hidden">
                   <motion.div 
@@ -103,17 +103,17 @@ export const GithubWidget = () => {
   }, []);
 
   return (
-    <div className="h-full w-full bg-[#0a0a12] border border-white/5 rounded-2xl p-4 sm:p-5 flex flex-col relative overflow-hidden group hover:border-purple-500/30 transition-all duration-500">
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none" />
+    <div className="h-full w-full bg-[#0a0a12] border border-white/5 rounded-2xl p-4 sm:p-5 flex flex-col relative overflow-hidden group hover:border-purple-500/40 hover:-translate-y-1 hover:shadow-[0_15px_30px_-10px_rgba(168,85,247,0.18)] transition-all duration-500">
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl -ml-10 -mb-10 group-hover:scale-125 group-hover:bg-purple-500/20 transition-all duration-700 pointer-events-none" />
       
       <div className="flex items-center justify-between mb-3 sm:mb-4 relative z-10">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/10 flex items-center justify-center border border-purple-500/20">
-            <GitMerge size={13} className="text-purple-400" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/10 flex items-center justify-center border border-purple-500/20 group-hover:scale-110 group-hover:bg-purple-500/20 group-hover:border-purple-400/40 transition-all duration-300">
+            <GitMerge size={13} className="text-purple-400 group-hover:rotate-12 transition-transform duration-300" />
           </div>
-          <span className="text-xs font-bold text-white uppercase tracking-wider">Open Source</span>
+          <span className="text-xs font-bold text-white uppercase tracking-wider group-hover:text-purple-300 transition-colors">Open Source</span>
         </div>
-        <span className="text-[10px] text-slate-400 font-mono">GITHUB</span>
+        <span className="text-[10px] text-slate-400 font-mono group-hover:text-purple-400 transition-colors">GITHUB</span>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 relative z-10 flex-1">
@@ -126,27 +126,27 @@ export const GithubWidget = () => {
           ))
         ) : (
           <>
-            <div className="flex flex-col justify-center">
-              <span className="text-xl sm:text-2xl font-black text-white mb-0.5">{data?.totalContributions ?? 0}</span>
+            <div className="flex flex-col justify-center p-2 rounded-xl group-hover:bg-white/[0.02] transition-colors">
+              <span className="text-xl sm:text-2xl font-black text-white mb-0.5 group-hover:text-purple-200 transition-colors">{data?.totalContributions ?? 0}</span>
               <span className="text-[8px] sm:text-[9px] text-purple-400 uppercase tracking-widest font-mono flex items-center gap-1">
                 <GitCommit size={10} /> Contributions
               </span>
             </div>
-            <div className="flex flex-col justify-center">
-              <span className="text-xl sm:text-2xl font-black text-white mb-0.5">{data?.repos ?? 0}</span>
-              <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest font-mono flex items-center gap-1">
+            <div className="flex flex-col justify-center p-2 rounded-xl group-hover:bg-white/[0.02] transition-colors">
+              <span className="text-xl sm:text-2xl font-black text-white mb-0.5 group-hover:text-white transition-colors">{data?.repos ?? 0}</span>
+              <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest font-mono flex items-center gap-1 group-hover:text-slate-300">
                 <BookOpen size={10} /> Repositories
               </span>
             </div>
-            <div className="flex flex-col justify-center">
-              <span className="text-xl sm:text-2xl font-black text-white mb-0.5">{data?.stars ?? 0}</span>
-              <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest font-mono flex items-center gap-1">
+            <div className="flex flex-col justify-center p-2 rounded-xl group-hover:bg-white/[0.02] transition-colors">
+              <span className="text-xl sm:text-2xl font-black text-white mb-0.5 group-hover:text-amber-300 transition-colors">{data?.stars ?? 0}</span>
+              <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest font-mono flex items-center gap-1 group-hover:text-amber-400">
                 <Star size={10} /> Stars Earned
               </span>
             </div>
-            <div className="flex flex-col justify-center">
-              <span className="text-xl sm:text-2xl font-black text-white mb-0.5">{data?.followers ?? 0}</span>
-              <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest font-mono flex items-center gap-1">
+            <div className="flex flex-col justify-center p-2 rounded-xl group-hover:bg-white/[0.02] transition-colors">
+              <span className="text-xl sm:text-2xl font-black text-white mb-0.5 group-hover:text-white transition-colors">{data?.followers ?? 0}</span>
+              <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase tracking-widest font-mono flex items-center gap-1 group-hover:text-slate-300">
                 <Users size={10} /> Followers
               </span>
             </div>
