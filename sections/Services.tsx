@@ -44,50 +44,58 @@ const services = [
 ];
 
 const ServiceCard = ({ service, index }: { service: typeof services[0], index: number }) => {
-    const colorMap = {
-        cyan: 'text-cyan-400 md:group-hover:text-cyan-300 border-cyan-400/20 md:group-hover:border-cyan-400/50 bg-cyan-400/5 md:group-hover:bg-cyan-400/10',
-        purple: 'text-purple-400 md:group-hover:text-purple-300 border-purple-400/20 md:group-hover:border-purple-400/50 bg-purple-400/5 md:group-hover:bg-purple-400/10',
-        pink: 'text-pink-400 md:group-hover:text-pink-300 border-pink-400/20 md:group-hover:border-pink-400/50 bg-pink-400/5 md:group-hover:bg-pink-400/10',
-        yellow: 'text-yellow-400 md:group-hover:text-yellow-300 border-yellow-400/20 md:group-hover:border-yellow-400/50 bg-yellow-400/5 md:group-hover:bg-yellow-400/10',
-        emerald: 'text-emerald-400 md:group-hover:text-emerald-300 border-emerald-400/20 md:group-hover:border-emerald-400/50 bg-emerald-400/5 md:group-hover:bg-emerald-400/10',
-        blue: 'text-blue-400 md:group-hover:text-blue-300 border-blue-400/20 md:group-hover:border-blue-400/50 bg-blue-400/5 md:group-hover:bg-blue-400/10',
+    const colorStyles = {
+        cyan: {
+            icon: 'text-cyan-400 border-cyan-400/20 bg-cyan-500/10 group-hover:border-cyan-400/40 group-hover:bg-cyan-500/20',
+            cardHover: 'hover:border-cyan-500/40 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.7),0_4px_20px_rgba(34,211,238,0.12)]',
+            glow: 'bg-cyan-500/10',
+            title: 'group-hover:text-cyan-300',
+            tag: 'text-cyan-400',
+            arrow: 'group-hover:bg-cyan-400 group-hover:text-black group-hover:border-cyan-400',
+        },
+        purple: {
+            icon: 'text-purple-400 border-purple-400/20 bg-purple-500/10 group-hover:border-purple-400/40 group-hover:bg-purple-500/20',
+            cardHover: 'hover:border-purple-500/40 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.7),0_4px_20px_rgba(168,85,247,0.12)]',
+            glow: 'bg-purple-500/10',
+            title: 'group-hover:text-purple-300',
+            tag: 'text-purple-400',
+            arrow: 'group-hover:bg-purple-400 group-hover:text-black group-hover:border-purple-400',
+        },
+        pink: {
+            icon: 'text-pink-400 border-pink-400/20 bg-pink-500/10 group-hover:border-pink-400/40 group-hover:bg-pink-500/20',
+            cardHover: 'hover:border-pink-500/40 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.7),0_4px_20px_rgba(236,72,153,0.12)]',
+            glow: 'bg-pink-500/10',
+            title: 'group-hover:text-pink-300',
+            tag: 'text-pink-400',
+            arrow: 'group-hover:bg-pink-400 group-hover:text-black group-hover:border-pink-400',
+        },
+        yellow: {
+            icon: 'text-amber-400 border-amber-400/20 bg-amber-500/10 group-hover:border-amber-400/40 group-hover:bg-amber-500/20',
+            cardHover: 'hover:border-amber-500/40 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.7),0_4px_20px_rgba(245,158,11,0.12)]',
+            glow: 'bg-amber-500/10',
+            title: 'group-hover:text-amber-300',
+            tag: 'text-amber-400',
+            arrow: 'group-hover:bg-amber-400 group-hover:text-black group-hover:border-amber-400',
+        },
+        emerald: {
+            icon: 'text-emerald-400 border-emerald-400/20 bg-emerald-500/10 group-hover:border-emerald-400/40 group-hover:bg-emerald-500/20',
+            cardHover: 'hover:border-emerald-500/40 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.7),0_4px_20px_rgba(16,185,129,0.12)]',
+            glow: 'bg-emerald-500/10',
+            title: 'group-hover:text-emerald-300',
+            tag: 'text-emerald-400',
+            arrow: 'group-hover:bg-emerald-400 group-hover:text-black group-hover:border-emerald-400',
+        },
+        blue: {
+            icon: 'text-blue-400 border-blue-400/20 bg-blue-500/10 group-hover:border-blue-400/40 group-hover:bg-blue-500/20',
+            cardHover: 'hover:border-blue-500/40 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.7),0_4px_20px_rgba(59,130,246,0.12)]',
+            glow: 'bg-blue-500/10',
+            title: 'group-hover:text-blue-300',
+            tag: 'text-blue-400',
+            arrow: 'group-hover:bg-blue-400 group-hover:text-black group-hover:border-blue-400',
+        },
     };
 
-    const accentGlow = {
-        cyan: 'bg-cyan-400/10',
-        purple: 'bg-purple-400/10',
-        pink: 'bg-pink-400/10',
-        yellow: 'bg-yellow-400/10',
-        emerald: 'bg-emerald-400/10',
-        blue: 'bg-blue-400/10',
-    };
-
-    const fromGradient = {
-        cyan: 'from-cyan-500/5',
-        purple: 'from-purple-500/5',
-        pink: 'from-pink-500/5',
-        yellow: 'from-yellow-500/5',
-        emerald: 'from-emerald-500/5',
-        blue: 'from-blue-500/5',
-    };
-
-    const hoverArrowBg = {
-        cyan: 'md:group-hover:bg-cyan-400',
-        purple: 'md:group-hover:bg-purple-400',
-        pink: 'md:group-hover:bg-pink-400',
-        yellow: 'md:group-hover:bg-yellow-400',
-        emerald: 'md:group-hover:bg-emerald-400',
-        blue: 'md:group-hover:bg-blue-400',
-    };
-
-    const footerTextColor = {
-        cyan: 'text-cyan-400',
-        purple: 'text-purple-400',
-        pink: 'text-pink-400',
-        yellow: 'text-yellow-400',
-        emerald: 'text-emerald-400',
-        blue: 'text-blue-400',
-    };
+    const style = colorStyles[service.color as keyof typeof colorStyles] || colorStyles.cyan;
 
     return (
         <motion.article
@@ -95,32 +103,34 @@ const ServiceCard = ({ service, index }: { service: typeof services[0], index: n
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.45, ease: 'easeOut', delay: Math.min(index * 0.06, 0.25) }}
-            className="group relative flex flex-col p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] bg-[#050508] border border-white/5 md:hover:border-white/20 md:hover:-translate-y-1.5 transition-[border-color,transform,box-shadow] duration-300 overflow-hidden h-full shadow-[0_4px_30px_rgba(0,0,0,0.3)] md:hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)]"
+            className={`group relative flex flex-col p-5 sm:p-6 rounded-2xl bg-[#050508] border border-white/5 ${style.cardHover} hover:-translate-y-1.5 transition-all duration-300 overflow-hidden h-full shadow-[0_4px_20px_rgba(0,0,0,0.4)]`}
         >
-            <div className={`absolute top-0 right-0 w-64 h-64 blur-[80px] rounded-full transition-opacity duration-500 opacity-0 md:group-hover:opacity-100 ${accentGlow[service.color as keyof typeof accentGlow]} translate-x-1/2 -translate-y-1/2 pointer-events-none`} />
-            <div className={`absolute inset-0 bg-gradient-to-br ${fromGradient[service.color as keyof typeof fromGradient]} to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
-            <div className="absolute inset-0 bg-grid-white/[0.02] opacity-0 md:group-hover:opacity-100 transition-opacity pointer-events-none" />
+            {/* Subtle Ambient Hover Glow */}
+            <div className={`absolute top-0 right-0 w-48 h-48 blur-3xl rounded-full transition-opacity duration-500 opacity-0 group-hover:opacity-100 ${style.glow} -mr-12 -mt-12 pointer-events-none`} />
 
-            <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center border transition-transform duration-300 mb-5 sm:mb-6 shadow-md relative z-10 bg-[#050508] ${colorMap[service.color as keyof typeof colorMap]} md:group-hover:scale-110 md:group-hover:-rotate-6 md:group-hover:shadow-[0_0_25px_rgba(255,255,255,0.08)]`}>
-                <service.icon size={20} strokeWidth={1.5} className="sm:w-[22px] sm:h-[22px]" />
+            {/* Icon Header */}
+            <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center border transition-all duration-300 mb-5 shadow-sm relative z-10 ${style.icon}`}>
+                <service.icon size={20} strokeWidth={1.75} className="sm:w-[22px] sm:h-[22px]" />
             </div>
 
-            <div className="flex-1 space-y-2.5 sm:space-y-3 relative z-10">
-                <h3 className="text-lg sm:text-xl font-black text-white md:group-hover:text-white transition-colors duration-300 tracking-tight uppercase">
+            {/* Content */}
+            <div className="flex-1 space-y-2 relative z-10">
+                <h3 className={`text-base sm:text-lg font-black text-white ${style.title} transition-colors duration-300 tracking-tight uppercase`}>
                     {service.title}
                 </h3>
 
-                <p className="text-xs sm:text-[13px] text-slate-400 font-light leading-relaxed md:group-hover:text-slate-300 transition-colors duration-300">
+                <p className="text-xs sm:text-[13px] text-slate-400 font-light leading-relaxed group-hover:text-slate-300 transition-colors duration-300">
                     {service.description}
                 </p>
             </div>
 
-            <div className="mt-6 sm:mt-8 pt-4 border-t border-white/5 flex items-center justify-between opacity-70 md:opacity-60 md:group-hover:opacity-100 transition-all duration-300 relative z-10">
-                <div className="flex items-center gap-3">
-                    <p className={`text-[9px] font-mono uppercase tracking-[0.2em] font-bold ${footerTextColor[service.color as keyof typeof footerTextColor]}`}>Protocol 0{index + 1}</p>
-                </div>
-                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/[0.02] border border-white/10 flex items-center justify-center ${hoverArrowBg[service.color as keyof typeof hoverArrowBg]} md:group-hover:text-black md:group-hover:scale-110 transition-all duration-300 transform md:group-hover:rotate-45 shadow-sm`}>
-                    <ArrowUpRight size={15} strokeWidth={2} />
+            {/* Footer Row */}
+            <div className="mt-6 pt-3.5 border-t border-white/5 flex items-center justify-between opacity-70 group-hover:opacity-100 transition-opacity duration-300 relative z-10">
+                <p className={`text-[9px] font-mono uppercase tracking-[0.2em] font-bold ${style.tag}`}>
+                    Protocol 0{index + 1}
+                </p>
+                <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-slate-400 ${style.arrow} transition-all duration-300`}>
+                    <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
                 </div>
             </div>
         </motion.article>
