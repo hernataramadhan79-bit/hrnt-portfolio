@@ -9,9 +9,8 @@ const Footer: React.FC = () => {
 
     const socialLinks = [
         { icon: Github, href: 'https://github.com/hernataramadhan79-bit', label: 'Github' },
-        { icon: Linkedin, href: '#', label: 'LinkedIn' },
-        { icon: Instagram, href: 'https://www.instagram.com/hrnt.dev/', label: 'Instagram' },
-        { icon: Twitter, href: '#', label: 'Twitter' },
+        { icon: Linkedin, href: 'https://www.linkedin.com/in/hernata-ramadhan-176b68338', label: 'LinkedIn' },
+        { icon: Instagram, href: 'https://www.instagram.com/heropakentanq15_', label: 'Instagram' },
     ];
 
     const scrollToTop = () => {
@@ -58,14 +57,13 @@ const Footer: React.FC = () => {
                     <div className="grid grid-cols-2 gap-10">
                         <div className="space-y-6">
                             <h3 className="text-xs font-mono text-slate-500 uppercase tracking-[0.3em]">Sections</h3>
-                            <nav className="flex flex-col gap-4" aria-label="Footer sections">
-                                {['Home', 'Skills', 'Library', 'Contact'].map((item) => (
+                            <nav className="flex flex-col gap-3" aria-label="Footer sections">
+                                {['Home', 'Skills', 'Projects', 'Services', 'Experience', 'Stats', 'Contact'].map((item) => (
                                     <button
                                         key={item}
                                         onClick={() => {
                                             const sectionId = item.toLowerCase();
-                                            window.location.hash = sectionId;
-                                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                                            window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: sectionId } }));
                                         }}
                                         className="text-white/60 hover:text-cyan-400 transition-colors text-left font-bold uppercase tracking-[0.2em] text-[10px] w-fit"
                                     >

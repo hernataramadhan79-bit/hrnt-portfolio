@@ -13,25 +13,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${siteUrl}/#experience`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
       url: `${siteUrl}/#skills`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${siteUrl}/#performance`,
+      url: `${siteUrl}/#projects`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.9,
     },
     {
-      url: `${siteUrl}/#library`,
+      url: `${siteUrl}/#services`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/#experience`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/#stats`,
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.7,
@@ -41,6 +47,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'yearly',
       priority: 0.9,
+    },
+    {
+      url: `${siteUrl}/#forum`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
     },
   ];
 }

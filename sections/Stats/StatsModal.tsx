@@ -6,7 +6,7 @@ import { Activity, Award, Box, Clock, Code, GitBranch, Sparkles, TrendingUp, Tim
 import GitHubHeatmap from './GitHubHeatmap';
 import { timeAgo } from './utils';
 
-interface PerformanceModalProps {
+interface StatsModalProps {
     selectedStat: 'github' | 'wakatime' | null;
     setSelectedStat: (v: null) => void;
     stats: {
@@ -16,7 +16,7 @@ interface PerformanceModalProps {
     mounted: boolean;
 }
 
-const PerformanceModal: React.FC<PerformanceModalProps> = ({ selectedStat, setSelectedStat, stats, mounted }) => {
+const StatsModal: React.FC<StatsModalProps> = ({ selectedStat, setSelectedStat, stats, mounted }) => {
     if (!mounted) return null;
 
     return (
@@ -198,4 +198,4 @@ const PerformanceModal: React.FC<PerformanceModalProps> = ({ selectedStat, setSe
     );
 };
 
-export default PerformanceModal;
+export default StatsModal;

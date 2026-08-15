@@ -9,9 +9,10 @@ import VisuallyHidden from './__a11y/VisuallyHidden';
 const navItems: NavItem[] = [
   { id: 'home', label: 'Home', icon: Home, sectionId: 'home' },
   { id: 'skills', label: 'Skills', icon: Code, sectionId: 'skills' },
-  { id: 'library', label: 'Projects', icon: BookOpen, sectionId: 'library' },
+  { id: 'projects', label: 'Projects', icon: BookOpen, sectionId: 'projects' },
+  { id: 'services', label: 'Services', icon: Terminal, sectionId: 'services' },
   { id: 'experience', label: 'Experience', icon: Briefcase, sectionId: 'experience' },
-  { id: 'performance', label: 'Stats', icon: Activity, sectionId: 'performance' },
+  { id: 'stats', label: 'Stats', icon: Activity, sectionId: 'stats' },
   { id: 'contact', label: 'Contact', icon: Mail, sectionId: 'contact' },
   { id: 'forum', label: 'Forum', icon: MessageSquare, sectionId: 'forum' },
 ];

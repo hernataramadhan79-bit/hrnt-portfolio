@@ -194,10 +194,10 @@ const Landing: React.FC = () => {
 
                         <div className="flex flex-row flex-wrap gap-3 pt-1 xl:pt-2 mb-2 lg:mb-3">
                             <motion.a
-                                href="#library"
+                                href="#projects"
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.96 }}
-                                onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'library' } })); }}
+                                onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'projects' } })); }}
                                 className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white text-black rounded-xl font-black uppercase tracking-[0.2em] overflow-hidden text-[9px] xl:text-[10px] shadow-2xl transition-all"
                             >
                                 <div className="absolute inset-0 bg-cyan-400 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
@@ -375,11 +375,11 @@ const Landing: React.FC = () => {
 
                     {/* PROJECTS: col-span-2, row-span-1 */}
                     <motion.a 
-                        href="#library"
+                        href="#projects"
                         variants={itemVariants}
                         whileHover={{ y: -6, scale: 1.012 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'library' } })); }}
+                        onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'projects' } })); }}
                         className="lg:col-span-2 lg:row-span-1 group relative rounded-2xl lg:rounded-3xl bg-white/[0.03] border border-white/10 overflow-hidden cursor-pointer p-4 sm:p-5 xl:p-6 flex flex-col justify-between hover:bg-white/[0.06] hover:border-cyan-500/40 hover:shadow-[0_15px_40px_-10px_rgba(34,211,238,0.18)] transition-all duration-500 h-[220px] lg:h-auto"
                     >
                         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />

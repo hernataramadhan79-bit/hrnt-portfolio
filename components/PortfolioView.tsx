@@ -8,8 +8,9 @@ import Navbar from '@/components/Navbar';
 import Landing from '@/sections/Landing';
 import Experience from '@/sections/Experience';
 import Skills from '@/sections/Skills';
-import Performance from '@/sections/Performance';
-import Library from '@/sections/Library';
+import Stats from '@/sections/Stats';
+import Projects from '@/sections/Projects';
+import Services from '@/sections/Services';
 import Contact from '@/sections/Contact';
 import Forum from '@/sections/Forum';
 
@@ -65,18 +66,23 @@ export default function PortfolioView() {
   const [activeTab, setActiveTab] = useState('home');
 
   useEffect(() => {
+    const normalizeTab = (raw: string) => {
+      if (raw === 'library') return 'projects';
+      if (raw === 'performance') return 'stats';
+      return raw;
+    };
+
     const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (['home', 'experience', 'skills', 'performance', 'library', 'services', 'contact', 'forum'].includes(hash)) {
+      const hash = normalizeTab(window.location.hash.replace('#', ''));
+      if (['home', 'experience', 'skills', 'stats', 'projects', 'services', 'contact', 'forum'].includes(hash)) {
         setActiveTab(hash);
       }
     };
 
-    // Custom event listener — allows Landing.tsx CTAs to trigger navigation
-    // without needing direct access to setActiveTab via props
     const handleNavigate = (e: CustomEvent<{ tab: string }>) => {
-      setActiveTab(e.detail.tab);
-      window.location.hash = e.detail.tab;
+      const tab = normalizeTab(e.detail.tab);
+      setActiveTab(tab);
+      window.location.hash = tab;
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -154,17 +160,24 @@ export default function PortfolioView() {
               </SectionErrorBoundary>
             </motion.div>
           )}
-          {activeTab === 'performance' && (
-            <motion.div key="performance" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+          {(activeTab === 'stats' || activeTab === 'performance') && (
+            <motion.div key="stats" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
               <SectionErrorBoundary>
-                <Performance />
+                <Stats />
               </SectionErrorBoundary>
             </motion.div>
           )}
-          {activeTab === 'library' && (
-            <motion.div key="library" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+          {(activeTab === 'projects' || activeTab === 'library') && (
+            <motion.div key="projects" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
               <SectionErrorBoundary>
-                <Library />
+                <Projects />
+              </SectionErrorBoundary>
+            </motion.div>
+          )}
+          {activeTab === 'services' && (
+            <motion.div key="services" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+              <SectionErrorBoundary>
+                <Services />
               </SectionErrorBoundary>
             </motion.div>
           )}

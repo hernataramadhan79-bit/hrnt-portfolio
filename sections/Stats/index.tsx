@@ -10,11 +10,11 @@ import {
 } from 'lucide-react';
 import MainframeCard from './MainframeCard';
 import GitHubHeatmap from './GitHubHeatmap';
-import PerformanceModal from './PerformanceModal';
+import StatsModal from './StatsModal';
 import { SkeletonPulse } from './utils';
 import { fetchGithubData, fetchWakaTimeData } from '../../lib/clientDataCache';
 
-const Performance: React.FC = () => {
+const Stats: React.FC = () => {
     const [selectedStat, setSelectedStat] = useState<'github' | 'wakatime' | null>(null);
     const [mounted, setMounted] = useState(false);
     const [loadingState, setLoadingState] = useState({
@@ -96,7 +96,7 @@ const Performance: React.FC = () => {
     if (!mounted) return null;
 
     return (
-        <section id="performance" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center w-full py-6 lg:py-2 xl:py-6 px-4 sm:px-6">
+        <section id="stats" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center w-full py-6 lg:py-2 xl:py-6 px-4 sm:px-6">
             <div className="max-w-7xl mx-auto w-full flex flex-col h-full lg:justify-center">
 
                 <div className="relative mb-4 lg:mb-5 xl:mb-8 text-center shrink-0">
@@ -290,7 +290,7 @@ const Performance: React.FC = () => {
                 </div>
 
                 {mounted && (
-                    <PerformanceModal
+                    <StatsModal
                         selectedStat={selectedStat}
                         setSelectedStat={setSelectedStat}
                         stats={stats}
@@ -303,4 +303,4 @@ const Performance: React.FC = () => {
     );
 };
 
-export default React.memo(Performance);
+export default React.memo(Stats);
