@@ -107,7 +107,7 @@ const Projects: React.FC = () => {
               
               {/* Featured Project */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-                className="md:col-span-2 lg:col-span-2 h-[180px] sm:h-[190px] xl:h-[220px]"
+                className="md:col-span-2 lg:col-span-2 min-h-[190px] h-auto sm:h-[190px] xl:h-[220px]"
                 onClick={() => { setSelectedProject(projects[0]); setIsProjectModalOpen(true); }}>
                 <article className="h-full w-full relative group cursor-pointer overflow-hidden rounded-2xl border border-white/5 hover:border-cyan-500/40 hover:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.6),0_4px_20px_rgba(34,211,238,0.12)] hover:-translate-y-1 transition-all duration-300 ease-out">
                   <div className="absolute inset-0 pointer-events-none">
@@ -134,11 +134,11 @@ const Projects: React.FC = () => {
 
               {/* Stats Widgets */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}
-                className="h-[180px] sm:h-[190px] xl:h-[220px]">
+                className="min-h-[210px] h-auto sm:h-[190px] xl:h-[220px]">
                 <WakaTimeWidget />
               </motion.div>
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
-                className="h-[180px] sm:h-[190px] xl:h-[220px]">
+                className="min-h-[210px] h-auto sm:h-[190px] xl:h-[220px]">
                 <GithubWidget />
               </motion.div>
 
