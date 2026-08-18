@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Timestamp, collection, query, orderBy, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import React, { useState, useEffect, useCallback } from 'react';
+import { auth } from '../../lib/firebase';
 import { MessageSquare, Calendar, Trash2, Loader2, Check, X, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import UserAvatar from './UserAvatar';
@@ -13,12 +12,13 @@ interface Comment {
   userId: string;
   userImage: string;
   message: string;
-  createdAt: Timestamp | null;
+  createdAt: string | null;
 }
 
-const formatDate = (timestamp: Timestamp | null) => {
-  if (!timestamp) return 'Just now';
-  const date = timestamp.toDate();
+const formatDate = (dateString: string | null) => {
+  if (!dateString) return 'Just now';
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return 'Just now';
   return new Intl.DateTimeFormat('en-US', {
     month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit',
   }).format(date);
@@ -35,33 +35,69 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  React.useEffect(() => {
-    const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const commentsData: Comment[] = [];
-      snapshot.forEach((doc) => {
-        commentsData.push({ id: doc.id, ...doc.data() } as Comment);
-      });
+  const fetchComments = useCallback(async (showLoading = false) => {
+    if (showLoading) setIsLoading(true);
+    try {
+      const res = await fetch('/api/comments', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Failed to load comments');
+      const data = await res.json();
+      const commentsData: Comment[] = data.comments || [];
       cachedComments = commentsData;
       hasInitiallyLoaded = true;
       setComments(commentsData);
+    } catch (error) {
+      console.error('Error fetching comments: ', error);
+    } finally {
       setIsLoading(false);
-    }, (error) => {
-      console.error("Error fetching comments: ", error);
-      setIsLoading(false);
-    });
-    return () => unsubscribe();
+    }
   }, []);
+
+  useEffect(() => {
+    fetchComments(!hasInitiallyLoaded && cachedComments.length === 0);
+
+    // Refresh ketika ada event posting komentar baru
+    const handleRefresh = () => fetchComments(false);
+    window.addEventListener('comment-refresh', handleRefresh);
+
+    // Polling setiap 15 detik jika tab aktif
+    const interval = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        fetchComments(false);
+      }
+    }, 15000);
+
+    return () => {
+      window.removeEventListener('comment-refresh', handleRefresh);
+      clearInterval(interval);
+    };
+  }, [fetchComments]);
 
   const confirmDeleteComment = async (commentId: string) => {
     setDeletingId(commentId);
     setDeleteError(null);
     try {
-      await deleteDoc(doc(db, 'comments', commentId));
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) throw new Error('You must be logged in to delete comments');
+
+      const res = await fetch(`/api/comments?id=${encodeURIComponent(commentId)}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || 'Failed to delete message');
+      }
+
       setConfirmDeleteId(null);
+      // Optimistic update local state
+      setComments((prev) => prev.filter((c) => c.id !== commentId));
+      cachedComments = cachedComments.filter((c) => c.id !== commentId);
     } catch (error: any) {
       console.error('Error deleting comment: ', error);
-      setDeleteError('Failed to delete message. Please try again.');
+      setDeleteError(error.message || 'Failed to delete message. Please try again.');
     } finally {
       setDeletingId(null);
     }

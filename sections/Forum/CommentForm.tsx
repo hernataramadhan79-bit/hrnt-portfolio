@@ -2,16 +2,16 @@
 
 import React, { useState } from 'react';
 import { Send, Sparkles, Loader2 } from 'lucide-react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db, User } from '../../lib/firebase';
+import { User } from '../../lib/firebase';
 
 interface CommentFormProps {
   user: User;
+  onCommentPosted?: () => void;
 }
 
 const MAX_CHARS = 500;
 
-const CommentForm: React.FC<CommentFormProps> = ({ user }) => {
+const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -25,17 +25,34 @@ const CommentForm: React.FC<CommentFormProps> = ({ user }) => {
     setError('');
 
     try {
-      await addDoc(collection(db, 'comments'), {
-        userId: user.uid,
-        name: user.displayName || user.email?.split('@')[0] || 'User',
-        userImage: user.photoURL || '',
-        message: trimmed,
-        createdAt: serverTimestamp(),
+      const token = await user.getIdToken();
+      const res = await fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId: user.uid,
+          name: user.displayName || user.email?.split('@')[0] || 'User',
+          userImage: user.photoURL || '',
+          message: trimmed,
+        }),
       });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to post message');
+      }
+
       setMessage('');
+      if (onCommentPosted) onCommentPosted();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('comment-refresh'));
+      }
     } catch (err: any) {
       console.error('Error adding comment: ', err);
-      setError('Failed to post message. Please check your connection and try again.');
+      setError(err.message || 'Failed to post message. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
