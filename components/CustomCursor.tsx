@@ -11,7 +11,7 @@ const CustomCursor = () => {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 25, stiffness: 700 };
+  const springConfig = { damping: 28, stiffness: 950, mass: 0.06 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
@@ -45,7 +45,13 @@ const CustomCursor = () => {
       !isExcluded && (
         target.tagName === 'BUTTON' ||
         target.tagName === 'A' ||
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.tagName === 'SELECT' ||
         target.closest('button') ||
+        target.closest('a') ||
+        target.closest('[role="button"]') ||
+        target.closest('[role="tab"]') ||
         target.closest('.group') ||
         target.classList.contains('cursor-pointer')
       )

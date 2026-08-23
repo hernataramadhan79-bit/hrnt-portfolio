@@ -5,9 +5,19 @@ const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'forum-portfol
 const API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '';
 const FIRESTORE_BASE_URL = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`;
 
-// Helper sanitize string (strip HTML tags)
+// Helper sanitize string (strip HTML tags, scripts, event handlers, control chars)
 function sanitizeText(input: string): string {
-    return input.replace(/<[^>]*>?/gm, '').trim();
+    if (typeof input !== 'string') return '';
+    return input
+        .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+        .replace(/<[^>]*>?/gm, '')
+        .replace(/javascript:/gi, '')
+        .replace(/vbscript:/gi, '')
+        .replace(/data:text\/html/gi, '')
+        .replace(/on\w+\s*=/gi, '')
+        .trim();
 }
 
 // Helper untuk format komentar dari struktur Firestore REST API

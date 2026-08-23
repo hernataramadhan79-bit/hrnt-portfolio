@@ -18,6 +18,12 @@ body {
     overflow-x: hidden;
 }
 
+/* Media & Asset Dragging Protection */
+img, svg {
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+
 /* scroll-behavior is handled by Lenis to ensure smoothness */
 
 ::-webkit-scrollbar {

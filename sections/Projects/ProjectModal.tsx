@@ -212,33 +212,33 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
                 {/* 3-Column Problem / Approach / Outcome Specification */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {project.problem && (
-                    <div className="space-y-1.5 border-l-2 border-amber-400/40 pl-3">
-                      <p className="text-[10px] font-mono text-amber-400 uppercase tracking-widest font-bold">
+                    <div className="space-y-1.5 border-l-2 border-amber-400/50 pl-3">
+                      <p className="text-[10px] font-mono text-amber-300 uppercase tracking-widest font-bold">
                         01. The Problem
                       </p>
-                      <p className="text-slate-400 text-xs leading-relaxed font-light">
+                      <p className="text-slate-300 text-xs leading-relaxed font-normal">
                         {project.problem}
                       </p>
                     </div>
                   )}
 
                   {project.approach && (
-                    <div className="space-y-1.5 border-l-2 border-cyan-400/40 pl-3">
-                      <p className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest font-bold">
-                        02. Approach
+                    <div className="space-y-1.5 border-l-2 border-cyan-400/50 pl-3">
+                      <p className="text-[10px] font-mono text-cyan-300 uppercase tracking-widest font-bold">
+                        02. Approach & Architecture
                       </p>
-                      <p className="text-slate-400 text-xs leading-relaxed font-light">
+                      <p className="text-slate-300 text-xs leading-relaxed font-normal">
                         {project.approach}
                       </p>
                     </div>
                   )}
 
                   {project.outcome && (
-                    <div className="space-y-1.5 border-l-2 border-emerald-400/40 pl-3">
-                      <p className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest font-bold">
+                    <div className="space-y-1.5 border-l-2 border-emerald-400/50 pl-3">
+                      <p className="text-[10px] font-mono text-emerald-300 uppercase tracking-widest font-bold">
                         03. Impact & Outcome
                       </p>
-                      <p className="text-slate-400 text-xs leading-relaxed font-light">
+                      <p className="text-slate-300 text-xs leading-relaxed font-normal">
                         {project.outcome}
                       </p>
                     </div>

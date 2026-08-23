@@ -162,69 +162,69 @@ const Landing: React.FC = () => {
                         </div>
 
                         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                            <div className="px-3 py-1 flex items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-md">
-                                <span className="text-[9px] xl:text-[10px] font-black tracking-[0.2em] text-cyan-400 uppercase leading-none">
-                                    Fullstack Engineer
+                            <div className="px-3.5 py-1.5 flex items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/25 backdrop-blur-md">
+                                <span className="text-[10px] xl:text-[11px] font-bold tracking-[0.18em] text-cyan-300 uppercase leading-none">
+                                    Full-Stack Software Engineer
                                 </span>
                             </div>
 
                             {/* Availability Status Badge */}
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.15)]">
                                 <span className="relative flex h-2 w-2">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                                 </span>
-                                <span className="text-[9px] xl:text-[10px] font-mono text-emerald-300 font-bold uppercase tracking-wider leading-none">
-                                    Available: Full-Time • Remote • Freelance
+                                <span className="text-[10px] xl:text-[11px] font-mono text-emerald-300 font-semibold tracking-wider leading-none">
+                                    Available: Full-Time • Remote • Contract
                                 </span>
                             </div>
 
-                            <div className="flex items-center gap-2 text-slate-500 font-mono text-[9px] xl:text-[10px] uppercase tracking-widest">
-                                <span className="w-1.5 h-1.5 rounded-full bg-slate-500/50" />
-                                <span>Based in Madiun, ID</span>
+                            <div className="flex items-center gap-2 text-slate-400 font-mono text-[10px] xl:text-[11px] uppercase tracking-wider">
+                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/60" />
+                                <span>Based in Indonesia (UTC+7)</span>
                             </div>
                         </div>
 
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-black text-white leading-[1.1] tracking-tight">
-                            Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">production-grade</span><br />
-                            web apps, <span className="text-white relative inline-block">end to end.</span>
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-black text-white leading-[1.15] tracking-tight">
+                            Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-purple-400">high-performance</span><br />
+                            web architectures, <span className="text-white relative inline-block">end to end.</span>
                         </h2>
 
-                        <p className="text-xs sm:text-sm lg:text-xs xl:text-sm text-slate-400 font-light leading-relaxed max-w-lg">
-                            Fullstack developer specialized in React, Next.js, Node.js, and TypeScript.
-                            From architecture decisions to pixel-perfect UI — shipping fast, scalable products.
+                        <p className="text-xs sm:text-sm lg:text-xs xl:text-sm text-slate-300 font-normal leading-relaxed max-w-lg">
+                            Full-Stack Engineer specializing in React, Next.js, Node.js, and TypeScript.
+                            From scalable system architecture to pixel-precise user interfaces — building resilient products.
                         </p>
 
                         {/* Tech stack subtitle */}
-                        <div className="flex flex-wrap gap-1.5 -mt-1">
-                            {['React', 'Next.js', 'TypeScript', 'Node.js'].map((tech) => (
-                                <span key={tech} className="text-[9px] font-mono text-slate-500 uppercase tracking-widest px-2 py-0.5 bg-white/[0.03] border border-white/5 rounded-md">
+                        <div className="flex flex-wrap gap-2 pt-0.5">
+                            {['React 19', 'Next.js 16', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'].map((tech) => (
+                                <span key={tech} className="text-[10px] font-mono text-slate-300 font-medium uppercase tracking-wider px-2.5 py-1 bg-white/[0.04] border border-white/10 rounded-md">
                                     {tech}
                                 </span>
                             ))}
                         </div>
 
-                        <div className="flex flex-row flex-wrap gap-3 pt-1 xl:pt-2 mb-2 lg:mb-3">
+                        <div className="flex flex-row flex-wrap gap-3 pt-2 mb-2 lg:mb-3">
                             <motion.a
                                 href="#projects"
-                                whileHover={{ scale: 1.04 }}
-                                whileTap={{ scale: 0.96 }}
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.97 }}
                                 onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'projects' } })); }}
-                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white text-black rounded-xl font-black uppercase tracking-[0.2em] overflow-hidden text-[9px] xl:text-[10px] shadow-2xl transition-all"
+                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3 bg-white text-black rounded-xl font-bold uppercase tracking-[0.15em] overflow-hidden text-[10px] xl:text-[11px] shadow-2xl transition-all"
                             >
                                 <div className="absolute inset-0 bg-cyan-400 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
                                 <span className="relative z-10 flex items-center gap-2">
-                                    Explore Works <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                                    Explore Projects <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
                                 </span>
                             </motion.a>
                             <motion.a
                                 href="#contact"
-                                whileHover={{ scale: 1.04 }}
-                                whileTap={{ scale: 0.96 }}
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.97 }}
                                 onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('navigate', { detail: { tab: 'contact' } })); }}
-                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white/5 border border-white/10 rounded-xl font-black uppercase tracking-[0.2em] text-white hover:border-cyan-400/50 hover:bg-white/[0.08] transition-all text-[9px] xl:text-[10px]"
+                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3 bg-white/5 border border-white/15 rounded-xl font-bold uppercase tracking-[0.15em] text-white hover:border-cyan-400/60 hover:bg-white/[0.08] transition-all text-[10px] xl:text-[11px]"
                             >
-                                <span className="relative z-10 transition-colors group-hover:text-cyan-400 flex items-center gap-2">
+                                <span className="relative z-10 transition-colors group-hover:text-cyan-300 flex items-center gap-2">
                                     Contact Me <Mail size={13} />
                                 </span>
                             </motion.a>
@@ -232,12 +232,12 @@ const Landing: React.FC = () => {
                                 href="/Hernata%20CV.pdf"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                whileHover={{ scale: 1.04 }}
-                                whileTap={{ scale: 0.96 }}
-                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 bg-white/5 border border-white/10 rounded-xl font-black uppercase tracking-[0.2em] text-slate-400 hover:border-white/20 hover:text-white hover:bg-white/[0.06] transition-all text-[9px] xl:text-[10px]"
+                                whileHover={{ scale: 1.03 }}
+                                whileTap={{ scale: 0.97 }}
+                                className="group relative px-5 py-3 lg:px-4 lg:py-2.5 xl:px-6 xl:py-3 bg-white/5 border border-white/15 rounded-xl font-bold uppercase tracking-[0.15em] text-slate-300 hover:border-white/30 hover:text-white hover:bg-white/[0.08] transition-all text-[10px] xl:text-[11px]"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
-                                    Download CV <FileDown size={13} />
+                                    Curriculum Vitae <FileDown size={13} />
                                 </span>
                             </motion.a>
                         </div>
@@ -326,7 +326,7 @@ const Landing: React.FC = () => {
                                     ) : (
                                         <span className="text-xl sm:text-2xl xl:text-3xl font-black text-white group-hover:text-emerald-300 transition-colors">{realStats.github.totalContributions}</span>
                                     )}
-                                    <span className="text-[8px] xl:text-[9px] text-emerald-400 font-bold uppercase tracking-widest mt-0.5">Commits</span>
+                                    <span className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider mt-0.5">Commits</span>
                                 </div>
                                 <div className="bg-white/5 border border-white/5 rounded-xl p-2.5 flex flex-col justify-center items-center shadow-inner group-hover:border-yellow-500/20 group-hover:bg-white/[0.08] transition-all duration-300">
                                     {loadingStats ? (
@@ -334,18 +334,18 @@ const Landing: React.FC = () => {
                                     ) : (
                                         <span className="text-xl sm:text-2xl xl:text-3xl font-black text-white group-hover:text-yellow-300 transition-colors">{realStats.github.repos}</span>
                                     )}
-                                    <span className="text-[8px] xl:text-[9px] text-yellow-400 font-bold uppercase tracking-widest mt-0.5">Repos</span>
+                                    <span className="text-[10px] text-yellow-300 font-bold uppercase tracking-wider mt-0.5">Repos</span>
                                 </div>
                             </div>
                             <div className="bg-white/5 border border-white/5 rounded-lg p-2 flex items-center justify-between shadow-inner group-hover:border-cyan-500/20 group-hover:bg-white/[0.08] transition-all duration-300">
                                 <div className="flex items-center gap-1.5">
-                                    <Clock size={12} className="text-cyan-400 group-hover:rotate-45 transition-transform duration-500" />
-                                    <span className="text-[8px] xl:text-[9px] text-slate-400 font-medium uppercase tracking-wider group-hover:text-slate-300">Time Coded</span>
+                                    <Clock size={13} className="text-cyan-400 group-hover:rotate-45 transition-transform duration-500" />
+                                    <span className="text-[10px] text-slate-300 font-medium uppercase tracking-wider group-hover:text-white">Coding Time</span>
                                 </div>
                                 {loadingStats ? (
                                     <div className="w-12 h-3 bg-white/10 rounded animate-pulse" />
                                 ) : (
-                                    <span className="text-[10px] xl:text-xs font-bold text-white group-hover:text-cyan-300 transition-colors truncate max-w-[100px]">{realStats.wakatime.totalTime}</span>
+                                    <span className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors truncate max-w-[120px]">{realStats.wakatime.totalTime}</span>
                                 )}
                             </div>
                         </div>
@@ -374,9 +374,9 @@ const Landing: React.FC = () => {
                         <div className="relative z-10 flex-1 flex flex-col justify-end w-full mt-1.5">
                             <div className="flex flex-wrap gap-1.5 xl:gap-2">
                                 {[...innerSkills, ...outerSkills].slice(0, 10).map((skill, i) => (
-                                    <div key={i} className="group/skill relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 xl:w-9 xl:h-9 rounded-lg bg-white/5 border border-white/5 hover:bg-white/15 hover:border-pink-500/40 hover:scale-110 hover:-translate-y-0.5 transition-all duration-300 shadow-inner">
-                                        <img src={skill.icon} alt={skill.name} className="w-3.5 h-3.5 sm:w-4 sm:h-4 xl:w-4.5 xl:h-4.5 object-contain filter grayscale group-hover/skill:grayscale-0 transition-all duration-300" />
-                                        <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#030305] rounded border border-white/10 text-[9px] font-bold text-white opacity-0 group-hover/skill:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
+                                    <div key={i} className="group/skill relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 xl:w-9 xl:h-9 rounded-lg bg-white/5 border border-white/10 hover:bg-white/15 hover:border-pink-500/40 hover:scale-110 hover:-translate-y-0.5 transition-all duration-300 shadow-inner">
+                                        <img src={skill.icon} alt={skill.name} className="w-4 h-4 sm:w-4.5 sm:h-4.5 xl:w-5 xl:h-5 object-contain opacity-90 group-hover/skill:opacity-100 group-hover/skill:scale-110 transition-all duration-300" />
+                                        <div className="absolute -top-7 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#030305] rounded border border-white/10 text-[10px] font-bold text-white opacity-0 group-hover/skill:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
                                             {skill.name}
                                         </div>
                                     </div>

@@ -153,7 +153,7 @@ const Contact: React.FC = () => {
 
                   <div className="grid grid-cols-2 gap-3 sm:gap-4" style={{ transform: "translateZ(20px)" }}>
                     <div className="space-y-1.5 group">
-                      <label htmlFor="contact-name" className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Name</label>
+                      <label htmlFor="contact-name" className="text-[10px] uppercase tracking-wider text-slate-300 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Name</label>
                       <input
                         id="contact-name"
                         type="text"
@@ -161,13 +161,13 @@ const Contact: React.FC = () => {
                         value={formData.name}
                         onChange={handleChange}
                         maxLength={100}
-                        className="w-full bg-[#0a0a0f]/90 border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all shadow-md"
+                        className="w-full bg-[#0a0a0f]/90 border border-white/15 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/60 focus:bg-white/[0.06] transition-all shadow-md"
                         placeholder="Your Name"
                         required
                       />
                     </div>
                     <div className="space-y-1.5 group">
-                      <label htmlFor="contact-email" className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Email</label>
+                      <label htmlFor="contact-email" className="text-[10px] uppercase tracking-wider text-slate-300 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Email</label>
                       <input
                         id="contact-email"
                         type="email"
@@ -175,15 +175,15 @@ const Contact: React.FC = () => {
                         value={formData.email}
                         onChange={handleChange}
                         maxLength={254}
-                        className="w-full bg-[#0a0a0f]/90 border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all shadow-md"
-                        placeholder="Your Email Address"
+                        className="w-full bg-[#0a0a0f]/90 border border-white/15 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/60 focus:bg-white/[0.06] transition-all shadow-md"
+                        placeholder="your.email@example.com"
                         required
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1.5 group relative" style={{ transform: "translateZ(30px)" }}>
-                    <label htmlFor="contact-message" className="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Message</label>
+                    <label htmlFor="contact-message" className="text-[10px] uppercase tracking-wider text-slate-300 font-bold ml-1 group-focus-within:text-cyan-400 transition-colors">Message</label>
                     <div className="relative">
                       <textarea
                         id="contact-message"
@@ -193,8 +193,8 @@ const Contact: React.FC = () => {
                         onChange={handleChange}
                         minLength={20}
                         maxLength={2000}
-                        className="w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 focus:bg-white/5 transition-all resize-none shadow-md"
-                        placeholder="Tell me about your project... (min. 20 characters)"
+                        className="w-full bg-[#0a0a0f] border border-white/15 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/60 focus:bg-white/[0.06] transition-all resize-none shadow-md"
+                        placeholder="Tell me about your project goals or inquiries... (min. 20 characters)"
                         required
                       />
                     </div>

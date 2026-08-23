@@ -61,7 +61,7 @@ const GitHubHeatmap: React.FC<GitHubHeatmapProps> = ({
             {showHeader && (
                 <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-3">
-                        <h4 className={`text-[9px] font-mono uppercase tracking-[0.2em] flex items-center gap-2 ${compact ? 'text-white opacity-50' : 'text-slate-500'}`}>
+                        <h4 className={`text-[10px] font-mono uppercase tracking-[0.2em] flex items-center gap-2 ${compact ? 'text-slate-300' : 'text-slate-400'}`}>
                             {TitleIcon && <TitleIcon size={12} className="text-cyan-400" />}
                             {title}
                         </h4>
@@ -71,19 +71,19 @@ const GitHubHeatmap: React.FC<GitHubHeatmapProps> = ({
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: -10 }}
-                                    className="flex items-center gap-2 border-l border-white/10 pl-3"
+                                    className="flex items-center gap-2 border-l border-white/15 pl-3"
                                 >
-                                    <span className="text-[9px] font-black text-white">{hoveredDay.count} COMMITS</span>
-                                    <span className="text-[8px] font-mono text-slate-500 uppercase">{hoveredDay.date}</span>
+                                    <span className="text-[10px] font-bold text-white">{hoveredDay.count} COMMITS</span>
+                                    <span className="text-[9px] font-mono text-slate-300 uppercase">{hoveredDay.date}</span>
                                 </motion.div>
                             )}
                         </AnimatePresence>
                     </div>
-                    <div className="flex items-center gap-2 text-[7px] font-mono text-slate-600 uppercase tracking-widest">
+                    <div className="flex items-center gap-2 text-[9px] font-mono text-slate-400 uppercase tracking-wider">
                         <span>Less</span>
                         <div className="flex gap-1">
                             {[0, 2, 5, 9, 12].map((lvl) => (
-                                <div key={lvl} className="w-2 h-2 rounded-[2px]" style={{ backgroundColor: getLevelColor(lvl) }} />
+                                <div key={lvl} className="w-2.5 h-2.5 rounded-[2px]" style={{ backgroundColor: getLevelColor(lvl) }} />
                             ))}
                         </div>
                         <span>More</span>

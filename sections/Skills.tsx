@@ -6,9 +6,9 @@ import { innerSkills, outerSkills, detailedSkills } from '../constants';
 import { DetailedSkill } from '../types';
 
 const proficiencyBadgeStyles: Record<string, { bg: string; text: string; border: string }> = {
-  Expert: { bg: 'bg-cyan-500/10', text: 'text-cyan-400', border: 'border-cyan-500/20' },
-  Advanced: { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
-  Proficient: { bg: 'bg-slate-500/10', text: 'text-slate-300', border: 'border-slate-500/20' },
+  Expert: { bg: 'bg-cyan-500/15', text: 'text-cyan-300', border: 'border-cyan-500/30' },
+  Advanced: { bg: 'bg-purple-500/15', text: 'text-purple-300', border: 'border-purple-500/30' },
+  Proficient: { bg: 'bg-slate-500/15', text: 'text-slate-200', border: 'border-slate-500/30' },
 };
 
 const SkillPills = ({ type, items, color }: { type: string; items: DetailedSkill[]; color: 'cyan' | 'purple' }) => {
@@ -21,7 +21,7 @@ const SkillPills = ({ type, items, color }: { type: string; items: DetailedSkill
     <div className="mb-4 lg:mb-5 xl:mb-6">
       <div className="flex items-center gap-2.5 mb-3 lg:mb-3.5">
         <div className={`w-1.5 h-1.5 rounded-full ${isCyan ? 'bg-cyan-400' : 'bg-purple-400'} animate-pulse shadow-[0_0_10px_currentColor]`} />
-        <h3 className="text-[11px] lg:text-xs font-black text-white uppercase tracking-[0.25em] opacity-80">{type}</h3>
+        <h3 className="text-xs font-black text-white uppercase tracking-[0.2em]">{type}</h3>
         <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
       </div>
       <div className="flex flex-wrap gap-2 sm:gap-2.5">
@@ -31,13 +31,13 @@ const SkillPills = ({ type, items, color }: { type: string; items: DetailedSkill
             <motion.div
               key={i}
               whileHover={{ y: -3, scale: 1.04 }}
-              className={`group flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/5 ${borderHoverClass} hover:bg-white/[0.08] transition-all duration-300 cursor-default`}
+              className={`group flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/10 ${borderHoverClass} hover:bg-white/[0.08] transition-all duration-300 cursor-default`}
             >
-              <skill.icon size={13} className={`${skill.color} opacity-80 group-hover:opacity-100 group-hover:scale-125 group-hover:-rotate-6 transition-all duration-300 drop-shadow-md`} />
-              <span className="text-[10px] xl:text-[11px] font-bold text-white/80 group-hover:text-white transition-colors tracking-wider uppercase">
+              <skill.icon size={14} className={`${skill.color} group-hover:scale-125 group-hover:-rotate-6 transition-all duration-300 drop-shadow-md`} />
+              <span className="text-[11px] xl:text-xs font-bold text-slate-200 group-hover:text-white transition-colors tracking-wide uppercase">
                 {skill.name}
               </span>
-              <span className={`text-[8px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded-md border ${badge.bg} ${badge.text} ${badge.border} group-hover:scale-105 transition-transform`}>
+              <span className={`text-[9px] font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md border ${badge.bg} ${badge.text} ${badge.border} group-hover:scale-105 transition-transform`}>
                 {skill.proficiency}
               </span>
             </motion.div>
@@ -101,9 +101,9 @@ const OrbitLayer = ({ skills, radius, duration, direction, color }: any) => {
                   <div className="w-1.5 h-1.5 bg-black/90 border-r border-b border-white/10 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
                 </div>
 
-                <div className="absolute inset-0 rounded-full blur-md opacity-20 group-hover:opacity-70 transition-opacity" style={{ backgroundColor: color }} />
-                <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 xl:w-11 xl:h-11 rounded-full bg-[#050508]/80 border border-white/10 flex items-center justify-center hover:border-white/40 hover:scale-110 active:scale-95 transition-all shadow-2xl cursor-pointer">
-                  <img src={skill.icon} alt={skill.name} width={18} height={18} className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-4.5 lg:h-4.5 object-contain" />
+                <div className="absolute inset-0 rounded-full blur-md opacity-25 group-hover:opacity-80 transition-opacity" style={{ backgroundColor: color }} />
+                <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 xl:w-11 xl:h-11 rounded-full bg-[#07070d]/90 border border-white/15 flex items-center justify-center hover:border-white/50 hover:scale-115 active:scale-95 transition-all shadow-2xl cursor-pointer">
+                  <img src={skill.icon} alt={skill.name} width={22} height={22} className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 xl:w-5.5 xl:h-5.5 object-contain" />
                 </div>
               </div>
             </div>
@@ -159,14 +159,14 @@ const Skills: React.FC = () => {
           <div className="mb-4 lg:mb-6 xl:mb-8">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex items-center gap-2.5 mb-2.5">
               <div className="w-6 h-[2px] bg-cyan-500/50" />
-              <span className="text-[9px] xl:text-[10px] font-mono text-cyan-400 uppercase tracking-[0.35em]">Core.Competencies</span>
+              <span className="text-[10px] xl:text-[11px] font-mono text-cyan-400 uppercase tracking-[0.3em]">Core Capabilities & Architecture</span>
             </motion.div>
             <h2 className="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95]">
-              TECH <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">MATRIX</span>
+              TECHNICAL <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-purple-400">FOUNDATIONS</span>
             </h2>
-            <p className="text-slate-400 text-xs sm:text-sm mt-3 lg:mt-4 leading-relaxed max-w-md font-light">
-              A meticulously curated arsenal of modern technologies. Engineered for high performance, scalability, and seamless user experiences across the stack.
+            <p className="text-slate-300 text-xs sm:text-sm mt-3 lg:mt-4 leading-relaxed max-w-md font-normal">
+              A comprehensive technical stack engineered for high performance, modular architecture, and resilient production systems across the entire product lifecycle.
             </p>
           </div>
 

@@ -119,17 +119,17 @@ const ServiceCard = ({ service, index }: { service: typeof services[0], index: n
                     {service.title}
                 </h3>
 
-                <p className="text-xs sm:text-[13px] text-slate-400 font-light leading-relaxed group-hover:text-slate-300 transition-colors duration-300">
+                <p className="text-xs sm:text-[13px] text-slate-300 font-normal leading-relaxed group-hover:text-slate-100 transition-colors duration-300">
                     {service.description}
                 </p>
             </div>
 
             {/* Footer Row */}
-            <div className="mt-6 pt-3.5 border-t border-white/5 flex items-center justify-between opacity-70 group-hover:opacity-100 transition-opacity duration-300 relative z-10">
-                <p className={`text-[9px] font-mono uppercase tracking-[0.2em] font-bold ${style.tag}`}>
-                    Protocol 0{index + 1}
+            <div className="mt-6 pt-3.5 border-t border-white/10 flex items-center justify-between opacity-80 group-hover:opacity-100 transition-opacity duration-300 relative z-10">
+                <p className={`text-[10px] font-mono uppercase tracking-[0.2em] font-bold ${style.tag}`}>
+                    Capability 0{index + 1}
                 </p>
-                <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-slate-400 ${style.arrow} transition-all duration-300`}>
+                <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-slate-300 ${style.arrow} transition-all duration-300`}>
                     <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
                 </div>
             </div>
@@ -147,10 +147,10 @@ const Services: React.FC = () => {
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[10px] font-mono uppercase tracking-[0.2em] backdrop-blur-sm"
+                            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 text-cyan-300 text-[10px] font-mono uppercase tracking-[0.2em] backdrop-blur-sm"
                         >
                             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                            Engineering Solutions
+                            Engineering Services
                         </motion.span>
                         <motion.h2
                             initial={{ opacity: 0, y: 20 }}
@@ -158,8 +158,8 @@ const Services: React.FC = () => {
                             viewport={{ once: true }}
                             className="text-2xl sm:text-3xl md:text-5xl font-black leading-tight text-white tracking-tighter"
                         >
-                            Excellence <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">In Every Layer.</span>
+                            Engineering Excellence <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-emerald-400">In Every Layer.</span>
                         </motion.h2>
                     </div>
 
@@ -170,8 +170,8 @@ const Services: React.FC = () => {
                         transition={{ duration: 0.5 }}
                         className="max-w-sm lg:text-right"
                     >
-                        <p className="text-xs sm:text-base text-slate-400 font-light leading-relaxed">
-                            Delivering mission-critical digital products by fusing solid architecture with sophisticated design aesthetics.
+                        <p className="text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+                            Delivering scalable, mission-critical digital products by fusing robust backend architecture with refined UI craftsmanship.
                         </p>
                     </motion.div>
                 </div>

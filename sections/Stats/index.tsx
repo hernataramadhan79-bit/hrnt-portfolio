@@ -101,12 +101,12 @@ const Stats: React.FC = () => {
 
                 <div className="relative mb-4 lg:mb-5 xl:mb-8 text-center shrink-0">
                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-[9px] xl:text-[10px] font-mono uppercase tracking-[0.2em] mb-2.5 backdrop-blur-sm">
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 text-cyan-300 text-[10px] font-mono uppercase tracking-[0.2em] mb-2.5 backdrop-blur-sm">
                             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                            System Intelligence
+                            Telemetry & Real-Time Sync
                         </div>
                         <h2 className="text-2xl sm:text-3xl lg:text-3xl xl:text-5xl font-black text-white mb-2 uppercase tracking-tighter">
-                            Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">Vitals</span>
+                            Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">Vitals</span>
                         </h2>
                     </motion.div>
                 </div>
@@ -115,13 +115,13 @@ const Stats: React.FC = () => {
                     {/* GitHub Activity Card */}
                     <MainframeCard
                         title="GitHub Engine"
-                        subtitle="Activity Sync"
+                        subtitle="Activity Telemetry"
                         icon={Github}
                         color="cyan"
                         onClick={() => setSelectedStat('github')}
                         isLoading={loadingState.github}
                     >
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pb-4 border-b border-white/5">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pb-4 border-b border-white/10">
                             {loadingState.github ? (
                                 Array.from({ length: 4 }).map((_, i) => (
                                     <div key={i} className="space-y-1.5">
@@ -135,27 +135,27 @@ const Stats: React.FC = () => {
                                         <div className="text-lg sm:text-xl xl:text-2xl font-black text-white tracking-tighter">
                                             {stats.github.totalContributions}
                                         </div>
-                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Commits</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Commits</span>
                                     </div>
                                     <div>
                                         <div className="text-lg sm:text-xl xl:text-2xl font-black text-white tracking-tighter">
                                             {stats.github.repos}
                                         </div>
-                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Repos</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Repos</span>
                                     </div>
                                     <div>
                                         <div className="text-lg sm:text-xl xl:text-2xl font-black text-cyan-400 tracking-tighter flex items-center gap-1">
-                                            <Sparkles size={13} className="text-yellow-500/50" />
+                                            <Sparkles size={13} className="text-yellow-400" />
                                             {stats.github.stars}
                                         </div>
-                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Stars</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Stars</span>
                                     </div>
                                     <div>
                                         <div className="text-lg sm:text-xl xl:text-2xl font-black text-purple-400 tracking-tighter flex items-center gap-1">
-                                            <Users size={13} className="text-cyan-500/50" />
+                                            <Users size={13} className="text-purple-300" />
                                             {stats.github.followers}
                                         </div>
-                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Nodes</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Followers</span>
                                     </div>
                                 </>
                             )}
@@ -188,7 +188,7 @@ const Stats: React.FC = () => {
                         onClick={() => setSelectedStat('wakatime')}
                         isLoading={loadingState.wakatime}
                     >
-                        <div className="grid grid-cols-2 gap-2.5 pb-4 border-b border-white/5">
+                        <div className="grid grid-cols-2 gap-2.5 pb-4 border-b border-white/10">
                             {loadingState.wakatime ? (
                                 Array.from({ length: 4 }).map((_, i) => (
                                     <div key={i} className="space-y-1.5">
@@ -203,28 +203,28 @@ const Stats: React.FC = () => {
                                             <Clock size={14} className="text-purple-400 shrink-0" />
                                             <span className="truncate">{stats.wakatime.totalTime}</span>
                                         </div>
-                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Focus Time</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Coding Time</span>
                                     </div>
                                     <div>
                                         <div className="text-lg sm:text-xl xl:text-2xl font-black text-cyan-400 tracking-tighter flex items-center gap-1">
                                             <Timer size={14} className="text-cyan-400 shrink-0" />
                                             <span className="truncate">{stats.wakatime.dailyAverage}</span>
                                         </div>
-                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Daily Average</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Daily Average</span>
                                     </div>
                                     <div>
                                         <div className="text-lg sm:text-xl xl:text-2xl font-black text-emerald-400 tracking-tighter flex items-center gap-1">
                                             <TrendingUp size={14} className="text-emerald-400 shrink-0" />
                                             <span>{stats.wakatime.optimizationFactor}</span>
                                         </div>
-                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Weekly Growth</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Weekly Growth</span>
                                     </div>
                                     <div>
                                         <div className="text-sm sm:text-base xl:text-lg font-black text-yellow-400 tracking-tighter truncate flex items-center gap-1">
                                             <Award size={14} className="text-yellow-400 shrink-0" />
                                             <span className="truncate">{stats.wakatime.bestDay}</span>
                                         </div>
-                                        <span className="text-[9px] xl:text-[10px] font-mono uppercase tracking-widest text-slate-500">Peak Velocity</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold">Peak Velocity</span>
                                     </div>
                                 </>
                             )}

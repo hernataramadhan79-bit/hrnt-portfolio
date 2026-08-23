@@ -2,23 +2,23 @@ import { Skill, Project, Certificate, GalleryItem } from './types';
 import { Code, GitBranch, Sparkles, PenTool, Server, Database, Wifi, Cloud } from 'lucide-react';
 
 export const innerSkills: Skill[] = [
-  { name: 'React', icon: 'https://cdn.simpleicons.org/react/61DAFB', color: '#61DAFB' },
-  { name: 'Next.js', icon: 'https://cdn.simpleicons.org/nextdotjs/white', color: '#FFFFFF' },
-  { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/3178C6', color: '#3178C6' },
-  { name: 'Tailwind', icon: 'https://cdn.simpleicons.org/tailwindcss/38B2AC', color: '#38B2AC' },
-  { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs/339933', color: '#339933' },
-  { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E', color: '#F24E1E' },
+  { name: 'React', icon: '/icons/react.svg', color: '#61DAFB' },
+  { name: 'Next.js', icon: '/icons/nextjs.svg', color: '#FFFFFF' },
+  { name: 'TypeScript', icon: '/icons/typescript.svg', color: '#3178C6' },
+  { name: 'Tailwind', icon: '/icons/tailwind.svg', color: '#38B2AC' },
+  { name: 'Node.js', icon: '/icons/nodejs.svg', color: '#339933' },
+  { name: 'Figma', icon: '/icons/figma.svg', color: '#F24E1E' },
 ];
 
 export const outerSkills: Skill[] = [
-  { name: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql/4169E1', color: '#336791' },
-  { name: 'HTML', icon: 'https://cdn.simpleicons.org/html5/E34F26', color: '#E34F26' },
-  { name: 'Docker', icon: 'https://cdn.simpleicons.org/docker/2496ED', color: '#2496ED' },
-  { name: 'Git', icon: 'https://cdn.simpleicons.org/git/F05032', color: '#F05032' },
-  { name: 'GraphQL', icon: 'https://cdn.simpleicons.org/graphql/E10098', color: '#E10098' },
-  { name: 'Vue.js', icon: 'https://cdn.simpleicons.org/vuedotjs/4FC08D', color: '#4FC08D' },
-  { name: 'Jest', icon: 'https://cdn.simpleicons.org/jest/C21325', color: '#C21325' },
-  { name: 'Vite', icon: 'https://cdn.simpleicons.org/vite/646CFF', color: '#646CFF' },
+  { name: 'PostgreSQL', icon: '/icons/postgresql.svg', color: '#336791' },
+  { name: 'HTML5', icon: '/icons/html5.svg', color: '#E34F26' },
+  { name: 'Docker', icon: '/icons/docker.svg', color: '#2496ED' },
+  { name: 'Git', icon: '/icons/git.svg', color: '#F05032' },
+  { name: 'GraphQL', icon: '/icons/graphql.svg', color: '#E10098' },
+  { name: 'Vue.js', icon: '/icons/vuejs.svg', color: '#4FC08D' },
+  { name: 'Jest', icon: '/icons/jest.svg', color: '#C21325' },
+  { name: 'Vite', icon: '/icons/vite.svg', color: '#646CFF' },
 ];
 
 export const detailedSkills = {
@@ -243,43 +243,43 @@ export const galleryItems: GalleryItem[] = [
 export const experiences = [
   {
     type: 'work',
-    role: 'Fullstack Freelancer',
-    company: 'Self-Employed',
+    role: 'Full-Stack Software Engineer',
+    company: 'Freelance & Independent Consulting',
     period: '2023 - Present',
-    description: 'Providing bespoke digital solutions for local and international clients, focusing on React, Next.js, and high-performance infrastructure.',
-    tags: ['React', 'Next.js', 'PostgreSQL', 'UI/UX']
+    description: 'Architecting bespoke web applications and performant digital solutions for clients, specializing in Next.js, React, TypeScript, PostgreSQL, and scalable API systems.',
+    tags: ['Next.js', 'React', 'TypeScript', 'PostgreSQL', 'Tailwind']
   },
   {
     type: 'edu',
-    role: 'University Student',
-    company: 'University of PGRI Madiun',
+    role: 'B.S. in Computer Science / Informatics',
+    company: 'Universitas PGRI Madiun',
     period: '2025 - Present',
-    description: 'Pursuing academic excellence in Computer Science, deepening knowledge in distributed systems and software orchestration.',
-    tags: ['Algorithms', 'Logic', 'Architecture']
+    description: 'Pursuing academic studies in Computer Science with a strong emphasis on algorithms, distributed web architecture, database systems, and software engineering principles.',
+    tags: ['Algorithms', 'Data Structures', 'Web Architecture']
   },
   {
     type: 'work',
-    role: 'Sales Executive & Content Creator',
+    role: 'Sales Executive & Media Producer',
     company: 'PT. Indraco (Suncity Waterpark)',
-    period: '2025 (3 Months)',
-    description: 'Executed sales strategies and managed creative content production to enhance brand presence and customer engagement.',
-    tags: ['Marketing', 'Content Creation', 'Sales']
+    period: '2025 (Contract)',
+    description: 'Spearheaded digital promotional media and executed customer acquisition strategies to enhance brand presence and customer engagement.',
+    tags: ['Brand Strategy', 'Media Production', 'Growth']
   },
   {
     type: 'work',
-    role: 'Operator & Graphic Designer',
+    role: 'Digital Media & Technical Designer',
     company: 'AA Victory Digital Printing',
-    period: '2025 (3 Months)',
-    description: 'Managed high-scale printing production and technical design workflows, ensuring precision in large-format media output.',
-    tags: ['Printing', 'Graphic Design', 'Production']
+    period: '2025 (Contract)',
+    description: 'Managed technical pre-press workflows, color management, and high-precision visual asset production for commercial formats.',
+    tags: ['Asset Management', 'Graphic Production', 'Workflow']
   },
   {
     type: 'edu',
-    role: 'High School Graduate',
+    role: 'Vocational Diploma in Visual Design',
     company: 'SMKN 1 Wonoasri',
     period: '2022 - 2025',
-    description: 'Specialized in Visual Communication Design, establishing a robust foundation in design principles, digital media, and creative aesthetics.',
-    tags: ['Design', 'Visual Arts', 'Multimedia']
+    description: 'Specialized in Visual Communication Design, establishing a rigorous foundation in design tokens, composition, typography, and human-computer interface aesthetics.',
+    tags: ['UI Design', 'Typography', 'Visual Aesthetics']
   }
 ];
 

@@ -88,11 +88,22 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  other: {
+    'copyright': '© 2023-2026 Hernata Ramadhan. All Rights Reserved.',
+    'rights': 'Copyright © 2023-2026 Hernata Ramadhan. All intellectual property, UI/UX design, custom assets, and source code are protected.',
+  },
 };
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
+  copyrightYear: 2026,
+  copyrightHolder: {
+    '@type': 'Person',
+    name: 'Hernata Ramadhan',
+    url: siteUrl,
+  },
+  license: `${siteUrl}/LICENSE`,
   mainEntity: {
     '@type': 'Person',
     name: 'Hernata Ramadhan',
@@ -132,7 +143,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://cdn.simpleicons.org" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

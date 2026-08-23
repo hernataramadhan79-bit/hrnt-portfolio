@@ -48,6 +48,10 @@ let nextConfig: NextConfig = {
                         key: 'Permissions-Policy',
                         value: 'camera=(), microphone=(), geolocation=()',
                     },
+                    {
+                        key: 'X-Copyright',
+                        value: 'Copyright (c) 2023-2026 Hernata Ramadhan. All Rights Reserved.',
+                    },
                 ],
             },
             {

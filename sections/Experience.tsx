@@ -37,7 +37,7 @@ const Experience: React.FC = () => {
                         transition={{ delay: 0.1 }}
                         className="text-2xl sm:text-3xl md:text-5xl font-black text-white tracking-tighter uppercase mb-2 sm:mb-3"
                     >
-                        The <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">Evolution</span> Log
+                        Career <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400">Milestones</span> & Education
                     </motion.h2>
 
                     <motion.p
@@ -45,9 +45,9 @@ const Experience: React.FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="text-slate-400 text-xs sm:text-sm md:text-base font-light max-w-xl mx-auto leading-relaxed"
+                        className="text-slate-300 text-xs sm:text-sm md:text-base font-normal max-w-xl mx-auto leading-relaxed"
                     >
-                        A systematic chronicle of technical milestones, corporate contributions, and academic growth.
+                        A systematic chronicle of engineering milestones, professional contracts, and continuous academic growth.
                     </motion.p>
 
                     {/* Filter Tabs */}
@@ -61,7 +61,7 @@ const Experience: React.FC = () => {
                         aria-label="Filter experience by type"
                     >
                         {[
-                            { id: 'all', label: 'All Protocols', count: counts.all, icon: Layers },
+                            { id: 'all', label: 'All Milestones', count: counts.all, icon: Layers },
                             { id: 'work', label: 'Work Experience', count: counts.work, icon: Briefcase },
                             { id: 'edu', label: 'Education', count: counts.edu, icon: GraduationCap },
                         ].map((tab) => {
@@ -187,17 +187,17 @@ const Experience: React.FC = () => {
                                                     </div>
 
                                                     {/* Description */}
-                                                    <p className="text-xs md:text-sm text-slate-300 font-light leading-relaxed mb-5 group-hover:text-slate-100 transition-colors">
+                                                    <p className="text-xs md:text-sm text-slate-300 font-normal leading-relaxed mb-5 group-hover:text-slate-100 transition-colors">
                                                         {exp.description}
                                                     </p>
                                                 </div>
 
                                                 {/* Tech / Competency Tags */}
-                                                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/5">
+                                                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/10">
                                                     {exp.tags.map((tag) => (
                                                         <span
                                                             key={tag}
-                                                            className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/5 text-[10px] font-mono text-slate-400 font-medium group-hover:border-cyan-500/30 group-hover:text-cyan-300 hover:bg-cyan-500/10 hover:-translate-y-0.5 transition-all"
+                                                            className="px-2.5 py-1 rounded-md bg-white/[0.05] border border-white/10 text-[10px] font-mono text-slate-300 font-medium group-hover:border-cyan-500/30 group-hover:text-cyan-300 hover:bg-cyan-500/10 hover:-translate-y-0.5 transition-all"
                                                         >
                                                             #{tag}
                                                         </span>

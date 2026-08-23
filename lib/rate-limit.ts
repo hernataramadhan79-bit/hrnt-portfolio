@@ -15,34 +15,50 @@ function cleanupMap() {
     }
 }
 
+export interface RateLimitResult {
+    allowed: boolean;
+    remaining: number;
+    resetTime: number;
+    retryAfter?: number;
+}
+
 export function checkRateLimit(
     ip: string,
     maxRequests: number = DEFAULT_MAX_REQUESTS,
     windowMs: number = WINDOW_MS
-): { allowed: boolean; retryAfter?: number } {
+): RateLimitResult {
     const now = Date.now();
-    const record = rateLimitMap.get(ip);
-
     cleanupMap();
 
+    const record = rateLimitMap.get(ip);
+
     if (!record || now > record.resetTime) {
-        rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
-        return { allowed: true };
+        const resetTime = now + windowMs;
+        rateLimitMap.set(ip, { count: 1, resetTime });
+        return { allowed: true, remaining: maxRequests - 1, resetTime };
     }
 
     if (record.count >= maxRequests) {
-        const retryAfter = Math.ceil((record.resetTime - now) / 1000);
-        return { allowed: false, retryAfter };
+        const retryAfter = Math.max(1, Math.ceil((record.resetTime - now) / 1000));
+        return { allowed: false, remaining: 0, resetTime: record.resetTime, retryAfter };
     }
 
     record.count++;
-    return { allowed: true };
+    return {
+        allowed: true,
+        remaining: Math.max(0, maxRequests - record.count),
+        resetTime: record.resetTime,
+    };
 }
 
 export function getClientIp(request: Request): string {
     const forwarded = request.headers.get('x-forwarded-for');
     if (forwarded) {
         return forwarded.split(',')[0].trim();
+    }
+    const realIp = request.headers.get('x-real-ip');
+    if (realIp) {
+        return realIp.trim();
     }
     return '127.0.0.1';
 }

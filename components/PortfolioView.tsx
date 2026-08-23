@@ -13,6 +13,7 @@ import Projects from '@/sections/Projects';
 import Services from '@/sections/Services';
 import Contact from '@/sections/Contact';
 import Forum from '@/sections/Forum';
+import { printDevToolsBanner } from '@/lib/console-banner';
 
 // Pure visual client components with no DOM dependencies needed on initial SSR HTML
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
@@ -123,6 +124,9 @@ export default function PortfolioView() {
 
     const resizeObserver = new ResizeObserver(() => lenis.resize());
     resizeObserver.observe(document.body);
+
+    // DevTools OpenCode / Claude Code Style Terminal Banner & Copyright
+    printDevToolsBanner();
 
     return () => {
       lenis.destroy();

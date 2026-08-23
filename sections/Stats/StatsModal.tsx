@@ -39,11 +39,11 @@ const StatsModal: React.FC<StatsModalProps> = ({ selectedStat, setSelectedStat, 
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="shrink-0 p-5 md:p-6 border-b border-white/5 flex items-center justify-between">
+                        <div className="shrink-0 p-5 md:p-6 border-b border-white/10 flex items-center justify-between">
                             <div>
                                 <div className="flex items-center gap-2 mb-1">
                                     <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                                    <span className="text-[8px] font-mono text-cyan-400 uppercase tracking-widest">Protocol Sync_Status</span>
+                                    <span className="text-[9px] font-mono text-cyan-300 uppercase tracking-widest font-semibold">Live System Telemetry</span>
                                 </div>
                                 <h3 id="perf-modal-title" className="text-xl md:text-2xl font-black text-white tracking-tighter uppercase leading-none">
                                     {selectedStat === 'github' && "GitHub Analytics"}
@@ -52,7 +52,7 @@ const StatsModal: React.FC<StatsModalProps> = ({ selectedStat, setSelectedStat, 
                             </div>
                             <button
                                 onClick={() => setSelectedStat(null)}
-                                className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-all border border-white/5 cursor-pointer"
+                                className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-300 hover:text-white transition-all border border-white/10 cursor-pointer"
                                 aria-label="Close modal"
                             >
                                 <X size={18} />
@@ -69,9 +69,9 @@ const StatsModal: React.FC<StatsModalProps> = ({ selectedStat, setSelectedStat, 
                                             { label: 'Repos', value: stats.github.repos, color: 'text-purple-400' },
                                             { label: 'Followers', value: stats.github.followers, color: 'text-emerald-400' }
                                         ].map((s, i) => (
-                                            <div key={i} className="flex flex-col p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center transition-colors hover:bg-white/[0.04]">
+                                            <div key={i} className="flex flex-col p-4 rounded-xl bg-white/[0.03] border border-white/10 text-center transition-colors hover:bg-white/[0.06]">
                                                 <span className={`text-2xl font-black ${s.color} leading-none mb-1 tracking-tighter`}>{s.value}</span>
-                                                <span className="text-[8px] font-mono uppercase tracking-widest text-slate-500">{s.label}</span>
+                                                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-300 font-semibold">{s.label}</span>
                                             </div>
                                         ))}
                                     </div>
