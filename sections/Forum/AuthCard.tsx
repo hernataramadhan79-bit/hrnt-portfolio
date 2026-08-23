@@ -5,6 +5,12 @@ import { Mail, Lock, User as UserIcon, Chrome, Github, UserPlus, LogIn, LogOut }
 import { auth, googleProvider, githubProvider, signInWithPopup, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, User } from '../../lib/firebase';
 import UserAvatarComponent from './UserAvatar';
 
+// Errors that are user-initiated (not real errors) — silently ignore them
+const SILENT_ERROR_CODES = new Set([
+  'auth/popup-closed-by-user',
+  'auth/cancelled-popup-request',
+]);
+
 const getFriendlyErrorMessage = (error: any) => {
   const code = error.code;
   switch (code) {
@@ -13,7 +19,6 @@ const getFriendlyErrorMessage = (error: any) => {
     case 'auth/wrong-password': return 'Incorrect email or password. Please verify your credentials.';
     case 'auth/email-already-in-use': return 'This email is already registered. Please login instead.';
     case 'auth/weak-password': return 'Password is too weak. Please use at least 6 characters.';
-    case 'auth/popup-closed-by-user': return 'Authentication process was cancelled.';
     case 'auth/network-request-failed': return 'Network connection issue detected. Please check your internet.';
     default: return 'A system error occurred. Please try again in a few moments.';
   }
@@ -34,6 +39,7 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
   const [displayName, setDisplayName] = useState('');
   const [authError, setAuthError] = useState('');
   const [loading, setLoading] = useState(isAuthLoading);
+  const [socialLoading, setSocialLoading] = useState<'google' | 'github' | null>(null);
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -46,11 +52,17 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
 
   const handleSocialLogin = async (provider: 'google' | 'github') => {
     setAuthError('');
+    setSocialLoading(provider);
     try {
       const authProvider = provider === 'google' ? googleProvider : githubProvider;
       await signInWithPopup(auth, authProvider);
     } catch (error: any) {
-      setAuthError(getFriendlyErrorMessage(error));
+      // Silently ignore user-initiated cancellations (popup closed, etc.)
+      if (!SILENT_ERROR_CODES.has(error.code)) {
+        setAuthError(getFriendlyErrorMessage(error));
+      }
+    } finally {
+      setSocialLoading(null);
     }
   };
 
@@ -105,7 +117,7 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
             <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1">Email Address</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+              <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setAuthError(''); }}
                 className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50" placeholder="name@example.com" required />
             </div>
           </div>
@@ -113,7 +125,7 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
             <label className="text-[10px] uppercase tracking-widest text-slate-500 font-bold ml-1">Password</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+              <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setAuthError(''); }}
                 className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50" placeholder="Min. 6 characters" required />
             </div>
           </div>
@@ -133,11 +145,25 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => handleSocialLogin('google')} className="flex items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs text-white">
-            <Chrome size={16} /> Google
+          <button
+            onClick={() => handleSocialLogin('google')}
+            disabled={!!socialLoading}
+            className="flex items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {socialLoading === 'google'
+              ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              : <Chrome size={16} />}
+            Google
           </button>
-          <button onClick={() => handleSocialLogin('github')} className="flex items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs text-white">
-            <Github size={16} /> GitHub
+          <button
+            onClick={() => handleSocialLogin('github')}
+            disabled={!!socialLoading}
+            className="flex items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-xs text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {socialLoading === 'github'
+              ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              : <Github size={16} />}
+            GitHub
           </button>
         </div>
 
