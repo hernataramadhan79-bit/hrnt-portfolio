@@ -12,8 +12,17 @@ import Stats from '@/sections/Stats';
 import Projects from '@/sections/Projects';
 import Services from '@/sections/Services';
 import Contact from '@/sections/Contact';
-import Forum from '@/sections/Forum';
 import { printDevToolsBanner } from '@/lib/console-banner';
+
+// Lazy-load Forum so Firebase Auth SDK is isolated and only fetched on-demand when visiting #forum
+const Forum = dynamic(() => import('@/sections/Forum'), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-[50vh] flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin" />
+    </div>
+  ),
+});
 
 // Pure visual client components with no DOM dependencies needed on initial SSR HTML
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
