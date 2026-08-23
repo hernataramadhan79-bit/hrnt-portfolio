@@ -256,7 +256,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
             {/* Mobile Menu Trigger — Geometric 3-Bar to X Morph */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`lg:hidden w-9 h-9 rounded-full text-white transition-all duration-200 pointer-events-auto flex flex-col items-center justify-center gap-1 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 select-none active:scale-90 hover:scale-105 ${
+              className={`lg:hidden w-9 h-9 rounded-full text-white transition-colors duration-150 pointer-events-auto flex flex-col items-center justify-center gap-1 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 select-none active:scale-90 ${
                 isScrolled
                   ? 'bg-white/[0.04] border-white/[0.1] hover:bg-white/[0.08]'
                   : 'bg-white/[0.025] border-white/[0.07] hover:bg-white/[0.06]'
@@ -267,17 +267,17 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
             >
               <motion.span
                 animate={isMobileMenuOpen ? { rotate: 45, y: 4.5 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
                 className="w-4 h-[1.5px] bg-white rounded-full origin-center"
               />
               <motion.span
                 animate={isMobileMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-                transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.16, ease: 'easeOut' }}
                 className="w-4 h-[1.5px] bg-white rounded-full origin-center"
               />
               <motion.span
                 animate={isMobileMenuOpen ? { rotate: -45, y: -4.5 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
                 className="w-4 h-[1.5px] bg-white rounded-full origin-center"
               />
             </button>
@@ -293,10 +293,10 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.24, ease: 'easeOut' }}
             className="fixed inset-0 z-[110] bg-[#02040a] lg:hidden overflow-hidden flex flex-col"
           >
             <div className="absolute inset-0 bg-grid-white/[0.02] pointer-events-none" />
