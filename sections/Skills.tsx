@@ -51,12 +51,11 @@ const SkillPills = ({ type, items, color }: { type: string; items: DetailedSkill
 /**
  * OrbitLayer — CSS animation instead of framer-motion rotate.
  */
-const OrbitLayer = ({ skills, radius, duration, direction, color, isHovered }: any) => {
+const OrbitLayer = ({ skills, radius, duration, direction, color }: any) => {
   const animStyle: React.CSSProperties = {
     width: radius * 2,
     height: radius * 2,
     animationDuration: `${duration}s`,
-    animationPlayState: isHovered ? 'paused' : 'running',
   };
 
   return (
@@ -66,16 +65,16 @@ const OrbitLayer = ({ skills, radius, duration, direction, color, isHovered }: a
         className="absolute rounded-full border border-white/5"
         style={{ width: radius * 2, height: radius * 2 }}
       />
-      {/* Rotating dashed track — CSS only */}
+      {/* Rotating dashed track — CSS only, continuous orbit */}
       <div
         className={`absolute rounded-full border border-dashed opacity-40 ${direction === 1 ? 'orbit-spin-cw' : 'orbit-spin-ccw'}`}
         style={{ ...animStyle, borderColor: color }}
       />
 
-      {/* Icon container — CSS orbit spin */}
+      {/* Icon container — CSS continuous orbit spin */}
       <div
         className={`absolute flex items-center justify-center ${direction === 1 ? 'orbit-spin-cw' : 'orbit-spin-ccw'}`}
-        style={{ width: radius * 2, height: radius * 2, animationDuration: `${duration}s`, animationPlayState: isHovered ? 'paused' : 'running' }}
+        style={{ width: radius * 2, height: radius * 2, animationDuration: `${duration}s` }}
       >
         {skills.map((skill: any, index: number) => {
           const angle = (index / skills.length) * 2 * Math.PI;
@@ -87,12 +86,12 @@ const OrbitLayer = ({ skills, radius, duration, direction, color, isHovered }: a
               className="absolute pointer-events-auto"
               style={{ transform: `translate(${x}px, ${y}px)` }}
             >
-              {/* Counter-rotate the icon so it stays upright — CSS only */}
+              {/* Counter-rotate the icon so it stays upright — continuous rotation */}
               <div
                 className={`group relative ${direction === 1 ? 'orbit-spin-ccw' : 'orbit-spin-cw'}`}
-                style={{ animationDuration: `${duration}s`, animationPlayState: isHovered ? 'paused' : 'running' }}
+                style={{ animationDuration: `${duration}s` }}
               >
-                {/* Tooltip */}
+                {/* Tooltip on hover */}
                 <div className="absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50">
                   <div className="px-2.5 py-1 rounded-lg bg-black/90 border border-white/10 shadow-2xl">
                     <span className="text-[8px] xl:text-[9px] font-black text-white uppercase tracking-widest whitespace-nowrap">
@@ -102,8 +101,8 @@ const OrbitLayer = ({ skills, radius, duration, direction, color, isHovered }: a
                   <div className="w-1.5 h-1.5 bg-black/90 border-r border-b border-white/10 rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2" />
                 </div>
 
-                <div className="absolute inset-0 rounded-full blur-md opacity-20 group-hover:opacity-60 transition-opacity" style={{ backgroundColor: color }} />
-                <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 xl:w-11 xl:h-11 rounded-full bg-[#050508]/80 border border-white/10 flex items-center justify-center hover:border-white/30 transition-all shadow-2xl cursor-pointer">
+                <div className="absolute inset-0 rounded-full blur-md opacity-20 group-hover:opacity-70 transition-opacity" style={{ backgroundColor: color }} />
+                <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 xl:w-11 xl:h-11 rounded-full bg-[#050508]/80 border border-white/10 flex items-center justify-center hover:border-white/40 hover:scale-110 active:scale-95 transition-all shadow-2xl cursor-pointer">
                   <img src={skill.icon} alt={skill.name} width={18} height={18} className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-4.5 lg:h-4.5 object-contain" />
                 </div>
               </div>
@@ -117,7 +116,6 @@ const OrbitLayer = ({ skills, radius, duration, direction, color, isHovered }: a
 
 const Skills: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [isOrbitHovered, setIsOrbitHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [winHeight, setWinHeight] = useState(1080);
@@ -180,11 +178,7 @@ const Skills: React.FC = () => {
 
         {/* RIGHT COLUMN: Orbit */}
         <div className="w-full lg:w-[55%] flex items-center justify-center order-1 lg:order-2 py-4 lg:py-0">
-          <div
-            onMouseEnter={() => setIsOrbitHovered(true)}
-            onMouseLeave={() => setIsOrbitHovered(false)}
-            className="relative w-full aspect-square max-w-[85vw] sm:max-w-[420px] lg:max-w-[500px] xl:max-w-[580px] flex items-center justify-center"
-          >
+          <div className="relative w-full aspect-square max-w-[85vw] sm:max-w-[420px] lg:max-w-[500px] xl:max-w-[580px] flex items-center justify-center">
             {/* Central Core */}
             <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
               <div className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] xl:w-[220px] xl:h-[220px] bg-cyan-500/10 rounded-full blur-[50px]" />
@@ -199,10 +193,10 @@ const Skills: React.FC = () => {
               </div>
             </div>
 
-            {/* Orbit Tracks & Icons — CSS animated */}
+            {/* Orbit Tracks & Icons — CSS continuous animated */}
             <div className="absolute inset-0 z-20 pointer-events-none">
-              <OrbitLayer skills={innerSkills} radius={innerRadius} duration={40} direction={1} color="rgba(34,211,238,0.8)" isHovered={isOrbitHovered} />
-              <OrbitLayer skills={outerSkills} radius={outerRadius} duration={60} direction={-1} color="rgba(192,132,252,0.8)" isHovered={isOrbitHovered} />
+              <OrbitLayer skills={innerSkills} radius={innerRadius} duration={40} direction={1} color="rgba(34,211,238,0.8)" />
+              <OrbitLayer skills={outerSkills} radius={outerRadius} duration={60} direction={-1} color="rgba(192,132,252,0.8)" />
             </div>
 
             {/* Radar sweep — CSS only, single element */}

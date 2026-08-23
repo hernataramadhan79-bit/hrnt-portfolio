@@ -32,8 +32,28 @@ export async function GET(request: Request) {
     const token = process.env.GITHUB_TOKEN;
     const username = 'hernataramadhan79-bit';
 
+    const DEFAULT_GITHUB_FALLBACK = {
+        profile: {
+            repos: 18,
+            followers: 12,
+            totalContributions: 384,
+            stars: 15,
+        },
+        topRepos: [
+            { id: 1, name: 'myboard-lite', html_url: 'https://github.com/hernataramadhan79-bit', description: 'Cloud POS & Inventory System', language: 'TypeScript', stargazers_count: 5, forks_count: 1 },
+            { id: 2, name: 'sakuku-wallet', html_url: 'https://github.com/hernataramadhan79-bit', description: 'Personal Finance & Expense Tracker', language: 'TypeScript', stargazers_count: 4, forks_count: 1 },
+            { id: 3, name: 'oryon-ai', html_url: 'https://github.com/hernataramadhan79-bit', description: 'Contextual AI Assistant with Gemini', language: 'TypeScript', stargazers_count: 6, forks_count: 2 },
+        ],
+        contributions: []
+    };
+
     if (!token) {
-        return NextResponse.json({ error: 'GitHub token missing' }, { status: 500 });
+        return NextResponse.json(DEFAULT_GITHUB_FALLBACK, {
+            headers: {
+                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+                'X-Fallback': 'true'
+            }
+        });
     }
 
     try {

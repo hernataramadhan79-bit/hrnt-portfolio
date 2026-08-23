@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { ArrowUpRight, Award, Box, Image as ImageIcon, MapPin, Calendar, Tag, LayoutDashboard } from 'lucide-react';
+import { ArrowUpRight, Award, Box, Image as ImageIcon, MapPin, Calendar, Tag, LayoutDashboard, Github } from 'lucide-react';
 import TiltCard from '../../components/TiltCard';
 import ImageWithLoader from './ImageWithLoader';
 import ProjectModal from './ProjectModal';
@@ -212,16 +212,26 @@ const Projects: React.FC = () => {
                         <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors uppercase tracking-tight truncate">
                           {project.title}
                         </h3>
-                        <div className="flex items-center gap-3 mt-1.5">
+                        <div className="flex items-center gap-2 sm:gap-3 mt-1.5 flex-wrap">
                           <span className="px-1.5 py-0.5 bg-cyan-500/10 text-cyan-400 text-[8px] font-mono uppercase tracking-widest rounded border border-cyan-500/20 group-hover:bg-cyan-500/20 transition-colors">
                             {project.category}
                           </span>
-                          <span className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors truncate hidden sm:block max-w-sm">
+                          {project.metrics && project.metrics[0] && (
+                            <span className="px-1.5 py-0.5 bg-emerald-500/10 text-emerald-300 text-[8px] font-mono uppercase tracking-wider rounded border border-emerald-500/20">
+                              {project.metrics[0].label}: {project.metrics[0].value}
+                            </span>
+                          )}
+                          <span className="text-xs text-slate-400 group-hover:text-slate-300 transition-colors truncate hidden md:inline-block max-w-xs">
                             {project.description}
                           </span>
                         </div>
                       </div>
-                      <div className="flex gap-1 shrink-0 flex-wrap sm:flex-nowrap">
+                      <div className="flex items-center gap-1.5 shrink-0 flex-wrap sm:flex-nowrap">
+                        {project.githubUrl && (
+                          <span className="p-1 rounded-md bg-white/5 border border-white/10 text-slate-400 group-hover:text-white" title="Repository available">
+                            <Github size={11} />
+                          </span>
+                        )}
                         {project.tags.slice(0, 3).map((tag) => (
                           <span key={tag} className="text-[9px] font-mono text-slate-400 group-hover:text-slate-300 uppercase tracking-widest px-2 py-1 bg-white/5 rounded-lg border border-white/5 group-hover:border-cyan-500/20 transition-colors">{tag}</span>
                         ))}

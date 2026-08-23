@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowUpRight, Check, ExternalLink } from 'lucide-react';
+import { X, ArrowUpRight, Check, ExternalLink, Github, Zap, Activity } from 'lucide-react';
 import Image from 'next/image';
 import { Project } from '@/types';
 
@@ -15,9 +15,18 @@ interface ProjectModalProps {
 }
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mounted }) => {
+  const [activeImage, setActiveImage] = useState<string>('');
+
+  useEffect(() => {
+    if (project) {
+      setActiveImage(project.image);
+    }
+  }, [project]);
+
   if (!mounted || !open || !project) return null;
 
   const hasCaseStudy = Boolean(project.problem || project.approach || project.outcome || project.highlights?.length);
+  const gallery = project.gallery && project.gallery.length > 0 ? project.gallery : [project.image];
 
   return createPortal(
     <AnimatePresence>
@@ -56,7 +65,19 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
               </span>
             </div>
 
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white text-[10px] sm:text-[11px] font-mono font-bold tracking-wider border border-white/10 hover:border-white/20 transition-all group"
+                  title="View Source Repository"
+                >
+                  <Github size={13} className="text-slate-400 group-hover:text-white transition-colors" />
+                  <span className="hidden xs:inline">Source Code</span>
+                </a>
+              )}
               <a
                 href={project.link}
                 target="_blank"
@@ -83,28 +104,50 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
           {/* Modal Content Body */}
           <div className="overflow-y-auto custom-scrollbar p-5 sm:p-6 space-y-5 flex-1">
             {/* Top Overview: Image + Title + Summary */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
               {/* Preview Thumbnail with Clickable Live Link */}
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="md:col-span-6 relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-white/10 hover:border-cyan-500/50 bg-black/60 shadow-inner group cursor-pointer transition-colors block"
-              >
-                <Image
-                  src={project.image}
-                  alt={`Interface preview of ${project.title}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 45vw"
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-60 pointer-events-none" />
-                <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md border border-white/15 text-white text-[9px] font-mono uppercase tracking-wider flex items-center gap-1.5 group-hover:border-cyan-400/50 group-hover:text-cyan-300 transition-colors shadow-lg">
-                  <span>Open App</span>
-                  <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </div>
-              </a>
+              <div className="md:col-span-6 space-y-2.5">
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-white/10 hover:border-cyan-500/50 bg-black/60 shadow-inner group cursor-pointer transition-colors block"
+                >
+                  <Image
+                    src={activeImage || project.image}
+                    alt={`Interface preview of ${project.title}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 45vw"
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-60 pointer-events-none" />
+                  <div className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md border border-white/15 text-white text-[9px] font-mono uppercase tracking-wider flex items-center gap-1.5 group-hover:border-cyan-400/50 group-hover:text-cyan-300 transition-colors shadow-lg">
+                    <span>Open App</span>
+                    <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </div>
+                </a>
+
+                {/* Screenshot Thumbnails (if multiple exist) */}
+                {gallery.length > 1 && (
+                  <div className="flex gap-2 pt-1 overflow-x-auto pb-1">
+                    {gallery.map((img, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setActiveImage(img)}
+                        className={`relative w-16 h-10 rounded-lg overflow-hidden border transition-all shrink-0 ${
+                          activeImage === img
+                            ? 'border-cyan-400 ring-2 ring-cyan-400/30'
+                            : 'border-white/10 opacity-60 hover:opacity-100'
+                        }`}
+                      >
+                        <Image src={img} alt={`Preview ${i + 1}`} fill className="object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {/* Title, Description & Stack */}
               <div className="md:col-span-6 flex flex-col justify-center space-y-3">
@@ -130,6 +173,38 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
                 </div>
               </div>
             </div>
+
+            {/* Impact Metrics Section */}
+            {project.metrics && project.metrics.length > 0 && (
+              <div className="border-t border-white/10 pt-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Activity size={13} className="text-cyan-400" />
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold">
+                    Key Metrics & Benchmark Performance
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {project.metrics.map((metric, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-white/[0.02] border border-white/5 hover:border-cyan-500/30 rounded-xl p-3 flex flex-col justify-between transition-all"
+                    >
+                      <span className="text-lg sm:text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+                        {metric.value}
+                      </span>
+                      <span className="text-[10px] font-mono text-white font-semibold uppercase tracking-wider mt-1">
+                        {metric.label}
+                      </span>
+                      {metric.detail && (
+                        <span className="text-[10px] text-slate-400 font-light mt-0.5 leading-snug">
+                          {metric.detail}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Case Study Details — Clean Spec Grid */}
             {hasCaseStudy && (

@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'forum-portfolio';
 const API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '';
 const FIRESTORE_BASE_URL = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`;
+
+// Helper sanitize string (strip HTML tags)
+function sanitizeText(input: string): string {
+    return input.replace(/<[^>]*>?/gm, '').trim();
+}
 
 // Helper untuk format komentar dari struktur Firestore REST API
 function parseFirestoreDoc(doc: any) {
@@ -70,6 +76,15 @@ export async function GET() {
 // POST: Tambah komentar baru
 export async function POST(req: NextRequest) {
     try {
+        const clientIp = getClientIp(req);
+        const { allowed, retryAfter } = checkRateLimit(`comments-${clientIp}`, 5, 30000);
+        if (!allowed) {
+            return NextResponse.json(
+                { error: `Too many comments sent. Please wait ${retryAfter || 30} seconds.` },
+                { status: 429, headers: { 'Retry-After': String(retryAfter || 30) } }
+            );
+        }
+
         const authHeader = req.headers.get('authorization');
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             return NextResponse.json({ error: 'Unauthorized: Missing authentication token' }, { status: 401 });
@@ -78,11 +93,14 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { message, name, userImage, userId } = body;
 
-        if (!message || typeof message !== 'string' || !message.trim()) {
+        const cleanMessage = typeof message === 'string' ? sanitizeText(message) : '';
+        const cleanName = typeof name === 'string' ? sanitizeText(name) : 'User';
+
+        if (!cleanMessage) {
             return NextResponse.json({ error: 'Message cannot be empty' }, { status: 400 });
         }
 
-        if (message.trim().length > 500) {
+        if (cleanMessage.length > 500) {
             return NextResponse.json({ error: 'Message exceeds maximum length (500 chars)' }, { status: 400 });
         }
 
@@ -90,9 +108,9 @@ export async function POST(req: NextRequest) {
         const firestorePayload = {
             fields: {
                 userId: { stringValue: userId || '' },
-                name: { stringValue: name || 'User' },
+                name: { stringValue: cleanName || 'User' },
                 userImage: { stringValue: userImage || '' },
-                message: { stringValue: message.trim() },
+                message: { stringValue: cleanMessage },
                 createdAt: { timestampValue: new Date().toISOString() },
             },
         };

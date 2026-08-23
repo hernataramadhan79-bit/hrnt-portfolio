@@ -7,6 +7,12 @@ export interface NavItem {
   sectionId: string;
 }
 
+export interface ProjectMetric {
+  label: string;
+  value: string;
+  detail?: string;
+}
+
 export interface Project {
   id: number;
   title: string;
@@ -14,12 +20,15 @@ export interface Project {
   image: string;
   tags: string[];
   link: string;
+  githubUrl?: string;
+  gallery?: string[];
   description?: string;
   // Case study fields
   problem?: string;
   approach?: string;
   outcome?: string;
   highlights?: string[];
+  metrics?: ProjectMetric[];
 }
 
 export interface Certificate {
