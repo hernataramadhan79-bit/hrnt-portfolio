@@ -51,12 +51,27 @@ let nextConfig: NextConfig = {
                 ],
             },
             {
-                // Firebase Auth iframe — override frame restriction & disable cache
+                // Firebase Auth iframe — override frame restriction & disable ALL caches (including Cloudflare)
                 source: '/__/auth/:path*',
                 headers: [
                     {
                         key: 'Cache-Control',
                         value: 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+                    },
+                    {
+                        // Cloudflare-specific: bypass CDN cache entirely
+                        key: 'CDN-Cache-Control',
+                        value: 'no-store',
+                    },
+                    {
+                        // Cloudflare-specific: bypass Cloudflare edge cache
+                        key: 'Cloudflare-CDN-Cache-Control',
+                        value: 'no-store',
+                    },
+                    {
+                        // Surrogate control for Vercel edge
+                        key: 'Surrogate-Control',
+                        value: 'no-store',
                     },
                     {
                         // Allow Firebase to embed this in an iframe
