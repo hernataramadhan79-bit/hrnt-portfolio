@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
@@ -74,6 +74,20 @@ class SectionErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
 export default function PortfolioView() {
   const [activeTab, setActiveTab] = useState('home');
+  const lenisRef = useRef<Lenis | null>(null);
+
+  const resetScroll = useCallback(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { immediate: true });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const normalizeTab = (raw: string) => {
@@ -86,13 +100,17 @@ export default function PortfolioView() {
       const hash = normalizeTab(window.location.hash.replace('#', ''));
       if (['home', 'experience', 'skills', 'stats', 'projects', 'services', 'contact', 'forum'].includes(hash)) {
         setActiveTab(hash);
+        resetScroll();
       }
     };
 
     const handleNavigate = (e: CustomEvent<{ tab: string }>) => {
       const tab = normalizeTab(e.detail.tab);
       setActiveTab(tab);
-      window.location.hash = tab;
+      resetScroll();
+      if (window.location.hash !== `#${tab}`) {
+        window.history.replaceState(null, '', `#${tab}`);
+      }
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -104,7 +122,7 @@ export default function PortfolioView() {
       window.removeEventListener('hashchange', handleHashChange);
       window.removeEventListener('navigate', handleNavigate as EventListener);
     };
-  }, []);
+  }, [resetScroll]);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -112,6 +130,7 @@ export default function PortfolioView() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 2,
     });
+    lenisRef.current = lenis;
 
     let rafId: number;
 
@@ -139,6 +158,7 @@ export default function PortfolioView() {
 
     return () => {
       lenis.destroy();
+      lenisRef.current = null;
       cancelAnimationFrame(rafId);
       document.removeEventListener('visibilitychange', onVisibility);
       resizeObserver.disconnect();
@@ -150,59 +170,59 @@ export default function PortfolioView() {
       <CustomCursor />
       <Background />
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="relative z-10 w-full overflow-x-clip min-h-[100dvh] pt-16 sm:pt-20 lg:pt-[4.5rem] pb-0">
-        <AnimatePresence mode="wait">
+      <div className="relative z-10 w-full overflow-x-clip min-h-[100dvh]">
+        <AnimatePresence mode="popLayout" initial={false}>
           {activeTab === 'home' && (
-            <motion.div key="home" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+            <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15, ease: "easeOut" }}>
               <SectionErrorBoundary>
                 <Landing />
               </SectionErrorBoundary>
             </motion.div>
           )}
           {activeTab === 'experience' && (
-            <motion.div key="experience" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+            <motion.div key="experience" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15, ease: "easeOut" }}>
               <SectionErrorBoundary>
                 <Experience />
               </SectionErrorBoundary>
             </motion.div>
           )}
           {activeTab === 'skills' && (
-            <motion.div key="skills" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+            <motion.div key="skills" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15, ease: "easeOut" }}>
               <SectionErrorBoundary>
                 <Skills />
               </SectionErrorBoundary>
             </motion.div>
           )}
           {(activeTab === 'stats' || activeTab === 'performance') && (
-            <motion.div key="stats" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+            <motion.div key="stats" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15, ease: "easeOut" }}>
               <SectionErrorBoundary>
                 <Stats />
               </SectionErrorBoundary>
             </motion.div>
           )}
           {(activeTab === 'projects' || activeTab === 'library') && (
-            <motion.div key="projects" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+            <motion.div key="projects" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15, ease: "easeOut" }}>
               <SectionErrorBoundary>
                 <Projects />
               </SectionErrorBoundary>
             </motion.div>
           )}
           {activeTab === 'services' && (
-            <motion.div key="services" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+            <motion.div key="services" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15, ease: "easeOut" }}>
               <SectionErrorBoundary>
                 <Services />
               </SectionErrorBoundary>
             </motion.div>
           )}
           {activeTab === 'contact' && (
-            <motion.div key="contact" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+            <motion.div key="contact" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15, ease: "easeOut" }}>
               <SectionErrorBoundary>
                 <Contact />
               </SectionErrorBoundary>
             </motion.div>
           )}
           {activeTab === 'forum' && (
-            <motion.div key="forum" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.25 }}>
+            <motion.div key="forum" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15, ease: "easeOut" }}>
               <SectionErrorBoundary>
                 <Forum />
               </SectionErrorBoundary>

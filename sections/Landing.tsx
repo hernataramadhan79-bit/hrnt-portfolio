@@ -113,9 +113,9 @@ const Landing: React.FC = () => {
     
     // Extract tags for the third skills marquee row
     const allTags = [...detailedSkills.frontend, ...detailedSkills.backend].flatMap(d => d.tags);    return (
-        <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] py-4 lg:py-2 xl:py-4 px-4 sm:px-6">
+        <section id="home" className="relative z-10 flex flex-col justify-center w-full min-h-screen pt-14 sm:pt-16 pb-4 px-4 sm:px-6">
             {/* Unified Backdrop */}
-            <div className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden rounded-3xl">
+            <div className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
                 <div className="absolute top-[15%] left-[5%] w-[400px] h-[400px] xl:w-[500px] xl:h-[500px] bg-cyan-700/20 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] xl:w-[450px] xl:h-[450px] bg-purple-700/20 rounded-full blur-[100px]" />
             </div>

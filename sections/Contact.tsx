@@ -54,9 +54,9 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative z-10 min-h-[calc(100dvh-4.5rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center w-full py-6 lg:py-2 xl:py-6 px-4 sm:px-6 overflow-hidden">
+    <section id="contact" className="relative z-10 min-h-screen flex flex-col justify-center w-full pt-16 sm:pt-20 lg:pt-20 pb-6 px-4 sm:px-6 overflow-hidden scroll-mt-0">
       {/* Full-bleed Ambient Background Gradient */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10 rounded-3xl">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,rgba(34,211,238,0.06)_0%,rgba(168,85,247,0.05)_45%,transparent_100%)]" />
         <div className="absolute top-[20%] right-10 w-[350px] h-[350px] xl:w-[400px] xl:h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />
         <div className="absolute bottom-[10%] left-10 w-[300px] h-[300px] xl:w-[350px] xl:h-[350px] bg-purple-500/10 rounded-full blur-[90px]" />

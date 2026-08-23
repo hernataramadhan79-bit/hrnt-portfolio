@@ -36,7 +36,7 @@ const Forum: React.FC = () => {
     };
 
     return (
-        <section id="forum" className="relative z-10 min-h-[calc(100dvh-5rem)] flex flex-col justify-center w-full py-12 lg:py-16 px-4 sm:px-6 overflow-hidden">
+        <section id="forum" className="relative z-10 min-h-screen flex flex-col justify-center w-full pt-20 sm:pt-24 lg:pt-28 pb-12 px-4 sm:px-6 overflow-hidden scroll-mt-0">
             <div className="max-w-5xl mx-auto relative w-full">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
                 <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
