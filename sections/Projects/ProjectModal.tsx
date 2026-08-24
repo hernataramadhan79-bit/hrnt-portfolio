@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight, Check, ExternalLink, Github, Zap, Activity } from 'lucide-react';
@@ -16,12 +16,90 @@ interface ProjectModalProps {
 
 const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mounted }) => {
   const [activeImage, setActiveImage] = useState<string>('');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (project) {
       setActiveImage(project.image);
     }
   }, [project]);
+
+  // Reset scroll position and auto-focus scroll container when modal opens
+  useEffect(() => {
+    if (open) {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop = 0;
+        scrollContainerRef.current.focus();
+      }
+    }
+  }, [open, project]);
+
+  // Keyboard navigation for scrolling & closing
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      const container = scrollContainerRef.current;
+      if (!container) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        container.scrollBy({ top: 80, behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        container.scrollBy({ top: -80, behavior: 'smooth' });
+      } else if (e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
+        e.preventDefault();
+        container.scrollBy({ top: 320, behavior: 'smooth' });
+      } else if (e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
+        e.preventDefault();
+        container.scrollBy({ top: -320, behavior: 'smooth' });
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        container.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open, onClose]);
+
+  // Direct wheel listener to guarantee mouse wheel scrolling across all browsers & OS
+  useEffect(() => {
+    if (!open) return;
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleContainerWheel = (e: WheelEvent) => {
+      const isHorizontal = (e.target as HTMLElement)?.closest?.('.overflow-x-auto');
+      if (isHorizontal && Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        return;
+      }
+      container.scrollTop += e.deltaY;
+    };
+
+    container.addEventListener('wheel', handleContainerWheel, { passive: true });
+    return () => {
+      container.removeEventListener('wheel', handleContainerWheel);
+    };
+  }, [open, project]);
+
+  // Delegate wheel events when cursor is on backdrop or header
+  const handleOuterWheel = useCallback((e: React.WheelEvent) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    if (!container.contains(e.target as Node)) {
+      container.scrollTop += e.deltaY;
+    }
+  }, []);
 
   if (!mounted || !open || !project) return null;
 
@@ -35,6 +113,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
+        onWheel={handleOuterWheel}
       >
         {/* Backdrop */}
         <motion.div
@@ -51,8 +130,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 25 }}
           transition={{ type: 'spring', damping: 30, stiffness: 320 }}
-          className="relative max-w-4xl w-full max-h-[92vh] bg-[#050508] border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8),0_0_40px_rgba(34,211,238,0.08)] z-[100001] flex flex-col"
+          className="relative max-w-4xl w-full max-h-[90vh] bg-[#050508] border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8),0_0_40px_rgba(34,211,238,0.08)] z-[100001] flex flex-col min-h-0"
           onClick={(e) => e.stopPropagation()}
+          onWheel={handleOuterWheel}
         >
           {/* Top Header Bar */}
           <div className="flex items-center justify-between px-5 sm:px-6 py-3.5 border-b border-white/10 bg-[#07070c] shrink-0">
@@ -102,7 +182,11 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
           </div>
 
           {/* Modal Content Body */}
-          <div className="overflow-y-auto custom-scrollbar p-5 sm:p-6 space-y-5 flex-1">
+          <div
+            ref={scrollContainerRef}
+            tabIndex={-1}
+            className="overflow-y-auto custom-scrollbar p-5 sm:p-6 space-y-5 flex-1 min-h-0 focus:outline-none select-text"
+          >
             {/* Top Overview: Image + Title + Summary */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
               {/* Preview Thumbnail with Clickable Live Link */}
@@ -142,7 +226,13 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ open, project, onClose, mou
                             : 'border-white/10 opacity-60 hover:opacity-100'
                         }`}
                       >
-                        <Image src={img} alt={`Preview ${i + 1}`} fill className="object-cover" />
+                        <Image
+                          src={img}
+                          alt={`Preview ${i + 1}`}
+                          fill
+                          sizes="64px"
+                          className="object-cover"
+                        />
                       </button>
                     ))}
                   </div>
