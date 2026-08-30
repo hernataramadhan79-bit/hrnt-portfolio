@@ -14,6 +14,7 @@ import Contact from '../sections/Contact';
 import ProjectModal from '../components/ProjectModal';
 import CertificateModal from '../components/CertificateModal';
 import Background from '../components/Background';
+import Footer from '../components/Footer';
 import { ForumSkeleton } from '../components/Skeletons';
 import { Project, Certificate } from '../types';
 import { printDevToolsBanner } from '../lib/console-banner';
@@ -115,13 +116,14 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
               data-section-scroll
             >
               <Dashboard
                 onSelectProject={setSelectedProject}
                 onNavigate={handleTabChange}
               />
+              <Footer onNavigate={handleTabChange} />
             </motion.div>
           )}
 
@@ -132,10 +134,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
               data-section-scroll
             >
               <Work onSelectProject={setSelectedProject} />
+              <Footer onNavigate={handleTabChange} />
             </motion.div>
           )}
 
@@ -146,10 +149,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
               data-section-scroll
             >
               <Capabilities />
+              <Footer onNavigate={handleTabChange} />
             </motion.div>
           )}
 
@@ -160,10 +164,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
               data-section-scroll
             >
               <About />
+              <Footer onNavigate={handleTabChange} />
             </motion.div>
           )}
 
@@ -174,10 +179,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
               data-section-scroll
             >
               <Stats />
+              <Footer onNavigate={handleTabChange} />
             </motion.div>
           )}
 
@@ -188,10 +194,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
               data-section-scroll
             >
               <Recognitions onSelectCertificate={setSelectedCert} />
+              <Footer onNavigate={handleTabChange} />
             </motion.div>
           )}
 
@@ -202,10 +209,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
               data-section-scroll
             >
               <Forum />
+              <Footer onNavigate={handleTabChange} />
             </motion.div>
           )}
 
@@ -216,10 +224,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
               data-section-scroll
             >
               <Contact />
+              <Footer onNavigate={handleTabChange} />
             </motion.div>
           )}
         </AnimatePresence>
