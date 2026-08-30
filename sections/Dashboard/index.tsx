@@ -85,10 +85,10 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
           <div className="absolute right-0 bottom-0 top-0 w-full sm:w-[65%] lg:w-[50%] pointer-events-none select-none z-0 flex items-end justify-end overflow-hidden">
             <div className="relative w-full h-[95%] sm:h-full">
               <Image
-                src="/profile-cutout.png"
+                src="/profile-cutout.webp"
                 alt="Hernata Ramadhan"
                 fill
-                className="object-contain object-bottom sm:object-right-bottom opacity-20 sm:opacity-25 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none filter contrast-105"
+                className="object-contain object-bottom sm:object-right-bottom opacity-25 sm:opacity-30 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none filter contrast-105"
                 style={{
                   maskImage: 'linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to left, black 50%, transparent 100%)',
                   WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to left, black 50%, transparent 100%)',
