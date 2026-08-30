@@ -16,6 +16,7 @@ import {
   Zap,
   Shield,
   Palette,
+  Cpu,
 } from 'lucide-react';
 import { experiences } from '../../constants';
 
@@ -362,10 +363,10 @@ export default function About() {
                 </div>
                 <div className="p-2 rounded-xl bg-white/[0.02] border border-white/5">
                   <div className="text-cyan-400 font-bold flex items-center gap-1">
-                    <Palette size={12} />
+                    <Cpu size={12} />
                     <span>60 FPS</span>
                   </div>
-                  <div className="text-[10px] text-[#8e9192] mt-0.5">Fluid Motion</div>
+                  <div className="text-[10px] text-[#8e9192] mt-0.5">WebGL &amp; UI Render</div>
                 </div>
               </div>
             </motion.div>
