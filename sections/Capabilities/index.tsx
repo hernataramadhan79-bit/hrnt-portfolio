@@ -29,10 +29,9 @@ export default function Capabilities() {
         
         {/* Left: Architecture Diagram Simulator (Span 7) */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-7 glass-card p-6 sm:p-8 flex flex-col justify-between overflow-hidden relative min-h-[460px]"
         >
           {/* Window Header */}
@@ -171,11 +170,10 @@ export default function Capabilities() {
           
           {/* Card 01: Frontend Engineering */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="glass-card p-6 flex flex-col justify-between group hover:border-cyan-400/30 transition-all"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-card p-6 flex flex-col justify-between group hover:border-cyan-400/30 transition-colors duration-200"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -187,7 +185,7 @@ export default function Capabilities() {
               </h3>
               <p className="text-xs text-[#8e9192] leading-relaxed mb-4 font-normal">
                 Building scalable web apps using React 19, Next.js 16, TypeScript, Zustand state management,
-                and responsive Tailwind design tokens with fluid spring animations.
+                and responsive Tailwind design tokens with fluid smooth animations.
               </p>
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -200,11 +198,10 @@ export default function Capabilities() {
 
           {/* Card 02: Backend & Database */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="glass-card p-6 flex flex-col justify-between group hover:border-cyan-400/30 transition-all"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.03, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-card p-6 flex flex-col justify-between group hover:border-cyan-400/30 transition-colors duration-200"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -229,11 +226,10 @@ export default function Capabilities() {
 
           {/* Card 03: Security & Optimization */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            className="glass-card p-6 flex flex-col justify-between group hover:border-cyan-400/30 transition-all"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-card p-6 flex flex-col justify-between group hover:border-cyan-400/30 transition-colors duration-200"
           >
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -270,7 +266,7 @@ export default function Capabilities() {
           {allSkills.map((s) => (
             <div
               key={s.name}
-              className="glass-badge p-3 rounded-xl flex items-center gap-3 hover:bg-white/5 hover:border-cyan-400/30 transition-all hover:scale-105"
+              className="glass-badge p-3 rounded-xl flex items-center gap-3 hover:bg-white/5 hover:border-cyan-400/30 transition-all duration-200 hover:-translate-y-0.5"
             >
               <div className="w-6 h-6 shrink-0 relative">
                 <Image

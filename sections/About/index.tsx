@@ -67,9 +67,9 @@ export default function About() {
           
           {/* Bio Card */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="glass-card p-6 sm:p-8 relative overflow-hidden"
           >
             <div className="flex items-center gap-4 mb-6">
@@ -108,10 +108,9 @@ export default function About() {
 
           {/* Timeline Card */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="glass-card p-6 sm:p-8"
           >
             <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-2">
@@ -124,10 +123,10 @@ export default function About() {
                 <div key={i} className="relative pl-7 group">
                   {/* Glowing Node Dot */}
                   <div
-                    className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full border transition-all ${
+                    className={`absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full border transition-transform duration-200 ${
                       exp.type === 'work'
-                        ? 'bg-cyan-400 border-cyan-400/50 group-hover:scale-125 shadow-[0_0_10px_rgba(34,211,238,0.5)]'
-                        : 'bg-sky-400 border-sky-400/50 group-hover:scale-125 shadow-[0_0_10px_rgba(56,189,248,0.5)]'
+                        ? 'bg-cyan-400 border-cyan-400/50 group-hover:scale-110 shadow-[0_0_8px_rgba(34,211,238,0.5)]'
+                        : 'bg-sky-400 border-sky-400/50 group-hover:scale-110 shadow-[0_0_8px_rgba(56,189,248,0.5)]'
                     }`}
                   />
                   <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono mb-1">

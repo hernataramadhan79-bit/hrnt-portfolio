@@ -58,9 +58,10 @@ const Forum: React.FC = () => {
         
         {/* Left Column: Auth & Submission Dock (Span 5) */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: -10 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-5"
         >
           <div
@@ -94,9 +95,10 @@ const Forum: React.FC = () => {
 
         {/* Right Column: Comment Stream (Span 7) */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
+          initial={{ opacity: 0, x: 10 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-7 glass-card p-6 sm:p-8 flex flex-col justify-between"
         >
           <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">

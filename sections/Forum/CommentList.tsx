@@ -139,15 +139,19 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
       )}
 
       <AnimatePresence initial={false}>
-        {comments.map((comment, index) => (
+        {comments.map((comment) => (
           <motion.div
             key={comment.id}
-            layout
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9, y: -10, transition: { duration: 0.25 } }}
-            transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all group"
+            layout="position"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6, transition: { duration: 0.18 } }}
+            transition={{
+              layout: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+              opacity: { duration: 0.22 },
+              y: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
+            }}
+            className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.05] transition-colors duration-200 group"
           >
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center gap-3">

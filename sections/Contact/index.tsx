@@ -85,8 +85,8 @@ export default function Contact() {
     {
       num: '04',
       title: 'Instagram',
-      value: '@hernata.ramadhan',
-      href: 'https://instagram.com/hernata.ramadhan',
+      value: '@heropakentanq15_',
+      href: 'https://www.instagram.com/heropakentanq15_/',
       icon: Instagram,
     },
   ];
@@ -119,7 +119,7 @@ export default function Contact() {
                   href={ch.href}
                   target={ch.title === 'Email' ? undefined : '_blank'}
                   rel={ch.title === 'Email' ? undefined : 'noopener noreferrer'}
-                  className="glass-card p-5 rounded-2xl flex flex-col justify-between group hover:border-cyan-400/30 hover:bg-white/[0.04] transition-all"
+                  className="glass-card p-5 rounded-2xl flex flex-col justify-between group hover:border-cyan-400/30 hover:bg-white/[0.04] transition-colors duration-200"
                 >
                   <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono mb-4">
                     <span>{ch.num}</span>
@@ -130,7 +130,7 @@ export default function Contact() {
                       <span>{ch.title}</span>
                       <ArrowUpRight
                         size={14}
-                        className="text-[#8e9192] group-hover:text-cyan-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                        className="text-[#8e9192] group-hover:text-cyan-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200"
                       />
                     </h3>
                     <p className="text-xs text-[#8e9192] truncate mt-1">{ch.value}</p>
@@ -152,7 +152,7 @@ export default function Contact() {
             <a
               href="/Hernata CV.pdf"
               download
-              className="inline-flex items-center gap-2.5 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-6 py-3 rounded-full hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.35)] transition-transform hover:scale-105"
+              className="inline-flex items-center gap-2.5 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-6 py-3 rounded-full hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.35)] transition-transform duration-200 hover:scale-105"
             >
               <span>Download Official CV (PDF)</span>
               <Download size={15} />
@@ -162,9 +162,10 @@ export default function Contact() {
 
         {/* Right Column: Minimalist Glass Inquiry Form (Span 7) */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
+          initial={{ opacity: 0, x: 10 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="lg:col-span-7 glass-card p-6 sm:p-8 lg:p-10 rounded-3xl"
         >
           <div className="mb-6 border-b border-white/10 pb-4 flex items-center justify-between">

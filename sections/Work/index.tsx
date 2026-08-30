@@ -45,9 +45,9 @@ export default function Work({ onSelectProject }: WorkProps) {
               <button
                 key={cat}
                 onClick={() => setSelectedFilter(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
+                className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-200 ${
                   isActive
-                    ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/50 shadow-[0_0_15px_rgba(34,211,238,0.25)] scale-105'
+                    ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/50 shadow-[0_0_15px_rgba(34,211,238,0.25)]'
                     : 'glass-badge text-[#8e9192] hover:text-white hover:bg-white/10 hover:border-cyan-400/30'
                 }`}
               >
@@ -59,17 +59,21 @@ export default function Work({ onSelectProject }: WorkProps) {
       </div>
 
       {/* Projects Bento Grid */}
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <AnimatePresence mode="popLayout">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <AnimatePresence mode="popLayout" initial={false}>
           {filteredProjects.map((project, idx) => (
             <motion.article
-              layout
-              initial={{ opacity: 0, y: 20 }}
+              layout="position"
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              transition={{
+                layout: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+                opacity: { duration: 0.22, delay: idx * 0.02 },
+                y: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
+              }}
               key={project.id}
-              className="glass-card flex flex-col overflow-hidden group hover:border-cyan-400/30 transition-all duration-300 relative rounded-3xl"
+              className="glass-card flex flex-col overflow-hidden group hover:border-cyan-400/30 transition-colors duration-200 relative rounded-3xl"
             >
               {/* Image Container with Ambient Gradient */}
               <div
@@ -80,7 +84,7 @@ export default function Work({ onSelectProject }: WorkProps) {
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0d0e13] via-transparent to-transparent opacity-80" />
@@ -93,7 +97,7 @@ export default function Work({ onSelectProject }: WorkProps) {
                 </div>
 
                 {/* Inspect Case Study Floating Indicator */}
-                <div className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/40 flex items-center justify-center text-cyan-300 group-hover:scale-110 transition-transform">
+                <div className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/40 flex items-center justify-center text-cyan-300 group-hover:scale-105 transition-transform duration-200">
                   <ArrowUpRight size={16} />
                 </div>
               </div>
@@ -168,7 +172,7 @@ export default function Work({ onSelectProject }: WorkProps) {
             </motion.article>
           ))}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </section>
   );
 }

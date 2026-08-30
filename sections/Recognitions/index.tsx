@@ -32,11 +32,12 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
         {certificates.map((cert) => (
           <motion.div
             key={cert.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             onClick={() => onSelectCertificate(cert)}
-            className="glass-card p-6 flex flex-col justify-between group cursor-pointer hover:border-cyan-400/30 transition-all rounded-3xl"
+            className="glass-card p-6 flex flex-col justify-between group cursor-pointer hover:border-cyan-400/30 transition-colors duration-200 rounded-3xl"
           >
             <div>
               {/* Certificate Image Preview */}
@@ -49,7 +50,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                   sizes="(max-width: 768px) 100vw, 380px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#090A0F] via-transparent to-transparent opacity-60" />
-                <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:scale-105 transition-transform duration-200">
                   <ExternalLink size={14} className="text-cyan-300" />
                 </div>
               </div>

@@ -35,15 +35,16 @@ export default function CertificateModal({ cert, onClose }: CertificateModalProp
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.22 }}
           onClick={onClose}
           className="fixed inset-0 bg-[#090A0F]/85 backdrop-blur-xl -z-10"
         />
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.98, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ opacity: 0, scale: 0.98, y: 6 }}
+          transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
           className="glass-card relative w-full max-w-2xl bg-[#0d0e13]/95 border border-white/15 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-2xl"
           style={{ boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.15)' }}
         >

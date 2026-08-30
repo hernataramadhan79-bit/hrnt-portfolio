@@ -63,15 +63,17 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
       {/* Desktop Floating Pill Navbar */}
       <header className="fixed top-5 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
         <motion.nav
-          initial={{ y: -30, opacity: 0 }}
+          initial={{ y: -12, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className={`pointer-events-auto flex items-center justify-between gap-4 md:gap-8 px-4 md:px-6 py-2 rounded-full border transition-all duration-300 ${
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          aria-label="Main navigation"
+          className={`pointer-events-auto flex items-center justify-between gap-4 md:gap-8 px-4 md:px-6 py-2 rounded-full border transition-[background-color,border-color,box-shadow] duration-200 ${
             isScrolled
               ? 'bg-[#090A0F]/90 border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.6)] backdrop-blur-xl'
               : 'bg-white/[0.04] border-white/10 backdrop-blur-lg shadow-[0_4px_24px_rgba(0,0,0,0.4)]'
           }`}
           style={{
+            willChange: 'transform, opacity',
             boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
           }}
         >
@@ -84,7 +86,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             <span className="text-white font-black tracking-tighter text-2xl leading-none transition-colors duration-200 group-hover:text-cyan-400">
               HRNT
             </span>
-            <div className="w-2.5 h-2.5 border-2 border-cyan-400 bg-transparent rotate-45 ml-2 shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-all duration-500 ease-[0.16,1,0.3,1] group-hover:bg-cyan-400 group-hover:scale-125 group-hover:rotate-[225deg] group-hover:shadow-[0_0_25px_rgba(34,211,238,0.9)]" />
+            <div className="w-2.5 h-2.5 border-2 border-cyan-400 bg-transparent rotate-45 ml-2 shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-all duration-300 ease-[0.22,1,0.36,1] group-hover:bg-cyan-400 group-hover:scale-110 group-hover:rotate-[225deg] group-hover:shadow-[0_0_20px_rgba(34,211,238,0.8)]" />
           </button>
 
           {/* Nav Items List (Hidden on Mobile) */}
@@ -102,8 +104,9 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                     {isActive && (
                       <motion.div
                         layoutId="activePill"
+                        initial={false}
                         className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-cyan-400/25 to-cyan-500/20 border border-cyan-400/50 rounded-full shadow-[0_0_20px_rgba(34,211,238,0.35),inset_0_0_12px_rgba(34,211,238,0.15)] -z-10"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        transition={{ type: 'tween', duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
                       />
                     )}
                     <span>{item.label}</span>
