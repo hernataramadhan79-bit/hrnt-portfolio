@@ -76,77 +76,98 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="md:col-span-7 glass-card p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden group min-h-[400px]"
+          className="md:col-span-7 glass-card p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden group min-h-[420px]"
         >
           {/* Cyan Ambient Radial Highlight */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/[0.04] rounded-full blur-3xl pointer-events-none" />
 
-          <div>
-            {/* Status Badges */}
-            <div className="flex flex-wrap items-center gap-2 mb-6">
-              <div className="inline-flex items-center gap-2 glass-badge rounded-full px-3.5 py-1.5 border border-cyan-500/30 bg-cyan-500/10">
-                <span className="live-dot" />
-                <span className="text-xs font-semibold text-cyan-300 tracking-wide uppercase font-mono">
-                  Available: Full-Time • Remote • Contract
-                </span>
-              </div>
-              <div className="inline-flex items-center gap-2 glass-badge rounded-full px-3 py-1.5 text-xs text-[#8e9192] font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/60" />
-                <span>Indonesia (UTC+7)</span>
-              </div>
-            </div>
-
-            {/* Main Headline */}
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-white">
-                HRNT
-              </h1>
-              <div className="w-3.5 h-3.5 border-[2px] border-cyan-400 bg-transparent rotate-45 shadow-[0_0_15px_rgba(34,211,238,0.6)]" />
-            </div>
-
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-300 mb-4 font-mono">
-              Hernata Ramadhan — Full-Stack Software Engineer
-            </p>
-
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.15] mb-4">
-              Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400">high-performance</span> web architectures, end to end.
-            </h2>
-
-            <p className="text-sm sm:text-base text-[#c4c7c8] max-w-xl leading-relaxed font-normal">
-              Specializing in React, Next.js, Node.js, and TypeScript. From scalable system architecture
-              to pixel-precise user interfaces — building resilient digital products.
-            </p>
-
-            {/* Core Tech Stack Badges */}
-            <div className="flex flex-wrap gap-2 pt-4">
-              {['React 19', 'Next.js 16', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'].map((tech) => (
-                <span
-                  key={tech}
-                  className="text-xs font-mono text-slate-300 px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10"
-                >
-                  {tech}
-                </span>
-              ))}
+          {/* Background Transparent Portrait Behind Text */}
+          <div className="absolute right-0 bottom-0 top-0 w-full sm:w-[65%] lg:w-[50%] pointer-events-none select-none z-0 flex items-end justify-end overflow-hidden">
+            <div className="relative w-full h-[95%] sm:h-full">
+              <Image
+                src="/profile-cutout.png"
+                alt="Hernata Ramadhan"
+                fill
+                className="object-contain object-bottom sm:object-right-bottom opacity-20 sm:opacity-25 group-hover:opacity-35 transition-opacity duration-700 pointer-events-none filter contrast-105"
+                style={{
+                  maskImage: 'linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to left, black 50%, transparent 100%)',
+                  WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to left, black 50%, transparent 100%)',
+                  maskComposite: 'intersect',
+                  WebkitMaskComposite: 'destination-in',
+                }}
+                priority
+              />
             </div>
           </div>
 
-          {/* Quick CTA Actions */}
-          <div className="pt-8 flex flex-wrap items-center gap-3">
-            <button
-              onClick={() => onNavigate('work')}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-5 py-3 rounded-full hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-transform hover:scale-105 active:scale-95"
-            >
-              <span>Explore Selected Work</span>
-              <ArrowRight size={14} />
-            </button>
-            <a
-              href="/Hernata CV.pdf"
-              download
-              className="inline-flex items-center gap-2 glass-badge text-white text-xs font-semibold px-4 py-3 rounded-full hover:bg-white/10 hover:border-cyan-400/40 transition-colors"
-            >
-              <Download size={14} className="text-cyan-400" />
-              <span>Curriculum Vitae</span>
-            </a>
+          <div className="relative z-10 flex flex-col justify-between h-full flex-grow">
+            <div>
+              {/* Status Badges */}
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                <div className="inline-flex items-center gap-2 glass-badge rounded-full px-3.5 py-1.5 border border-cyan-500/30 bg-cyan-500/10">
+                  <span className="live-dot" />
+                  <span className="text-xs font-semibold text-cyan-300 tracking-wide uppercase font-mono">
+                    Available: Full-Time • Remote • Contract
+                  </span>
+                </div>
+                <div className="inline-flex items-center gap-2 glass-badge rounded-full px-3 py-1.5 text-xs text-[#8e9192] font-mono">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/60" />
+                  <span>Indonesia (UTC+7)</span>
+                </div>
+              </div>
+
+              {/* Main Headline */}
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-white">
+                  HRNT
+                </h1>
+                <div className="w-3.5 h-3.5 border-[2px] border-cyan-400 bg-transparent rotate-45 shadow-[0_0_15px_rgba(34,211,238,0.6)]" />
+              </div>
+
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-300 mb-4 font-mono">
+                Hernata Ramadhan — Full-Stack Software Engineer
+              </p>
+
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.15] mb-4">
+                Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400">high-performance</span> web architectures, end to end.
+              </h2>
+
+              <p className="text-sm sm:text-base text-[#c4c7c8] max-w-xl leading-relaxed font-normal">
+                Specializing in React, Next.js, Node.js, and TypeScript. From scalable system architecture
+                to pixel-precise user interfaces — building resilient digital products.
+              </p>
+
+              {/* Core Tech Stack Badges */}
+              <div className="flex flex-wrap gap-2 pt-4">
+                {['React 19', 'Next.js 16', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'].map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-xs font-mono text-slate-300 px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick CTA Actions */}
+            <div className="pt-8 flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => onNavigate('work')}
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-5 py-3 rounded-full hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-transform hover:scale-105 active:scale-95"
+              >
+                <span>Explore Selected Work</span>
+                <ArrowRight size={14} />
+              </button>
+              <a
+                href="/Hernata CV.pdf"
+                download
+                className="inline-flex items-center gap-2 glass-badge text-white text-xs font-semibold px-4 py-3 rounded-full hover:bg-white/10 hover:border-cyan-400/40 transition-colors"
+              >
+                <Download size={14} className="text-cyan-400" />
+                <span>Curriculum Vitae</span>
+              </a>
+            </div>
           </div>
         </motion.div>
 
