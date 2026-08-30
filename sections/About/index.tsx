@@ -7,7 +7,7 @@ import {
   Brain,
   Eye,
   Layers,
-  Sparkles,
+  ShieldCheck,
   Briefcase,
   GraduationCap,
   CheckCircle2,
@@ -48,7 +48,7 @@ export default function About() {
       num: '04',
       title: 'Type Safety & Testing',
       desc: 'Strict TypeScript typing and automated unit tests to ensure long-term stability and regression-free releases.',
-      icon: Sparkles,
+      icon: ShieldCheck,
       color: '#818cf8',
     },
   ];
