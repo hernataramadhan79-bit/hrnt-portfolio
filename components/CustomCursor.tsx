@@ -1,111 +1,89 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
-const CustomCursor = () => {
+export default function CustomCursor() {
+  const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 28, stiffness: 950, mass: 0.06 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
+  const springConfig = { damping: 28, stiffness: 350, mass: 0.5 };
+  const smoothX = useSpring(cursorX, springConfig);
+  const smoothY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-
-  const moveCursor = useCallback((e: MouseEvent) => {
-    cursorX.set(e.clientX - 16);
-    cursorY.set(e.clientY - 16);
-  }, [cursorX, cursorY]);
-
-  const handleMouseOver = useCallback((e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    const isExcluded = target.closest('.no-cursor') || target.classList.contains('no-cursor');
-
-    if (
-      !isExcluded && (
-        target.tagName === 'BUTTON' ||
-        target.tagName === 'A' ||
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.tagName === 'SELECT' ||
-        target.closest('button') ||
-        target.closest('a') ||
-        target.closest('[role="button"]') ||
-        target.closest('[role="tab"]') ||
-        target.closest('.group') ||
-        target.classList.contains('cursor-pointer')
-      )
-    ) {
-      setIsHovered(true);
+    // Only activate cursor on devices that support hover (not touchscreens)
+    if (window.matchMedia('(pointer: fine)').matches) {
+      setIsVisible(true);
     } else {
-      setIsHovered(false);
+      return;
     }
-  }, []);
 
-  useEffect(() => {
-    if (isMobile || prefersReducedMotion) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
 
-    window.addEventListener('mousemove', moveCursor, { passive: true });
-    window.addEventListener('mouseover', handleMouseOver, { passive: true });
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.closest('a') ||
+          target.closest('button') ||
+          target.closest('input') ||
+          target.closest('textarea') ||
+          target.closest('.interactive-hover') ||
+          target.closest('.glass-card'))
+      ) {
+        setIsHovered(true);
+      } else {
+        setIsHovered(false);
+      }
+    };
+
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
+
+    window.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [moveCursor, handleMouseOver, isMobile, prefersReducedMotion]);
+  }, [cursorX, cursorY]);
 
-  if (isMobile || prefersReducedMotion) return null;
+  if (!isVisible) return null;
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white pointer-events-none z-[100] mix-blend-difference hidden md:flex items-center justify-center"
-      style={{
-        x: cursorXSpring,
-        y: cursorYSpring,
-        backfaceVisibility: 'hidden',
-        WebkitFontSmoothing: 'antialiased',
-      }}
-      animate={{
-        scale: isHovered ? 2.5 : 1,
-        backgroundColor: isHovered ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0)',
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 150,
-        damping: 15,
-        mass: 0.1,
-        duration: 0.15
-      }}
-      aria-hidden="true"
-    >
+    <>
+      {/* Outer Spring Ring */}
       <motion.div
-        className="w-1 h-1 bg-white rounded-full"
-        style={{ backfaceVisibility: 'hidden' }}
-        animate={{ opacity: isHovered ? 0 : 1, scale: isHovered ? 0 : 1 }}
-        transition={{ duration: 0.15 }}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-white/25 -translate-x-1/2 -translate-y-1/2 backdrop-blur-[1px]"
+        style={{
+          x: smoothX,
+          y: smoothY,
+          width: isHovered ? 48 : 32,
+          height: isHovered ? 48 : 32,
+          backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+          borderColor: isHovered ? 'rgba(34, 211, 238, 0.4)' : 'rgba(255, 255, 255, 0.2)',
+          transition: 'width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-color 0.2s ease',
+        }}
       />
-    </motion.div>
+      {/* Center Dot */}
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full bg-white -translate-x-1/2 -translate-y-1/2 shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+        style={{
+          x: cursorX,
+          y: cursorY,
+          width: isHovered ? 6 : 4,
+          height: isHovered ? 6 : 4,
+          transition: 'width 0.15s ease, height 0.15s ease',
+        }}
+      />
+    </>
   );
-};
-
-export default React.memo(CustomCursor);
+}

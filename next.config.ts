@@ -8,6 +8,14 @@ let nextConfig: NextConfig = {
                 protocol: 'https',
                 hostname: 'cdn.simpleicons.org',
             },
+            {
+                protocol: 'https',
+                hostname: 'avatars.githubusercontent.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+            },
         ],
     },
     async rewrites() {
@@ -91,12 +99,5 @@ let nextConfig: NextConfig = {
         ];
     },
 };
-
-if (process.env.ANALYZE === 'true') {
-    const withBundleAnalyzer = require('@next/bundle-analyzer')({
-        enabled: true,
-    });
-    nextConfig = withBundleAnalyzer(nextConfig);
-}
 
 export default nextConfig;

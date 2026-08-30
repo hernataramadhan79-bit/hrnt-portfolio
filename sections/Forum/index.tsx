@@ -2,94 +2,124 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, ShieldCheck } from 'lucide-react';
 import { User, auth, onAuthStateChanged, signOut } from '../../lib/firebase';
 import AuthCard from './AuthCard';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
 
 const Forum: React.FC = () => {
-    const [user, setUser] = useState<User | null>(null);
-    const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-    const handleMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
-        const { left, top } = currentTarget.getBoundingClientRect();
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
-    };
+  const handleMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  };
 
-    const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(34,211,238,0.1), transparent 80%)`;
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(34,211,238,0.08), transparent 80%)`;
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            setIsAuthLoading(false);
-        });
-        return () => unsubscribe();
-    }, []);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setIsAuthLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
-    const handleLogout = async () => {
-        try { await signOut(auth); } catch (error) { console.error("Logout Error: ", error); }
-    };
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('Logout Error: ', error);
+    }
+  };
 
-    return (
-        <section id="forum" className="relative z-10 min-h-screen flex flex-col justify-center w-full pt-20 sm:pt-24 lg:pt-28 pb-12 px-4 sm:px-6 overflow-hidden scroll-mt-0">
-            <div className="max-w-5xl mx-auto relative w-full">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
-                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+  return (
+    <section id="forum" className="w-full max-w-[1400px] mx-auto pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      {/* Section Header */}
+      <div className="mb-12">
+        <span className="text-xs font-bold font-mono text-cyan-400 uppercase tracking-[0.25em] mb-2 block">
+          06 / PUBLIC GUESTBOOK
+        </span>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+          Guestbook &amp; Community Space
+        </h2>
+        <p className="text-sm text-[#8e9192] mt-2 max-w-xl">
+          An open space to leave feedback, inquiries, or greetings. Authenticate securely with Google, GitHub, or Email.
+        </p>
+      </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16 space-y-4"
-                >
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-md">
-                        <MessageSquare size={14} className="text-cyan-400" />
-                        <span className="text-[10px] font-black tracking-[0.3em] text-cyan-400 uppercase">
-                            Guestbook & Comments
-                        </span>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none">
-                        Public <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Space.</span>
-                    </h2>
-                    <p className="text-slate-400 max-w-xl mx-auto text-lg font-light leading-relaxed">
-                        {user ? `Hi, ${user.displayName?.split(' ')[0] || 'User'}! Feel free to leave a trace or a greeting here.` : 'An open space to leave messages, feedback, or just to say hello.'}
-                    </p>
-                </motion.div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        {/* Left Column: Auth & Submission Dock (Span 5) */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="lg:col-span-5"
+        >
+          <div
+            onMouseMove={handleMouseMove}
+            className="glass-card p-6 sm:p-8 relative overflow-hidden isolate"
+          >
+            <motion.div
+              className="absolute inset-0 pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-500 blur-xl -z-10"
+              style={{ background: spotlight }}
+            />
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="lg:col-span-4"
-                    >
-                        <div onMouseMove={handleMouseMove} className="relative group p-6 rounded-[2rem] bg-[#050508] border border-white/5 shadow-2xl overflow-hidden isolate">
-                            <motion.div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10"
-                                style={{ background: spotlight }} />
+            <AuthCard
+              user={user}
+              isAuthLoading={isAuthLoading}
+              onAuthStateChange={setUser}
+              onLogout={handleLogout}
+            >
+              {user && <CommentForm user={user} />}
+            </AuthCard>
 
-                            <AuthCard
-                                user={user}
-                                isAuthLoading={isAuthLoading}
-                                onAuthStateChange={setUser}
-                                onLogout={handleLogout}
-                            >
-                                {user && <CommentForm user={user} />}
-                            </AuthCard>
-                        </div>
-                    </motion.div>
-
-                    <div className="lg:col-span-8 space-y-4 max-h-[800px] overflow-y-auto pr-4 custom-scrollbar" role="region" aria-label="Guestbook comments" aria-live="polite">
-                        <CommentList currentUserId={user?.uid} />
-                    </div>
-                </div>
+            {/* Security Badge */}
+            <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-[#8e9192] font-mono">
+              <span className="flex items-center gap-1.5 text-cyan-400">
+                <ShieldCheck size={14} />
+                <span>Multi-layer XSS Sanitized</span>
+              </span>
+              <span>Rate Limited (IP Isolated)</span>
             </div>
-        </section >
-    );
+          </div>
+        </motion.div>
+
+        {/* Right Column: Comment Stream (Span 7) */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="lg:col-span-7 glass-card p-6 sm:p-8 flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <MessageSquare size={18} className="text-cyan-400" />
+              <span>Community Messages</span>
+            </h3>
+            <span className="text-xs text-cyan-400 font-mono">Real-time Polling (15s)</span>
+          </div>
+
+          <div
+            className="space-y-4 max-h-[680px] overflow-y-auto pr-2 custom-scrollbar"
+            role="region"
+            aria-label="Guestbook comments"
+            aria-live="polite"
+          >
+            <CommentList currentUserId={user?.uid} />
+          </div>
+        </motion.div>
+
+      </div>
+    </section>
+  );
 };
 
 export default React.memo(Forum);
