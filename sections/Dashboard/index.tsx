@@ -492,7 +492,7 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
               </div>
               <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 hover:border-cyan-400/30 transition-colors">
                 <div className="text-2xl font-black text-cyan-400 font-mono" suppressHydrationWarning>
-                  {telemetry.wakatimeHours || '248h+'}
+                  {telemetry.wakatimeHours || '71h+'}
                 </div>
                 <div className="text-xs font-bold text-[#e3e1e9] mt-0.5">Logged Focus</div>
                 <div className="text-[10px] text-[#8e9192] font-mono">WakaTime Sync</div>

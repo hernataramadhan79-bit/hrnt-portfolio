@@ -8,7 +8,7 @@ interface CacheEntry<T> {
 
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 menit client-side freshness TTL
 const STORAGE_KEY_GH = 'hrnt_gh_telemetry_cache_v1';
-const STORAGE_KEY_WT = 'hrnt_wt_telemetry_cache_v1';
+const STORAGE_KEY_WT = 'hrnt_wt_telemetry_cache_v2';
 
 let githubCache: CacheEntry<any> | null = null;
 let githubInFlightPromise: Promise<any> | null = null;
