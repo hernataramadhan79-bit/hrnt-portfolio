@@ -5,6 +5,7 @@ import { auth } from '../../lib/firebase';
 import { MessageSquare, Calendar, Trash2, Loader2, Check, X, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import UserAvatar from './UserAvatar';
+import { CommentListSkeleton } from '../../components/Skeletons';
 
 interface Comment {
   id: string;
@@ -28,15 +29,32 @@ const formatDate = (dateString: string | null) => {
 let cachedComments: Comment[] = [];
 let hasInitiallyLoaded = false;
 
+const getInitialComments = (): Comment[] => {
+  if (cachedComments.length > 0) return cachedComments;
+  if (typeof window !== 'undefined') {
+    try {
+      const raw = localStorage.getItem('hrnt_comments_cache');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          cachedComments = parsed;
+          return parsed;
+        }
+      }
+    } catch {}
+  }
+  return [];
+};
+
 const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) => {
-  const [comments, setComments] = useState<Comment[]>(cachedComments);
-  const [isLoading, setIsLoading] = useState(!hasInitiallyLoaded && cachedComments.length === 0);
+  const [comments, setComments] = useState<Comment[]>(() => getInitialComments());
+  const [isLoading, setIsLoading] = useState(!hasInitiallyLoaded && comments.length === 0);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const fetchComments = useCallback(async (showLoading = false) => {
-    if (showLoading) setIsLoading(true);
+    if (showLoading && comments.length === 0) setIsLoading(true);
     try {
       const res = await fetch('/api/comments', { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to load comments');
@@ -45,12 +63,18 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
       cachedComments = commentsData;
       hasInitiallyLoaded = true;
       setComments(commentsData);
+
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('hrnt_comments_cache', JSON.stringify(commentsData));
+        } catch {}
+      }
     } catch (error) {
       console.error('Error fetching comments: ', error);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [comments.length]);
 
   useEffect(() => {
     fetchComments(!hasInitiallyLoaded && cachedComments.length === 0);
@@ -103,13 +127,8 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 space-y-4">
-        <div className="w-10 h-10 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-        <span className="text-slate-500 font-mono text-xs uppercase tracking-widest">Hydrating data...</span>
-      </div>
-    );
+  if (isLoading && comments.length === 0) {
+    return <CommentListSkeleton count={3} />;
   }
 
   if (comments.length === 0) {

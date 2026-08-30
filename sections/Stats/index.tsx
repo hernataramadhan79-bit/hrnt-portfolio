@@ -11,7 +11,12 @@ import {
   GitCommit,
   ExternalLink,
 } from 'lucide-react';
-import { fetchGithubData, fetchWakaTimeData } from '../../lib/clientDataCache';
+import {
+  fetchGithubData,
+  fetchWakaTimeData,
+  getStoredGithubData,
+  getStoredWakaTimeData,
+} from '../../lib/clientDataCache';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -63,8 +68,8 @@ function formatTooltipDate(dateStr: string): string {
   return `${month} ${day}, ${year}`;
 }
 
-/** Fallback when GitHub token is not set */
-function generateFallbackWeeks(): ContribDay[][] {
+/** Clean neutral 52-week calendar grid without fake/random commit fabrication */
+function createEmptyWeeks(): ContribDay[][] {
   const weeks: ContribDay[][] = [];
   const today = new Date();
   const startDate = new Date(today);
@@ -76,23 +81,11 @@ function generateFallbackWeeks(): ContribDay[][] {
   for (let w = 0; w < 53; w++) {
     const week: ContribDay[] = [];
     for (let d = 0; d < 7; d++) {
-      if (current > today) {
-        week.push({ date: '', count: 0, level: 0 });
-      } else {
-        const isWeekend = d === 0 || d === 6;
-        const rand = Math.random();
-        let count = 0;
-        if (!isWeekend && rand > 0.35) {
-          count = Math.floor(Math.random() * 8) + 1;
-        } else if (isWeekend && rand > 0.7) {
-          count = Math.floor(Math.random() * 4) + 1;
-        }
-        week.push({
-          date: current.toISOString().slice(0, 10),
-          count,
-          level: getLevel(count),
-        });
-      }
+      week.push({
+        date: current <= today ? current.toISOString().slice(0, 10) : '',
+        count: 0,
+        level: 0,
+      });
       current.setDate(current.getDate() + 1);
     }
     weeks.push(week);
@@ -119,13 +112,12 @@ function GitHubContributionGraph({
     count: number;
   }>({ visible: false, x: 0, y: 0, date: '', count: 0 });
 
-  // Use real API data if available, else fallback to generated
+  // Use real API data if available, else clean neutral grid (zero mock data)
   const weeks = useMemo<ContribDay[][]>(() => {
     if (apiWeeks && apiWeeks.length > 0) {
       return buildWeeksFromApi(apiWeeks);
     }
-    return generateFallbackWeeks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return createEmptyWeeks();
   }, [apiWeeks]);
 
   // Auto-scroll on small screens to the rightmost (most recent) weeks
@@ -374,46 +366,54 @@ function GitHubContributionGraph({
 // ─── Stats Section ─────────────────────────────────────────────────────────────
 
 export default function Stats() {
-  const [loading, setLoading] = useState(true);
   const [githubData, setGithubData] = useState<any>(null);
   const [wakaData, setWakaData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 1. Segera hidrasi dari cache lokal begitu mount di browser (0ms)
+    const ghCached = getStoredGithubData();
+    const wkCached = getStoredWakaTimeData();
+    if (ghCached) setGithubData(ghCached);
+    if (wkCached) setWakaData(wkCached);
+    if (ghCached || wkCached) setLoading(false);
+
+    // 2. Sinkronisasi latar belakang
+    let isMounted = true;
     async function loadTelemetry() {
-      setLoading(true);
       try {
         const [gh, wk] = await Promise.all([
           fetchGithubData().catch(() => null),
           fetchWakaTimeData().catch(() => null),
         ]);
+        if (!isMounted) return;
         if (gh) setGithubData(gh);
         if (wk) setWakaData(wk);
       } catch (err) {
         console.error('Failed to load telemetry:', err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
     loadTelemetry();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const totalContributions = githubData?.profile?.totalContributions || 384;
-  const reposCount = githubData?.profile?.repos || 18;
-  const starsCount = githubData?.profile?.stars || 15;
+  const totalContributions = githubData?.profile?.totalContributions ?? (loading ? '...' : 0);
+  const reposCount = githubData?.profile?.repos ?? (loading ? '...' : 0);
+  const starsCount = githubData?.profile?.stars ?? (loading ? '...' : 0);
 
   // Real contribution weeks from API (array of weeks, each week = array of days)
   const apiWeeks: { date: string; count: number }[][] | undefined =
     githubData?.contributions?.length > 0 ? githubData.contributions : undefined;
 
-  const totalTime = wakaData?.totalTime || '248h 30m';
-  const dailyAverage = wakaData?.dailyAverage || '3h 45m';
-  const bestDay = wakaData?.bestDay || '7h 12m on Oct 14';
-  const languages = wakaData?.languages || [
-    { name: 'TypeScript', percent: 46.5, color: '#3178C6' },
-    { name: 'React', percent: 26.2, color: '#22d3ee' },
-    { name: 'Next.js', percent: 15.8, color: '#38bdf8' },
-    { name: 'Tailwind CSS', percent: 11.5, color: '#06b6d4' },
-  ];
+  const totalTime = wakaData?.totalTime || (loading ? '...' : '0h 0m');
+  const dailyAverage = wakaData?.dailyAverage || (loading ? '...' : '0h 0m');
+  const bestDay = wakaData?.bestDay || (loading ? '...' : 'Tracked via WakaTime');
+  const languages: { name: string; percent: number; color?: string }[] =
+    wakaData?.languages || [];
 
   return (
     <section className="w-full max-w-[1400px] mx-auto pt-24 pb-20 px-4 sm:px-6 lg:px-8">
@@ -426,7 +426,7 @@ export default function Stats() {
       >
         <div>
           <span className="text-xs font-bold font-mono text-cyan-400 uppercase tracking-[0.25em] mb-2 block">
-            04 // ACTIVITY TELEMETRY
+            04 / ACTIVITY TELEMETRY
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
             Telemetry &amp; Activity Observability
@@ -461,7 +461,7 @@ export default function Stats() {
             <GitCommit size={16} className="text-cyan-400 group-hover:scale-110 transition-transform duration-200" />
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight">
+            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
               {totalContributions}
             </div>
             <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400/90 font-mono">
@@ -478,7 +478,7 @@ export default function Stats() {
             <Clock size={16} className="text-cyan-400 group-hover:scale-110 transition-transform duration-200" />
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight">
+            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
               {totalTime}
             </div>
             <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400/90 font-mono">
@@ -495,7 +495,7 @@ export default function Stats() {
             <Activity size={16} className="text-sky-400 group-hover:scale-110 transition-transform duration-200" />
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight">
+            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
               {dailyAverage}
             </div>
             <div className="flex items-center justify-between mt-1.5 text-xs text-sky-400/90 font-mono">
@@ -512,7 +512,7 @@ export default function Stats() {
             <TrendingUp size={16} className="text-cyan-400 group-hover:scale-110 transition-transform duration-200" />
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight">
+            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
               {reposCount} <span className="text-xl text-[#8e9192] font-normal">/</span> {starsCount}★
             </div>
             <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400/90 font-mono">
@@ -531,7 +531,7 @@ export default function Stats() {
         className="mb-5"
       >
         <GitHubContributionGraph
-          totalContributions={totalContributions}
+          totalContributions={typeof totalContributions === 'number' ? totalContributions : 0}
           apiWeeks={apiWeeks}
         />
       </motion.div>
@@ -556,52 +556,66 @@ export default function Stats() {
               </span>
             </div>
 
-            {/* Segmented Color Bar Overview */}
-            <div className="w-full h-2.5 rounded-full overflow-hidden flex gap-0.5 bg-white/5 mb-5 p-0.5">
-              {languages.map((lang: any) => (
-                <div
-                  key={lang.name}
-                  className="h-full rounded-full transition-all duration-300"
-                  style={{
-                    width: `${lang.percent}%`,
-                    backgroundColor: lang.color || '#22d3ee',
-                  }}
-                  title={`${lang.name}: ${lang.percent}%`}
-                />
-              ))}
-            </div>
-
-            {/* Individual Language Bars */}
-            <div className="space-y-3.5">
-              {languages.map((lang: any) => (
-                <div key={lang.name} className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-white flex items-center gap-2">
-                      <span
-                        className="w-2.5 h-2.5 rounded-full shrink-0"
-                        style={{ backgroundColor: lang.color || '#22d3ee' }}
-                      />
-                      <span className="text-xs text-[#e3e1e9]">{lang.name}</span>
-                    </span>
-                    <span className="text-[#8e9192] font-mono text-xs">{lang.percent}%</span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${lang.percent}%` }}
-                      transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                      className="h-full rounded-full"
-                      style={{ backgroundColor: lang.color || '#22d3ee' }}
+            {loading && languages.length === 0 ? (
+              <div className="space-y-3 py-3">
+                <div className="skeleton-box h-6 w-full rounded-lg" />
+                <div className="skeleton-box h-6 w-4/5 rounded-lg" />
+                <div className="skeleton-box h-6 w-3/5 rounded-lg" />
+              </div>
+            ) : languages.length === 0 ? (
+              <div className="py-8 text-center text-xs text-[#8e9192] font-mono">
+                No language telemetry recorded yet for this period.
+              </div>
+            ) : (
+              <>
+                {/* Segmented Color Bar Overview */}
+                <div className="w-full h-2.5 rounded-full overflow-hidden flex gap-0.5 bg-white/5 mb-5 p-0.5">
+                  {languages.map((lang: any) => (
+                    <div
+                      key={lang.name}
+                      className="h-full rounded-full transition-all duration-300"
+                      style={{
+                        width: `${lang.percent}%`,
+                        backgroundColor: lang.color || '#22d3ee',
+                      }}
+                      title={`${lang.name}: ${lang.percent}%`}
                     />
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+
+                {/* Individual Language Bars */}
+                <div className="space-y-3.5">
+                  {languages.map((lang: any) => (
+                    <div key={lang.name} className="space-y-1.5">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-semibold text-white flex items-center gap-2">
+                          <span
+                            className="w-2.5 h-2.5 rounded-full shrink-0"
+                            style={{ backgroundColor: lang.color || '#22d3ee' }}
+                          />
+                          <span className="text-xs text-[#e3e1e9]">{lang.name}</span>
+                        </span>
+                        <span className="text-[#8e9192] font-mono text-xs">{lang.percent}%</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${lang.percent}%` }}
+                          transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                          className="h-full rounded-full"
+                          style={{ backgroundColor: lang.color || '#22d3ee' }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
           <div className="mt-6 pt-3.5 border-t border-white/10 flex items-center justify-between text-xs text-[#8e9192] font-mono">
             <span>Peak Day: <strong className="text-cyan-300 font-semibold">{bestDay}</strong></span>
-            <span className="text-[#8e9192]">VS Code &amp; Next.js Engine</span>
+            <span className="text-[#8e9192]">VS Code &amp; WakaTime API</span>
           </div>
         </div>
 
@@ -624,67 +638,54 @@ export default function Stats() {
             </div>
 
             <div className="space-y-3">
-              {(githubData?.topRepos || [
-                {
-                  id: 1,
-                  name: 'BangunCity_cityBuildGame',
-                  description: '3D Isometric City Builder simulation built with React 19 and Three.js',
-                  language: 'TypeScript',
-                  stargazers_count: 6,
-                  html_url: 'https://github.com/hernataramadhan79-bit/BangunCity_cityBuildGame',
-                },
-                {
-                  id: 2,
-                  name: 'huktifAI_app',
-                  description: 'Student Legal Education & AI Advisory Platform powered by Groq LLaMA 3.3',
-                  language: 'TypeScript',
-                  stargazers_count: 5,
-                  html_url: 'https://github.com/hernataramadhan79-bit/huktifAI_app',
-                },
-                {
-                  id: 3,
-                  name: 'SortiQ',
-                  description: 'Native Content-Aware Desktop File Organizer built with Tauri v2 and Rust',
-                  language: 'Rust / TS',
-                  stargazers_count: 4,
-                  html_url: 'https://github.com/hernataramadhan79-bit/SortiQ',
-                },
-              ]).slice(0, 3).map((repo: any) => (
-                <a
-                  key={repo.id}
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block p-3.5 rounded-xl bg-white/[0.02] border border-white/10 hover:border-cyan-400/30 hover:bg-white/[0.04] transition-colors duration-200 group"
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">
-                      {repo.name}
-                    </h4>
-                    <span className="text-[10px] text-[#8e9192] font-mono flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
-                      <span>★</span> {repo.stargazers_count || 0}
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#8e9192] line-clamp-1 mb-2 font-normal leading-relaxed">
-                    {repo.description || 'Full-stack repository architecture.'}
-                  </p>
-                  <div className="flex items-center justify-between pt-1">
-                    <span className="tech-badge text-[10px] py-0.5 px-2">
-                      {repo.language || 'TypeScript'}
-                    </span>
-                    <span className="text-xs text-cyan-400 font-mono flex items-center gap-1 group-hover:translate-x-0.5 transition-transform duration-200">
-                      <span>Open Repo</span>
-                      <ExternalLink size={11} />
-                    </span>
-                  </div>
-                </a>
-              ))}
+              {loading && (!githubData?.topRepos || githubData.topRepos.length === 0) ? (
+                <div className="space-y-3">
+                  <div className="skeleton-box h-20 w-full rounded-xl" />
+                  <div className="skeleton-box h-20 w-full rounded-xl" />
+                  <div className="skeleton-box h-20 w-full rounded-xl" />
+                </div>
+              ) : (githubData?.topRepos || []).length === 0 ? (
+                <div className="py-8 text-center text-xs text-[#8e9192] font-mono">
+                  No public repositories found.
+                </div>
+              ) : (
+                (githubData.topRepos as any[]).slice(0, 3).map((repo: any) => (
+                  <a
+                    key={repo.id}
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block p-3.5 rounded-xl bg-white/[0.02] border border-white/10 hover:border-cyan-400/30 hover:bg-white/[0.04] transition-colors duration-200 group"
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">
+                        {repo.name}
+                      </h4>
+                      <span className="text-[10px] text-[#8e9192] font-mono flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                        <span>★</span> {repo.stargazers_count || 0}
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#8e9192] line-clamp-1 mb-2 font-normal leading-relaxed">
+                      {repo.description || 'Full-stack repository architecture.'}
+                    </p>
+                    <div className="flex items-center justify-between pt-1">
+                      <span className="tech-badge text-[10px] py-0.5 px-2">
+                        {repo.language || 'TypeScript'}
+                      </span>
+                      <span className="text-xs text-cyan-400 font-mono flex items-center gap-1 group-hover:translate-x-0.5 transition-transform duration-200">
+                        <span>Open Repo</span>
+                        <ExternalLink size={11} />
+                      </span>
+                    </div>
+                  </a>
+                ))
+              )}
             </div>
           </div>
 
           <div className="mt-4 pt-3.5 border-t border-white/10 flex items-center justify-between text-xs text-[#8e9192] font-mono">
-            <span>Continuous Deployment:</span>
-            <span className="text-cyan-400 font-semibold">Turbopack &amp; Vercel Edge</span>
+            <span>Verified GitHub Sync:</span>
+            <span className="text-cyan-400 font-semibold">Live via REST &amp; GraphQL</span>
           </div>
         </div>
       </motion.div>

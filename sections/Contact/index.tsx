@@ -96,7 +96,7 @@ export default function Contact() {
       {/* Section Header */}
       <div className="mb-12">
         <span className="text-xs font-bold font-mono text-cyan-400 uppercase tracking-[0.25em] mb-2 block">
-          07 / CONTACT &amp; CHANNELS
+          06 / CONTACT &amp; CHANNELS
         </span>
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
           Get In Touch &amp; Collaborate

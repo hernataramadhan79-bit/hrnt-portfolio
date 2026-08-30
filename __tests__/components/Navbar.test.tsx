@@ -17,18 +17,18 @@ describe('Navbar Component', () => {
     expect(screen.getByLabelText('Go to dashboard')).toBeInTheDocument();
   });
 
-  it('renders all desktop navigation items and hire me button', () => {
+  it('renders all desktop navigation items and quick action forum button', () => {
     render(<Navbar activeTab="dashboard" setActiveTab={mockSetActiveTab} />);
     expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument();
     
-    // Check navigation buttons
-    const expectedItems = ['Dashboard', 'Work', 'Stack', 'About', 'Stats', 'Awards', 'Forum', 'Contact'];
+    // Check navigation buttons (Forum is now the dedicated CTA button)
+    const expectedItems = ['Dashboard', 'Work', 'Stack', 'About', 'Stats', 'Awards', 'Contact'];
     expectedItems.forEach((label) => {
       expect(screen.getAllByText(label).length).toBeGreaterThan(0);
     });
 
-    // Check Quick Action Hire Me button
-    expect(screen.getByText('Hire Me')).toBeInTheDocument();
+    // Check Quick Action Forum button
+    expect(screen.getAllByText('Forum').length).toBeGreaterThan(0);
   });
 
   it('handles navigation item click and triggers setActiveTab', () => {
@@ -38,6 +38,15 @@ describe('Navbar Component', () => {
     fireEvent.click(workButton);
 
     expect(mockSetActiveTab).toHaveBeenCalledWith('work');
+  });
+
+  it('handles quick action forum button click and triggers setActiveTab with forum', () => {
+    render(<Navbar activeTab="dashboard" setActiveTab={mockSetActiveTab} />);
+
+    const forumButtons = screen.getAllByRole('button', { name: /forum/i });
+    fireEvent.click(forumButtons[0]);
+
+    expect(mockSetActiveTab).toHaveBeenCalledWith('forum');
   });
 
   it('toggles mobile navigation drawer open and closes with toggle button', async () => {

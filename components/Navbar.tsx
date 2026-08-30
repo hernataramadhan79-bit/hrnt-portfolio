@@ -29,7 +29,6 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'about', label: 'About', icon: User },
   { id: 'stats', label: 'Stats', icon: Activity },
   { id: 'awards', label: 'Awards', icon: Award },
-  { id: 'forum', label: 'Forum', icon: MessageSquare },
   { id: 'contact', label: 'Contact', icon: Mail },
 ];
 
@@ -116,14 +115,18 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             })}
           </ul>
 
-          {/* Quick Action Button & Mobile Toggle */}
+          {/* Quick Action Forum Button & Mobile Toggle */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => handleSelectTab('contact')}
-              className="hidden sm:inline-flex items-center gap-1.5 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-4 py-1.5 rounded-full hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.35)] transition-all hover:scale-[1.03] active:scale-[0.97]"
+              onClick={() => handleSelectTab('forum')}
+              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-full transition-all hover:scale-[1.03] active:scale-[0.97] ${
+                activeTab === 'forum'
+                  ? 'bg-gradient-to-r from-cyan-400 to-sky-400 text-black shadow-[0_0_20px_rgba(34,211,238,0.5)] font-black'
+                  : 'bg-gradient-to-r from-cyan-400/90 to-sky-400/90 text-black hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.35)]'
+              }`}
             >
-              <span>Hire Me</span>
-              <ArrowUpRight size={13} strokeWidth={2.5} />
+              <MessageSquare size={13} strokeWidth={2.2} />
+              <span>Forum</span>
             </button>
 
             <button
@@ -171,11 +174,15 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
               <span className="text-xs text-[#8e9192] font-mono">HRNT Portfolio</span>
               <button
-                onClick={() => handleSelectTab('contact')}
-                className="inline-flex items-center gap-1 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-4 py-2 rounded-full hover:brightness-110"
+                onClick={() => handleSelectTab('forum')}
+                className={`inline-flex items-center gap-1.5 text-xs font-bold px-4 py-2 rounded-full transition-all ${
+                  activeTab === 'forum'
+                    ? 'bg-cyan-400 text-black font-black shadow-[0_0_15px_rgba(34,211,238,0.5)]'
+                    : 'bg-gradient-to-r from-cyan-400 to-sky-400 text-black hover:brightness-110'
+                }`}
               >
-                <span>Hire Me</span>
-                <ArrowUpRight size={13} />
+                <MessageSquare size={13} strokeWidth={2.2} />
+                <span>Forum</span>
               </button>
             </div>
           </motion.div>

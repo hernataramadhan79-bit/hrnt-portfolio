@@ -34,27 +34,18 @@ export async function GET(request: Request) {
 
     const DEFAULT_GITHUB_FALLBACK = {
         profile: {
-            repos: 18,
-            followers: 12,
-            totalContributions: 384,
-            stars: 15,
+            repos: 19,
+            followers: 2,
+            totalContributions: 307,
+            stars: 0,
         },
         topRepos: [
-            { id: 1, name: 'myboard-lite', html_url: 'https://github.com/hernataramadhan79-bit', description: 'Cloud POS & Inventory System', language: 'TypeScript', stargazers_count: 5, forks_count: 1 },
-            { id: 2, name: 'sakuku-wallet', html_url: 'https://github.com/hernataramadhan79-bit', description: 'Personal Finance & Expense Tracker', language: 'TypeScript', stargazers_count: 4, forks_count: 1 },
-            { id: 3, name: 'oryon-ai', html_url: 'https://github.com/hernataramadhan79-bit', description: 'Contextual AI Assistant with Gemini', language: 'TypeScript', stargazers_count: 6, forks_count: 2 },
+            { id: 1, name: 'hrnt-portfolio', html_url: 'https://github.com/hernataramadhan79-bit/hrnt-portfolio', description: 'Personal Engineering Portfolio & Interactive Dashboard', language: 'TypeScript', stargazers_count: 0, forks_count: 0 },
+            { id: 2, name: 'SakukuWebApp', html_url: 'https://github.com/hernataramadhan79-bit/SakukuWebApp', description: 'Personal Finance & Expense Tracker Web Application', language: 'TypeScript', stargazers_count: 0, forks_count: 0 },
+            { id: 3, name: 'SortiQ', html_url: 'https://github.com/hernataramadhan79-bit/SortiQ', description: 'Native Content-Aware Desktop File Organizer', language: 'Rust', stargazers_count: 0, forks_count: 0 },
         ],
         contributions: []
     };
-
-    if (!token) {
-        return NextResponse.json(DEFAULT_GITHUB_FALLBACK, {
-            headers: {
-                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
-                'X-Fallback': 'true'
-            }
-        });
-    }
 
     try {
         const controller = new AbortController();

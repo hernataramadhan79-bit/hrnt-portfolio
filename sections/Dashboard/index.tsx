@@ -23,7 +23,12 @@ import {
 } from 'lucide-react';
 import { projects, innerSkills, outerSkills } from '../../constants';
 import { Project } from '../../types';
-import { fetchGithubData, fetchWakaTimeData } from '../../lib/clientDataCache';
+import {
+  fetchGithubData,
+  fetchWakaTimeData,
+  getStoredGithubData,
+  getStoredWakaTimeData,
+} from '../../lib/clientDataCache';
 
 const coreStack = [
   { name: 'React 19', role: 'UI Architecture', icon: '/icons/react.svg' },
@@ -48,31 +53,50 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [isPhotoHovered, setIsPhotoHovered] = useState(false);
   const [telemetry, setTelemetry] = useState({
-    repos: 18,
-    stars: 15,
-    wakatimeHours: '248h+',
+    repos: 19,
+    stars: 0,
+    wakatimeHours: '71h+',
   });
 
   const showcaseProjects = projects.slice(0, 3);
   const currentProject = showcaseProjects[activeProjectIndex] || projects[0];
 
   useEffect(() => {
+    // 1. Hidrasi sinkron instan dari client cache pada browser mount (0ms)
+    const ghCached = getStoredGithubData();
+    const wkCached = getStoredWakaTimeData();
+    if (ghCached || wkCached) {
+      setTelemetry({
+        repos: ghCached?.profile?.repos ?? 19,
+        stars: ghCached?.profile?.stars ?? 0,
+        wakatimeHours: wkCached?.totalTime ? `${wkCached.totalTime.split(' ')[0]}h+` : '71h+',
+      });
+    }
+
+    // 2. Sinkronisasi latar belakang
+    let isMounted = true;
     async function loadStats() {
       try {
         const [gh, wk] = await Promise.all([
           fetchGithubData().catch(() => null),
           fetchWakaTimeData().catch(() => null),
         ]);
-        setTelemetry({
-          repos: gh?.profile?.repos || 18,
-          stars: gh?.profile?.stars || 15,
-          wakatimeHours: wk?.totalTime || '248h+',
-        });
+        if (!isMounted) return;
+        if (gh || wk) {
+          setTelemetry({
+            repos: gh?.profile?.repos || 18,
+            stars: gh?.profile?.stars || 15,
+            wakatimeHours: wk?.totalTime || '248h+',
+          });
+        }
       } catch (err) {
         console.warn('Dashboard telemetry fetch warning:', err);
       }
     }
     loadStats();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleQuickSubmit = (e: React.FormEvent) => {
@@ -464,12 +488,16 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
                 <div className="text-[10px] text-[#8e9192] font-mono">Web, 3D & Native</div>
               </div>
               <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 hover:border-cyan-400/30 transition-colors">
-                <div className="text-2xl font-black text-cyan-400 font-mono">{telemetry.wakatimeHours || '248h+'}</div>
+                <div className="text-2xl font-black text-cyan-400 font-mono" suppressHydrationWarning>
+                  {telemetry.wakatimeHours || '248h+'}
+                </div>
                 <div className="text-xs font-bold text-[#e3e1e9] mt-0.5">Logged Focus</div>
                 <div className="text-[10px] text-[#8e9192] font-mono">WakaTime Sync</div>
               </div>
               <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 hover:border-cyan-400/30 transition-colors">
-                <div className="text-2xl font-black text-white font-mono">{telemetry.repos} / {telemetry.stars}★</div>
+                <div className="text-2xl font-black text-white font-mono" suppressHydrationWarning>
+                  {telemetry.repos} / {telemetry.stars}★
+                </div>
                 <div className="text-xs font-bold text-[#e3e1e9] mt-0.5">GitHub Repos</div>
                 <div className="text-[10px] text-[#8e9192] font-mono">Verified Commits</div>
               </div>

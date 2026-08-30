@@ -34,15 +34,14 @@ export async function GET(request: Request) {
     if (!apiKey) {
         return NextResponse.json({
             languages: [
-                { name: 'TypeScript', percent: 46.5, color: '#3178C6' },
-                { name: 'React', percent: 26.2, color: '#61DAFB' },
-                { name: 'Next.js', percent: 15.8, color: '#FFFFFF' },
-                { name: 'Tailwind CSS', percent: 11.5, color: '#38B2AC' }
+                { name: 'TypeScript', percent: 60.5, color: '#3178C6' },
+                { name: 'Git Config', percent: 10.6, color: '#F05032' },
+                { name: 'Other', percent: 28.9, color: '#94a3b8' }
             ],
-            totalTime: '248h 30m',
-            dailyAverage: '3h 45m',
-            bestDay: '7h 12m on Oct 14',
-            optimizationFactor: '+18%',
+            totalTime: '71h 24m',
+            dailyAverage: '3h 28m',
+            bestDay: 'Tracked via WakaTime',
+            optimizationFactor: '+0%',
             isLoaded: true
         }, {
             headers: {
