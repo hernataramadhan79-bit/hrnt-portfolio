@@ -55,11 +55,18 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
   const [telemetry, setTelemetry] = useState({
     repos: 19,
     stars: 0,
+    contributions: 307,
     wakatimeHours: '71h+',
   });
 
   const showcaseProjects = projects.slice(0, 3);
   const currentProject = showcaseProjects[activeProjectIndex] || projects[0];
+
+  const parseHours = (timeStr?: string) => {
+    if (!timeStr) return '71h+';
+    const match = timeStr.match(/\d+/);
+    return match ? `${match[0]}h+` : '71h+';
+  };
 
   useEffect(() => {
     // 1. Hidrasi sinkron instan dari client cache pada browser mount (0ms)
@@ -69,7 +76,8 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
       setTelemetry({
         repos: ghCached?.profile?.repos ?? 19,
         stars: ghCached?.profile?.stars ?? 0,
-        wakatimeHours: wkCached?.totalTime ? `${wkCached.totalTime.split(' ')[0]}h+` : '71h+',
+        contributions: ghCached?.profile?.totalContributions ?? 307,
+        wakatimeHours: parseHours(wkCached?.totalTime),
       });
     }
 
@@ -86,7 +94,8 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
           setTelemetry({
             repos: gh?.profile?.repos ?? 19,
             stars: gh?.profile?.stars ?? 0,
-            wakatimeHours: wk?.totalTime ? `${wk?.totalTime.split(' ')[0]}h+` : '71h+',
+            contributions: gh?.profile?.totalContributions ?? 307,
+            wakatimeHours: parseHours(wk?.totalTime),
           });
         }
       } catch (err) {
@@ -505,9 +514,11 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
                 <div className="text-[10px] text-[#8e9192] font-mono">Verified Commits</div>
               </div>
               <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 hover:border-cyan-400/30 transition-colors">
-                <div className="text-2xl font-black text-emerald-400 font-mono">100%</div>
-                <div className="text-xs font-bold text-[#e3e1e9] mt-0.5">CSAT Reliability</div>
-                <div className="text-[10px] text-[#8e9192] font-mono">Milestone Delivery</div>
+                <div className="text-2xl font-black text-emerald-400 font-mono" suppressHydrationWarning>
+                  {telemetry.contributions}
+                </div>
+                <div className="text-xs font-bold text-[#e3e1e9] mt-0.5">Contributions</div>
+                <div className="text-[10px] text-[#8e9192] font-mono">1-Year Activity</div>
               </div>
             </div>
           </div>
