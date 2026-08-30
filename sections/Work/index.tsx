@@ -84,7 +84,7 @@ export default function Work({ onSelectProject }: WorkProps) {
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0d0e13] via-transparent to-transparent opacity-80" />
@@ -97,7 +97,7 @@ export default function Work({ onSelectProject }: WorkProps) {
                 </div>
 
                 {/* Inspect Case Study Floating Indicator */}
-                <div className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/40 flex items-center justify-center text-cyan-300 group-hover:scale-105 transition-transform duration-200">
+                <div className="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-cyan-500/20 backdrop-blur-md border border-cyan-400/40 flex items-center justify-center text-cyan-300 group-hover:bg-cyan-500/40 group-hover:border-cyan-400/80 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all duration-200">
                   <ArrowUpRight size={16} />
                 </div>
               </div>

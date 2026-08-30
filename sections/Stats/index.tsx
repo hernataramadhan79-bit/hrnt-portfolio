@@ -458,7 +458,7 @@ export default function Stats() {
         <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-cyan-400/30 transition-colors duration-200 group">
           <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono uppercase tracking-wider mb-2">
             <span>Contributions</span>
-            <GitCommit size={16} className="text-cyan-400 group-hover:scale-110 transition-transform duration-200" />
+            <GitCommit size={16} className="text-cyan-400 group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.7)] transition-all duration-200" />
           </div>
           <div>
             <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
@@ -475,7 +475,7 @@ export default function Stats() {
         <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-cyan-400/30 transition-colors duration-200 group">
           <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono uppercase tracking-wider mb-2">
             <span>Logged Coding Time</span>
-            <Clock size={16} className="text-cyan-400 group-hover:scale-110 transition-transform duration-200" />
+            <Clock size={16} className="text-cyan-400 group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.7)] transition-all duration-200" />
           </div>
           <div>
             <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
@@ -492,7 +492,7 @@ export default function Stats() {
         <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-sky-400/30 transition-colors duration-200 group">
           <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono uppercase tracking-wider mb-2">
             <span>Daily Average</span>
-            <Activity size={16} className="text-sky-400 group-hover:scale-110 transition-transform duration-200" />
+            <Activity size={16} className="text-sky-400 group-hover:text-sky-300 group-hover:drop-shadow-[0_0_8px_rgba(56,189,248,0.7)] transition-all duration-200" />
           </div>
           <div>
             <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
@@ -509,7 +509,7 @@ export default function Stats() {
         <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-cyan-400/30 transition-colors duration-200 group">
           <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono uppercase tracking-wider mb-2">
             <span>Public Repos &amp; Stars</span>
-            <TrendingUp size={16} className="text-cyan-400 group-hover:scale-110 transition-transform duration-200" />
+            <TrendingUp size={16} className="text-cyan-400 group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.7)] transition-all duration-200" />
           </div>
           <div>
             <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>

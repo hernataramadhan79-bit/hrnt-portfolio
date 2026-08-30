@@ -84,9 +84,9 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
         if (!isMounted) return;
         if (gh || wk) {
           setTelemetry({
-            repos: gh?.profile?.repos || 18,
-            stars: gh?.profile?.stars || 15,
-            wakatimeHours: wk?.totalTime || '248h+',
+            repos: gh?.profile?.repos ?? 19,
+            stars: gh?.profile?.stars ?? 0,
+            wakatimeHours: wk?.totalTime ? `${wk?.totalTime.split(' ')[0]}h+` : '71h+',
           });
         }
       } catch (err) {
@@ -128,15 +128,16 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
             onMouseEnter={() => setIsPhotoHovered(true)}
             onMouseLeave={() => setIsPhotoHovered(false)}
             animate={{
-              scale: isPhotoHovered ? 1.025 : 1,
-              opacity: isPhotoHovered ? 1 : 0.32,
-              zIndex: isPhotoHovered ? 25 : 0,
+              scale: isPhotoHovered ? 1.035 : 1,
+              y: isPhotoHovered ? -6 : 0,
+              opacity: isPhotoHovered ? 1 : 0.42,
+              zIndex: isPhotoHovered ? 20 : 0,
             }}
             transition={{
-              duration: 0.35,
+              duration: 0.38,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="absolute -right-2 sm:-right-4 md:-right-6 lg:-right-8 -bottom-2 sm:-bottom-3 lg:-bottom-5 select-none overflow-hidden h-[400px] sm:h-[480px] md:h-[540px] lg:h-[600px] aspect-[810/1015] flex items-end justify-end cursor-pointer pointer-events-auto"
+            className="absolute -right-2 sm:-right-4 md:-right-6 lg:-right-8 -bottom-2 sm:-bottom-3 lg:-bottom-5 select-none overflow-hidden h-[400px] sm:h-[480px] md:h-[540px] lg:h-[600px] aspect-[810/1015] flex items-end justify-end cursor-pointer"
             title="Hernata Ramadhan — Full-Stack Engineer"
           >
             <div className="relative w-full h-full">
@@ -144,14 +145,16 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
                 src="/profile-cutout.webp"
                 alt="Hernata Ramadhan"
                 fill
-                className="object-contain object-right-bottom transition-all duration-500 pointer-events-none filter contrast-105"
+                className={`object-contain object-right-bottom pointer-events-none filter contrast-105 transition-all duration-300 ${
+                  isPhotoHovered ? 'drop-shadow-[0_10px_30px_rgba(34,211,238,0.25)]' : ''
+                }`}
                 style={{
                   objectPosition: 'right bottom',
                   maskImage: isPhotoHovered
-                    ? 'linear-gradient(to left, black 78%, transparent 100%), linear-gradient(to top, black 90%, transparent 100%)'
+                    ? 'linear-gradient(to left, black 82%, transparent 100%), linear-gradient(to top, black 90%, transparent 100%)'
                     : 'linear-gradient(to left, black 70%, transparent 100%), linear-gradient(to top, black 85%, transparent 100%)',
                   WebkitMaskImage: isPhotoHovered
-                    ? 'linear-gradient(to left, black 78%, transparent 100%), linear-gradient(to top, black 90%, transparent 100%)'
+                    ? 'linear-gradient(to left, black 82%, transparent 100%), linear-gradient(to top, black 90%, transparent 100%)'
                     : 'linear-gradient(to left, black 70%, transparent 100%), linear-gradient(to top, black 85%, transparent 100%)',
                   maskComposite: 'intersect',
                   WebkitMaskComposite: 'destination-in',
@@ -162,7 +165,7 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
           </motion.div>
 
           <div className="relative z-10 flex flex-col justify-between h-full flex-grow pointer-events-none">
-            <div className={`pointer-events-auto transition-opacity duration-300 ease-[0.22,1,0.36,1] ${isPhotoHovered ? 'opacity-35' : 'opacity-100'}`}>
+            <div className={`pointer-events-auto transition-opacity duration-300 ease-[0.22,1,0.36,1] ${isPhotoHovered ? 'opacity-75' : 'opacity-100'}`}>
               {/* Status Badges */}
               <div className="flex flex-wrap items-center gap-2 mb-6">
                 <div className="inline-flex items-center gap-2 glass-badge rounded-full px-3.5 py-1.5 border border-cyan-500/30 bg-cyan-500/10">
@@ -227,11 +230,11 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
               </div>
             </div>
 
-            {/* Quick CTA Actions (z-30 so always clickable) */}
-            <div className={`pt-8 flex flex-wrap items-center gap-3 relative z-30 pointer-events-auto transition-opacity duration-300 ease-[0.22,1,0.36,1] ${isPhotoHovered ? 'opacity-50' : 'opacity-100'}`}>
+            {/* Quick CTA Actions */}
+            <div className="pt-8 flex flex-wrap items-center gap-3 relative z-30 pointer-events-auto">
               <button
                 onClick={() => onNavigate('work')}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-5 py-3 rounded-full hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-transform hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-5 py-3 rounded-full hover:brightness-110 hover:-translate-y-0.5 shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all duration-200 active:translate-y-0 active:scale-[0.98]"
               >
                 <span>Explore Selected Work</span>
                 <ArrowRight size={14} />
@@ -239,7 +242,7 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
               <a
                 href="/Hernata CV.pdf"
                 download
-                className="inline-flex items-center gap-2 glass-badge text-white text-xs font-semibold px-4 py-3 rounded-full hover:bg-white/10 hover:border-cyan-400/40 transition-colors"
+                className="inline-flex items-center gap-2 glass-badge text-white text-xs font-semibold px-4 py-3 rounded-full hover:bg-white/10 hover:border-cyan-400/40 hover:-translate-y-0.5 transition-all duration-200 active:translate-y-0 active:scale-[0.98]"
               >
                 <Download size={14} className="text-cyan-400" />
                 <span>Curriculum Vitae</span>
@@ -306,7 +309,7 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
                 </div>
 
                 {/* View Details Floating Pill */}
-                <div className="absolute bottom-3 right-3 flex items-center gap-1 text-[11px] font-mono font-medium text-cyan-300 bg-cyan-500/20 px-3 py-1.5 rounded-full border border-cyan-400/40 backdrop-blur-md group-hover:bg-cyan-500/30 group-hover:scale-105 transition-all shadow-[0_0_12px_rgba(34,211,238,0.2)]">
+                <div className="absolute bottom-3 right-3 flex items-center gap-1 text-[11px] font-mono font-medium text-cyan-300 bg-cyan-500/20 px-3 py-1.5 rounded-full border border-cyan-400/40 backdrop-blur-md group-hover:bg-cyan-500/30 group-hover:border-cyan-400/70 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all duration-200">
                   <span>Explore Case Study</span>
                   <ArrowUpRight size={13} />
                 </div>
@@ -622,23 +625,23 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
                 href="https://github.com/hernataramadhan79-bit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full glass-badge flex items-center justify-center text-[#c4c7c8] hover:text-cyan-300 hover:border-cyan-400/40 hover:bg-cyan-500/10 transition-colors duration-200 hover:scale-105"
+                className="w-10 h-10 rounded-full glass-badge flex items-center justify-center text-[#c4c7c8] hover:text-cyan-300 hover:border-cyan-400/50 hover:bg-cyan-500/10 hover:-translate-y-0.5 hover:shadow-[0_0_12px_rgba(34,211,238,0.25)] transition-all duration-200"
                 aria-label="GitHub"
               >
                 <Github size={18} />
               </a>
               <a
-                href="https://www.linkedin.com/in/hernata-ramadhan-176b68338"
+                href="https://www.linkedin.com/in/hernata-ramadhan-614725350/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full glass-badge flex items-center justify-center text-[#c4c7c8] hover:text-cyan-300 hover:border-cyan-400/40 hover:bg-cyan-500/10 transition-colors duration-200 hover:scale-105"
+                className="w-10 h-10 rounded-full glass-badge flex items-center justify-center text-[#c4c7c8] hover:text-cyan-300 hover:border-cyan-400/50 hover:bg-cyan-500/10 hover:-translate-y-0.5 hover:shadow-[0_0_12px_rgba(34,211,238,0.25)] transition-all duration-200"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={18} />
               </a>
               <a
                 href="mailto:hernataramadhan79@gmail.com"
-                className="w-10 h-10 rounded-full glass-badge flex items-center justify-center text-[#c4c7c8] hover:text-cyan-300 hover:border-cyan-400/40 hover:bg-cyan-500/10 transition-colors duration-200 hover:scale-105"
+                className="w-10 h-10 rounded-full glass-badge flex items-center justify-center text-[#c4c7c8] hover:text-cyan-300 hover:border-cyan-400/50 hover:bg-cyan-500/10 hover:-translate-y-0.5 hover:shadow-[0_0_12px_rgba(34,211,238,0.25)] transition-all duration-200"
                 aria-label="Email"
               >
                 <Mail size={18} />
@@ -647,7 +650,7 @@ export default function Dashboard({ onSelectProject, onNavigate }: DashboardProp
                 href="https://www.instagram.com/heropakentanq15_/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full glass-badge flex items-center justify-center text-[#c4c7c8] hover:text-cyan-300 hover:border-cyan-400/40 hover:bg-cyan-500/10 transition-colors duration-200 hover:scale-105"
+                className="w-10 h-10 rounded-full glass-badge flex items-center justify-center text-[#c4c7c8] hover:text-cyan-300 hover:border-cyan-400/50 hover:bg-cyan-500/10 hover:-translate-y-0.5 hover:shadow-[0_0_12px_rgba(34,211,238,0.25)] transition-all duration-200"
                 aria-label="Instagram"
               >
                 <Instagram size={18} />

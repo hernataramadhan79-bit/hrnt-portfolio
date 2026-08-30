@@ -119,10 +119,10 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => handleSelectTab('forum')}
-              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-full transition-all hover:scale-[1.03] active:scale-[0.97] ${
+              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-full transition-all duration-200 hover:brightness-110 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] ${
                 activeTab === 'forum'
                   ? 'bg-gradient-to-r from-cyan-400 to-sky-400 text-black shadow-[0_0_20px_rgba(34,211,238,0.5)] font-black'
-                  : 'bg-gradient-to-r from-cyan-400/90 to-sky-400/90 text-black hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.35)]'
+                  : 'bg-gradient-to-r from-cyan-400/90 to-sky-400/90 text-black shadow-[0_0_15px_rgba(34,211,238,0.35)]'
               }`}
             >
               <MessageSquare size={13} strokeWidth={2.2} />

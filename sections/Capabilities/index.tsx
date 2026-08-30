@@ -4,24 +4,20 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ShieldCheck,
   Layers,
   Database,
   Cpu,
   CheckCircle2,
   Activity,
   Globe,
-  Lock,
   Server,
   Zap,
-  ArrowRight,
-  Code2,
   Terminal,
   Check,
 } from 'lucide-react';
 
 interface ArchitectureTier {
-  id: 'edge' | 'security' | 'core' | 'data';
+  id: 'web' | 'desktop' | 'backend' | 'data';
   number: string;
   name: string;
   shortLabel: string;
@@ -37,99 +33,99 @@ interface ArchitectureTier {
 
 const ARCHITECTURE_TIERS: ArchitectureTier[] = [
   {
-    id: 'edge',
+    id: 'web',
     number: '01',
-    name: 'Client Edge & Anycast Ingestion',
-    shortLabel: 'Client Edge',
-    category: 'Network & Ingestion Layer',
-    status: 'Operational • < 35ms TTFB',
+    name: 'Modern Web & Reactive UI Systems',
+    shortLabel: 'Web & UI',
+    category: 'Web Application Layer',
+    status: 'Production • React 19 RSC',
     description:
-      'High-performance global request distribution via Cloudflare Anycast edge servers. Implements HTTP/3 over QUIC, TLS 1.3 encryption, and automated Brotli payload compression.',
+      'Engineering responsive, high-performance web applications using React 19, Next.js App Router, TypeScript, and Tailwind CSS. Combines React Server Components for zero-bundle server rendering with lightweight interactive client islands.',
     role:
-      'Terminates SSL/TLS at the closest global point of presence, mitigating volumetric DDoS attacks and caching static assets with zero third-party CDN reliance.',
-    protocols: ['HTTP/3 (QUIC)', 'TLS 1.3', 'Anycast DNS', 'Brotli Caching', 'Edge Middleware'],
+      'Provides declarative component architecture, fluid 60 FPS spring physics animations, and canvas-based 3D isometric simulation rendering without layout shifts.',
+    protocols: ['React 19 RSC', 'Server Actions', 'Zustand + Immer', 'Three.js / R3F', 'Framer Motion'],
     metrics: [
-      { label: 'Edge TTFB', value: '< 35ms', detail: 'Global mean response time' },
-      { label: 'Uptime SLA', value: '99.98%', detail: 'High-availability infrastructure' },
-      { label: 'Asset Payload', value: '-65%', detail: 'Optimized local WebP/SVG encoding' },
+      { label: 'Rendering Pipeline', value: 'Hybrid RSC', detail: 'Zero-JS static server components' },
+      { label: 'Client State', value: 'Zustand', detail: 'Predictable immutable store' },
+      { label: '3D Simulation', value: '60 FPS', detail: 'Three.js canvas in BangunCity' },
     ],
-    technologies: ['Next.js Edge', 'Cloudflare', 'Vercel Edge', 'DNSSEC'],
+    technologies: ['React 19', 'Next.js 16', 'TypeScript', 'Tailwind CSS', 'Three.js', 'Framer Motion'],
     keyImplementations: [
-      'Anycast routing ensuring single-hop global request ingestion',
-      'Dynamic header normalization before core server dispatch',
-      'Automated Brotli compression reducing payload transfer latency',
+      'Interactive 3D isometric urban simulation with 128x128 expandable grid (BangunCity)',
+      'Accessibility-focused responsive legal consultation portal with dark/light themes (Huktif)',
+      'Client-side personal expense manager with instant chart visualization (Sakuku)',
     ],
   },
   {
-    id: 'security',
+    id: 'desktop',
     number: '02',
-    name: 'Defense-in-Depth Security Shield',
-    shortLabel: 'Security Shield',
-    category: 'Zero-Trust Defense Layer',
-    status: 'Enforced • A+ Rating',
+    name: 'Native Desktop & Systems Engineering',
+    shortLabel: 'Desktop & Rust',
+    category: 'Native Systems Layer',
+    status: 'Compiled • Tauri v2 & Rust',
     description:
-      'Multi-layered defensive architecture protecting public endpoints from automated abuse, malicious injections, and cross-site scripting vulnerabilities.',
+      'Building lightweight, memory-efficient cross-platform desktop applications using Tauri v2 with a native Rust backend. Bypasses bulky Chromium runtimes for minimal RAM footprint and direct operating system execution.',
     role:
-      'Executes in-memory sliding-window token bucket rate limiting (60 req/min/IP), strict Content Security Policy (CSP Level 3), and bidirectional input sanitization.',
-    protocols: ['CSP Level 3', 'Token Bucket (60/min)', 'DOMPurify XSS Filter', 'HSTS Preload', 'Strict CORS'],
+      'Performs true binary header (magic bytes) stream inspection, atomic transaction rollback logging, and rapid file system I/O with native memory safety.',
+    protocols: ['Tauri v2 IPC', 'Binary Magic Bytes', 'Atomic Transactions', 'Rust Memory Safety', 'YAML Config'],
     metrics: [
-      { label: 'Security Grade', value: 'A+ Rating', detail: 'OWASP Top 10 mitigation verified' },
-      { label: 'Rate Limiter', value: '60 req/min', detail: 'In-memory sliding-window bucket' },
-      { label: 'Type Integrity', value: '100% Strict', detail: 'Zod runtime schema validation' },
+      { label: 'Memory Footprint', value: '< 30 MB', detail: 'Ultra-lean native execution' },
+      { label: 'Binary Size', value: '< 15 MB', detail: 'Compact cross-platform installer' },
+      { label: 'File Inspection', value: 'Magic Bytes', detail: 'Binary header vs extension heuristics' },
     ],
-    technologies: ['DOMPurify', 'Zod', 'Security Headers', 'RateLimiter'],
+    technologies: ['Tauri v2', 'Rust', 'TypeScript', 'Tailwind CSS', 'Infer Crate'],
     keyImplementations: [
-      'In-memory IP token bucket preventing brute-force attacks and API scraping',
-      'Strict nonce-based CSP blocking unauthorized external script execution',
-      'Recursive input sanitization neutralizing malicious DOM injections',
+      'Content-aware desktop file categorization based on binary signatures (SortiQ)',
+      'Atomic rollback transaction log guaranteeing 100% non-destructive file operations',
+      'High-speed directory scanner processing thousands of files per second',
     ],
   },
   {
-    id: 'core',
+    id: 'backend',
     number: '03',
-    name: 'Application Core & Hybrid Rendering',
-    shortLabel: 'App Core',
-    category: 'Execution & Rendering Tier',
-    status: 'Optimized • React 19 RSC',
+    name: 'Backend APIs & Streaming AI Systems',
+    shortLabel: 'Backend & AI',
+    category: 'Server & Inference Layer',
+    status: 'Operational • Node & Streaming AI',
     description:
-      'Modern full-stack application engine built on Next.js 16 App Router. Seamlessly unites React 19 Server Components for zero-bundle server rendering with performant client islands.',
+      'Architecting modular RESTful microservices and integrating Large Language Model (LLM) inference with streaming retrieval-augmented generation (RAG-Lite).',
     role:
-      'Compiles dynamic view transitions, orchestrates immutable client state with Zustand, and delivers instant navigations via Incremental Static Regeneration (ISR).',
-    protocols: ['React 19 RSC', 'Turbopack Engine', 'Hybrid SSG/ISR', 'Zustand State', 'Tailwind Tokens'],
+      'Orchestrates asynchronous HTTP request lifecycles, streaming inference endpoints with Groq Cloud LPU, and strict runtime type verification with Zod schemas.',
+    protocols: ['RESTful API', 'Server-Sent Events (SSE)', 'RAG-Lite Retrieval', 'Zod Contracts', 'Async Runtime'],
     metrics: [
-      { label: 'LCP Score', value: '< 0.8s', detail: 'Largest Contentful Paint speed' },
-      { label: 'CLS Stability', value: '0.00', detail: 'Zero cumulative layout shift' },
-      { label: 'Hydration Cost', value: '0 kB Static', detail: 'Zero JavaScript for static HTML' },
+      { label: 'Inference Speed', value: '< 400ms', detail: 'Sub-second streaming LLM responses' },
+      { label: 'Knowledge Base', value: 'RAG-Lite', detail: 'Verified Indonesian statutory law index' },
+      { label: 'Schema Safety', value: '100% Strict', detail: 'Zod end-to-end payload validation' },
     ],
-    technologies: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    technologies: ['Node.js', 'Express.js', 'Next.js API', 'Groq LLaMA 3.3', 'Zod'],
     keyImplementations: [
-      'React Server Components eliminating client JS overhead for content blocks',
-      'Turbopack HMR and tree-shaking for minimal production bundle footprint',
-      'Spring-damped physics animations for fluid 60 FPS user experience',
+      'Sub-400ms streaming legal advisory assistant with verified statute citations (Huktif)',
+      'RESTful transaction endpoints for POS inventory workflows and auth handling',
+      'Modular service architecture decoupling routing, validation, and domain rules',
     ],
   },
   {
     id: 'data',
     number: '04',
-    name: 'Persistence & Event Streaming',
-    shortLabel: 'Persistence',
-    category: 'Data Integrity & Storage Tier',
-    status: 'Synchronized • Real-Time',
+    name: 'Persistence & Real-Time Data Sync',
+    shortLabel: 'Data & Sync',
+    category: 'Data & Storage Layer',
+    status: 'Synchronized • ACID & Real-Time',
     description:
-      'Dual-engine persistence layer pairing relational transactional integrity (PostgreSQL) with reactive sub-second event streaming (Firebase Realtime Database).',
+      'Pairing relational database schema design in PostgreSQL with Prisma ORM alongside reactive sub-second state synchronization via Firebase Realtime Database.',
     role:
-      'Guarantees ACID transactions for structured relational data while maintaining WebSocket connection pools for collaborative real-time state synchronization.',
-    protocols: ['PostgreSQL ACID', 'Prisma ORM', 'WebSocket Streams', 'Row-Level Security (RLS)'],
+      'Maintains transactional integrity for business records and powers multi-device real-time event broadcasting with optimistic local UI mutations.',
+    protocols: ['PostgreSQL ACID', 'Prisma ORM', 'WebSocket / Realtime', 'LocalStorage Cache', 'Optimistic UI'],
     metrics: [
-      { label: 'Query Latency', value: '< 40ms', detail: 'Indexed relational query execution' },
-      { label: 'Realtime Sync', value: '< 200ms', detail: 'WebSocket sub-second data broadcasts' },
-      { label: 'Data Safety', value: 'ACID Compliant', detail: 'Guaranteed relational integrity' },
+      { label: 'Relational Safety', value: 'ACID Safe', detail: 'Strict foreign key and relational constraints' },
+      { label: 'Sync Latency', value: '< 200ms', detail: 'Sub-second multi-device state broadcast' },
+      { label: 'Offline Resilience', value: 'Local-First', detail: 'Zero-friction offline caching' },
     ],
-    technologies: ['PostgreSQL', 'Prisma ORM', 'Firebase', 'Supabase', 'Docker'],
+    technologies: ['PostgreSQL', 'Prisma ORM', 'Firebase Realtime DB', 'Firestore', 'LocalStorage'],
     keyImplementations: [
-      'Normalized relational schemas with foreign key integrity constraints',
-      'WebSocket pub/sub pipelines for instant UI state synchronization',
-      'Optimistic mutations with local rollback on connection drops',
+      'Real-time transaction & inventory sync across tablet POS terminals (MyBoard Lite)',
+      'Normalized relational schemas with Prisma migrations for enterprise healthcare apps',
+      'Zero-account friction local-first storage for instant budgeting (Sakuku)',
     ],
   },
 ];
@@ -259,10 +255,10 @@ const CATEGORIZED_TECH: CategorizedTech[] = [
 ];
 
 export default function Capabilities() {
-  const [activeTierId, setActiveTierId] = useState<'edge' | 'security' | 'core' | 'data'>('core');
+  const [activeTierId, setActiveTierId] = useState<'web' | 'desktop' | 'backend' | 'data'>('web');
   const [techFilter, setTechFilter] = useState<'all' | 'frontend' | 'backend' | 'devops'>('all');
 
-  const currentTier = ARCHITECTURE_TIERS.find((t) => t.id === activeTierId) || ARCHITECTURE_TIERS[2];
+  const currentTier = ARCHITECTURE_TIERS.find((t) => t.id === activeTierId) || ARCHITECTURE_TIERS[0];
 
   const filteredTech =
     techFilter === 'all'
@@ -281,20 +277,19 @@ export default function Capabilities() {
             Architecture &amp; Technical Stack
           </h1>
           <p className="text-sm text-[#8e9192] mt-2 max-w-2xl leading-relaxed">
-            Production-tested architectural blueprints, end-to-end type safety, multi-layered defensive security,
-            and optimized runtime performance standards.
+            Specialized engineering stack across modern web applications, native desktop systems, high-performance backends, and real-time persistence layers.
           </p>
         </div>
 
-        {/* Global Architecture Health Bar */}
+        {/* Global Architecture Standards */}
         <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
           <div className="glass-badge px-3 py-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 text-cyan-300 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-            <span>Architecture: 100% Strict Type-Safe</span>
+            <span>Specialization: Web, Desktop &amp; Backend</span>
           </div>
           <div className="glass-badge px-3 py-1.5 rounded-full border border-white/10 text-[#8e9192] hidden sm:flex items-center gap-1.5">
-            <ShieldCheck size={13} className="text-cyan-400" />
-            <span>A+ Security Grade</span>
+            <CheckCircle2 size={13} className="text-cyan-400" />
+            <span>100% Strict Type Safety (TS &amp; Rust)</span>
           </div>
         </div>
       </div>
@@ -318,7 +313,7 @@ export default function Capabilities() {
               <div className="ml-3 flex items-center gap-2">
                 <Terminal size={14} className="text-cyan-400" />
                 <span className="font-mono text-xs font-bold text-white tracking-wide">
-                  system_architecture.svg
+                  engineering_stack_architecture.svg
                 </span>
               </div>
             </div>
@@ -418,8 +413,8 @@ export default function Capabilities() {
           {/* Desktop Interactive Topology Flow Diagram (Visible on Tablet/Desktop sm+ screens) */}
           <div className="hidden sm:flex my-5 relative items-center justify-center bg-[#07080c]/60 rounded-2xl p-4 border border-white/5">
             <svg
-              className="w-full h-full min-h-[220px] max-h-[260px]"
-              viewBox="0 0 620 280"
+              className="w-full h-full min-h-[220px] max-h-[270px]"
+              viewBox="0 0 760 280"
               preserveAspectRatio="xMidYMid meet"
             >
               <defs>
@@ -436,131 +431,135 @@ export default function Capabilities() {
 
               {/* Connecting Pipeline Paths with Live Signal Pulse */}
               <path
-                d="M 125 140 L 195 140"
+                d="M 165 140 L 240 140"
                 fill="none"
-                stroke={activeTierId === 'edge' || activeTierId === 'security' ? '#22d3ee' : 'rgba(255,255,255,0.15)'}
+                stroke={activeTierId === 'web' || activeTierId === 'desktop' ? '#22d3ee' : 'rgba(255,255,255,0.15)'}
                 strokeWidth="2.5"
-                strokeDasharray={activeTierId === 'edge' || activeTierId === 'security' ? '6 4' : 'none'}
-                className={activeTierId === 'edge' || activeTierId === 'security' ? 'flow-line' : ''}
+                strokeDasharray={activeTierId === 'web' || activeTierId === 'desktop' ? '6 4' : 'none'}
+                className={activeTierId === 'web' || activeTierId === 'desktop' ? 'flow-line' : ''}
               />
               <path
-                d="M 315 140 C 370 140 370 65 425 65"
+                d="M 395 140 C 460 140 460 66 520 66"
                 fill="none"
-                stroke={activeTierId === 'core' || activeTierId === 'security' ? '#38bdf8' : 'rgba(255,255,255,0.15)'}
+                stroke={activeTierId === 'backend' || activeTierId === 'desktop' ? '#38bdf8' : 'rgba(255,255,255,0.15)'}
                 strokeWidth="2.5"
-                strokeDasharray={activeTierId === 'core' || activeTierId === 'security' ? '6 4' : 'none'}
-                className={activeTierId === 'core' || activeTierId === 'security' ? 'flow-line' : ''}
+                strokeDasharray={activeTierId === 'backend' || activeTierId === 'desktop' ? '6 4' : 'none'}
+                className={activeTierId === 'backend' || activeTierId === 'desktop' ? 'flow-line' : ''}
               />
               <path
-                d="M 315 140 C 370 140 370 215 425 215"
+                d="M 395 140 C 460 140 460 214 520 214"
                 fill="none"
-                stroke={activeTierId === 'data' || activeTierId === 'security' ? '#22d3ee' : 'rgba(255,255,255,0.15)'}
+                stroke={activeTierId === 'data' || activeTierId === 'backend' ? '#22d3ee' : 'rgba(255,255,255,0.15)'}
                 strokeWidth="2.5"
-                strokeDasharray={activeTierId === 'data' || activeTierId === 'security' ? '6 4' : 'none'}
-                className={activeTierId === 'data' || activeTierId === 'security' ? 'flow-line' : ''}
+                strokeDasharray={activeTierId === 'data' || activeTierId === 'backend' ? '6 4' : 'none'}
+                className={activeTierId === 'data' || activeTierId === 'backend' ? 'flow-line' : ''}
               />
 
-              {/* Node 1: Client Edge Network */}
+              {/* Node 1: Web & UI */}
               <g
-                transform="translate(15, 105)"
-                onClick={() => setActiveTierId('edge')}
-                className="cursor-pointer transition-transform hover:scale-[1.02]"
+                transform="translate(20, 104)"
+                onClick={() => setActiveTierId('web')}
+                className="cursor-pointer group/node"
               >
                 <rect
-                  width="110"
-                  height="70"
+                  width="145"
+                  height="72"
                   rx="14"
-                  fill={activeTierId === 'edge' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
-                  stroke={activeTierId === 'edge' ? '#22d3ee' : 'rgba(255,255,255,0.12)'}
-                  strokeWidth={activeTierId === 'edge' ? '2' : '1'}
+                  fill={activeTierId === 'web' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
+                  stroke={activeTierId === 'web' ? '#22d3ee' : 'rgba(255,255,255,0.12)'}
+                  strokeWidth={activeTierId === 'web' ? '2' : '1'}
+                  className="transition-colors duration-200 group-hover/node:stroke-cyan-400 group-hover/node:fill-white/[0.07]"
                 />
-                <circle cx="24" cy="26" r="4" fill={activeTierId === 'edge' ? '#22d3ee' : '#8e9192'} />
-                <text x="35" y="29" fill={activeTierId === 'edge' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
-                  01 EDGE
+                <circle cx="22" cy="24" r="3.5" fill={activeTierId === 'web' ? '#22d3ee' : '#8e9192'} />
+                <text x="32" y="27" fill={activeTierId === 'web' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
+                  01 WEB
                 </text>
-                <text x="18" y="48" fill="#ffffff" className="text-[11px] font-bold">
-                  Client Edge
+                <text x="20" y="47" fill="#ffffff" className="text-[11px] font-bold">
+                  Web &amp; UI
                 </text>
-                <text x="18" y="62" fill="#8e9192" className="text-[9px] font-mono">
-                  Cloudflare / QUIC
+                <text x="20" y="61" fill="#8e9192" className="text-[9px] font-mono">
+                  React 19 • Next.js
                 </text>
               </g>
 
-              {/* Node 2: Security Shield */}
+              {/* Node 2: Native Desktop & Systems */}
               <g
-                transform="translate(195, 105)"
-                onClick={() => setActiveTierId('security')}
-                className="cursor-pointer transition-transform hover:scale-[1.02]"
+                transform="translate(240, 104)"
+                onClick={() => setActiveTierId('desktop')}
+                className="cursor-pointer group/node"
               >
                 <rect
-                  width="120"
-                  height="70"
+                  width="155"
+                  height="72"
                   rx="14"
-                  fill={activeTierId === 'security' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
-                  stroke={activeTierId === 'security' ? '#22d3ee' : 'rgba(255,255,255,0.12)'}
-                  strokeWidth={activeTierId === 'security' ? '2' : '1'}
+                  fill={activeTierId === 'desktop' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
+                  stroke={activeTierId === 'desktop' ? '#22d3ee' : 'rgba(255,255,255,0.12)'}
+                  strokeWidth={activeTierId === 'desktop' ? '2' : '1'}
+                  className="transition-colors duration-200 group-hover/node:stroke-cyan-400 group-hover/node:fill-white/[0.07]"
                 />
-                <circle cx="24" cy="26" r="4" fill={activeTierId === 'security' ? '#22d3ee' : '#8e9192'} />
-                <text x="35" y="29" fill={activeTierId === 'security' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
-                  02 DEFENSE
+                <circle cx="22" cy="24" r="3.5" fill={activeTierId === 'desktop' ? '#22d3ee' : '#8e9192'} />
+                <text x="32" y="27" fill={activeTierId === 'desktop' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
+                  02 DESKTOP
                 </text>
-                <text x="18" y="48" fill="#ffffff" className="text-[11px] font-bold">
-                  Security Shield
+                <text x="20" y="47" fill="#ffffff" className="text-[11px] font-bold">
+                  Desktop &amp; Systems
                 </text>
-                <text x="18" y="62" fill="#8e9192" className="text-[9px] font-mono">
-                  Rate Limit + CSP
+                <text x="20" y="61" fill="#8e9192" className="text-[9px] font-mono">
+                  Tauri v2 • Rust
                 </text>
               </g>
 
-              {/* Node 3: Next.js App Core */}
+              {/* Node 3: Backend & AI */}
               <g
-                transform="translate(425, 30)"
-                onClick={() => setActiveTierId('core')}
-                className="cursor-pointer transition-transform hover:scale-[1.02]"
+                transform="translate(520, 30)"
+                onClick={() => setActiveTierId('backend')}
+                className="cursor-pointer group/node"
               >
                 <rect
-                  width="180"
-                  height="70"
+                  width="215"
+                  height="72"
                   rx="14"
-                  fill={activeTierId === 'core' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
-                  stroke={activeTierId === 'core' ? '#38bdf8' : 'rgba(255,255,255,0.12)'}
-                  strokeWidth={activeTierId === 'core' ? '2' : '1'}
+                  fill={activeTierId === 'backend' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
+                  stroke={activeTierId === 'backend' ? '#38bdf8' : 'rgba(255,255,255,0.12)'}
+                  strokeWidth={activeTierId === 'backend' ? '2' : '1'}
+                  className="transition-colors duration-200 group-hover/node:stroke-sky-400 group-hover/node:fill-white/[0.07]"
                 />
-                <circle cx="24" cy="26" r="4" fill={activeTierId === 'core' ? '#38bdf8' : '#8e9192'} />
-                <text x="35" y="29" fill={activeTierId === 'core' ? '#38bdf8' : '#8e9192'} className="text-[10px] font-mono font-bold">
-                  03 RUNTIME
+                <circle cx="22" cy="24" r="3.5" fill={activeTierId === 'backend' ? '#38bdf8' : '#8e9192'} />
+                <text x="32" y="27" fill={activeTierId === 'backend' ? '#38bdf8' : '#8e9192'} className="text-[10px] font-mono font-bold">
+                  03 SERVER &amp; AI
                 </text>
-                <text x="18" y="48" fill="#ffffff" className="text-[11px] font-bold">
-                  Next.js App Core
+                <text x="20" y="47" fill="#ffffff" className="text-[11px] font-bold">
+                  Backend APIs &amp; AI
                 </text>
-                <text x="18" y="62" fill="#8e9192" className="text-[9px] font-mono">
-                  React 19 RSC • Turbopack
+                <text x="20" y="61" fill="#8e9192" className="text-[9px] font-mono">
+                  Node.js • Groq LLaMA
                 </text>
               </g>
 
-              {/* Node 4: Persistence Layer */}
+              {/* Node 4: Persistence & Sync */}
               <g
-                transform="translate(425, 180)"
+                transform="translate(520, 178)"
                 onClick={() => setActiveTierId('data')}
-                className="cursor-pointer transition-transform hover:scale-[1.02]"
+                className="cursor-pointer group/node"
               >
                 <rect
-                  width="180"
-                  height="70"
+                  width="215"
+                  height="72"
                   rx="14"
                   fill={activeTierId === 'data' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
                   stroke={activeTierId === 'data' ? '#22d3ee' : 'rgba(255,255,255,0.12)'}
                   strokeWidth={activeTierId === 'data' ? '2' : '1'}
+                  className="transition-colors duration-200 group-hover/node:stroke-cyan-400 group-hover/node:fill-white/[0.07]"
                 />
-                <circle cx="24" cy="26" r="4" fill={activeTierId === 'data' ? '#22d3ee' : '#8e9192'} />
-                <text x="35" y="29" fill={activeTierId === 'data' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
-                  04 STORAGE
+                <circle cx="22" cy="24" r="3.5" fill={activeTierId === 'data' ? '#22d3ee' : '#8e9192'} />
+                <text x="32" y="27" fill={activeTierId === 'data' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
+                  04 PERSISTENCE
                 </text>
-                <text x="18" y="48" fill="#ffffff" className="text-[11px] font-bold">
-                  Persistence &amp; Real-time
+                <text x="20" y="47" fill="#ffffff" className="text-[11px] font-bold">
+                  Persistence &amp; Sync
                 </text>
-                <text x="18" y="62" fill="#8e9192" className="text-[9px] font-mono">
-                  Postgres ACID + Firestore
+                <text x="20" y="61" fill="#8e9192" className="text-[9px] font-mono">
+                  PostgreSQL • Firebase
                 </text>
               </g>
             </svg>
@@ -569,16 +568,16 @@ export default function Capabilities() {
           {/* Dynamic Architectural Deep-Dive Inspector Panel */}
           <div className="p-4 sm:p-5 rounded-2xl bg-black/50 border border-white/10 space-y-4">
             {/* Header with Title & Operational Status */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-400/10 px-2 py-0.5 rounded border border-cyan-400/30">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5 border-b border-white/10 pb-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-1 rounded border border-cyan-400/30 shrink-0">
                   TIER {currentTier.number}
                 </span>
-                <h2 className="text-base sm:text-lg font-black text-white">
+                <h2 className="text-base sm:text-lg font-black text-white whitespace-nowrap">
                   {currentTier.name}
                 </h2>
               </div>
-              <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5 self-start sm:self-auto">
+              <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5 shrink-0 whitespace-nowrap self-start lg:self-auto">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>{currentTier.status}</span>
               </span>
@@ -635,7 +634,7 @@ export default function Capabilities() {
         {/* Right: 3 Hard Capability Pillars (Span 5) */}
         <div className="lg:col-span-5 flex flex-col gap-5">
           
-          {/* Card 01: Frontend Architecture & UX Engineering */}
+          {/* Card 01: Frontend Architecture & Interactive 3D */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -644,30 +643,30 @@ export default function Capabilities() {
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono font-bold text-xs text-[#8e9192]">FRONTEND ARCHITECTURE</span>
+                <span className="font-mono font-bold text-xs text-[#8e9192]">FRONTEND &amp; INTERACTIVE 3D</span>
                 <Layers size={18} className="text-cyan-400" />
               </div>
               <h2 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
-                Frontend Architecture &amp; UX Performance
+                Frontend Architecture &amp; Interactive 3D
               </h2>
               <p className="text-xs text-[#c4c7c8] leading-relaxed mb-3 font-normal">
                 Engineering reactive web applications with React 19 Server Components, modular design tokens,
-                and fluid micro-interactions. Zero static hydration overhead with sub-50ms user interaction response.
+                and fluid 60 FPS 3D canvas simulations. Zero static hydration overhead with sub-50ms interaction response.
               </p>
 
               {/* Hard Metrics Row */}
               <div className="grid grid-cols-3 gap-2 py-2.5 my-2 border-y border-white/10 font-mono text-xs">
                 <div>
-                  <span className="text-white font-bold block">INP &lt; 50ms</span>
-                  <span className="text-[10px] text-[#8e9192]">Interaction Latency</span>
+                  <span className="text-white font-bold block">Hybrid RSC</span>
+                  <span className="text-[10px] text-[#8e9192]">Render Pipeline</span>
                 </div>
                 <div>
-                  <span className="text-cyan-400 font-bold block">0.00 CLS</span>
-                  <span className="text-[10px] text-[#8e9192]">Visual Stability</span>
+                  <span className="text-cyan-400 font-bold block">60 FPS 3D</span>
+                  <span className="text-[10px] text-[#8e9192]">Canvas Graphics</span>
                 </div>
                 <div>
-                  <span className="text-white font-bold block">98+ Score</span>
-                  <span className="text-[10px] text-[#8e9192]">Lighthouse CWV</span>
+                  <span className="text-white font-bold block">Zustand</span>
+                  <span className="text-[10px] text-[#8e9192]">Immutable State</span>
                 </div>
               </div>
             </div>
@@ -682,12 +681,12 @@ export default function Capabilities() {
               </div>
               <div className="text-[11px] font-mono text-[#8e9192]">
                 <strong className="text-slate-300">Deployed In: </strong>
-                BangunCity (3D 60 FPS), Huktif, OryonWeb
+                BangunCity (3D Simulation), Huktif, Sakuku
               </div>
             </div>
           </motion.div>
 
-          {/* Card 02: Distributed Backend & Persistence */}
+          {/* Card 02: Native Systems & Desktop Architecture */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -696,37 +695,37 @@ export default function Capabilities() {
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono font-bold text-xs text-[#8e9192]">BACKEND &amp; PERSISTENCE</span>
-                <Database size={18} className="text-sky-400" />
+                <span className="font-mono font-bold text-xs text-[#8e9192]">NATIVE SYSTEMS &amp; DESKTOP</span>
+                <Cpu size={18} className="text-sky-400" />
               </div>
               <h2 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
-                Distributed Backend &amp; Data Systems
+                Native Desktop &amp; Systems Engineering
               </h2>
               <p className="text-xs text-[#c4c7c8] leading-relaxed mb-3 font-normal">
-                Designing type-safe RESTful &amp; WebSocket APIs, normalized relational databases with PostgreSQL,
-                and containerized microservice architectures with binary magic-byte stream parsing.
+                Developing high-efficiency native cross-platform desktop applications using Tauri v2 and Rust.
+                Eliminates bulky Chromium dependencies in favor of ultra-lean memory footprints and direct OS file system access.
               </p>
 
               {/* Hard Metrics Row */}
               <div className="grid grid-cols-3 gap-2 py-2.5 my-2 border-y border-white/10 font-mono text-xs">
                 <div>
-                  <span className="text-white font-bold block">&lt; 40ms Query</span>
-                  <span className="text-[10px] text-[#8e9192]">Database Read</span>
+                  <span className="text-white font-bold block">&lt; 30 MB</span>
+                  <span className="text-[10px] text-[#8e9192]">RAM Footprint</span>
                 </div>
                 <div>
-                  <span className="text-cyan-400 font-bold block">ACID Safe</span>
-                  <span className="text-[10px] text-[#8e9192]">Relational Schema</span>
+                  <span className="text-cyan-400 font-bold block">&lt; 15 MB</span>
+                  <span className="text-[10px] text-[#8e9192]">Binary Package</span>
                 </div>
                 <div>
-                  <span className="text-white font-bold block">&lt; 200ms Sync</span>
-                  <span className="text-[10px] text-[#8e9192]">WebSocket Sync</span>
+                  <span className="text-white font-bold block">Magic Bytes</span>
+                  <span className="text-[10px] text-[#8e9192]">Binary Inspection</span>
                 </div>
               </div>
             </div>
 
             <div>
               <div className="flex flex-wrap gap-1.5 mb-3">
-                {['Node.js', 'PostgreSQL', 'Prisma ORM', 'Docker', 'Firebase'].map((badge) => (
+                {['Tauri v2', 'Rust', 'TypeScript', 'Infer Crate', 'Atomic Undo'].map((badge) => (
                   <span key={badge} className="tech-badge text-[10px]">
                     {badge}
                   </span>
@@ -734,12 +733,12 @@ export default function Capabilities() {
               </div>
               <div className="text-[11px] font-mono text-[#8e9192]">
                 <strong className="text-slate-300">Deployed In: </strong>
-                SortiQ (Magic Bytes), Renova (Supabase RLS), RSUD Dolopo
+                SortiQ Desktop App (Binary Magic Bytes File Organizer)
               </div>
             </div>
           </motion.div>
 
-          {/* Card 03: Zero-Trust Security & DevSecOps */}
+          {/* Card 03: Backend Services, Real-Time & AI Systems */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -748,37 +747,37 @@ export default function Capabilities() {
           >
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono font-bold text-xs text-[#8e9192]">SECURITY &amp; CODE INTEGRITY</span>
-                <ShieldCheck size={18} className="text-emerald-400" />
+                <span className="font-mono font-bold text-xs text-[#8e9192]">BACKEND, PERSISTENCE &amp; AI</span>
+                <Server size={18} className="text-cyan-400" />
               </div>
               <h2 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">
-                Zero-Trust Security &amp; DevSecOps
+                Backend Services, Real-Time Sync &amp; AI
               </h2>
               <p className="text-xs text-[#c4c7c8] leading-relaxed mb-3 font-normal">
-                Multi-layer input sanitization against XSS, in-memory IP sliding window rate limiting, strict
-                Content Security Policy without external CDN leaks, and automated Vitest regression suites.
+                Designing type-safe RESTful APIs, relational database schemas with PostgreSQL and Prisma,
+                reactive sub-second data synchronization via Firebase, and streaming LLM inference.
               </p>
 
               {/* Hard Metrics Row */}
               <div className="grid grid-cols-3 gap-2 py-2.5 my-2 border-y border-white/10 font-mono text-xs">
                 <div>
-                  <span className="text-white font-bold block">A+ Rating</span>
-                  <span className="text-[10px] text-[#8e9192]">Header Hardening</span>
+                  <span className="text-white font-bold block">&lt; 400ms</span>
+                  <span className="text-[10px] text-[#8e9192]">AI Streaming</span>
                 </div>
                 <div>
-                  <span className="text-cyan-400 font-bold block">Zero CDN</span>
-                  <span className="text-[10px] text-[#8e9192]">Self-Hosted Assets</span>
+                  <span className="text-cyan-400 font-bold block">ACID Safe</span>
+                  <span className="text-[10px] text-[#8e9192]">Relational Schema</span>
                 </div>
                 <div>
-                  <span className="text-white font-bold block">100% CI Pass</span>
-                  <span className="text-[10px] text-[#8e9192]">Vitest Unit Suite</span>
+                  <span className="text-white font-bold block">&lt; 200ms</span>
+                  <span className="text-[10px] text-[#8e9192]">Real-Time Sync</span>
                 </div>
               </div>
             </div>
 
             <div>
               <div className="flex flex-wrap gap-1.5 mb-3">
-                {['Strict CSP Level 3', 'Token Bucket', 'DOMPurify', 'Vitest CI'].map((badge) => (
+                {['Node.js', 'Express', 'PostgreSQL', 'Prisma ORM', 'Firebase', 'Groq LLaMA'].map((badge) => (
                   <span key={badge} className="tech-badge text-[10px]">
                     {badge}
                   </span>
@@ -786,7 +785,7 @@ export default function Capabilities() {
               </div>
               <div className="text-[11px] font-mono text-[#8e9192]">
                 <strong className="text-slate-300">Deployed In: </strong>
-                Hardened WebApps, Zero-External CDN Core
+                Huktif (Streaming LLaMA 3.3), MyBoard Lite (Real-time POS), RSUD Dolopo
               </div>
             </div>
           </motion.div>
@@ -841,7 +840,7 @@ export default function Capabilities() {
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/10 p-1.5 flex items-center justify-center relative shrink-0 group-hover:scale-110 transition-transform">
+                  <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/10 p-1.5 flex items-center justify-center relative shrink-0 group-hover:border-cyan-400/50 group-hover:bg-cyan-500/10 group-hover:shadow-[0_0_12px_rgba(34,211,238,0.25)] transition-all duration-200">
                     <Image
                       src={tech.icon}
                       alt={tech.name}

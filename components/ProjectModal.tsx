@@ -95,7 +95,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-4 py-2 rounded-full hover:brightness-110 shadow-lg transition-transform hover:scale-105"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-4 py-2 rounded-full hover:brightness-110 shadow-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
                 >
                   <span>Live Preview</span>
                   <ExternalLink size={13} />
@@ -106,7 +106,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-black/60 backdrop-blur-md text-white text-xs font-semibold px-4 py-2 rounded-full border border-white/20 hover:bg-black/80 transition-transform hover:scale-105"
+                  className="inline-flex items-center gap-2 bg-black/60 backdrop-blur-md text-white text-xs font-semibold px-4 py-2 rounded-full border border-white/20 hover:bg-black/80 hover:border-cyan-400/50 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
                 >
                   <Github size={14} />
                   <span>Repository</span>

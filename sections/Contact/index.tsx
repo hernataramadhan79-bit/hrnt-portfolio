@@ -152,7 +152,7 @@ export default function Contact() {
             <a
               href="/Hernata CV.pdf"
               download
-              className="inline-flex items-center gap-2.5 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-6 py-3 rounded-full hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.35)] transition-transform duration-200 hover:scale-105"
+              className="inline-flex items-center gap-2.5 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-6 py-3 rounded-full hover:brightness-110 shadow-[0_0_15px_rgba(34,211,238,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
             >
               <span>Download Official CV (PDF)</span>
               <Download size={15} />
@@ -239,7 +239,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-110 shadow-[0_0_20px_rgba(34,211,238,0.35)] transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+              className="w-full py-4 rounded-full bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-110 shadow-[0_0_20px_rgba(34,211,238,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] disabled:opacity-50"
             >
               {isLoading ? (
                 <>

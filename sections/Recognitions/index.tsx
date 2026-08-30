@@ -46,11 +46,11 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                   src={cert.certificateImage}
                   alt={cert.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   sizes="(max-width: 768px) 100vw, 380px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#090A0F] via-transparent to-transparent opacity-60" />
-                <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:scale-105 transition-transform duration-200">
+                <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-cyan-500/30 group-hover:border-cyan-400/80 group-hover:shadow-[0_0_12px_rgba(34,211,238,0.4)] transition-all duration-200">
                   <ExternalLink size={14} className="text-cyan-300" />
                 </div>
               </div>
@@ -102,7 +102,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                   src={item.image}
                   alt={item.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   sizes="(max-width: 768px) 100vw, 600px"
                 />
               </div>
