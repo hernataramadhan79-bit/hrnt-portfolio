@@ -68,3 +68,64 @@ export interface GalleryItem {
   location: string;
   category: string;
 }
+
+// GitHub Telemetry Types
+export interface GitHubRepoItem {
+  id: number;
+  name: string;
+  html_url: string;
+  description: string | null;
+  language: string | null;
+  stargazers_count: number;
+  forks_count: number;
+  pushed_at?: string;
+}
+
+export interface GitHubTelemetryData {
+  profile: {
+    repos: number;
+    followers: number;
+    totalContributions: number;
+    stars: number;
+  };
+  topRepos: GitHubRepoItem[];
+  contributions: Array<Array<{ date: string; count: number }>>;
+}
+
+// WakaTime Telemetry Types
+export interface WakaTimeLanguage {
+  name: string;
+  percent: number;
+  color: string;
+}
+
+export interface WakaTimeTelemetryData {
+  languages: WakaTimeLanguage[];
+  totalTime: string;
+  dailyAverage: string;
+  bestDay: string;
+  optimizationFactor: string;
+  isLoaded: boolean;
+}
+
+// Firestore REST Types
+export interface FirestoreCommentDoc {
+  id: string;
+  name: string;
+  userId: string;
+  userImage: string;
+  message: string;
+  createdAt: string;
+}
+
+export interface FirestoreRawDoc {
+  name?: string;
+  createTime?: string;
+  fields?: {
+    name?: { stringValue?: string };
+    userId?: { stringValue?: string };
+    userImage?: { stringValue?: string };
+    message?: { stringValue?: string };
+    createdAt?: { timestampValue?: string };
+  };
+}

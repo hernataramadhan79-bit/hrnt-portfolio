@@ -5,25 +5,35 @@ const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'forum-portfol
 const API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '';
 const FIRESTORE_BASE_URL = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`;
 
-// Helper sanitize string (strip HTML tags, scripts, event handlers, control chars)
+import { FirestoreCommentDoc, FirestoreRawDoc } from '@/types';
+
+// Multi-layer Sanitizer: Melindungi dari script injection, malicious protocols, control chars, dan event handlers
 function sanitizeText(input: string): string {
     if (typeof input !== 'string') return '';
     return input
+        // 1. Bersihkan control characters dan null bytes
         .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+        // 2. Bersihkan tag script, style, iframe, object, embed, form, meta, link, svg, math beserta kontennya
         .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
         .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+        .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+        .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
+        .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
+        .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '')
+        .replace(/<math\b[^<]*(?:(?!<\/math>)<[^<]*)*<\/math>/gi, '')
+        // 3. Bersihkan tag HTML lainnya
         .replace(/<[^>]*>?/gm, '')
-        .replace(/javascript:/gi, '')
-        .replace(/vbscript:/gi, '')
-        .replace(/data:text\/html/gi, '')
+        // 4. Netralisasi URL protocols berbahaya
+        .replace(/(?:javascript|vbscript|data):/gi, '')
+        // 5. Netralisasi inline event handlers (on\w+=)
         .replace(/on\w+\s*=/gi, '')
         .trim();
 }
 
-// Helper untuk format komentar dari struktur Firestore REST API
-function parseFirestoreDoc(doc: any) {
+// Helper untuk format komentar dari struktur Firestore REST API dengan tipe ketat
+function parseFirestoreDoc(doc: FirestoreRawDoc | null | undefined): FirestoreCommentDoc | null {
     if (!doc || !doc.fields) return null;
-    const id = doc.name ? doc.name.split('/').pop() : '';
+    const id = doc.name ? doc.name.split('/').pop() || '' : '';
     return {
         id,
         name: doc.fields.name?.stringValue || 'Anonymous',

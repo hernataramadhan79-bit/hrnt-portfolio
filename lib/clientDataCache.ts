@@ -1,3 +1,4 @@
+import { GitHubTelemetryData, WakaTimeTelemetryData } from '@/types';
 // Client-Side Shared Cache & In-Flight Request Deduplication
 // Persistent LocalStorage SWR Strategy untuk Mengeliminasi Loading Delay (0ms Instant Hydration)
 
@@ -10,23 +11,23 @@ const CACHE_TTL_MS = 10 * 60 * 1000; // 10 menit client-side freshness TTL
 const STORAGE_KEY_GH = 'hrnt_gh_telemetry_cache_v1';
 const STORAGE_KEY_WT = 'hrnt_wt_telemetry_cache_v2';
 
-let githubCache: CacheEntry<any> | null = null;
-let githubInFlightPromise: Promise<any> | null = null;
+let githubCache: CacheEntry<GitHubTelemetryData> | null = null;
+let githubInFlightPromise: Promise<GitHubTelemetryData> | null = null;
 
-let wakatimeCache: CacheEntry<any> | null = null;
-let wakatimeInFlightPromise: Promise<any> | null = null;
+let wakatimeCache: CacheEntry<WakaTimeTelemetryData> | null = null;
+let wakatimeInFlightPromise: Promise<WakaTimeTelemetryData> | null = null;
 
 /**
  * Mengambil data GitHub yang tersimpan secara sinkron dari memory atau localStorage.
  * Menjamin render pertama instan (0.00ms) tanpa menunggu network request.
  */
-export function getStoredGithubData(): any | null {
+export function getStoredGithubData(): GitHubTelemetryData | null {
   if (githubCache) return githubCache.data;
   if (typeof window !== 'undefined') {
     try {
       const raw = localStorage.getItem(STORAGE_KEY_GH);
       if (raw) {
-        const parsed: CacheEntry<any> = JSON.parse(raw);
+        const parsed: CacheEntry<GitHubTelemetryData> = JSON.parse(raw);
         githubCache = parsed;
         return parsed.data;
       }
@@ -39,13 +40,13 @@ export function getStoredGithubData(): any | null {
  * Mengambil data WakaTime yang tersimpan secara sinkron dari memory atau localStorage.
  * Menjamin render pertama instan (0.00ms) tanpa menunggu network request.
  */
-export function getStoredWakaTimeData(): any | null {
+export function getStoredWakaTimeData(): WakaTimeTelemetryData | null {
   if (wakatimeCache) return wakatimeCache.data;
   if (typeof window !== 'undefined') {
     try {
       const raw = localStorage.getItem(STORAGE_KEY_WT);
       if (raw) {
-        const parsed: CacheEntry<any> = JSON.parse(raw);
+        const parsed: CacheEntry<WakaTimeTelemetryData> = JSON.parse(raw);
         wakatimeCache = parsed;
         return parsed.data;
       }
@@ -59,7 +60,7 @@ export function getStoredWakaTimeData(): any | null {
  * Jika ada data di cache (memory / localStorage), data instan langsung dikembalikan,
  * sementara request latar belakang berjalan diam-diam tanpa memicu loading spinner.
  */
-export async function fetchGithubData(): Promise<any> {
+export async function fetchGithubData(): Promise<GitHubTelemetryData> {
   const cached = getStoredGithubData();
   const now = Date.now();
 
@@ -78,9 +79,9 @@ export async function fetchGithubData(): Promise<any> {
     try {
       const res = await fetch('/api/github');
       if (!res.ok) throw new Error(`GitHub API returned status ${res.status}`);
-      const data = await res.json();
+      const data: GitHubTelemetryData = await res.json();
 
-      const entry: CacheEntry<any> = {
+      const entry: CacheEntry<GitHubTelemetryData> = {
         data,
         timestamp: Date.now(),
       };
@@ -111,7 +112,7 @@ export async function fetchGithubData(): Promise<any> {
  * Jika ada data di cache (memory / localStorage), data instan langsung dikembalikan,
  * sementara request latar belakang berjalan diam-diam tanpa memicu loading spinner.
  */
-export async function fetchWakaTimeData(): Promise<any> {
+export async function fetchWakaTimeData(): Promise<WakaTimeTelemetryData> {
   const cached = getStoredWakaTimeData();
   const now = Date.now();
 
@@ -130,9 +131,9 @@ export async function fetchWakaTimeData(): Promise<any> {
     try {
       const res = await fetch('/api/wakatime');
       if (!res.ok) throw new Error(`WakaTime API returned status ${res.status}`);
-      const data = await res.json();
+      const data: WakaTimeTelemetryData = await res.json();
 
-      const entry: CacheEntry<any> = {
+      const entry: CacheEntry<WakaTimeTelemetryData> = {
         data,
         timestamp: Date.now(),
       };

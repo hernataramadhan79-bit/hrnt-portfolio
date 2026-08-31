@@ -15,6 +15,7 @@ import {
   Terminal,
   Check,
 } from 'lucide-react';
+import { TopologyFlowSvg } from './TopologyFlowSvg';
 
 interface ArchitectureTier {
   id: 'web' | 'desktop' | 'backend' | 'data';
@@ -302,27 +303,29 @@ export default function Capabilities() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="lg:col-span-7 glass-card p-6 sm:p-7 flex flex-col justify-between overflow-hidden relative border border-white/10"
+          className="lg:col-span-7 glass-card p-3.5 sm:p-6 lg:p-7 flex flex-col justify-between overflow-hidden relative border border-white/10 min-w-0 max-w-full"
         >
           {/* Top Window Bar */}
-          <div className="flex items-center justify-between pb-3.5 border-b border-white/10">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-400/80" />
-              <div className="w-3 h-3 rounded-full bg-amber-400/80" />
-              <div className="w-3 h-3 rounded-full bg-emerald-400/80" />
-              <div className="ml-3 flex items-center gap-2">
-                <Terminal size={14} className="text-cyan-400" />
-                <span className="font-mono text-xs font-bold text-white tracking-wide">
+          <div className="flex items-center justify-between pb-3 border-b border-white/10 gap-2 min-w-0 overflow-hidden">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400/80" />
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-400/80" />
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400/80" />
+              </div>
+              <div className="ml-1 sm:ml-2 flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                <Terminal size={13} className="text-cyan-400 shrink-0" />
+                <span className="block font-mono text-[10px] sm:text-xs font-bold text-white tracking-tight overflow-hidden text-ellipsis whitespace-nowrap min-w-0">
                   engineering_stack_architecture.svg
                 </span>
               </div>
             </div>
 
             {/* Live Active Tier Indicator */}
-            <div className="flex items-center gap-2 font-mono text-xs">
+            <div className="flex items-center gap-1.5 font-mono text-[10px] sm:text-xs shrink-0">
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-              <span className="text-cyan-300 font-semibold hidden xs:inline">
-                Tier {currentTier.number} Active
+              <span className="text-cyan-300 font-semibold hidden sm:inline">
+                Tier {currentTier.number}
               </span>
             </div>
           </div>
@@ -411,180 +414,31 @@ export default function Capabilities() {
           </div>
 
           {/* Desktop Interactive Topology Flow Diagram (Visible on Tablet/Desktop sm+ screens) */}
-          <div className="hidden sm:flex my-5 relative items-center justify-center bg-[#07080c]/60 rounded-2xl p-4 border border-white/5">
-            <svg
-              className="w-full h-full min-h-[220px] max-h-[270px]"
-              viewBox="0 0 760 280"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <defs>
-                <linearGradient id="cyanLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.3" />
-                  <stop offset="50%" stopColor="#22d3ee" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.3" />
-                </linearGradient>
-                <linearGradient id="activeGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#0284c7" stopOpacity="0.1" />
-                </linearGradient>
-              </defs>
-
-              {/* Connecting Pipeline Paths with Live Signal Pulse */}
-              <path
-                d="M 165 140 L 240 140"
-                fill="none"
-                stroke={activeTierId === 'web' || activeTierId === 'desktop' ? '#22d3ee' : 'rgba(255,255,255,0.15)'}
-                strokeWidth="2.5"
-                strokeDasharray={activeTierId === 'web' || activeTierId === 'desktop' ? '6 4' : 'none'}
-                className={activeTierId === 'web' || activeTierId === 'desktop' ? 'flow-line' : ''}
-              />
-              <path
-                d="M 395 140 C 460 140 460 66 520 66"
-                fill="none"
-                stroke={activeTierId === 'backend' || activeTierId === 'desktop' ? '#38bdf8' : 'rgba(255,255,255,0.15)'}
-                strokeWidth="2.5"
-                strokeDasharray={activeTierId === 'backend' || activeTierId === 'desktop' ? '6 4' : 'none'}
-                className={activeTierId === 'backend' || activeTierId === 'desktop' ? 'flow-line' : ''}
-              />
-              <path
-                d="M 395 140 C 460 140 460 214 520 214"
-                fill="none"
-                stroke={activeTierId === 'data' || activeTierId === 'backend' ? '#22d3ee' : 'rgba(255,255,255,0.15)'}
-                strokeWidth="2.5"
-                strokeDasharray={activeTierId === 'data' || activeTierId === 'backend' ? '6 4' : 'none'}
-                className={activeTierId === 'data' || activeTierId === 'backend' ? 'flow-line' : ''}
-              />
-
-              {/* Node 1: Web & UI */}
-              <g
-                transform="translate(20, 104)"
-                onClick={() => setActiveTierId('web')}
-                className="cursor-pointer group/node"
-              >
-                <rect
-                  width="145"
-                  height="72"
-                  rx="14"
-                  fill={activeTierId === 'web' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
-                  stroke={activeTierId === 'web' ? '#22d3ee' : 'rgba(255,255,255,0.12)'}
-                  strokeWidth={activeTierId === 'web' ? '2' : '1'}
-                  className="transition-colors duration-200 group-hover/node:stroke-cyan-400 group-hover/node:fill-white/[0.07]"
-                />
-                <circle cx="22" cy="24" r="3.5" fill={activeTierId === 'web' ? '#22d3ee' : '#8e9192'} />
-                <text x="32" y="27" fill={activeTierId === 'web' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
-                  01 WEB
-                </text>
-                <text x="20" y="47" fill="#ffffff" className="text-[11px] font-bold">
-                  Web &amp; UI
-                </text>
-                <text x="20" y="61" fill="#8e9192" className="text-[9px] font-mono">
-                  React 19 • Next.js
-                </text>
-              </g>
-
-              {/* Node 2: Native Desktop & Systems */}
-              <g
-                transform="translate(240, 104)"
-                onClick={() => setActiveTierId('desktop')}
-                className="cursor-pointer group/node"
-              >
-                <rect
-                  width="155"
-                  height="72"
-                  rx="14"
-                  fill={activeTierId === 'desktop' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
-                  stroke={activeTierId === 'desktop' ? '#22d3ee' : 'rgba(255,255,255,0.12)'}
-                  strokeWidth={activeTierId === 'desktop' ? '2' : '1'}
-                  className="transition-colors duration-200 group-hover/node:stroke-cyan-400 group-hover/node:fill-white/[0.07]"
-                />
-                <circle cx="22" cy="24" r="3.5" fill={activeTierId === 'desktop' ? '#22d3ee' : '#8e9192'} />
-                <text x="32" y="27" fill={activeTierId === 'desktop' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
-                  02 DESKTOP
-                </text>
-                <text x="20" y="47" fill="#ffffff" className="text-[11px] font-bold">
-                  Desktop &amp; Systems
-                </text>
-                <text x="20" y="61" fill="#8e9192" className="text-[9px] font-mono">
-                  Tauri v2 • Rust
-                </text>
-              </g>
-
-              {/* Node 3: Backend & AI */}
-              <g
-                transform="translate(520, 30)"
-                onClick={() => setActiveTierId('backend')}
-                className="cursor-pointer group/node"
-              >
-                <rect
-                  width="215"
-                  height="72"
-                  rx="14"
-                  fill={activeTierId === 'backend' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
-                  stroke={activeTierId === 'backend' ? '#38bdf8' : 'rgba(255,255,255,0.12)'}
-                  strokeWidth={activeTierId === 'backend' ? '2' : '1'}
-                  className="transition-colors duration-200 group-hover/node:stroke-sky-400 group-hover/node:fill-white/[0.07]"
-                />
-                <circle cx="22" cy="24" r="3.5" fill={activeTierId === 'backend' ? '#38bdf8' : '#8e9192'} />
-                <text x="32" y="27" fill={activeTierId === 'backend' ? '#38bdf8' : '#8e9192'} className="text-[10px] font-mono font-bold">
-                  03 SERVER &amp; AI
-                </text>
-                <text x="20" y="47" fill="#ffffff" className="text-[11px] font-bold">
-                  Backend APIs &amp; AI
-                </text>
-                <text x="20" y="61" fill="#8e9192" className="text-[9px] font-mono">
-                  Node.js • Groq LLaMA
-                </text>
-              </g>
-
-              {/* Node 4: Persistence & Sync */}
-              <g
-                transform="translate(520, 178)"
-                onClick={() => setActiveTierId('data')}
-                className="cursor-pointer group/node"
-              >
-                <rect
-                  width="215"
-                  height="72"
-                  rx="14"
-                  fill={activeTierId === 'data' ? 'url(#activeGlow)' : 'rgba(255,255,255,0.03)'}
-                  stroke={activeTierId === 'data' ? '#22d3ee' : 'rgba(255,255,255,0.12)'}
-                  strokeWidth={activeTierId === 'data' ? '2' : '1'}
-                  className="transition-colors duration-200 group-hover/node:stroke-cyan-400 group-hover/node:fill-white/[0.07]"
-                />
-                <circle cx="22" cy="24" r="3.5" fill={activeTierId === 'data' ? '#22d3ee' : '#8e9192'} />
-                <text x="32" y="27" fill={activeTierId === 'data' ? '#22d3ee' : '#8e9192'} className="text-[10px] font-mono font-bold">
-                  04 PERSISTENCE
-                </text>
-                <text x="20" y="47" fill="#ffffff" className="text-[11px] font-bold">
-                  Persistence &amp; Sync
-                </text>
-                <text x="20" y="61" fill="#8e9192" className="text-[9px] font-mono">
-                  PostgreSQL • Firebase
-                </text>
-              </g>
-            </svg>
-          </div>
+          <TopologyFlowSvg
+            activeTierId={activeTierId}
+            onSelectTier={setActiveTierId}
+          />
 
           {/* Dynamic Architectural Deep-Dive Inspector Panel */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-black/50 border border-white/10 space-y-4">
+          <div className="p-3.5 sm:p-5 rounded-2xl bg-black/50 border border-white/10 space-y-3.5 sm:space-y-4 overflow-hidden min-w-0 max-w-full">
             {/* Header with Title & Operational Status */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5 border-b border-white/10 pb-3">
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-1 rounded border border-cyan-400/30 shrink-0">
+            <div className="border-b border-white/10 pb-3 space-y-1.5">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] sm:text-xs font-mono font-bold text-cyan-400 bg-cyan-400/10 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded border border-cyan-400/30 shrink-0">
                   TIER {currentTier.number}
                 </span>
-                <h2 className="text-base sm:text-lg font-black text-white whitespace-nowrap">
-                  {currentTier.name}
-                </h2>
+                <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-mono text-emerald-400 shrink-0">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                  <span>{currentTier.status}</span>
+                </div>
               </div>
-              <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5 shrink-0 whitespace-nowrap self-start lg:self-auto">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{currentTier.status}</span>
-              </span>
+              <h2 className="text-sm sm:text-base lg:text-lg font-black text-white leading-snug" style={{wordBreak: 'break-word', overflowWrap: 'anywhere'}}>
+                {currentTier.name}
+              </h2>
             </div>
 
             {/* Substantive Technical Explanation */}
-            <div className="text-xs sm:text-sm text-[#c4c7c8] leading-relaxed space-y-2">
+            <div className="text-xs sm:text-sm text-[#c4c7c8] leading-relaxed space-y-2 break-words">
               <p>{currentTier.description}</p>
               <p className="text-xs text-[#8e9192] italic">
                 <strong className="text-slate-200 not-italic">Architectural Role: </strong>
@@ -593,17 +447,19 @@ export default function Capabilities() {
             </div>
 
             {/* 3 Hard Architectural Metric Cards */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-1">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-3 pt-1">
               {currentTier.metrics.map((m) => (
                 <div
                   key={m.label}
-                  className="p-2 sm:p-2.5 rounded-xl bg-white/[0.03] border border-white/5 hover:border-cyan-400/30 transition-colors"
+                  className="p-2 sm:p-2.5 rounded-xl bg-white/[0.03] border border-white/5 hover:border-cyan-400/30 transition-colors flex flex-col justify-start min-w-0"
                 >
-                  <div className="text-xs sm:text-base font-black text-cyan-300 font-mono">
+                  <div className="text-xs sm:text-base font-black text-cyan-300 font-mono truncate">
                     {m.value}
                   </div>
-                  <div className="text-[10px] sm:text-[11px] font-bold text-white mt-0.5 truncate">{m.label}</div>
-                  <div className="text-[9px] text-[#8e9192] leading-tight mt-0.5 hidden md:block">
+                  <div className="text-[10px] sm:text-[11px] font-bold text-white mt-0.5 leading-tight break-words">
+                    {m.label}
+                  </div>
+                  <div className="text-[9px] text-[#8e9192] leading-tight mt-1 hidden md:block">
                     {m.detail}
                   </div>
                 </div>
