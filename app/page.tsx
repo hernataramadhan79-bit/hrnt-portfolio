@@ -100,7 +100,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative h-dvh overflow-hidden bg-[#090A0F] text-[#e3e1e9] selection:bg-white/10 selection:text-white flex flex-col">
+    <div className="relative h-dvh overflow-hidden bg-[#09090b] text-[#f4f4f5] selection:bg-cyan-500/20 selection:text-cyan-300 flex flex-col">
       <Background />
 
       {/* Floating Pill Navbar */}

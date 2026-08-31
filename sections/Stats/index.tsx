@@ -26,10 +26,10 @@ type ContribDay = { date: string; count: number; level: number };
 
 const GITHUB_COLORS = [
   '#141923', // Level 0 — empty (dark obsidian slate)
-  '#083344', // Level 1 — low (deep cyan / midnight teal)
-  '#0e7490', // Level 2 — medium (vibrant deep cyan)
-  '#06b6d4', // Level 3 — high (electric cyan)
-  '#22d3ee', // Level 4 — very high (luminous neon cyan)
+  '#083344', // Level 1 — low (deep cyan-950)
+  '#0e7490', // Level 2 — medium (cyan-700)
+  '#06b6d4', // Level 3 — high (cyan-500)
+  '#22d3ee', // Level 4 — very high (luminous cyan-400)
 ];
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -210,30 +210,30 @@ function GitHubContributionGraph({
   const svgHeight = 7 * STEP + 22;
 
   return (
-    <div className="glass-card p-5 sm:p-6 rounded-2xl relative">
+    <div className="glass-card p-5 sm:p-6 rounded-2xl relative border-neutral-800/80">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 border-b border-white/10 pb-4 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 border-b border-neutral-800 pb-4 gap-3">
         <div>
           <h3 className="text-base font-bold text-white flex items-center gap-2">
             <GitCommit size={17} className="text-cyan-400" />
             <span>GitHub Contribution Matrix</span>
           </h3>
-          <p className="text-xs text-[#8e9192] mt-0.5 font-normal">
+          <p className="text-xs text-neutral-400 mt-0.5 font-normal">
             Continuous engineering cadence and public commit distribution over the past 52 weeks.
           </p>
         </div>
 
         <div className="flex items-center gap-2.5 flex-wrap">
-          <span className="text-xs text-[#8e9192] font-mono bg-white/5 px-3 py-1 rounded-full border border-white/10 flex items-center gap-1.5">
-            <span className="text-cyan-300 font-bold">{totalContributions}</span> verified commits
-            <span className="text-white/20">•</span>
-            <span className="text-cyan-200/90">{timeRangeText}</span>
+          <span className="text-xs text-neutral-400 font-mono bg-neutral-900/60 px-3 py-1 rounded-full border border-neutral-800 flex items-center gap-1.5">
+            <span className="text-cyan-400 font-bold">{totalContributions}</span> verified commits
+            <span className="text-neutral-600">•</span>
+            <span className="text-neutral-300">{timeRangeText}</span>
           </span>
           <a
             href="https://github.com/hernataramadhan79-bit"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-cyan-400 hover:text-cyan-300 font-mono transition-colors flex items-center gap-1 bg-cyan-500/10 border border-cyan-400/20 px-3 py-1 rounded-full hover:bg-cyan-500/20"
+            className="text-xs text-cyan-400 hover:text-cyan-300 font-mono transition-colors flex items-center gap-1 bg-cyan-500/10 border border-cyan-500/20 px-3 py-1 rounded-full hover:bg-cyan-500/20"
           >
             <span>@hernataramadhan79-bit</span>
             <ExternalLink size={12} />
@@ -419,28 +419,28 @@ export default function Stats() {
     <section className="w-full max-w-[1400px] mx-auto pt-24 pb-20 px-4 sm:px-6 lg:px-8">
       {/* Section Header */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6"
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-neutral-800 pb-6"
       >
         <div>
           <span className="text-xs font-bold font-mono text-cyan-400 uppercase tracking-[0.25em] mb-2 block">
             04 / ACTIVITY TELEMETRY
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
             Telemetry &amp; Activity Observability
           </h2>
-          <p className="text-sm text-[#8e9192] mt-2 max-w-xl">
+          <p className="text-sm text-neutral-400 mt-2 max-w-xl">
             Real-time activity metrics fetched via GitHub and WakaTime APIs with in-memory caching and rate limit protection.
           </p>
         </div>
 
         {/* Real-time Status Badge */}
         <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
-          <div className="inline-flex items-center gap-2 glass-badge px-3.5 py-1.5 rounded-full border border-cyan-400/20 bg-cyan-500/5">
+          <div className="inline-flex items-center gap-2 glass-badge px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
-            <span className="text-xs font-mono font-medium text-cyan-300">
+            <span className="text-xs font-mono font-medium text-cyan-400">
               {loading ? 'SYNCING TELEMETRY...' : 'TELEMETRY ACTIVE'}
             </span>
           </div>
@@ -449,85 +449,85 @@ export default function Stats() {
 
       {/* Row 1: Primary KPI Grid (4 Columns) */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.03, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.28, delay: 0.03, ease: [0.22, 1, 0.36, 1] }}
         className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-5"
       >
         {/* Metric 1: Contributions */}
-        <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-cyan-400/30 transition-colors duration-200 group">
-          <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono uppercase tracking-wider mb-2">
+        <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-neutral-700 transition-colors duration-200 group">
+          <div className="flex items-center justify-between text-xs text-neutral-500 font-mono uppercase tracking-wider mb-2">
             <span>Contributions</span>
-            <GitCommit size={16} className="text-cyan-400 group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.7)] transition-all duration-200" />
+            <GitCommit size={16} className="text-cyan-400 group-hover:text-cyan-300 transition-colors" />
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
+            <div className="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight" suppressHydrationWarning>
               {totalContributions}
             </div>
-            <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400/90 font-mono">
+            <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400 font-mono">
               <span>Verified Commits</span>
-              <span className="text-[#8e9192]">1 Year</span>
+              <span className="text-neutral-500">1 Year</span>
             </div>
           </div>
         </div>
 
         {/* Metric 2: Coding Hours */}
-        <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-cyan-400/30 transition-colors duration-200 group">
-          <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono uppercase tracking-wider mb-2">
+        <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-neutral-700 transition-colors duration-200 group">
+          <div className="flex items-center justify-between text-xs text-neutral-500 font-mono uppercase tracking-wider mb-2">
             <span>Logged Coding Time</span>
-            <Clock size={16} className="text-cyan-400 group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.7)] transition-all duration-200" />
+            <Clock size={16} className="text-cyan-400 group-hover:text-cyan-300 transition-colors" />
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
+            <div className="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight" suppressHydrationWarning>
               {totalTime}
             </div>
-            <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400/90 font-mono">
+            <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400 font-mono">
               <span>WakaTime Sync</span>
-              <span className="text-[#8e9192]">Tracked</span>
+              <span className="text-neutral-500">Tracked</span>
             </div>
           </div>
         </div>
 
         {/* Metric 3: Daily Average */}
-        <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-sky-400/30 transition-colors duration-200 group">
-          <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono uppercase tracking-wider mb-2">
+        <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-neutral-700 transition-colors duration-200 group">
+          <div className="flex items-center justify-between text-xs text-neutral-500 font-mono uppercase tracking-wider mb-2">
             <span>Daily Average</span>
-            <Activity size={16} className="text-sky-400 group-hover:text-sky-300 group-hover:drop-shadow-[0_0_8px_rgba(56,189,248,0.7)] transition-all duration-200" />
+            <Activity size={16} className="text-cyan-400 group-hover:text-cyan-300 transition-colors" />
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
+            <div className="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight" suppressHydrationWarning>
               {dailyAverage}
             </div>
-            <div className="flex items-center justify-between mt-1.5 text-xs text-sky-400/90 font-mono">
+            <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400 font-mono">
               <span>Editor Focus Time</span>
-              <span className="text-[#8e9192]">/ day</span>
+              <span className="text-neutral-500">/ day</span>
             </div>
           </div>
         </div>
 
         {/* Metric 4: Open Source */}
-        <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-cyan-400/30 transition-colors duration-200 group">
-          <div className="flex items-center justify-between text-xs text-[#8e9192] font-mono uppercase tracking-wider mb-2">
+        <div className="glass-card p-5 rounded-2xl flex flex-col justify-between hover:border-neutral-700 transition-colors duration-200 group">
+          <div className="flex items-center justify-between text-xs text-neutral-500 font-mono uppercase tracking-wider mb-2">
             <span>Public Repos &amp; Stars</span>
-            <TrendingUp size={16} className="text-cyan-400 group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.7)] transition-all duration-200" />
+            <TrendingUp size={16} className="text-cyan-400 group-hover:text-cyan-300 transition-colors" />
           </div>
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight" suppressHydrationWarning>
-              {reposCount} <span className="text-xl text-[#8e9192] font-normal">/</span> {starsCount}★
+            <div className="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight" suppressHydrationWarning>
+              {reposCount} <span className="text-xl text-neutral-500 font-normal">/</span> {starsCount}★
             </div>
-            <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400/90 font-mono">
+            <div className="flex items-center justify-between mt-1.5 text-xs text-cyan-400 font-mono">
               <span>Open Source</span>
-              <span className="text-[#8e9192]">Public</span>
+              <span className="text-neutral-500">Public</span>
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* Row 2: Full-Width GitHub Contribution Heatmap Card (Span 12) — Perfectly Sized to Container */}
+      {/* Row 2: Full-Width GitHub Contribution Heatmap Card (Span 12) */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.28, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
         className="mb-5"
       >
         <GitHubContributionGraph
@@ -538,20 +538,20 @@ export default function Stats() {
 
       {/* Row 3: Complementary Telemetry Bento — Languages (Span 6) & Top Repositories (Span 6) */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.28, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
         className="grid grid-cols-1 lg:grid-cols-12 gap-5"
       >
         {/* Left: WakaTime Language Distribution (Span 6) */}
-        <div className="lg:col-span-6 glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
+        <div className="lg:col-span-6 glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between border-neutral-800/80">
           <div>
-            <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
+            <div className="flex items-center justify-between mb-4 border-b border-neutral-800 pb-3">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <Code2 size={16} className="text-cyan-400" />
                 <span>Language Breakdown &amp; Velocity</span>
               </h3>
-              <span className="text-xs text-cyan-400 font-mono px-2.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-400/20">
+              <span className="text-xs text-cyan-400 font-mono px-2.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
                 WakaTime Telemetry
               </span>
             </div>
@@ -563,13 +563,13 @@ export default function Stats() {
                 <div className="skeleton-box h-6 w-3/5 rounded-lg" />
               </div>
             ) : languages.length === 0 ? (
-              <div className="py-8 text-center text-xs text-[#8e9192] font-mono">
+              <div className="py-8 text-center text-xs text-neutral-500 font-mono">
                 No language telemetry recorded yet for this period.
               </div>
             ) : (
               <>
                 {/* Segmented Color Bar Overview */}
-                <div className="w-full h-2.5 rounded-full overflow-hidden flex gap-0.5 bg-white/5 mb-5 p-0.5">
+                <div className="w-full h-2.5 rounded-full overflow-hidden flex gap-0.5 bg-neutral-900 mb-5 p-0.5">
                   {languages.map((lang: any) => (
                     <div
                       key={lang.name}
@@ -593,11 +593,11 @@ export default function Stats() {
                             className="w-2.5 h-2.5 rounded-full shrink-0"
                             style={{ backgroundColor: lang.color || '#22d3ee' }}
                           />
-                          <span className="text-xs text-[#e3e1e9]">{lang.name}</span>
+                          <span className="text-xs text-neutral-300">{lang.name}</span>
                         </span>
-                        <span className="text-[#8e9192] font-mono text-xs">{lang.percent}%</span>
+                        <span className="text-neutral-500 font-mono text-xs">{lang.percent}%</span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
+                      <div className="w-full h-2 rounded-full bg-neutral-900 overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${lang.percent}%` }}
@@ -613,16 +613,16 @@ export default function Stats() {
             )}
           </div>
 
-          <div className="mt-6 pt-3.5 border-t border-white/10 flex items-center justify-between text-xs text-[#8e9192] font-mono">
-            <span>Peak Day: <strong className="text-cyan-300 font-semibold">{bestDay}</strong></span>
-            <span className="text-[#8e9192]">VS Code &amp; WakaTime API</span>
+          <div className="mt-6 pt-3.5 border-t border-neutral-800 flex items-center justify-between text-xs text-neutral-500 font-mono">
+            <span>Peak Day: <strong className="text-cyan-400 font-semibold">{bestDay}</strong></span>
+            <span className="text-neutral-500">VS Code &amp; WakaTime API</span>
           </div>
         </div>
 
         {/* Right: Featured Repositories (Span 6) */}
-        <div className="lg:col-span-6 glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between">
+        <div className="lg:col-span-6 glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between border-neutral-800/80">
           <div>
-            <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
+            <div className="flex items-center justify-between mb-4 border-b border-neutral-800 pb-3">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <Github size={16} className="text-cyan-400" />
                 <span>Featured Repositories</span>
@@ -645,7 +645,7 @@ export default function Stats() {
                   <div className="skeleton-box h-20 w-full rounded-xl" />
                 </div>
               ) : (githubData?.topRepos || []).length === 0 ? (
-                <div className="py-8 text-center text-xs text-[#8e9192] font-mono">
+                <div className="py-8 text-center text-xs text-neutral-500 font-mono">
                   No public repositories found.
                 </div>
               ) : (
@@ -655,17 +655,17 @@ export default function Stats() {
                     href={repo.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block p-3.5 rounded-xl bg-white/[0.02] border border-white/10 hover:border-cyan-400/30 hover:bg-white/[0.04] transition-colors duration-200 group"
+                    className="block p-3.5 rounded-xl bg-neutral-900/40 border border-neutral-800/60 hover:border-neutral-700 hover:bg-neutral-850 transition-colors duration-200 group"
                   >
                     <div className="flex items-center justify-between mb-1">
                       <h4 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">
                         {repo.name}
                       </h4>
-                      <span className="text-[10px] text-[#8e9192] font-mono flex items-center gap-1 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                      <span className="text-[10px] text-neutral-500 font-mono flex items-center gap-1 bg-neutral-900 px-2 py-0.5 rounded-full border border-neutral-800">
                         <span>★</span> {repo.stargazers_count || 0}
                       </span>
                     </div>
-                    <p className="text-xs text-[#8e9192] line-clamp-1 mb-2 font-normal leading-relaxed">
+                    <p className="text-xs text-neutral-400 line-clamp-1 mb-2 font-normal leading-relaxed">
                       {repo.description || 'Full-stack repository architecture.'}
                     </p>
                     <div className="flex items-center justify-between pt-1">
@@ -683,7 +683,7 @@ export default function Stats() {
             </div>
           </div>
 
-          <div className="mt-4 pt-3.5 border-t border-white/10 flex items-center justify-between text-xs text-[#8e9192] font-mono">
+          <div className="mt-4 pt-3.5 border-t border-neutral-800 flex items-center justify-between text-xs text-neutral-500 font-mono">
             <span>Verified GitHub Sync:</span>
             <span className="text-cyan-400 font-semibold">Live via REST &amp; GraphQL</span>
           </div>

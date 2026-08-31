@@ -35,42 +35,41 @@ export default function CertificateModal({ cert, onClose }: CertificateModalProp
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.22 }}
+          transition={{ duration: 0.2 }}
           onClick={onClose}
-          className="fixed inset-0 bg-[#090A0F]/85 backdrop-blur-xl -z-10"
+          className="fixed inset-0 bg-neutral-950/80 backdrop-blur-md -z-10"
         />
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.98, y: 10 }}
+          initial={{ opacity: 0, scale: 0.98, y: 8 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.98, y: 6 }}
-          transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-          className="glass-card relative w-full max-w-2xl bg-[#0d0e13]/95 border border-white/15 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-2xl"
-          style={{ boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.15)' }}
+          transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          className="glass-card relative w-full max-w-2xl bg-neutral-950/95 border border-neutral-800 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-2xl"
         >
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 text-[#c4c7c8] hover:text-white bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-colors z-20"
+            className="absolute top-5 right-5 p-2 text-neutral-400 hover:text-white bg-neutral-900 hover:bg-neutral-800 rounded-full border border-neutral-800 transition-colors z-20"
             aria-label="Close modal"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
 
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400">
+            <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
               <Award size={20} />
             </div>
             <div>
-              <span className="text-xs uppercase tracking-wider text-[#8e9192] font-semibold">
+              <span className="text-xs uppercase tracking-wider text-neutral-500 font-mono">
                 {cert.issuer} • {cert.date}
               </span>
-              <h3 className="text-xl font-bold text-white leading-tight">
+              <h3 className="text-lg font-bold text-white leading-tight">
                 {cert.title}
               </h3>
             </div>
           </div>
 
-          <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-black/50 mb-6">
+          <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 mb-6">
             <Image
               src={cert.certificateImage}
               alt={cert.title}
@@ -86,7 +85,7 @@ export default function CertificateModal({ cert, onClose }: CertificateModalProp
               href={cert.credentialLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-400 to-sky-400 text-black text-xs font-bold px-5 py-2.5 rounded-full hover:brightness-110 shadow-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+              className="inline-flex items-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-neutral-950 text-xs font-bold px-5 py-2.5 rounded-full shadow-lg transition-all duration-150 active:scale-[0.98]"
             >
               <span>View Credential / Full Image</span>
               <ExternalLink size={14} />
@@ -97,3 +96,4 @@ export default function CertificateModal({ cert, onClose }: CertificateModalProp
     </AnimatePresence>
   );
 }
+

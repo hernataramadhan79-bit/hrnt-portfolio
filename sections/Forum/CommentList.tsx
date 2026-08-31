@@ -133,20 +133,20 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
 
   if (comments.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 border border-dashed border-white/10 rounded-[2.5rem] bg-white/[0.02]">
-        <MessageSquare size={32} className="text-slate-700 mb-4" />
-        <p className="text-slate-500 font-medium">No messages yet. Be the first!</p>
+      <div className="flex flex-col items-center justify-center py-20 border border-dashed border-neutral-800 rounded-3xl bg-neutral-900/20">
+        <MessageSquare size={32} className="text-neutral-700 mb-4" />
+        <p className="text-neutral-500 font-medium text-xs font-mono">No messages yet. Be the first to leave one!</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3.5">
       {deleteError && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center justify-between"
+          className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center justify-between"
         >
           <span className="flex items-center gap-1.5 font-medium">
             <AlertCircle size={14} /> {deleteError}
@@ -162,22 +162,22 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
           <motion.div
             key={comment.id}
             layout="position"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6, transition: { duration: 0.18 } }}
             transition={{
               layout: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-              opacity: { duration: 0.22 },
-              y: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
+              opacity: { duration: 0.2 },
+              y: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
             }}
-            className="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/30 hover:bg-white/[0.05] transition-colors duration-200 group"
+            className="p-5 rounded-2xl bg-neutral-900/40 border border-neutral-800/70 hover:border-neutral-700 transition-colors duration-150 group"
           >
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-start mb-3">
               <div className="flex items-center gap-3">
-                <UserAvatar src={comment.userImage} name={comment.name} className="w-10 h-10" />
+                <UserAvatar src={comment.userImage} name={comment.name} className="w-9 h-9" />
                 <div>
-                  <div className="text-white font-bold tracking-tight">{comment.name}</div>
-                  <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
+                  <div className="text-white text-sm font-bold tracking-tight">{comment.name}</div>
+                  <div className="text-[10px] text-neutral-500 font-mono flex items-center gap-1.5 mt-0.5">
                     <Calendar size={10} /> {formatDate(comment.createdAt)}
                   </div>
                 </div>
@@ -188,16 +188,16 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                     {confirmDeleteId === comment.id ? (
                       <motion.div
                         key="confirm-delete"
-                        initial={{ opacity: 0, scale: 0.9, x: 10 }}
+                        initial={{ opacity: 0, scale: 0.9, x: 8 }}
                         animate={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, x: 10 }}
-                        className="flex items-center gap-1.5 p-1 bg-red-500/10 border border-red-500/30 rounded-xl backdrop-blur-md"
+                        exit={{ opacity: 0, scale: 0.9, x: 8 }}
+                        className="flex items-center gap-1.5 p-1 bg-rose-500/10 border border-rose-500/30 rounded-xl backdrop-blur-md"
                       >
-                        <span className="text-[10px] font-mono text-red-300 font-bold px-1.5">Delete?</span>
+                        <span className="text-[10px] font-mono text-rose-300 font-bold px-1.5">Delete?</span>
                         <button
                           onClick={() => confirmDeleteComment(comment.id)}
                           disabled={deletingId === comment.id}
-                          className="px-2 py-1 bg-red-500 text-white rounded-lg text-[9px] font-mono font-bold uppercase tracking-wider hover:bg-red-600 transition-colors flex items-center gap-1 cursor-pointer"
+                          className="px-2 py-1 bg-rose-600 text-white rounded-lg text-[9px] font-mono font-bold uppercase tracking-wider hover:bg-rose-500 transition-colors flex items-center gap-1 cursor-pointer"
                         >
                           {deletingId === comment.id ? (
                             <Loader2 size={10} className="animate-spin" />
@@ -209,7 +209,7 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                         <button
                           onClick={() => setConfirmDeleteId(null)}
                           disabled={deletingId === comment.id}
-                          className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                          className="p-1 text-neutral-400 hover:text-white rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer"
                           title="Cancel"
                           aria-label="Cancel delete"
                         >
@@ -224,14 +224,14 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                         exit={{ opacity: 0, scale: 0.9 }}
                         className="flex items-center gap-2"
                       >
-                        <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-[8px] text-cyan-400 font-bold uppercase tracking-widest">
-                          You
+                        <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-[8px] text-cyan-400 font-mono font-semibold uppercase tracking-wider">
+                          Author
                         </span>
                         <button
                           onClick={() => setConfirmDeleteId(comment.id)}
                           title="Delete message"
                           aria-label="Delete message"
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all cursor-pointer"
                         >
                           <Trash2 size={13} />
                         </button>
@@ -241,7 +241,7 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                 </div>
               )}
             </div>
-            <p className="text-slate-300 leading-relaxed text-sm whitespace-pre-wrap">
+            <p className="text-neutral-300 leading-relaxed text-xs sm:text-sm whitespace-pre-wrap">
               {comment.message}
             </p>
           </motion.div>
