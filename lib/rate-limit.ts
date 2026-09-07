@@ -52,13 +52,39 @@ export function checkRateLimit(
 }
 
 export function getClientIp(request: Request): string {
-    const forwarded = request.headers.get('x-forwarded-for');
-    if (forwarded) {
-        return forwarded.split(',')[0].trim();
+    // 1. Cloudflare edge IP (tamper-proof behind Cloudflare reverse proxy)
+    const cfIp = request.headers.get('cf-connecting-ip');
+    if (cfIp && isValidIp(cfIp.trim())) {
+        return cfIp.trim();
     }
+
+    // 2. Vercel edge IP
+    const vercelIp = request.headers.get('x-vercel-ip');
+    if (vercelIp && isValidIp(vercelIp.trim())) {
+        return vercelIp.trim();
+    }
+
+    // 3. X-Real-IP
     const realIp = request.headers.get('x-real-ip');
-    if (realIp) {
+    if (realIp && isValidIp(realIp.trim())) {
         return realIp.trim();
     }
+
+    // 4. X-Forwarded-For fallback (take rightmost untampered hop or first valid)
+    const forwarded = request.headers.get('x-forwarded-for');
+    if (forwarded) {
+        const ips = forwarded.split(',').map((p) => p.trim());
+        const validIp = ips.find(isValidIp);
+        if (validIp) return validIp;
+    }
+
     return '127.0.0.1';
+}
+
+function isValidIp(ip: string): boolean {
+    // IPv4 pattern
+    const ipv4 = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    // IPv6 pattern
+    const ipv6 = /^[0-9a-fA-F:]+$/;
+    return (ipv4.test(ip) || ipv6.test(ip)) && ip.length <= 45;
 }

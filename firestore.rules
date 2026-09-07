@@ -7,15 +7,26 @@ service cloud.firestore {
       allow read: if true;
       
       // Hanya pengguna yang sudah login yang bisa membuat komentar baru
-      allow create: if request.auth != null;
+      // Dan userId WAJIB sama dengan request.auth.uid (mencegah impersonasi identitas)
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 500
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.userImage is string
+        && request.resource.data.userImage.size() <= 500
+        && request.resource.data.keys().hasOnly(['userId', 'name', 'userImage', 'message', 'createdAt']);
       
-      // Pengguna HANYA bisa menghapus komentarnya sendiri
+      // Pengguna HANYA bisa menghapus komentarnya sendiri atau admin
       allow delete: if request.auth != null && (
         resource.data.userId == request.auth.uid ||
         request.auth.token.email == "hernataramadhan79@gmail.com"
       );
       
-      // Mencegah edit dokumen
+      // Mencegah modifikasi dokumen yang sudah ada
       allow update: if false;
     }
   }

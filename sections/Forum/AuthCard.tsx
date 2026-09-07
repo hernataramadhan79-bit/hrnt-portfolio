@@ -12,7 +12,7 @@ const SILENT_ERROR_CODES = new Set([
 ]);
 
 const getFriendlyErrorMessage = (error: any) => {
-  const code = error.code;
+  const code = error?.code;
   switch (code) {
     case 'auth/invalid-email': return 'The email format is invalid. Please double-check and try again.';
     case 'auth/user-not-found':
@@ -20,7 +20,11 @@ const getFriendlyErrorMessage = (error: any) => {
     case 'auth/email-already-in-use': return 'This email is already registered. Please login instead.';
     case 'auth/weak-password': return 'Password is too weak. Please use at least 6 characters.';
     case 'auth/network-request-failed': return 'Network connection issue detected. Please check your internet.';
-    default: return 'A system error occurred. Please try again in a few moments.';
+    case 'auth/popup-blocked': return 'The sign-in popup was blocked by your browser. Please allow popups for this site and try again.';
+    case 'auth/account-exists-with-different-credential': return 'An account already exists with this email using a different sign-in provider.';
+    case 'auth/unauthorized-domain': return 'This domain is not authorized in Firebase Authentication settings.';
+    case 'auth/operation-not-allowed': return 'This login provider is currently not enabled.';
+    default: return error?.message && !error.message.includes('auth/') ? error.message : 'A system error occurred. Please try again in a few moments.';
   }
 };
 
@@ -55,10 +59,17 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
     setSocialLoading(provider);
     try {
       const authProvider = provider === 'google' ? googleProvider : githubProvider;
-      await signInWithPopup(auth, authProvider);
+      // 60-second timeout safeguard to prevent permanent UI lockup if popup communication is disrupted
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject({ code: 'auth/timeout', message: 'Authentication timed out. Please try again.' }), 60000)
+      );
+      await Promise.race([
+        signInWithPopup(auth, authProvider),
+        timeoutPromise,
+      ]);
     } catch (error: any) {
       // Silently ignore user-initiated cancellations (popup closed, etc.)
-      if (!SILENT_ERROR_CODES.has(error.code)) {
+      if (!SILENT_ERROR_CODES.has(error?.code)) {
         setAuthError(getFriendlyErrorMessage(error));
       }
     } finally {
@@ -105,27 +116,27 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
         <form onSubmit={handleEmailAuth} className="space-y-3.5">
           {isSignUpMode && (
             <div className="space-y-1.5">
-              <label className="text-[10px] uppercase tracking-widest text-neutral-400 font-bold ml-1">Full Name</label>
+              <label htmlFor="auth-fullname" className="text-[10px] uppercase tracking-widest text-neutral-400 font-bold ml-1">Full Name</label>
               <div className="relative">
                 <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" size={15} />
-                <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)}
+                <input id="auth-fullname" name="name" autoComplete="name" type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)}
                   className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50" placeholder="Your Name" required />
               </div>
             </div>
           )}
           <div className="space-y-1.5">
-            <label className="text-[10px] uppercase tracking-widest text-neutral-400 font-bold ml-1">Email Address</label>
+            <label htmlFor="auth-email" className="text-[10px] uppercase tracking-widest text-neutral-400 font-bold ml-1">Email Address</label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" size={15} />
-              <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setAuthError(''); }}
+              <input id="auth-email" name="email" autoComplete="email" type="email" value={email} onChange={(e) => { setEmail(e.target.value); setAuthError(''); }}
                 className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50" placeholder="name@example.com" required />
             </div>
           </div>
           <div className="space-y-1.5">
-            <label className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold ml-1">Password</label>
+            <label htmlFor="auth-password" className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold ml-1">Password</label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" size={15} />
-              <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setAuthError(''); }}
+              <input id="auth-password" name="password" autoComplete={isSignUpMode ? 'new-password' : 'current-password'} type="password" value={password} onChange={(e) => { setPassword(e.target.value); setAuthError(''); }}
                 className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-10 pr-4 py-2.5 text-white text-xs placeholder:text-neutral-500 focus:outline-none focus:border-cyan-500/50" placeholder="Min. 6 characters" required />
             </div>
           </div>

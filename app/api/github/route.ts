@@ -183,15 +183,17 @@ export async function GET(request: Request) {
         });
 
     } catch (error: any) {
-        console.error('GitHub API route error:', error);
+        console.error('GitHub API route error:', error?.message || error);
         if (serverCache) {
             return NextResponse.json(serverCache.data, {
                 headers: { 'X-Cache-Status': 'STALE-FALLBACK' }
             });
         }
-        return NextResponse.json({
-            error: 'Failed to fetch GitHub data',
-            details: error.message
-        }, { status: 500 });
+        return NextResponse.json(DEFAULT_GITHUB_FALLBACK, {
+            headers: {
+                'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+                'X-Fallback': 'true'
+            }
+        });
     }
 }

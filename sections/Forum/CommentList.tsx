@@ -54,7 +54,7 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const fetchComments = useCallback(async (showLoading = false) => {
-    if (showLoading && comments.length === 0) setIsLoading(true);
+    if (showLoading) setIsLoading(true);
     try {
       const res = await fetch('/api/comments', { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to load comments');
@@ -74,7 +74,7 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
     } finally {
       setIsLoading(false);
     }
-  }, [comments.length]);
+  }, []);
 
   useEffect(() => {
     fetchComments(!hasInitiallyLoaded && cachedComments.length === 0);

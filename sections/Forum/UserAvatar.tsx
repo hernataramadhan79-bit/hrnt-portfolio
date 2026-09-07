@@ -12,7 +12,8 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ src, name, className = "w-10 h-
   const [imgError, setImgError] = useState(false);
   const initial = (name || 'U').charAt(0).toUpperCase();
   const fallbackUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=0891b2&color=fff&bold=true`;
-  const effectiveSrc = (!src || imgError) ? fallbackUrl : src;
+  const isSafeSrc = typeof src === 'string' && (src.startsWith('https://') || src.startsWith('/'));
+  const effectiveSrc = (!isSafeSrc || imgError) ? fallbackUrl : src;
 
   return (
     <div className={`${className} rounded-xl border border-white/10 overflow-hidden bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center text-cyan-400 font-bold shrink-0`}>

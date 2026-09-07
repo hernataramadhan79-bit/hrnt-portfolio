@@ -10,7 +10,7 @@ import { FirestoreCommentDoc, FirestoreRawDoc } from '@/types';
 // Multi-layer Sanitizer: Melindungi dari script injection, malicious protocols, control chars, dan event handlers
 function sanitizeText(input: string): string {
     if (typeof input !== 'string') return '';
-    return input
+    let result = input
         // 1. Bersihkan control characters dan null bytes
         .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
         // 2. Bersihkan tag script, style, iframe, object, embed, form, meta, link, svg, math beserta kontennya
@@ -21,13 +21,32 @@ function sanitizeText(input: string): string {
         .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
         .replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, '')
         .replace(/<math\b[^<]*(?:(?!<\/math>)<[^<]*)*<\/math>/gi, '')
-        // 3. Bersihkan tag HTML lainnya
-        .replace(/<[^>]*>?/gm, '')
-        // 4. Netralisasi URL protocols berbahaya
+        // 3. Netralisasi URL protocols berbahaya
         .replace(/(?:javascript|vbscript|data):/gi, '')
-        // 5. Netralisasi inline event handlers (on\w+=)
-        .replace(/on\w+\s*=/gi, '')
-        .trim();
+        // 4. Netralisasi inline event handlers (on\w+=)
+        .replace(/on\w+\s*=/gi, '');
+
+    // 5. Bersihkan tag HTML yang tersisa secara rekursif/iteratif untuk mencegah nested bypass (e.g. <<script>script>)
+    let prev = '';
+    while (prev !== result) {
+        prev = result;
+        result = result.replace(/<[^>]*>?/gm, '');
+    }
+    return result.trim();
+}
+
+// Validator URL avatar pengguna: hanya mengizinkan URL HTTPS yang valid
+function sanitizeImageUrl(url: any): string {
+    if (typeof url !== 'string') return '';
+    const trimmed = url.trim();
+    if (!trimmed.startsWith('https://') || trimmed.length > 500) {
+        return '';
+    }
+    // Cegah control characters, kurung sudut, spasi, atau kutip di dalam URL
+    if (/[\x00-\x1F\x7F<>"'`\\ ]/.test(trimmed)) {
+        return '';
+    }
+    return trimmed;
 }
 
 // Helper untuk format komentar dari struktur Firestore REST API dengan tipe ketat
@@ -115,6 +134,8 @@ export async function POST(req: NextRequest) {
 
         const cleanMessage = typeof message === 'string' ? sanitizeText(message) : '';
         const cleanName = typeof name === 'string' ? sanitizeText(name) : 'User';
+        const cleanUserImage = sanitizeImageUrl(userImage);
+        const cleanUserId = typeof userId === 'string' ? userId.trim().slice(0, 128) : '';
 
         if (!cleanMessage) {
             return NextResponse.json({ error: 'Message cannot be empty' }, { status: 400 });
@@ -124,12 +145,16 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Message exceeds maximum length (500 chars)' }, { status: 400 });
         }
 
+        if (cleanName.length > 100) {
+            return NextResponse.json({ error: 'Name exceeds maximum length (100 chars)' }, { status: 400 });
+        }
+
         const createUrl = `${FIRESTORE_BASE_URL}/comments?key=${API_KEY}`;
         const firestorePayload = {
             fields: {
-                userId: { stringValue: userId || '' },
+                userId: { stringValue: cleanUserId },
                 name: { stringValue: cleanName || 'User' },
-                userImage: { stringValue: userImage || '' },
+                userImage: { stringValue: cleanUserImage },
                 message: { stringValue: cleanMessage },
                 createdAt: { timestampValue: new Date().toISOString() },
             },

@@ -91,8 +91,13 @@ let nextConfig: NextConfig = {
                         value: 'ALLOWALL',
                     },
                     {
+                        // Prevent COOP isolation from severing window.opener during OAuth redirects
+                        key: 'Cross-Origin-Opener-Policy',
+                        value: 'unsafe-none',
+                    },
+                    {
                         key: 'Content-Security-Policy',
-                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.googleapis.com; connect-src 'self' https://www.googleapis.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com; frame-src 'self' https://*.firebaseapp.com https://apis.google.com;",
+                        value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://apis.google.com https://*.googleapis.com https://static.cloudflareinsights.com; connect-src 'self' https://www.googleapis.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://accounts.google.com https://github.com; frame-src 'self' https://*.firebaseapp.com https://apis.google.com https://accounts.google.com;",
                     },
                 ],
             },
