@@ -69,9 +69,9 @@ const ARCHITECTURE_TIERS: ArchitectureTier[] = [
     ],
     technologies: ['Tauri v2', 'Rust', 'TypeScript', 'Tailwind CSS', 'Infer Crate'],
     keyImplementations: [
+      'Local-first AI workstation with air-gapped P2P LAN sync & embedded SQLite WAL (Velco)',
       'Content-aware desktop file categorization based on binary signatures (SortiQ)',
       'Atomic rollback transaction log guaranteeing 100% non-destructive file operations',
-      'High-speed directory scanner processing thousands of files per second',
     ],
   },
   {
@@ -140,7 +140,7 @@ const CATEGORIZED_STACK: CategorizedTech[] = [
     icon: '/icons/react.svg',
     level: 'Core Production',
     role: 'Server Components (RSC) & Concurrent UI',
-    projects: ['BangunCity', 'Huktif', 'Sakuku'],
+    projects: ['BangunCity', 'Velco', 'Huktif', 'Sakuku'],
   },
   {
     name: 'Next.js',
@@ -156,7 +156,7 @@ const CATEGORIZED_STACK: CategorizedTech[] = [
     icon: '/icons/typescript.svg',
     level: 'Core Production',
     role: 'End-to-End Strict Static Typing & Schema Inference',
-    projects: ['SortiQ', 'BangunCity', 'Huktif'],
+    projects: ['Velco', 'SortiQ', 'BangunCity', 'Huktif'],
   },
   {
     name: 'Tailwind CSS',
@@ -164,7 +164,7 @@ const CATEGORIZED_STACK: CategorizedTech[] = [
     icon: '/icons/tailwind.svg',
     level: 'Core Production',
     role: 'Design System, Fluid Typography & Dark Mode',
-    projects: ['Portfolio', 'Huktif', 'SortiQ'],
+    projects: ['Portfolio', 'Velco', 'Huktif', 'SortiQ'],
   },
   {
     name: 'Tauri',
@@ -172,7 +172,7 @@ const CATEGORIZED_STACK: CategorizedTech[] = [
     icon: '/icons/tauri.svg',
     level: 'Advanced',
     role: 'Ultra-Lean Native OS Windowing (<30MB RAM)',
-    projects: ['SortiQ'],
+    projects: ['Velco', 'SortiQ'],
   },
   {
     name: 'Three.js / R3F',
@@ -236,7 +236,7 @@ const CATEGORIZED_STACK: CategorizedTech[] = [
     icon: '/icons/rust.svg',
     level: 'Advanced',
     role: 'Memory Safety, OS File Systems & Binary Stream Inspection',
-    projects: ['SortiQ Engine'],
+    projects: ['Velco (P2P & SQLite)', 'SortiQ Engine'],
   },
   {
     name: 'Linux / Bash',

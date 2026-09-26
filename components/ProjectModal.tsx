@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, CheckCircle2, TrendingUp, Cpu, Layers } from 'lucide-react';
@@ -12,6 +12,14 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const [selectedImage, setSelectedImage] = useState<string>('');
+
+  useEffect(() => {
+    if (project) {
+      setSelectedImage(project.image);
+    }
+  }, [project]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -76,12 +84,12 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
 
           {/* Main Visual Image Banner */}
-          <div className="relative w-full h-56 sm:h-72 md:h-96 rounded-2xl overflow-hidden mb-8 border border-neutral-800 bg-neutral-900">
+          <div className={`relative w-full h-56 sm:h-72 md:h-96 rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900 ${project.gallery && project.gallery.length > 1 ? 'mb-3' : 'mb-8'}`}>
             <Image
-              src={project.image}
+              src={selectedImage || project.image}
               alt={project.title}
               fill
-              className="object-cover"
+              className="object-cover transition-all duration-300"
               sizes="(max-width: 1024px) 100vw, 896px"
               priority
             />
@@ -113,6 +121,34 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               )}
             </div>
           </div>
+
+          {/* Gallery Thumbnails Strip */}
+          {project.gallery && project.gallery.length > 1 && (
+            <div className="flex items-center gap-2.5 mb-8 overflow-x-auto pb-1 scrollbar-thin">
+              {project.gallery.map((img, i) => {
+                const isCurrent = (selectedImage || project.image) === img;
+                return (
+                  <button
+                    key={i}
+                    onClick={() => setSelectedImage(img)}
+                    className={`relative w-20 sm:w-24 h-14 sm:h-16 rounded-xl overflow-hidden shrink-0 border transition-all duration-150 ${
+                      isCurrent
+                        ? 'border-cyan-400 ring-2 ring-cyan-400/30 scale-[1.02]'
+                        : 'border-neutral-800 opacity-60 hover:opacity-100 hover:border-neutral-700'
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${project.title} screenshot ${i + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           {/* Metrics Impact Bar */}
           {project.metrics && project.metrics.length > 0 && (
