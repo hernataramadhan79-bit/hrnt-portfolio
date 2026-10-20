@@ -1,11 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Lock, User as UserIcon, Chrome, Github, UserPlus, LogIn, LogOut } from 'lucide-react';
-import { auth, googleProvider, githubProvider, signInWithPopup, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, User } from '../../lib/firebase';
+import { Mail, Lock, User as UserIcon, Chrome, Github, UserPlus, LogIn, LogOut, ChevronDown } from 'lucide-react';
+import {
+  auth,
+  googleProvider,
+  githubProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  User,
+} from '../../lib/firebase';
 import UserAvatarComponent from './UserAvatar';
 
-// Errors that are user-initiated (not real errors) — silently ignore them
 const SILENT_ERROR_CODES = new Set([
   'auth/popup-closed-by-user',
   'auth/cancelled-popup-request',
@@ -14,17 +23,29 @@ const SILENT_ERROR_CODES = new Set([
 const getFriendlyErrorMessage = (error: any) => {
   const code = error?.code;
   switch (code) {
-    case 'auth/invalid-email': return 'The email format is invalid. Please double-check and try again.';
+    case 'auth/invalid-email':
+      return 'The email format is invalid. Please double-check and try again.';
     case 'auth/user-not-found':
-    case 'auth/wrong-password': return 'Incorrect email or password. Please verify your credentials.';
-    case 'auth/email-already-in-use': return 'This email is already registered. Please login instead.';
-    case 'auth/weak-password': return 'Password is too weak. Please use at least 6 characters.';
-    case 'auth/network-request-failed': return 'Network connection issue detected. Please check your internet.';
-    case 'auth/popup-blocked': return 'The sign-in popup was blocked by your browser. Please allow popups for this site and try again.';
-    case 'auth/account-exists-with-different-credential': return 'An account already exists with this email using a different sign-in provider.';
-    case 'auth/unauthorized-domain': return 'This domain is not authorized in Firebase Authentication settings.';
-    case 'auth/operation-not-allowed': return 'This login provider is currently not enabled.';
-    default: return error?.message && !error.message.includes('auth/') ? error.message : 'A system error occurred. Please try again in a few moments.';
+    case 'auth/wrong-password':
+      return 'Incorrect email or password. Please verify your credentials.';
+    case 'auth/email-already-in-use':
+      return 'This email is already registered. Please login instead.';
+    case 'auth/weak-password':
+      return 'Password is too weak. Please use at least 6 characters.';
+    case 'auth/network-request-failed':
+      return 'Network connection issue detected. Please check your internet.';
+    case 'auth/popup-blocked':
+      return 'The sign-in popup was blocked by your browser. Please allow popups and try again.';
+    case 'auth/account-exists-with-different-credential':
+      return 'An account already exists with this email using a different sign-in provider.';
+    case 'auth/unauthorized-domain':
+      return 'This domain is not authorized in Firebase Authentication settings.';
+    case 'auth/operation-not-allowed':
+      return 'This login provider is currently not enabled.';
+    default:
+      return error?.message && !error.message.includes('auth/')
+        ? error.message
+        : 'A system error occurred. Please try again in a few moments.';
   }
 };
 
@@ -36,8 +57,15 @@ interface AuthCardProps {
   children?: React.ReactNode;
 }
 
-const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateChange, onLogout, children }) => {
+const AuthCard: React.FC<AuthCardProps> = ({
+  user,
+  isAuthLoading,
+  onAuthStateChange,
+  onLogout,
+  children,
+}) => {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [showEmailForm, setShowEmailForm] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -59,16 +87,14 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
     setSocialLoading(provider);
     try {
       const authProvider = provider === 'google' ? googleProvider : githubProvider;
-      // 60-second timeout safeguard to prevent permanent UI lockup if popup communication is disrupted
       const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject({ code: 'auth/timeout', message: 'Authentication timed out. Please try again.' }), 60000)
+        setTimeout(
+          () => reject({ code: 'auth/timeout', message: 'Authentication timed out. Please try again.' }),
+          60000
+        )
       );
-      await Promise.race([
-        signInWithPopup(auth, authProvider),
-        timeoutPromise,
-      ]);
+      await Promise.race([signInWithPopup(auth, authProvider), timeoutPromise]);
     } catch (error: any) {
-      // Silently ignore user-initiated cancellations (popup closed, etc.)
       if (!SILENT_ERROR_CODES.has(error?.code)) {
         setAuthError(getFriendlyErrorMessage(error));
       }
@@ -84,8 +110,13 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
     try {
       if (isSignUpMode) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const generatedAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName || 'User')}&background=0891b2&color=fff&bold=true`;
-        await updateProfile(userCredential.user, { displayName: displayName, photoURL: generatedAvatar });
+        const generatedAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          displayName || 'User'
+        )}&background=262B38&color=A8C7FA&bold=true`;
+        await updateProfile(userCredential.user, {
+          displayName: displayName,
+          photoURL: generatedAvatar,
+        });
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
@@ -98,106 +129,196 @@ const AuthCard: React.FC<AuthCardProps> = ({ user, isAuthLoading, onAuthStateCha
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-10 space-y-4">
-        <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-        <span className="text-neutral-500 font-mono text-[10px] uppercase tracking-widest">Processing...</span>
+      <div className="flex items-center justify-center py-4 gap-2.5 bg-[var(--surface-1)] rounded-[16px]">
+        <div className="w-4 h-4 border-2 border-[var(--accent-pixel)] border-t-transparent rounded-full animate-spin" />
+        <span className="text-[var(--text-secondary)] font-mono text-xs">Syncing session...</span>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="space-y-5 relative z-10">
-        <div className="text-left space-y-1">
-          <h3 className="text-lg font-bold text-white">{isSignUpMode ? 'Create Account' : 'Guest Authentication'}</h3>
-          <p className="text-neutral-400 text-xs">Sign in to leave a message in the community guestbook.</p>
+      <div className="bg-[var(--surface-1)] rounded-[16px] p-3.5 sm:p-4 space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div>
+            <h4 className="text-xs sm:text-sm font-bold text-[#F1F5F9]">
+              Join the Community Thread
+            </h4>
+            <p className="text-[11px] text-[var(--text-secondary)]">
+              Authenticate with Google, GitHub, or Email to post a message.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => handleSocialLogin('google')}
+              disabled={!!socialLoading}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[var(--surface-2)] hover:bg-[var(--surface-pill)] text-xs font-semibold text-[#F1F5F9] transition-colors cursor-pointer disabled:opacity-50"
+            >
+              {socialLoading === 'google' ? (
+                <span className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ) : (
+                <Chrome size={14} className="text-[var(--accent-pixel)]" />
+              )}
+              <span>Google</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSocialLogin('github')}
+              disabled={!!socialLoading}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[var(--surface-2)] hover:bg-[var(--surface-pill)] text-xs font-semibold text-[#F1F5F9] transition-colors cursor-pointer disabled:opacity-50"
+            >
+              {socialLoading === 'github' ? (
+                <span className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ) : (
+                <Github size={14} className="text-[var(--accent-pixel)]" />
+              )}
+              <span>GitHub</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setShowEmailForm((prev) => !prev)}
+              className="inline-flex items-center gap-1 px-3 py-2 rounded-full bg-[var(--surface-2)] hover:bg-[var(--surface-pill)] text-xs font-medium text-[var(--text-secondary)] hover:text-[#F1F5F9] transition-colors cursor-pointer"
+            >
+              <Mail size={13} />
+              <span>Email</span>
+              <ChevronDown
+                size={12}
+                className={`transition-transform ${showEmailForm ? 'rotate-180' : ''}`}
+              />
+            </button>
+          </div>
         </div>
 
-        <form onSubmit={handleEmailAuth} className="space-y-3.5">
-          {isSignUpMode && (
-            <div className="space-y-1.5">
-              <label htmlFor="auth-fullname" className="text-[10px] uppercase tracking-widest text-neutral-400 font-bold ml-1">Full Name</label>
+        {authError && (
+          <p
+            className="text-[11px] text-rose-300 bg-rose-500/15 py-2 px-3 rounded-[10px] font-medium"
+            role="alert"
+          >
+            {authError}
+          </p>
+        )}
+
+        {showEmailForm && (
+          <form onSubmit={handleEmailAuth} className="pt-2 space-y-2.5 border-t border-white/[0.06]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {isSignUpMode && (
+                <div className="relative">
+                  <UserIcon
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]"
+                    size={13}
+                  />
+                  <input
+                    id="auth-fullname"
+                    name="name"
+                    autoComplete="name"
+                    type="text"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    className="w-full bg-[var(--surface-2)] rounded-full pl-8 pr-3 py-2 text-[#F1F5F9] text-xs placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-pixel)]"
+                    placeholder="Your Name"
+                    required
+                  />
+                </div>
+              )}
               <div className="relative">
-                <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" size={15} />
-                <input id="auth-fullname" name="name" autoComplete="name" type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)}
-                  className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50" placeholder="Your Name" required />
+                <Mail
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]"
+                  size={13}
+                />
+                <input
+                  id="auth-email"
+                  name="email"
+                  autoComplete="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setAuthError('');
+                  }}
+                  className="w-full bg-[var(--surface-2)] rounded-full pl-8 pr-3 py-2 text-[#F1F5F9] text-xs placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-pixel)]"
+                  placeholder="email@example.com"
+                  required
+                />
+              </div>
+              <div className="relative">
+                <Lock
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]"
+                  size={13}
+                />
+                <input
+                  id="auth-password"
+                  name="password"
+                  autoComplete={isSignUpMode ? 'new-password' : 'current-password'}
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setAuthError('');
+                  }}
+                  className="w-full bg-[var(--surface-2)] rounded-full pl-8 pr-3 py-2 text-[#F1F5F9] text-xs placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-pixel)]"
+                  placeholder="Min. 6 characters"
+                  required
+                />
               </div>
             </div>
-          )}
-          <div className="space-y-1.5">
-            <label htmlFor="auth-email" className="text-[10px] uppercase tracking-widest text-neutral-400 font-bold ml-1">Email Address</label>
-            <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" size={15} />
-              <input id="auth-email" name="email" autoComplete="email" type="email" value={email} onChange={(e) => { setEmail(e.target.value); setAuthError(''); }}
-                className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-10 pr-4 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-500/50" placeholder="name@example.com" required />
+
+            <div className="flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSignUpMode(!isSignUpMode);
+                  setAuthError('');
+                }}
+                className="text-[11px] text-[var(--accent-pixel)] hover:underline font-mono"
+              >
+                {isSignUpMode ? 'Have an account? Sign In' : 'Need an account? Sign Up'}
+              </button>
+
+              <button
+                type="submit"
+                className="px-4 py-1.5 rounded-full bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold text-xs inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                {isSignUpMode ? <UserPlus size={13} /> : <LogIn size={13} />}
+                <span>{isSignUpMode ? 'Create Account' : 'Sign In'}</span>
+              </button>
             </div>
-          </div>
-          <div className="space-y-1.5">
-            <label htmlFor="auth-password" className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold ml-1">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-500" size={15} />
-              <input id="auth-password" name="password" autoComplete={isSignUpMode ? 'new-password' : 'current-password'} type="password" value={password} onChange={(e) => { setPassword(e.target.value); setAuthError(''); }}
-                className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-10 pr-4 py-2.5 text-white text-xs placeholder:text-neutral-500 focus:outline-none focus:border-cyan-500/50" placeholder="Min. 6 characters" required />
-            </div>
-          </div>
-
-          <button type="submit" className="w-full py-3 bg-cyan-400 text-neutral-950 font-bold uppercase tracking-wider rounded-xl text-xs hover:bg-cyan-300 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg active:scale-[0.98]">
-            {isSignUpMode ? <UserPlus size={14} /> : <LogIn size={14} />}
-            {isSignUpMode ? 'Create Account' : 'Sign In'}
-          </button>
-
-          {authError && <p className="text-[10px] text-rose-400 text-center font-medium bg-rose-500/10 border border-rose-500/20 py-2.5 px-3 rounded-lg" role="alert">{authError}</p>}
-        </form>
-
-        <div className="flex items-center gap-4 py-1">
-          <div className="h-px bg-neutral-800 flex-1" />
-          <span className="text-[9px] text-neutral-500 font-mono uppercase font-bold tracking-wider">Or continue with</span>
-          <div className="h-px bg-neutral-800 flex-1" />
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => handleSocialLogin('google')}
-            disabled={!!socialLoading}
-            className="flex items-center justify-center gap-2 py-2.5 bg-neutral-900 border border-neutral-800 rounded-xl hover:bg-neutral-800 transition-all text-xs text-white disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            {socialLoading === 'google'
-              ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-              : <Chrome size={15} />}
-            Google
-          </button>
-          <button
-            onClick={() => handleSocialLogin('github')}
-            disabled={!!socialLoading}
-            className="flex items-center justify-center gap-2 py-2.5 bg-neutral-900 border border-neutral-800 rounded-xl hover:bg-neutral-800 transition-all text-xs text-white disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            {socialLoading === 'github'
-              ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-              : <Github size={15} />}
-            GitHub
-          </button>
-        </div>
-
-        <button onClick={() => { setIsSignUpMode(!isSignUpMode); setAuthError(''); }}
-          className="w-full text-center text-xs text-cyan-400 hover:text-cyan-300 font-mono font-medium transition-colors">
-          {isSignUpMode ? 'Already have an account? Login' : "Don't have an account? Sign Up"}
-        </button>
+          </form>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="space-y-5 relative z-10">
-      <div className="flex items-center justify-between pb-4 border-b border-neutral-800">
-        <div className="flex items-center gap-3">
-          <UserAvatarComponent src={user.photoURL || undefined} name={user.displayName || 'User'} className="w-9 h-9" />
-          <div>
-            <div className="text-white font-bold text-sm">{user.displayName || 'User'}</div>
-            <div className="text-[10px] text-cyan-400 font-mono uppercase tracking-wider">Authenticated</div>
+    <div className="space-y-2.5">
+      <div className="flex items-center justify-between px-2">
+        <div className="flex items-center gap-2.5">
+          <UserAvatarComponent
+            src={user.photoURL || undefined}
+            name={user.displayName || 'User'}
+            className="w-7 h-7"
+          />
+          <div className="flex items-center gap-2">
+            <span className="text-[#F1F5F9] font-bold text-xs">
+              {user.displayName || 'User'}
+            </span>
+            <span className="text-[10px] text-[var(--accent-pixel)] font-mono">
+              • Authenticated
+            </span>
           </div>
         </div>
-        <button onClick={onLogout} className="p-2 text-neutral-500 hover:text-rose-400 transition-colors" title="Logout" aria-label="Logout">
-          <LogOut size={16} />
+        <button
+          type="button"
+          onClick={onLogout}
+          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--surface-1)] hover:bg-rose-500/20 text-[11px] text-[var(--text-secondary)] hover:text-rose-300 transition-colors"
+          title="Logout"
+          aria-label="Logout"
+        >
+          <LogOut size={12} />
+          <span>Sign Out</span>
         </button>
       </div>
       {children}

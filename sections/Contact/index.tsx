@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mail,
   Github,
@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { WEB3FORMS_ACCESS_KEY } from '../../constants';
 
-export default function Contact() {
+export default function Contact({ embedded = false }: { embedded?: boolean }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -30,9 +30,11 @@ export default function Contact() {
   };
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText('hernataramadhan79@gmail.com');
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText('hernataramadhan79@gmail.com');
+    }
     setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
+    setTimeout(() => setCopiedEmail(false), 2400);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -71,146 +73,154 @@ export default function Contact() {
 
   const channels = [
     {
-      num: '01',
-      title: 'Email',
-      value: 'hernataramadhan79@gmail.com',
-      href: 'mailto:hernataramadhan79@gmail.com',
-      icon: Mail,
-    },
-    {
-      num: '02',
       title: 'GitHub',
       value: '@hernataramadhan79-bit',
       href: 'https://github.com/hernataramadhan79-bit',
       icon: Github,
     },
     {
-      num: '03',
       title: 'LinkedIn',
       value: 'Hernata Ramadhan',
       href: 'https://www.linkedin.com/in/hernata-ramadhan-614725350/',
       icon: Linkedin,
     },
     {
-      num: '04',
       title: 'Instagram',
       value: '@heropakentanq15_',
       href: 'https://www.instagram.com/heropakentanq15_/',
       icon: Instagram,
     },
+    {
+      title: 'Direct Mail',
+      value: 'hernataramadhan79@gmail.com',
+      href: 'mailto:hernataramadhan79@gmail.com',
+      icon: Mail,
+    },
   ];
 
-  return (
-    <section className="w-full max-w-[1400px] mx-auto pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-      {/* Section Header */}
-      <div className="mb-10">
-        <span className="text-xs font-bold font-mono text-cyan-400 uppercase tracking-[0.25em] mb-2 block">
-          06 / CONTACT &amp; CHANNELS
-        </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-          Get In Touch &amp; Collaborate
-        </h2>
-        <p className="text-sm text-neutral-400 mt-2 max-w-xl">
-          Available for software engineering roles, full-stack projects, and direct technical consultations.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        {/* Left Column: Direct Channels & Download CV (Span 5 - 38.2%) */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {channels.map((ch) => {
-              const Icon = ch.icon;
-              return (
-                <a
-                  key={ch.title}
-                  href={ch.href}
-                  target={ch.title === 'Email' ? undefined : '_blank'}
-                  rel={ch.title === 'Email' ? undefined : 'noopener noreferrer'}
-                  className="glass-card p-5 rounded-2xl flex flex-col justify-between group hover:border-neutral-700 hover:bg-neutral-850 transition-all border-neutral-800/80"
-                >
-                  <div className="flex items-center justify-between text-xs text-neutral-500 font-mono mb-4">
-                    <span>{ch.num}</span>
-                    <Icon size={16} className="text-neutral-400 group-hover:text-cyan-400 transition-colors" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors flex items-center justify-between">
-                      <span>{ch.title}</span>
-                      <ArrowUpRight
-                        size={14}
-                        className="text-neutral-500 group-hover:text-cyan-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-                      />
-                    </h3>
-                    <p className="text-xs text-neutral-400 truncate mt-1">{ch.value}</p>
-                  </div>
-                </a>
-              );
-            })}
+  const innerPanel = (
+    <div id="contact" className="bento-outer space-y-3 h-full flex flex-col justify-between">
+      {/* Top Direct Channel Card with Dynamic Island Copy Feedback */}
+      <div className="bento-inner p-4 sm:p-5 space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--accent-pixel)] font-bold">
+              Direct Engineering Channel
+            </span>
+            <h3 className="text-lg sm:text-xl font-black text-[#F1F5F9] tracking-tight mt-0.5">
+              Instant Dispatch &amp; Socials
+            </h3>
           </div>
-
-          {/* Quick Copy & Resume Banner Card */}
-          <div className="glass-card p-6 sm:p-8 rounded-3xl relative overflow-hidden border-neutral-800/80 space-y-4">
-            <div>
-              <h3 className="text-lg font-bold text-white mb-1">
-                Direct Communication &amp; Resume
-              </h3>
-              <p className="text-xs text-neutral-400 leading-relaxed">
-                Reach out directly via email or inspect detailed qualifications in my Curriculum Vitae.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3 pt-2">
-              <button
-                onClick={handleCopyEmail}
-                className="inline-flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold px-4 py-2.5 rounded-full border border-neutral-700 transition-colors active:scale-[0.98]"
-              >
-                {copiedEmail ? <Check size={14} className="text-cyan-400" /> : <Copy size={14} />}
-                <span>{copiedEmail ? 'Email Copied!' : 'Copy Email Address'}</span>
-              </button>
-
-              <a
-                href="/Hernata CV.pdf"
-                download
-                className="inline-flex items-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-neutral-950 text-xs font-bold px-5 py-2.5 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.25)] transition-all active:scale-[0.98]"
-              >
-                <Download size={14} />
-                <span>Download CV</span>
-              </a>
-            </div>
-          </div>
+          <a
+            href="/Hernata CV.pdf"
+            download
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] text-[#F1F5F9] text-xs font-semibold transition-colors"
+          >
+            <Download size={13} className="text-[var(--accent-pixel)]" />
+            <span>CV.pdf</span>
+          </a>
         </div>
 
-        {/* Right Column: Minimalist Glass Inquiry Form (Span 7 - 61.8%) */}
-        <motion.div
-          initial={{ opacity: 0, x: 8 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          className="lg:col-span-7 glass-card p-6 sm:p-8 lg:p-10 rounded-3xl border-neutral-800/80"
+        {/* One-Click Copy Email Pill with Dynamic Island State Feedback */}
+        <button
+          type="button"
+          onClick={handleCopyEmail}
+          className={`w-full py-3 px-4 rounded-full font-mono text-xs flex items-center justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] cursor-pointer ${
+            copiedEmail
+              ? 'bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold'
+              : 'bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] text-[#F1F5F9]'
+          }`}
         >
-          <div className="mb-6 border-b border-neutral-800 pb-4 flex items-center justify-between">
-            <h3 className="text-lg font-bold text-white">Direct Message</h3>
-            <span className="text-xs text-cyan-400 font-mono">Web3Forms Endpoint</span>
+          <span className="flex items-center gap-2 truncate">
+            <Mail size={14} className={copiedEmail ? 'text-[var(--on-accent-pixel)]' : 'text-[var(--accent-pixel)]'} />
+            <span className="truncate">hernataramadhan79@gmail.com</span>
+          </span>
+          <AnimatePresence mode="wait" initial={false}>
+            {copiedEmail ? (
+              <motion.span
+                key="copied"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="inline-flex items-center gap-1 shrink-0"
+              >
+                <Check size={13} />
+                <span>Copied to clipboard</span>
+              </motion.span>
+            ) : (
+              <motion.span
+                key="copy"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="inline-flex items-center gap-1 text-[var(--accent-pixel)] shrink-0"
+              >
+                <Copy size={13} />
+                <span>Copy Email</span>
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </button>
+
+        {/* Tonal Social Pills Grid */}
+        <div className="grid grid-cols-2 gap-2">
+          {channels.map((ch) => {
+            const Icon = ch.icon;
+            return (
+              <a
+                key={ch.title}
+                href={ch.href}
+                target={ch.title === 'Direct Mail' ? undefined : '_blank'}
+                rel={ch.title === 'Direct Mail' ? undefined : 'noopener noreferrer'}
+                className="p-3 rounded-[14px] bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] transition-colors group flex items-center justify-between gap-2"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <Icon size={14} className="text-[var(--accent-pixel)] shrink-0" />
+                  <div className="min-w-0">
+                    <div className="text-xs font-bold text-[#F1F5F9] truncate">{ch.title}</div>
+                    <div className="text-[10px] text-[var(--text-secondary)] truncate">{ch.value}</div>
+                  </div>
+                </div>
+                <ArrowUpRight
+                  size={13}
+                  className="text-[var(--text-muted)] group-hover:text-[#F1F5F9] shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </a>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Bottom Direct Inquiry Form (Honest Placeholders per R-23/R-38) */}
+      <div className="bento-inner p-4 sm:p-5 space-y-3.5 flex-1 flex flex-col justify-between">
+        <div className="flex items-center justify-between">
+          <h4 className="text-sm font-bold text-[#F1F5F9]">Direct Email Dispatch</h4>
+          <span className="text-[10px] font-mono text-[var(--accent-pixel)] bg-[var(--surface-1)] px-2.5 py-0.5 rounded-full">
+            Web3Forms API
+          </span>
+        </div>
+
+        {isSuccess && (
+          <div className="p-3 rounded-[12px] bg-[var(--surface-1)] flex items-center gap-2.5 text-xs text-[var(--accent-pixel-bright)]">
+            <CheckCircle2 size={16} className="text-[var(--accent-pixel)] shrink-0" />
+            <span>Inquiry dispatched. Expect a direct response within 24 hours.</span>
           </div>
+        )}
 
-          {isSuccess && (
-            <div className="mb-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center gap-3 text-xs text-cyan-400">
-              <CheckCircle2 size={18} />
-              <span>Thank you! Your message has been sent successfully. I will respond promptly.</span>
-            </div>
-          )}
+        {error && (
+          <div className="p-3 rounded-[12px] bg-rose-500/10 flex items-center gap-2.5 text-xs text-rose-300">
+            <AlertCircle size={16} className="shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
 
-          {error && (
-            <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center gap-3 text-xs text-rose-400">
-              <AlertCircle size={18} />
-              <span>{error}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2">
-              <label className="text-xs font-bold font-mono text-neutral-400 uppercase tracking-wider block" htmlFor="contact-name">
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label
+                className="text-[11px] font-semibold text-[var(--text-secondary)] block mb-1 ml-1"
+                htmlFor="contact-name"
+              >
                 Your Name
               </label>
               <input
@@ -220,14 +230,17 @@ export default function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                placeholder="e.g. Alex Mercer"
-                className="form-input w-full"
+                placeholder="Your Name"
+                className="w-full bg-[var(--surface-1)] rounded-[12px] px-3.5 py-2.5 text-xs text-[#F1F5F9] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-pixel)]"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-bold font-mono text-neutral-400 uppercase tracking-wider block" htmlFor="contact-email">
-                Your Email
+            <div>
+              <label
+                className="text-[11px] font-semibold text-[var(--text-secondary)] block mb-1 ml-1"
+                htmlFor="contact-email"
+              >
+                Email Address
               </label>
               <input
                 type="email"
@@ -236,49 +249,60 @@ export default function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                placeholder="e.g. alex@company.com"
-                className="form-input w-full"
+                placeholder="email@example.com"
+                className="w-full bg-[var(--surface-1)] rounded-[12px] px-3.5 py-2.5 text-xs text-[#F1F5F9] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-pixel)]"
               />
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-bold font-mono text-neutral-400 uppercase tracking-wider block" htmlFor="contact-message">
-                Message
-              </label>
-              <textarea
-                id="contact-message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={5}
-                placeholder="Share your inquiry, engineering scope, or role..."
-                className="form-input w-full resize-none leading-relaxed"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-neutral-950 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(34,211,238,0.25)] transition-all duration-150 active:scale-[0.99] disabled:opacity-50"
+          <div>
+            <label
+              className="text-[11px] font-semibold text-[var(--text-secondary)] block mb-1 ml-1"
+              htmlFor="contact-message"
             >
-              {isLoading ? (
-                <>
-                  <Loader2 size={15} className="animate-spin" />
-                  <span>Dispatching Message...</span>
-                </>
-              ) : (
-                <>
-                  <span>Dispatch Message</span>
-                  <Send size={13} />
-                </>
-              )}
-            </button>
-          </form>
-        </motion.div>
+              Project Scope or Role Details
+            </label>
+            <textarea
+              id="contact-message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+              rows={3}
+              placeholder="Drop your message here..."
+              className="w-full bg-[var(--surface-1)] rounded-[12px] px-3.5 py-2.5 text-xs text-[#F1F5F9] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-pixel)] resize-none leading-relaxed"
+            />
+          </div>
 
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-3 rounded-full bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold flex items-center justify-center gap-2 transition-transform active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 size={14} className="animate-spin" />
+                <span>Dispatching Inquiry...</span>
+              </>
+            ) : (
+              <>
+                <span>Send Direct Inquiry</span>
+                <Send size={13} />
+              </>
+            )}
+          </button>
+        </form>
       </div>
+    </div>
+  );
+
+  if (embedded) {
+    return innerPanel;
+  }
+
+  return (
+    <section className="w-full max-w-[1280px] mx-auto py-8 px-4 sm:px-6 lg:px-8">
+      {innerPanel}
     </section>
   );
 }
-

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { auth } from '../../lib/firebase';
-import { MessageSquare, Calendar, Trash2, Loader2, Check, X, AlertCircle } from 'lucide-react';
+import { MessageSquare, Trash2, Loader2, Check, X, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import UserAvatar from './UserAvatar';
 import { CommentListSkeleton } from '../../components/Skeletons';
@@ -21,11 +21,13 @@ const formatDate = (dateString: string | null) => {
   const date = new Date(dateString);
   if (isNaN(date.getTime())) return 'Just now';
   return new Intl.DateTimeFormat('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   }).format(date);
 };
 
-// Module-level in-memory cache untuk comments agar tidak re-hydrate saat ganti tab
 let cachedComments: Comment[] = [];
 let hasInitiallyLoaded = false;
 
@@ -79,11 +81,9 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
   useEffect(() => {
     fetchComments(!hasInitiallyLoaded && cachedComments.length === 0);
 
-    // Refresh ketika ada event posting komentar baru
     const handleRefresh = () => fetchComments(false);
     window.addEventListener('comment-refresh', handleRefresh);
 
-    // Polling setiap 15 detik jika tab aktif
     const interval = setInterval(() => {
       if (document.visibilityState === 'visible') {
         fetchComments(false);
@@ -106,7 +106,7 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
       const res = await fetch(`/api/comments?id=${encodeURIComponent(commentId)}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -116,7 +116,6 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
       }
 
       setConfirmDeleteId(null);
-      // Optimistic update local state
       setComments((prev) => prev.filter((c) => c.id !== commentId));
       cachedComments = cachedComments.filter((c) => c.id !== commentId);
     } catch (error: any) {
@@ -133,119 +132,135 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
 
   if (comments.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 border border-dashed border-neutral-800 rounded-3xl bg-neutral-900/20">
-        <MessageSquare size={32} className="text-neutral-700 mb-4" />
-        <p className="text-neutral-500 font-medium text-xs font-mono">No messages yet. Be the first to leave one!</p>
+      <div className="flex flex-col items-center justify-center py-12 rounded-[20px] bg-[var(--surface-1)] text-center px-4">
+        <MessageSquare size={26} className="text-[var(--accent-pixel)] mb-2.5" />
+        <p className="text-[#F1F5F9] font-bold text-xs">No messages in the thread yet</p>
+        <p className="text-[var(--text-secondary)] text-[11px] mt-1">
+          Sign in below with Google, GitHub, or Email to start the conversation.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3.5">
+    <div className="space-y-3">
       {deleteError && (
         <motion.div
-          initial={{ opacity: 0, y: -8 }}
+          initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center justify-between"
+          className="p-3 rounded-[14px] bg-rose-500/15 text-rose-300 text-xs flex items-center justify-between"
         >
           <span className="flex items-center gap-1.5 font-medium">
             <AlertCircle size={14} /> {deleteError}
           </span>
-          <button onClick={() => setDeleteError(null)} className="p-1 hover:text-white">
+          <button onClick={() => setDeleteError(null)} className="p-1 hover:text-white" aria-label="Dismiss error">
             <X size={14} />
           </button>
         </motion.div>
       )}
 
       <AnimatePresence initial={false}>
-        {comments.map((comment) => (
-          <motion.div
-            key={comment.id}
-            layout="position"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6, transition: { duration: 0.18 } }}
-            transition={{
-              layout: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-              opacity: { duration: 0.2 },
-              y: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
-            }}
-            className="p-5 rounded-2xl bg-neutral-900/40 border border-neutral-800/70 hover:border-neutral-700 transition-colors duration-150 group"
-          >
-            <div className="flex justify-between items-start mb-3">
-              <div className="flex items-center gap-3">
-                <UserAvatar src={comment.userImage} name={comment.name} className="w-9 h-9" />
-                <div>
-                  <div className="text-white text-sm font-bold tracking-tight">{comment.name}</div>
-                  <div className="text-[10px] text-neutral-500 font-mono flex items-center gap-1.5 mt-0.5">
-                    <Calendar size={10} /> {formatDate(comment.createdAt)}
+        {comments.map((comment) => {
+          const isOwnMessage = currentUserId && currentUserId === comment.userId;
+
+          return (
+            <motion.div
+              key={comment.id}
+              layout="position"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6, transition: { duration: 0.18 } }}
+              transition={{
+                layout: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+                opacity: { duration: 0.2 },
+                y: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
+              }}
+              className="flex items-end gap-2.5 group"
+            >
+              <UserAvatar src={comment.userImage} name={comment.name} className="w-8 h-8 mb-0.5" />
+
+              {/* Google Pixel Messages / iMessage Squircle Bubble */}
+              <div
+                className={`flex-1 p-3.5 sm:p-4 rounded-[22px] rounded-bl-[6px] transition-colors ${
+                  isOwnMessage
+                    ? 'bg-[var(--surface-pill)] text-[#F1F5F9]'
+                    : 'bg-[var(--surface-1)] text-[#F1F5F9]'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-xs font-bold text-[#F1F5F9] truncate">
+                      {comment.name}
+                    </span>
+                    {isOwnMessage && (
+                      <span className="px-2 py-0.5 rounded-full bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] text-[9px] font-mono font-bold uppercase">
+                        You
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[10px] text-[var(--text-muted)] font-mono tabular-nums">
+                      {formatDate(comment.createdAt)}
+                    </span>
+
+                    {isOwnMessage && (
+                      <AnimatePresence mode="wait">
+                        {confirmDeleteId === comment.id ? (
+                          <motion.div
+                            key="confirm-delete"
+                            initial={{ opacity: 0, scale: 0.92 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.92 }}
+                            className="flex items-center gap-1 bg-[var(--surface-1)] px-2 py-0.5 rounded-full"
+                          >
+                            <button
+                              type="button"
+                              onClick={() => confirmDeleteComment(comment.id)}
+                              disabled={deletingId === comment.id}
+                              className="px-2 py-0.5 bg-rose-500 text-white rounded-full text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer"
+                            >
+                              {deletingId === comment.id ? (
+                                <Loader2 size={10} className="animate-spin" />
+                              ) : (
+                                <Check size={10} />
+                              )}
+                              <span>Delete</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setConfirmDeleteId(null)}
+                              disabled={deletingId === comment.id}
+                              className="p-0.5 text-[var(--text-secondary)] hover:text-white cursor-pointer"
+                              aria-label="Cancel delete"
+                            >
+                              <X size={12} />
+                            </button>
+                          </motion.div>
+                        ) : (
+                          <motion.button
+                            key="default-delete"
+                            type="button"
+                            onClick={() => setConfirmDeleteId(comment.id)}
+                            title="Delete message"
+                            aria-label="Delete message"
+                            className="p-1 rounded-full text-[var(--text-muted)] hover:text-rose-400 transition-colors cursor-pointer"
+                          >
+                            <Trash2 size={12} />
+                          </motion.button>
+                        )}
+                      </AnimatePresence>
+                    )}
                   </div>
                 </div>
+
+                <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
+                  {comment.message}
+                </p>
               </div>
-              {currentUserId === comment.userId && (
-                <div className="flex items-center gap-2">
-                  <AnimatePresence mode="wait">
-                    {confirmDeleteId === comment.id ? (
-                      <motion.div
-                        key="confirm-delete"
-                        initial={{ opacity: 0, scale: 0.9, x: 8 }}
-                        animate={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, x: 8 }}
-                        className="flex items-center gap-1.5 p-1 bg-rose-500/10 border border-rose-500/30 rounded-xl backdrop-blur-md"
-                      >
-                        <span className="text-[10px] font-mono text-rose-300 font-bold px-1.5">Delete?</span>
-                        <button
-                          onClick={() => confirmDeleteComment(comment.id)}
-                          disabled={deletingId === comment.id}
-                          className="px-2 py-1 bg-rose-600 text-white rounded-lg text-[9px] font-mono font-bold uppercase tracking-wider hover:bg-rose-500 transition-colors flex items-center gap-1 cursor-pointer"
-                        >
-                          {deletingId === comment.id ? (
-                            <Loader2 size={10} className="animate-spin" />
-                          ) : (
-                            <Check size={11} />
-                          )}
-                          <span>Yes</span>
-                        </button>
-                        <button
-                          onClick={() => setConfirmDeleteId(null)}
-                          disabled={deletingId === comment.id}
-                          className="p-1 text-neutral-400 hover:text-white rounded-lg hover:bg-neutral-800 transition-colors cursor-pointer"
-                          title="Cancel"
-                          aria-label="Cancel delete"
-                        >
-                          <X size={12} />
-                        </button>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="default-delete"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        className="flex items-center gap-2"
-                      >
-                        <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-[8px] text-cyan-400 font-mono font-semibold uppercase tracking-wider">
-                          Author
-                        </span>
-                        <button
-                          onClick={() => setConfirmDeleteId(comment.id)}
-                          title="Delete message"
-                          aria-label="Delete message"
-                          className="p-1.5 rounded-lg text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all cursor-pointer"
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )}
-            </div>
-            <p className="text-neutral-300 leading-relaxed text-xs sm:text-sm whitespace-pre-wrap">
-              {comment.message}
-            </p>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </AnimatePresence>
     </div>
   );

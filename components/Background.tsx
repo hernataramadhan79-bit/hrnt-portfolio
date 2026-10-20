@@ -2,27 +2,32 @@
 
 import React from 'react';
 
+/**
+ * Whisper-quiet ambient canvas (--surface-canvas: #090A0D).
+ * Purpose (R-07): Subtle top-viewport tonal luminance and 0.02 opacity coordinate grid
+ * establish spatial depth between the #090A0D canvas and #111318 Bento containers
+ * without visual noise or GPU-draining orbs.
+ */
 export default function Background() {
   return (
-    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-      {/* Deep Carbon Black Foundation */}
-      <div className="absolute inset-0 bg-[#09090b]" />
-
-      {/* Lightweight Subtle Dot-Grid */}
+    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-[var(--surface-canvas)]">
+      {/* Top Viewport Tonal Luminance */}
       <div
-        className="absolute inset-0 bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:24px_24px] opacity-40"
+        className="absolute -top-[18%] left-1/2 -translate-x-1/2 w-[1100px] h-[420px] rounded-full opacity-[0.045] blur-[120px]"
         style={{
-          maskImage: 'radial-gradient(ellipse at 50% 45%, black 40%, transparent 85%)',
-          WebkitMaskImage: 'radial-gradient(ellipse at 50% 45%, black 40%, transparent 85%)',
+          background: 'radial-gradient(ellipse at center, #A8C7FA 0%, transparent 72%)',
         }}
       />
 
-      {/* Top Peripheral Ambient Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[220px] bg-cyan-500/[0.025] rounded-full blur-[120px]" />
-
-      {/* Subtle Hairline Border at Top */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neutral-800/80 to-transparent" />
+      {/* Barely-perceptible architectural coordinate texture (opacity 0.02) */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, #F1F5F9 1px, transparent 1px), linear-gradient(to bottom, #F1F5F9 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+        }}
+      />
     </div>
   );
 }
-

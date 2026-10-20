@@ -2,13 +2,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Dashboard from '../sections/Dashboard';
 import Work from '../sections/Work';
-import Capabilities from '../sections/Capabilities';
-import About from '../sections/About';
-import Stats from '../sections/Stats';
 import Recognitions from '../sections/Recognitions';
 import Contact from '../sections/Contact';
 import ProjectModal from '../components/ProjectModal';
@@ -19,19 +15,30 @@ import { ForumSkeleton } from '../components/Skeletons';
 import { Project, Certificate } from '../types';
 import { printDevToolsBanner } from '../lib/console-banner';
 
-// Lazy-load Forum to isolate Firebase Auth & Firestore SDK with Obsidian Skeleton Fallback
+// Lazy-load Forum to isolate Firebase Auth & Firestore SDK with concentric Skeleton Fallback
 const Forum = dynamic(() => import('../sections/Forum'), {
   ssr: false,
   loading: () => <ForumSkeleton />,
 });
 
+const VALID_SECTIONS = [
+  'dashboard',
+  'about',
+  'stats',
+  'capabilities',
+  'work',
+  'awards',
+  'contact',
+  'forum',
+];
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+  const [selectedTechFilter, setSelectedTechFilter] = useState<string | null>(null);
 
-  // Background Prewarming during idle: Memuat chunk Forum & data komentar sebelum tab diklik
-  // Hasil: Ketika pengguna mengklik tab Forum, transisi terjadi instan 0.00ms (Zero Loading!)
+  // Background prewarming during idle for instant Forum hydration
   useEffect(() => {
     const prewarmChunks = () => {
       import('../sections/Forum');
@@ -56,29 +63,28 @@ export default function Home() {
       }
     }
   }, []);
-  const resetScroll = useCallback(() => {
-    // Scroll the active section container back to top on tab change
-    const activeEl = document.querySelector('[data-section-scroll]') as HTMLElement | null;
-    if (activeEl) activeEl.scrollTop = 0;
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    if (typeof window === 'undefined') return;
+    if (sectionId === 'dashboard') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    const target = document.getElementById(sectionId);
+    if (target) {
+      const yOffset = -84;
+      const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }
   }, []);
 
   // Hash Navigation Listener
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '').toLowerCase();
-      const validTabs = [
-        'dashboard',
-        'work',
-        'capabilities',
-        'about',
-        'stats',
-        'awards',
-        'forum',
-        'contact',
-      ];
-      if (validTabs.includes(hash)) {
+      if (VALID_SECTIONS.includes(hash)) {
         setActiveTab(hash);
-        resetScroll();
+        scrollToSection(hash);
       }
     };
 
@@ -88,153 +94,115 @@ export default function Home() {
     }
 
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [resetScroll]);
+  }, [scrollToSection]);
+
+  // Scroll-Spy Observer to keep Dynamic Pixel Pill indicator synced with viewport position
+  useEffect(() => {
+    const handleScrollSpy = () => {
+      const scrollPos = window.scrollY + 180;
+      const primaryZones = ['dashboard', 'work', 'awards', 'contact'];
+      let currentZone = 'dashboard';
+
+      for (const zoneId of primaryZones) {
+        const el = document.getElementById(zoneId);
+        if (el && el.offsetTop <= scrollPos) {
+          currentZone = zoneId;
+        }
+      }
+
+      setActiveTab((prev) => {
+        // Preserve sub-zone selection if still near top of Zone 1
+        if (
+          currentZone === 'dashboard' &&
+          ['dashboard', 'about', 'stats', 'capabilities'].includes(prev) &&
+          window.scrollY < 400
+        ) {
+          return prev;
+        }
+        if (currentZone === 'contact' && prev === 'forum') {
+          return 'forum';
+        }
+        return currentZone;
+      });
+    };
+
+    window.addEventListener('scroll', handleScrollSpy, { passive: true });
+    return () => window.removeEventListener('scroll', handleScrollSpy);
+  }, []);
 
   // Print DevTools Signature & Intellectual Property Banner
   useEffect(() => {
     printDevToolsBanner();
   }, []);
+
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
-    resetScroll();
+    scrollToSection(tab);
   };
 
   return (
-    <div className="relative h-dvh overflow-hidden bg-[#09090b] text-[#f4f4f5] selection:bg-cyan-500/20 selection:text-cyan-300 flex flex-col">
+    <div
+      className="relative min-h-dvh bg-[var(--surface-canvas)] text-[#F1F5F9] flex flex-col justify-between"
+      data-section-scroll
+    >
       <Background />
 
-      {/* Floating Pill Navbar */}
+      {/* Floating Dynamic Pixel Pill Navigation */}
       <Navbar activeTab={activeTab} setActiveTab={handleTabChange} />
 
-      {/* Main View Transition Container — fills remaining h-dvh, no document scroll */}
-      <main className="flex-1 relative z-10 w-full overflow-hidden">
-        <AnimatePresence initial={false}>
-          {activeTab === 'dashboard' && (
-            <motion.div
-              key="dashboard"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
-              data-section-scroll
-            >
-              <Dashboard
-                onSelectProject={setSelectedProject}
-                onNavigate={handleTabChange}
-              />
-              <Footer onNavigate={handleTabChange} />
-            </motion.div>
-          )}
+      {/* 4 Cohesive Spatial Zones Macro-Layout */}
+      <main className="flex-1 relative z-10 w-full space-y-4">
+        {/* ZONE 01: The Pixel "At a Glance" Command Hub (Dashboard + About + Stats + Capabilities) */}
+        <Dashboard
+          onSelectProject={setSelectedProject}
+          onNavigate={handleTabChange}
+          selectedTechFilter={selectedTechFilter}
+          onSelectTechFilter={setSelectedTechFilter}
+        />
 
-          {activeTab === 'work' && (
-            <motion.div
-              key="work"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
-              data-section-scroll
-            >
-              <Work onSelectProject={setSelectedProject} />
-              <Footer onNavigate={handleTabChange} />
-            </motion.div>
-          )}
+        {/* ZONE 02: Apple App Store "Today View" Engineering Showcase (3-Tier Hierarchy) */}
+        <Work
+          onSelectProject={setSelectedProject}
+          selectedTechFilter={selectedTechFilter}
+          onClearTechFilter={() => setSelectedTechFilter(null)}
+        />
 
-          {activeTab === 'capabilities' && (
-            <motion.div
-              key="capabilities"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
-              data-section-scroll
-            >
-              <Capabilities />
-              <Footer onNavigate={handleTabChange} />
-            </motion.div>
-          )}
+        {/* ZONE 03: Apple Wallet Credentials Stack */}
+        <Recognitions onSelectCertificate={setSelectedCert} />
 
-          {activeTab === 'about' && (
-            <motion.div
-              key="about"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
-              data-section-scroll
-            >
-              <About />
-              <Footer onNavigate={handleTabChange} />
-            </motion.div>
-          )}
+        {/* ZONE 04: Asymmetric Engineering Comm Hub (38% Direct Channel : 62% Pixel Messages Thread) */}
+        <section
+          aria-label="Zone 04: Engineering Communication Hub"
+          className="w-full max-w-[1280px] mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-4"
+        >
+          <div className="px-1">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface-1)] text-xs font-mono text-[var(--accent-pixel)] mb-2 tabular-nums">
+              <span>ZONE 04</span>
+              <span>•</span>
+              <span>Direct Dispatch &amp; Live Guestbook</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F1F5F9] tracking-tight">
+              Engineering Communication Hub
+            </h2>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-xl">
+              Copy my direct email in one click, dispatch a project brief, or post to the real-time community thread.
+            </p>
+          </div>
 
-          {activeTab === 'stats' && (
-            <motion.div
-              key="stats"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
-              data-section-scroll
-            >
-              <Stats />
-              <Footer onNavigate={handleTabChange} />
-            </motion.div>
-          )}
-
-          {activeTab === 'awards' && (
-            <motion.div
-              key="awards"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
-              data-section-scroll
-            >
-              <Recognitions onSelectCertificate={setSelectedCert} />
-              <Footer onNavigate={handleTabChange} />
-            </motion.div>
-          )}
-
-          {activeTab === 'forum' && (
-            <motion.div
-              key="forum"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
-              data-section-scroll
-            >
-              <Forum />
-              <Footer onNavigate={handleTabChange} />
-            </motion.div>
-          )}
-
-          {activeTab === 'contact' && (
-            <motion.div
-              key="contact"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col justify-between"
-              data-section-scroll
-            >
-              <Contact />
-              <Footer onNavigate={handleTabChange} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+            <div className="lg:col-span-5">
+              <Contact embedded />
+            </div>
+            <div className="lg:col-span-7">
+              <Forum embedded />
+            </div>
+          </div>
+        </section>
       </main>
 
-      {/* Global Modals */}
+      <Footer onNavigate={handleTabChange} />
+
+      {/* Apple Today View Sheet Modals */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
@@ -243,7 +211,6 @@ export default function Home() {
         cert={selectedCert}
         onClose={() => setSelectedCert(null)}
       />
-
     </div>
   );
 }

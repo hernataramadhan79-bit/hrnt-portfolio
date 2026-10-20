@@ -14,7 +14,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hernata.web.id';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Hernata Ramadhan (HRNT) — Full-Stack Software Engineer',
+    default: 'Hernata Ramadhan (HRNT) | Full-Stack Software Engineer',
     template: '%s | Hernata Ramadhan',
   },
   description:
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'Hernata Ramadhan (HRNT) — Full-Stack Software Engineer',
+    title: 'Hernata Ramadhan (HRNT) | Full-Stack Software Engineer',
     description:
       'Engineering high-performance web architectures, end to end. Explore projects, telemetry, and verified credentials.',
     siteName: 'Hernata Ramadhan (HRNT) Portfolio',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hernata Ramadhan (HRNT) — Full-Stack Software Engineer',
+    title: 'Hernata Ramadhan (HRNT) | Full-Stack Software Engineer',
     description:
       'Engineering high-performance web architectures, end to end. Explore projects, telemetry, and verified credentials.',
     images: ['/og-image.png'],
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#09090b',
+  themeColor: '#090A0D',
   colorScheme: 'dark',
   width: 'device-width',
   initialScale: 1,
@@ -96,7 +96,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`dark ${inter.variable}`}>
-      <body className="bg-[#09090b] text-[#f4f4f5] font-sans antialiased selection:bg-cyan-500/20 selection:text-cyan-300 min-h-screen">
+      <body className="bg-[#090A0D] text-[#F1F5F9] font-sans antialiased selection:bg-[#A8C7FA]/25 selection:text-[#D3E3FD] min-h-screen">
         {children}
       </body>
     </html>

@@ -23,23 +23,23 @@ export const outerSkills: Skill[] = [
 
 export const detailedSkills = {
   frontend: [
-    { name: 'React Ecosystem', proficiency: 'Expert' as const, icon: Code, color: 'text-cyan-400', barColor: 'bg-cyan-400', tags: ['Virtual DOM', 'Next.js 15', 'Server Components'], description: 'Building modern, high-performance, and scalable web applications leveraging React and Next.js.' },
-    { name: 'State Management', proficiency: 'Advanced' as const, icon: GitBranch, color: 'text-purple-400', barColor: 'bg-purple-400', tags: ['Zustand', 'Redux Toolkit', 'TanStack Query'], description: 'Efficiently managing complex application states and robust data fetching workflows.' },
-    { name: 'Visual Engineering', proficiency: 'Expert' as const, icon: Sparkles, color: 'text-pink-400', barColor: 'bg-pink-400', tags: ['Figma', 'Framer Motion', 'GSAP'], description: 'Crafting immersive web experiences with interactive UI and advanced fluid animations.' },
-    { name: 'Advanced Styling', proficiency: 'Expert' as const, icon: PenTool, color: 'text-blue-400', barColor: 'bg-blue-400', tags: ['Tailwind', 'PostCSS', 'Design Tokens'], description: 'Designing refined, highly responsive user interfaces utilizing modern utility-first CSS and design systems.' }
+    { name: 'React Ecosystem', proficiency: 'Expert' as const, icon: Code, color: 'text-[#A8C7FA]', barColor: 'bg-[#A8C7FA]', tags: ['Virtual DOM', 'Next.js 16', 'Server Components'], description: 'Building modern, high-performance, and scalable web applications leveraging React and Next.js.' },
+    { name: 'State Management', proficiency: 'Advanced' as const, icon: GitBranch, color: 'text-[#A8C7FA]', barColor: 'bg-[#A8C7FA]', tags: ['Zustand', 'Redux Toolkit', 'TanStack Query'], description: 'Efficiently managing complex application states and robust data fetching workflows.' },
+    { name: 'Visual Engineering', proficiency: 'Expert' as const, icon: Sparkles, color: 'text-[#A8C7FA]', barColor: 'bg-[#A8C7FA]', tags: ['Figma', 'Framer Motion', 'Spring Physics'], description: 'Crafting tactile web interfaces with intentional geometry and spring physics transitions.' },
+    { name: 'Advanced Styling', proficiency: 'Expert' as const, icon: PenTool, color: 'text-[#A8C7FA]', barColor: 'bg-[#A8C7FA]', tags: ['Tailwind', 'PostCSS', 'Design Tokens'], description: 'Designing refined, responsive user interfaces utilizing tonal surface tokens and concentric geometry.' }
   ],
   backend: [
-    { name: 'Server Architecture', proficiency: 'Advanced' as const, icon: Server, color: 'text-indigo-400', barColor: 'bg-indigo-400', tags: ['Node.js', 'NestJS', 'Microservices'], description: 'Architecting scalable, enterprise-grade RESTful APIs and modern microservice infrastructures.' },
-    { name: 'Database Design', proficiency: 'Advanced' as const, icon: Database, color: 'text-blue-400', barColor: 'bg-blue-400', tags: ['PostgreSQL', 'Supabase', 'Redis'], description: 'Structuring, querying, and optimizing high-performance relational databases and in-memory data stores.' },
-    { name: 'API Protocols', proficiency: 'Advanced' as const, icon: Wifi, color: 'text-rose-400', barColor: 'bg-rose-400', tags: ['GraphQL', 'tRPC', 'gRPC'], description: 'Developing rapid, type-safe, and secure API communication protocols bridging client and server architectures.' },
-    { name: 'DevOps & Cloud', proficiency: 'Proficient' as const, icon: Cloud, color: 'text-sky-400', barColor: 'bg-sky-400', tags: ['Docker', 'AWS', 'Vercel'], description: 'Orchestrating containerized deployments, cloud infrastructure modeling, and continuous integration pipelines.' }
+    { name: 'Server Architecture', proficiency: 'Advanced' as const, icon: Server, color: 'text-[#A8C7FA]', barColor: 'bg-[#A8C7FA]', tags: ['Node.js', 'NestJS', 'Microservices'], description: 'Architecting scalable RESTful APIs and modular server infrastructures.' },
+    { name: 'Database Design', proficiency: 'Advanced' as const, icon: Database, color: 'text-[#A8C7FA]', barColor: 'bg-[#A8C7FA]', tags: ['PostgreSQL', 'Supabase', 'Redis'], description: 'Structuring, querying, and optimizing high-performance relational databases and in-memory data stores.' },
+    { name: 'API Protocols', proficiency: 'Advanced' as const, icon: Wifi, color: 'text-[#A8C7FA]', barColor: 'bg-[#A8C7FA]', tags: ['GraphQL', 'tRPC', 'gRPC'], description: 'Developing rapid, type-safe, and secure API communication protocols bridging client and server architectures.' },
+    { name: 'DevOps & Cloud', proficiency: 'Proficient' as const, icon: Cloud, color: 'text-[#A8C7FA]', barColor: 'bg-[#A8C7FA]', tags: ['Docker', 'Linux', 'CI/CD'], description: 'Orchestrating containerized deployments, cloud infrastructure modeling, and continuous integration pipelines.' }
   ]
 };
 
 export const projects: Project[] = [
   {
     id: 7,
-    title: 'BangunCity — 3D Isometric City Builder & Management Simulation',
+    title: 'BangunCity: 3D Isometric City Builder & Management Simulation',
     category: 'Web App',
     image: '/banguncity.webp',
     gallery: ['/banguncity.webp'],
@@ -64,7 +64,7 @@ export const projects: Project[] = [
   },
   {
     id: 10,
-    title: 'Velco — Local-First Context-Bound AI Workstation & Knowledge OS',
+    title: 'Velco: Local-First Context-Bound AI Workstation & Knowledge OS',
     category: 'Desktop App',
     image: '/velco.webp',
     gallery: [
@@ -79,7 +79,7 @@ export const projects: Project[] = [
     description: 'An air-gapped, local-first AI workstation and technical knowledge operating system. Combines embedded SQLite storage with FTS5 search, peer-to-peer LAN synchronization via encrypted TCP/UDP streams, and grounded AI context synthesis with zero cloud telemetry.',
     problem: 'Modern knowledge bases and AI workspaces frequently rely on opaque cloud synchronizations, exposing proprietary context and incurring high memory footprints (> 250MB RAM on Electron), with no ability to collaborate securely over isolated air-gapped local networks.',
     approach: 'Engineered with Tauri v2 (Rust 2021) and React 19 for a compact ~35MB RAM footprint. Designed an air-gapped P2P sync engine using UDP port 42426 multicast discovery and XChaCha20-Poly1305 AEAD encrypted TCP framing with HMAC-SHA256 challenge-response mutual handshakes. Integrated local SQLite with Write-Ahead Logging (WAL) and FTS5 tokenized search (< 2ms), alongside a grounded AI Studio Workbench ("The Foundry") supporting local runtimes (Ollama, LM Studio) and a global hardware-level kill-switch.',
-    outcome: 'Shipped cross-platform production builds for macOS (.dmg), Windows (.exe, .msi, and 11.7MB portable binary), and Linux (.AppImage, .deb, .rpm) delivering sub-2ms full-text retrieval, zero cloud egress, and seamless multi-device peer context sync over Wi-Fi without server mediation.',
+    outcome: 'Shipped cross-platform production builds for macOS (.dmg), Windows (.exe, .msi, and 11.7MB portable binary), and Linux (.AppImage, .deb, .rpm) delivering sub-2ms full-text retrieval, zero cloud egress, and multi-device peer context sync over Wi-Fi without server mediation.',
     highlights: [
       'Air-gapped P2P LAN synchronization over UDP multicast (port 42426) & encrypted framed TCP streams',
       'Cryptographic security stack: XChaCha20-Poly1305 AEAD frame encryption, HKDF-SHA256 key derivation, and HMAC challenge-response auth',
@@ -96,7 +96,7 @@ export const projects: Project[] = [
   },
   {
     id: 8,
-    title: 'Huktif — Student Legal Education & AI Advisory Platform',
+    title: 'Huktif: Student Legal Education & AI Advisory Platform',
     category: 'Web App',
     image: '/huktif.webp',
     gallery: ['/huktif.webp'],
@@ -121,7 +121,7 @@ export const projects: Project[] = [
   },
   {
     id: 9,
-    title: 'SortiQ — Content-Aware Desktop File Organizer',
+    title: 'SortiQ: Content-Aware Desktop File Organizer',
     category: 'Desktop App',
     image: '/sortiq.webp',
     gallery: ['/sortiq.webp'],
@@ -146,7 +146,7 @@ export const projects: Project[] = [
   },
   {
     id: 6,
-    title: 'MyBoard Lite — Real-time Cloud POS & Inventory System',
+    title: 'MyBoard Lite: Real-time Cloud POS & Inventory System',
     category: 'Web App',
     image: '/myboard.webp',
     gallery: ['/myboard.webp'],
@@ -154,9 +154,9 @@ export const projects: Project[] = [
     link: 'https://myboard-lite.vercel.app/',
     githubUrl: 'https://github.com/hernataramadhan79-bit',
     description: 'An intuitive Point of Sale (POS) and inventory management platform for real-time transaction monitoring and daily sales analytics. Engineered with Vite, Tailwind CSS, and Firebase Realtime Database.',
-    problem: 'Small businesses needed an affordable, cloud-based POS solution with real-time inventory sync — without the complexity of enterprise systems.',
+    problem: 'Small businesses needed an affordable, cloud-based POS solution with real-time inventory sync, without the complexity of enterprise systems.',
     approach: 'Built a single-page POS with Firebase Realtime Database for sub-second transaction sync across devices. Chose Vite for fast HMR during development and optimal production bundle size.',
-    outcome: 'Delivered a fully functional POS system with real-time inventory tracking, daily sales analytics dashboard, and multi-device support — all in a single browser tab.',
+    outcome: 'Delivered a fully functional POS system with real-time inventory tracking, daily sales analytics dashboard, and multi-device support in a single browser tab.',
     highlights: [
       'Real-time transaction sync via Firebase Realtime Database (< 200ms latency)',
       'Offline-resilient UI with optimistic updates and Firebase persistence',
@@ -171,7 +171,7 @@ export const projects: Project[] = [
   },
   {
     id: 1,
-    title: 'Sakuku — Personal Finance & Expense Tracker',
+    title: 'Sakuku: Personal Finance & Expense Tracker',
     category: 'Web App',
     image: '/sakukuimg.webp',
     gallery: ['/sakukuimg.webp'],
@@ -179,9 +179,9 @@ export const projects: Project[] = [
     link: 'https://sakuku-wallet.vercel.app/',
     githubUrl: 'https://github.com/hernataramadhan79-bit',
     description: 'A modern digital wallet and expense tracking application featuring real-time visual analytics, transaction monitoring, and budget management built with React and Tailwind CSS.',
-    problem: 'Users needed a clean, zero-friction way to track personal expenses with visual breakdowns — without requiring account registration.',
+    problem: 'Users needed a clean, zero-friction way to track personal expenses with visual breakdowns, without requiring account registration.',
     approach: 'Implemented client-side state management with React hooks and localStorage persistence. Focused on fast, intuitive data entry flow and responsive chart rendering.',
-    outcome: 'A privacy-first finance tracker with no backend required — all data stored locally, with instant budget visualization and category breakdown.',
+    outcome: 'A privacy-first finance tracker with no backend required: all data stored locally, with instant budget visualization and category breakdown.',
     highlights: [
       'Multi-category transaction logging with color-coded visual analytics',
       'Budget limit alerts with real-time spending progress indicators',
@@ -196,17 +196,17 @@ export const projects: Project[] = [
   },
   {
     id: 3,
-    title: 'Oryon AI — Contextual AI Assistant & Code Generator',
+    title: 'Oryon AI: Contextual AI Assistant & Code Generator',
     category: 'Web App',
     image: '/oryonaiimg.webp',
     gallery: ['/oryonaiimg.webp'],
     tags: ['React', 'Gemini API'],
     link: 'https://oryon-ai-three.vercel.app/',
     githubUrl: 'https://github.com/hernataramadhan79-bit',
-    description: 'An intelligent conversational platform powered by Google Gemini API with contextual reasoning, structured code generation capabilities, and a responsive futuristic user interface.',
-    problem: 'Developers needed a contextual AI assistant that could maintain conversation history, generate structured code blocks, and provide a polished UI beyond standard chatbot implementations.',
+    description: 'A conversational developer platform powered by Google Gemini API with contextual reasoning, structured code generation capabilities, and a responsive interface.',
+    problem: 'Developers needed a contextual AI assistant that could maintain conversation history, generate structured code blocks, and provide a clean UI beyond standard chatbot implementations.',
     approach: 'Integrated Google Gemini API with conversation context management in React state. Implemented custom markdown rendering for code blocks with syntax highlighting and copy-to-clipboard functionality.',
-    outcome: 'A production-ready AI assistant with persistent conversation context, formatted code output, and a futuristic UI optimized for developer workflows.',
+    outcome: 'A production-ready AI assistant with persistent conversation context, formatted code output, and an interface optimized for developer workflows.',
     highlights: [
       'Google Gemini API integration with full conversation context management',
       'Structured code generation with syntax-highlighted, copy-ready output',
@@ -221,7 +221,7 @@ export const projects: Project[] = [
   },
   {
     id: 4,
-    title: 'Renova — Car Rental & Fleet Management System',
+    title: 'Renova: Car Rental & Fleet Management System',
     category: 'Web App',
     image: '/renovaimg.webp',
     gallery: ['/renovaimg.webp'],
@@ -229,9 +229,9 @@ export const projects: Project[] = [
     link: 'https://renovamobil.vercel.app/',
     githubUrl: 'https://github.com/hernataramadhan79-bit',
     description: 'A robust vehicle rental management platform and interactive digital showroom featuring secure authentication, fleet tracking, and Supabase PostgreSQL integration.',
-    problem: 'A vehicle rental business needed a digital platform to manage their fleet, handle customer bookings, and provide an interactive showroom — replacing manual spreadsheet-based tracking.',
+    problem: 'A vehicle rental business needed a digital platform to manage their fleet, handle customer bookings, and provide an interactive showroom, replacing manual spreadsheet-based tracking.',
     approach: 'Built on Supabase for PostgreSQL + auth in one platform. Implemented Row Level Security (RLS) policies to ensure users only access their own booking data. Fleet management dashboard with real-time availability status.',
-    outcome: 'Full-stack rental management system with secure auth, fleet tracking, and booking management — replacing manual processes with an automated digital workflow.',
+    outcome: 'Full-stack rental management system with secure auth, fleet tracking, and booking management, replacing manual processes with an automated digital workflow.',
     highlights: [
       'Supabase Auth with Row Level Security for user-scoped data isolation',
       'Real-time fleet availability tracking with booking conflict prevention',
@@ -246,14 +246,14 @@ export const projects: Project[] = [
   },
   {
     id: 5,
-    title: 'RSUD Dolopo — Hospital Healthcare & Patient Queue Portal',
+    title: 'RSUD Dolopo: Hospital Healthcare & Patient Queue Portal',
     category: 'Web App',
     image: '/rsdolopoimg.webp',
     gallery: ['/rsdolopoimg.webp'],
     tags: ['React', 'Firebase', 'PostgreSQL'],
     link: 'https://rsuddoloponew.netlify.app/',
     githubUrl: 'https://github.com/hernataramadhan79-bit',
-    description: 'A responsive healthcare portal and patient queuing management system designed for seamless public access to medical information, integrated with Firebase and PostgreSQL.',
+    description: 'A responsive healthcare portal and patient queuing management system designed for public access to medical information, integrated with Firebase and PostgreSQL.',
     problem: 'A regional hospital needed a public-facing digital portal to reduce physical queue congestion, provide accessible medical information, and streamline patient registration.',
     approach: 'Implemented Firebase for real-time queue state management across departments, with PostgreSQL for structured patient data. Designed for accessibility with high-contrast UI and simple navigation for non-technical users.',
     outcome: "A deployed healthcare portal serving the hospital's public patients with digital queue registration, department information, and real-time queue status updates.",
@@ -271,7 +271,7 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: 'OryonWeb — Digital Agency & Creative Portfolio',
+    title: 'OryonWeb: Digital Agency & Creative Portfolio',
     category: 'Web App',
     image: '/owgimg.webp',
     gallery: ['/owgimg.webp'],
@@ -390,5 +390,5 @@ export const experiences = [
   }
 ];
 
-// Web3Forms Configuration — key loaded from .env.local (NEXT_PUBLIC_WEB3FORMS_KEY)
+// Web3Forms Configuration: key loaded from .env.local (NEXT_PUBLIC_WEB3FORMS_KEY)
 export const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? '';

@@ -18,17 +18,23 @@ import {
 export interface NavItem {
   id: string;
   label: string;
+  zone: '01' | '02' | '03' | '04';
+  isPrimaryZone?: boolean;
   icon: React.ElementType;
 }
 
+/**
+ * Navigation items mapped to the 4 Spatial Zones while preserving
+ * deep-anchor compatibility for sub-widgets (About, Stats, Stack).
+ */
 const NAV_ITEMS: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'work', label: 'Work', icon: FolderGit2 },
-  { id: 'capabilities', label: 'Stack', icon: Cpu },
-  { id: 'about', label: 'About', icon: User },
-  { id: 'stats', label: 'Stats', icon: Activity },
-  { id: 'awards', label: 'Awards', icon: Award },
-  { id: 'contact', label: 'Contact', icon: Mail },
+  { id: 'dashboard', label: 'Dashboard', zone: '01', isPrimaryZone: true, icon: LayoutDashboard },
+  { id: 'about', label: 'About', zone: '01', isPrimaryZone: false, icon: User },
+  { id: 'stats', label: 'Stats', zone: '01', isPrimaryZone: false, icon: Activity },
+  { id: 'capabilities', label: 'Stack', zone: '01', isPrimaryZone: false, icon: Cpu },
+  { id: 'work', label: 'Work', zone: '02', isPrimaryZone: true, icon: FolderGit2 },
+  { id: 'awards', label: 'Awards', zone: '03', isPrimaryZone: true, icon: Award },
+  { id: 'contact', label: 'Contact', zone: '04', isPrimaryZone: true, icon: Mail },
 ];
 
 interface NavbarProps {
@@ -42,70 +48,94 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrollContainer = document.querySelector('[data-section-scroll]') as HTMLElement | null;
+      const currentScrollY = window.scrollY || (scrollContainer ? scrollContainer.scrollTop : 0);
+      setIsScrolled(currentScrollY >= 60);
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const scrollContainer = document.querySelector('[data-section-scroll]');
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
   }, []);
 
   const handleSelectTab = (tabId: string) => {
     setActiveTab(tabId);
     setIsMobileMenuOpen(false);
-    if (window.location.hash !== `#${tabId}`) {
+    if (typeof window !== 'undefined' && window.location.hash !== `#${tabId}`) {
       window.history.replaceState(null, '', `#${tabId}`);
     }
   };
 
   return (
     <>
-      {/* Desktop Floating Pill Navbar */}
-      <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+      {/* Floating Dynamic Pixel Pill (Glass Dose #1 of 2 allowed by R-10) */}
+      <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-3 sm:px-4 pointer-events-none">
         <motion.nav
-          initial={{ y: -16, opacity: 0 }}
+          initial={{ y: -14, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
           aria-label="Main navigation"
-          className={`pointer-events-auto h-12 flex items-center justify-between gap-3 md:gap-6 px-3.5 md:px-5 rounded-full border transition-[background-color,border-color,box-shadow] duration-200 ${
+          className={`pointer-events-auto flex items-center justify-between rounded-full backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             isScrolled
-              ? 'bg-neutral-950/90 border-neutral-800 shadow-[0_8px_32px_rgba(0,0,0,0.7)] backdrop-blur-xl'
-              : 'bg-neutral-950/80 border-neutral-800/80 backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.5)]'
+              ? 'h-[46px] px-3 gap-2 md:gap-3 bg-[#111318]/92 shadow-[0_12px_32px_rgba(0,0,0,0.55)]'
+              : 'h-[54px] px-4 md:px-5 gap-3 md:gap-5 bg-[#111318]/85 shadow-[0_8px_24px_rgba(0,0,0,0.35)]'
           }`}
-          style={{
-            willChange: 'transform, opacity',
-            boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.08)',
-          }}
         >
-          {/* HRNT Logo Wordmark with Focused Cyan Diamond */}
+          {/* HRNT Brand Identity */}
           <button
             onClick={() => handleSelectTab('dashboard')}
-            className="flex items-center group pointer-events-auto select-none py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg active:scale-95 transition-transform"
+            className="flex items-center group pointer-events-auto select-none py-1.5 px-1.5 rounded-full active:scale-95 transition-transform"
             aria-label="Go to dashboard"
           >
-            <span className="text-white font-black tracking-tighter text-xl leading-none transition-colors duration-200 group-hover:text-cyan-400">
+            <span className="text-[#F1F5F9] font-black tracking-tighter text-lg sm:text-xl leading-none transition-colors duration-200 group-hover:text-[var(--accent-pixel)]">
               HRNT
             </span>
-            <div className="w-2 h-2 border-[1.5px] border-cyan-400 bg-transparent rotate-45 ml-1.5 shadow-[0_0_10px_rgba(34,211,238,0.5)] transition-all duration-300 ease-[0.22,1,0.36,1] group-hover:bg-cyan-400 group-hover:scale-110 group-hover:rotate-[225deg]" />
+            <span className="w-2 h-2 border-[1.5px] border-[var(--accent-pixel)] bg-transparent rotate-45 ml-1.5 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[var(--accent-pixel)] group-hover:scale-110" />
           </button>
 
-          {/* Nav Items List (Hidden on Mobile) */}
-          <ul className="hidden lg:flex items-center gap-0.5">
+          {/* Desktop Zone Links with Scroll-Aware Morphing */}
+          <ul className="hidden lg:flex items-center gap-0.5 bg-[var(--surface-2)] p-1 rounded-full">
             {NAV_ITEMS.map((item) => {
               const isActive = activeTab === item.id;
+              const isSubZoneItem = !item.isPrimaryZone;
+
               return (
-                <li key={item.id} className="relative">
+                <li
+                  key={item.id}
+                  className={`relative transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    isScrolled && isSubZoneItem && !isActive
+                      ? 'max-w-0 opacity-0 overflow-hidden pointer-events-none px-0'
+                      : 'max-w-[120px] opacity-100'
+                  }`}
+                >
                   <button
                     onClick={() => handleSelectTab(item.id)}
-                    className={`relative px-3 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-full transition-colors duration-150 ${
-                      isActive ? 'text-white' : 'text-neutral-400 hover:text-neutral-200'
+                    className={`relative px-3 py-1.5 text-xs font-medium rounded-full transition-colors duration-200 active:scale-[0.97] whitespace-nowrap flex items-center gap-1.5 ${
+                      isActive
+                        ? 'text-[#F1F5F9] font-semibold'
+                        : 'text-[var(--text-secondary)] hover:text-[#F1F5F9]'
                     }`}
                   >
                     {isActive && (
                       <motion.div
-                        layoutId="activePill"
+                        layoutId="activePixelPill"
                         initial={false}
-                        className="absolute inset-0 bg-neutral-800/80 border border-neutral-700/80 rounded-full -z-10 shadow-sm"
-                        transition={{ type: 'tween', duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute inset-0 bg-[var(--surface-pill)] rounded-full -z-10"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30, mass: 0.8 }}
                       />
+                    )}
+                    {item.isPrimaryZone && !isScrolled && (
+                      <span className="text-[10px] font-mono text-[var(--accent-pixel)] opacity-75 tabular-nums">
+                        {item.zone}
+                      </span>
                     )}
                     <span>{item.label}</span>
                   </button>
@@ -114,23 +144,25 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             })}
           </ul>
 
-          {/* Quick Action Forum Button & Mobile Toggle */}
+          {/* Primary Tonal Pill CTA (Forum) & Mobile Drawer Trigger */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleSelectTab('forum')}
-              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full transition-all duration-150 hover:brightness-110 active:scale-[0.98] ${
+              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold rounded-full transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.96] ${
+                isScrolled ? 'px-3.5 py-1.5' : 'px-4 py-2'
+              } ${
                 activeTab === 'forum'
-                  ? 'bg-cyan-400 text-neutral-950 font-bold shadow-[0_0_16px_rgba(34,211,238,0.4)]'
-                  : 'bg-neutral-800/80 hover:bg-neutral-750 text-neutral-200 border border-neutral-700/60'
+                  ? 'bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold'
+                  : 'bg-[var(--surface-pill)] hover:bg-[var(--surface-bright)] text-[#F1F5F9]'
               }`}
             >
-              <MessageSquare size={13} strokeWidth={2} />
+              <MessageSquare size={13} strokeWidth={2.2} />
               <span>Forum</span>
             </button>
 
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-1.5 text-neutral-400 hover:text-white rounded-full bg-neutral-900/60 border border-neutral-800 transition-colors"
+              className="lg:hidden w-10 h-10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9] rounded-full bg-[var(--surface-2)] hover:bg-[var(--surface-3)] transition-colors active:scale-95"
               aria-label="Toggle navigation menu"
             >
               {isMobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
@@ -139,15 +171,15 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
         </motion.nav>
       </header>
 
-      {/* Mobile Slide-down Glass Menu */}
+      {/* Mobile Concentric Tonal Sheet (R_outer = 28px, p-3 = 12px, R_inner = 16px) */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.22, ease: 'easeOut' }}
-            className="fixed inset-x-4 top-20 z-40 lg:hidden glass-card p-4 bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800 shadow-2xl rounded-2xl"
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ type: 'spring', stiffness: 380, damping: 30, mass: 0.8 }}
+            className="fixed inset-x-4 top-20 z-40 lg:hidden bento-outer shadow-2xl"
           >
             <div className="grid grid-cols-2 gap-2">
               {NAV_ITEMS.map((item) => {
@@ -157,27 +189,37 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                   <button
                     key={item.id}
                     onClick={() => handleSelectTab(item.id)}
-                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all ${
+                    className={`flex items-center justify-between px-3.5 py-3 rounded-[16px] text-left transition-all active:scale-[0.98] min-h-[44px] ${
                       isActive
-                        ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30'
-                        : 'bg-neutral-900/40 text-neutral-400 hover:bg-neutral-800 hover:text-white border border-neutral-800/40'
+                        ? 'bg-[var(--surface-pill)] text-[#F1F5F9] font-semibold'
+                        : 'bg-[var(--surface-2)] text-[var(--text-secondary)] hover:bg-[var(--surface-3)] hover:text-[#F1F5F9]'
                     }`}
                   >
-                    <Icon size={15} className={isActive ? 'text-cyan-400' : 'text-neutral-500'} />
-                    <span className="text-xs font-semibold uppercase tracking-wider">{item.label}</span>
+                    <span className="flex items-center gap-2.5">
+                      <Icon
+                        size={15}
+                        className={isActive ? 'text-[var(--accent-pixel)]' : 'text-[var(--text-muted)]'}
+                      />
+                      <span className="text-xs tracking-wide">{item.label}</span>
+                    </span>
+                    <span className="text-[10px] font-mono text-[var(--text-muted)] tabular-nums">
+                      {item.zone}
+                    </span>
                   </button>
                 );
               })}
             </div>
 
-            <div className="mt-3 pt-3 border-t border-neutral-800/80 flex items-center justify-between">
-              <span className="text-xs text-neutral-500 font-mono">HRNT Portfolio</span>
+            <div className="mt-2 pt-2.5 px-2 flex items-center justify-between bg-[var(--surface-2)] rounded-[16px] p-2.5">
+              <span className="text-xs text-[var(--text-secondary)] font-medium pl-1">
+                Hernata Ramadhan
+              </span>
               <button
                 onClick={() => handleSelectTab('forum')}
-                className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-1.5 rounded-full transition-all ${
+                className={`inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full transition-all active:scale-[0.96] min-h-[38px] ${
                   activeTab === 'forum'
-                    ? 'bg-cyan-400 text-neutral-950 font-bold'
-                    : 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'
+                    ? 'bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold'
+                    : 'bg-[var(--surface-pill)] text-[#F1F5F9] hover:bg-[var(--surface-bright)]'
                 }`}
               >
                 <MessageSquare size={13} strokeWidth={2} />
@@ -190,4 +232,3 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
     </>
   );
 }
-
