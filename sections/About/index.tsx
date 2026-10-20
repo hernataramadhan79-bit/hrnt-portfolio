@@ -14,8 +14,8 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
   });
 
   const content = (
-    <div id="about" className="bento-inner p-4 sm:p-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+    <div id="about" className="bento-inner p-4 h-[370px] overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 px-1">
         <div className="flex items-center gap-2">
           <Briefcase size={15} className="text-[var(--accent-pixel)]" />
           <h3 className="text-sm font-bold text-[#F1F5F9]">
@@ -45,7 +45,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 h-[285px] overflow-y-auto no-scrollbar content-start">
         <AnimatePresence mode="popLayout">
           {filteredExperiences.map((exp) => (
             <motion.div
@@ -55,7 +55,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="p-3.5 rounded-[14px] bg-[var(--surface-1)] space-y-2.5"
+              className="p-3 rounded-[12px] bg-[var(--surface-1)]"
             >
               <div>
                 <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)] mb-1 tabular-nums">
