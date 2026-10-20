@@ -55,7 +55,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="p-3 rounded-[12px] bg-[var(--surface-1)] flex flex-col justify-between"
+              className="p-3.5 rounded-[14px] bg-[var(--surface-1)] space-y-2.5"
             >
               <div>
                 <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)] mb-1 tabular-nums">

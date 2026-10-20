@@ -195,9 +195,9 @@ export default function Dashboard({
       </div>
 
       {/* ─── ZONE 1: Golden Ratio Split (62% Left Identity + About : 38% Right Live Telemetry) ─── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
         {/* LEFT (~62% -> lg:col-span-7): Primary Identity, Portrait, Pixel Photo Widget & Career Timeline */}
-        <div className="lg:col-span-7 bento-outer flex flex-col justify-between gap-3">
+        <div className="lg:col-span-7 bento-outer space-y-3">
           {/* Top Inner Card: Seamless Cutout Portrait + Headline + Narrative + Tactile Pill CTAs */}
           <div className="bento-inner p-5 sm:p-6 relative overflow-hidden">
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
@@ -296,7 +296,7 @@ export default function Dashboard({
         </div>
 
         {/* RIGHT (~38% -> lg:col-span-5): Live Telemetry "At a Glance" Widget (Stats) */}
-        <div id="stats" className="lg:col-span-5 bento-outer flex flex-col justify-between gap-3">
+        <div id="stats" className="lg:col-span-5 bento-outer space-y-3">
           {/* Oversized Pixel Lockscreen / At-a-Glance Telemetry Header */}
           <div className="bento-inner p-5 sm:p-6 space-y-5">
             <div className="flex items-center justify-between">
@@ -428,7 +428,7 @@ export default function Dashboard({
           </div>
 
           {/* Interactive Pixel Photo Widget (Concentric rounded-[16px]) */}
-          <div className="bento-inner p-3.5 sm:p-4 flex-1 flex flex-col justify-between">
+          <div className="bento-inner p-3.5 sm:p-4">
             <div className="flex items-center justify-between mb-2.5 px-1">
               <div className="flex items-center gap-2">
                 <Camera size={14} className="text-[var(--accent-pixel)]" />
@@ -451,7 +451,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="relative w-full flex-1 min-h-[190px] rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
+            <div className="relative w-full h-52 sm:h-64 rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={currentPhoto.src}
