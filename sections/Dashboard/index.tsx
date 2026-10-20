@@ -395,22 +395,6 @@ export default function Dashboard({
               </div>
             </div>
 
-            {/* Shipped Benchmarks Strip */}
-            <div className="grid grid-cols-3 gap-2 text-center font-mono tabular-nums">
-              <div className="p-3 rounded-[14px] bg-[var(--surface-1)]">
-                <div className="text-base sm:text-lg font-black text-[#F1F5F9]">&lt; 2ms</div>
-                <div className="text-[10px] text-[var(--text-muted)] mt-0.5">SQLite FTS5</div>
-              </div>
-              <div className="p-3 rounded-[14px] bg-[var(--surface-1)]">
-                <div className="text-base sm:text-lg font-black text-[var(--accent-pixel)]">~35 MB</div>
-                <div className="text-[10px] text-[var(--text-muted)] mt-0.5">Tauri RAM</div>
-              </div>
-              <div className="p-3 rounded-[14px] bg-[var(--surface-1)]">
-                <div className="text-base sm:text-lg font-black text-[#F1F5F9]">60 FPS</div>
-                <div className="text-[10px] text-[var(--text-muted)] mt-0.5">3D WebGL</div>
-              </div>
-            </div>
-
             {/* Apple Progressive Disclosure Toggle */}
             <button
               type="button"
