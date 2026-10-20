@@ -291,81 +291,6 @@ export default function Dashboard({
             </div>
           </div>
 
-          {/* Interactive Pixel Photo Widget (Concentric rounded-[16px]) */}
-          <div className="bento-inner p-3.5 sm:p-4">
-            <div className="flex items-center justify-between mb-2.5 px-1">
-              <div className="flex items-center gap-2">
-                <Camera size={14} className="text-[var(--accent-pixel)]" />
-                <span className="text-xs font-bold text-[#F1F5F9]">Pixel Photo &amp; Field Deck</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                {PIXEL_PHOTO_ITEMS.map((item, idx) => (
-                  <button
-                    key={item.src}
-                    type="button"
-                    onClick={() => setPhotoIndex(idx)}
-                    aria-label={`View photo ${idx + 1}: ${item.title}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      idx === photoIndex
-                        ? 'w-5 bg-[var(--accent-pixel)]'
-                        : 'w-1.5 bg-[var(--surface-pill)] hover:bg-[var(--text-muted)]'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="relative w-full h-44 sm:h-52 rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={currentPhoto.src}
-                  initial={{ opacity: 0, scale: 1.02 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.99 }}
-                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative w-full h-full"
-                >
-                  <Image
-                    src={currentPhoto.src}
-                    alt={currentPhoto.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 680px"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/90 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3.5 right-20">
-                    <div className="text-xs sm:text-sm font-bold text-[#F1F5F9]">
-                      {currentPhoto.title}
-                    </div>
-                    <div className="text-[11px] text-[var(--text-secondary)] truncate">
-                      {currentPhoto.caption}
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Tactile Prev/Next Pill Controls */}
-              <div className="absolute bottom-3 right-3 flex items-center gap-1.5 z-10">
-                <button
-                  type="button"
-                  onClick={handlePrevPhoto}
-                  aria-label="Previous photo"
-                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90"
-                >
-                  <ChevronLeft size={15} />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextPhoto}
-                  aria-label="Next photo"
-                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90"
-                >
-                  <ChevronRight size={15} />
-                </button>
-              </div>
-            </div>
-          </div>
-
           {/* Embedded Career & Academic Milestones (About) */}
           <About embedded />
         </div>
@@ -500,6 +425,81 @@ export default function Dashboard({
               </span>
               {isTelemetryExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
             </button>
+          </div>
+
+          {/* Interactive Pixel Photo Widget (Concentric rounded-[16px]) */}
+          <div className="bento-inner p-3.5 sm:p-4">
+            <div className="flex items-center justify-between mb-2.5 px-1">
+              <div className="flex items-center gap-2">
+                <Camera size={14} className="text-[var(--accent-pixel)]" />
+                <span className="text-xs font-bold text-[#F1F5F9]">Pixel Photo &amp; Field Deck</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {PIXEL_PHOTO_ITEMS.map((item, idx) => (
+                  <button
+                    key={item.src}
+                    type="button"
+                    onClick={() => setPhotoIndex(idx)}
+                    aria-label={`View photo ${idx + 1}: ${item.title}`}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      idx === photoIndex
+                        ? 'w-5 bg-[var(--accent-pixel)]'
+                        : 'w-1.5 bg-[var(--surface-pill)] hover:bg-[var(--text-muted)]'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="relative w-full h-48 sm:h-60 lg:h-72 rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={currentPhoto.src}
+                  initial={{ opacity: 0, scale: 1.02 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.99 }}
+                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative w-full h-full"
+                >
+                  <Image
+                    src={currentPhoto.src}
+                    alt={currentPhoto.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 680px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/90 via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3.5 right-20">
+                    <div className="text-xs sm:text-sm font-bold text-[#F1F5F9]">
+                      {currentPhoto.title}
+                    </div>
+                    <div className="text-[11px] text-[var(--text-secondary)] truncate">
+                      {currentPhoto.caption}
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Tactile Prev/Next Pill Controls */}
+              <div className="absolute bottom-3 right-3 flex items-center gap-1.5 z-10">
+                <button
+                  type="button"
+                  onClick={handlePrevPhoto}
+                  aria-label="Previous photo"
+                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90"
+                >
+                  <ChevronLeft size={15} />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextPhoto}
+                  aria-label="Next photo"
+                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90"
+                >
+                  <ChevronRight size={15} />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
