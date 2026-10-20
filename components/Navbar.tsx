@@ -112,8 +112,8 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                   key={item.id}
                   className={`relative transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     isScrolled && isSubZoneItem && !isActive
-                      ? 'max-w-0 opacity-0 overflow-hidden pointer-events-none px-0'
-                      : 'max-w-[120px] opacity-100'
+                      ? 'hidden'
+                      : 'block'
                   }`}
                 >
                   <button
