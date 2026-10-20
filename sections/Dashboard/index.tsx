@@ -428,8 +428,8 @@ export default function Dashboard({
           </div>
 
           {/* Interactive Pixel Photo Widget (Concentric rounded-[16px]) */}
-          <div className="bento-inner p-3.5 sm:p-4">
-            <div className="flex items-center justify-between mb-2.5 px-1">
+          <div className="bento-inner p-4 h-[370px] overflow-hidden">
+            <div className="flex items-center justify-between mb-3 px-1">
               <div className="flex items-center gap-2">
                 <Camera size={14} className="text-[var(--accent-pixel)]" />
                 <span className="text-xs font-bold text-[#F1F5F9]">Pixel Photo &amp; Field Deck</span>
@@ -451,7 +451,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="relative w-full h-52 sm:h-64 rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
+            <div className="relative w-full h-[285px] rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={currentPhoto.src}
