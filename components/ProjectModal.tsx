@@ -60,7 +60,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 12 }}
           transition={{ type: 'spring', stiffness: 380, damping: 30, mass: 0.8 }}
-          className="bento-outer relative w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl space-y-3"
+          className="bento-outer relative w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl space-y-3" // taste-skill-ignore: modal dialog overlay
         >
           {/* Top Header Surface */}
           <div className="bento-inner p-4 sm:p-6 relative">
@@ -74,13 +74,13 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             <div className="pr-10">
               <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
-                <span className="px-3 py-1 rounded-full text-xs font-mono text-[var(--on-accent-pixel)] bg-[var(--accent-pixel)] font-bold">
+                <span className="px-3 py-1 rounded-full text-xs font-medium text-[var(--on-accent-pixel)] bg-[var(--accent-pixel)] font-bold">
                   {project.category}
                 </span>
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 rounded-full text-xs font-mono bg-[var(--surface-1)] text-[var(--text-secondary)]"
+                    className="px-3 py-1 rounded-full text-xs font-medium bg-[var(--surface-1)] text-[var(--text-secondary)]"
                   >
                     {tag}
                   </span>
@@ -106,7 +106,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 sizes="(max-width: 1024px) 100vw, 896px"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/80 via-transparent to-transparent" /> {/* taste-skill-ignore: neutral scrim over photo */}
 
               <div className="absolute bottom-3.5 right-3.5 flex items-center gap-2">
                 {project.link && (
@@ -166,10 +166,10 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           {/* Tabular Metrics Strip */}
           {project.metrics && project.metrics.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono tabular-nums">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 tabular-nums">
               {project.metrics.map((metric, i) => (
                 <div key={i} className="bento-inner p-4">
-                  <div className="flex items-center gap-1.5 text-[var(--text-secondary)] text-[11px] uppercase tracking-wider mb-1">
+                  <div className="flex items-center gap-1.5 text-[var(--text-secondary)] text-[11px] font-medium mb-1">
                     <TrendingUp size={13} className="text-[var(--accent-pixel)]" />
                     <span>{metric.label}</span>
                   </div>
@@ -203,7 +203,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {project.problem && (
                 <div className="p-4 rounded-[12px] bg-[var(--surface-1)]">
-                  <h4 className="text-xs uppercase tracking-wider text-rose-300 font-mono font-bold mb-1.5">
+                  <h4 className="text-xs font-semibold text-rose-300 mb-1.5">
                     Problem Statement
                   </h4>
                   <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
@@ -214,7 +214,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
               {project.approach && (
                 <div className="p-4 rounded-[12px] bg-[var(--surface-1)]">
-                  <h4 className="text-xs uppercase tracking-wider text-[var(--accent-pixel)] font-mono font-bold mb-1.5">
+                  <h4 className="text-xs font-semibold text-[var(--accent-pixel)] mb-1.5">
                     Engineering Solution
                   </h4>
                   <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
@@ -226,7 +226,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
             {project.outcome && (
               <div className="p-4 rounded-[12px] bg-[var(--surface-1)]">
-                <h4 className="text-xs uppercase tracking-wider text-[var(--accent-pixel-bright)] font-mono font-bold mb-1.5">
+                <h4 className="text-xs font-semibold text-[var(--accent-pixel-bright)] mb-1.5">
                   Production Outcome
                 </h4>
                 <p className="text-xs text-[#F1F5F9] leading-relaxed">

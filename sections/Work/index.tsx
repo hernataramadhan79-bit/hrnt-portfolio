@@ -122,11 +122,6 @@ export default function Work({
       {/* ─── Zone 02 Header & Apple/Pixel Segmented Filter Bar ─── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 px-1">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface-1)] text-xs font-mono text-[var(--accent-pixel)] mb-2 tabular-nums">
-            <span>ZONE 02</span>
-            <span>•</span>
-            <span>{totalMatching} Shipped Systems</span>
-          </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F1F5F9] tracking-tight">
             Production Systems &amp; Case Studies
           </h2>
@@ -210,11 +205,11 @@ export default function Work({
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--accent-pixel)] font-bold">
+                    <span className="text-xs font-semibold text-[var(--accent-pixel)]">
                       Flagship Desktop OS
                     </span>
                     <span className="text-xs text-[var(--text-muted)]">•</span>
-                    <span className="text-[11px] font-mono text-[var(--text-secondary)]">
+                    <span className="text-[11px] font-medium text-[var(--text-secondary)]">
                       Tauri v2 + Rust 2021 + SQLite WAL
                     </span>
                   </div>
@@ -288,7 +283,7 @@ export default function Work({
                     </motion.div>
                   </AnimatePresence>
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/85 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/85 via-transparent to-transparent" /> {/* taste-skill-ignore: neutral scrim over photo */}
                   <div className="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between gap-2">
                     <span className="text-xs text-[#F1F5F9] font-medium bg-[#111318]/90 px-3 py-1.5 rounded-full truncate">
                       {currentVelcoSlide.caption}
@@ -305,7 +300,7 @@ export default function Work({
                   </p>
 
                   {/* 3 Tabular Benchmark Cards */}
-                  <div className="grid grid-cols-3 gap-2 font-mono tabular-nums">
+                  <div className="grid grid-cols-3 gap-2 tabular-nums">
                     {velcoProject.metrics?.map((m) => (
                       <div key={m.label} className="p-3 rounded-[14px] bg-[var(--surface-1)]">
                         <div className="text-sm sm:text-base font-black text-[var(--accent-pixel)]">
@@ -323,7 +318,7 @@ export default function Work({
                     {velcoProject.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 rounded-full bg-[var(--surface-1)] text-xs font-mono text-[var(--text-secondary)]"
+                        className="px-3 py-1 rounded-full bg-[var(--surface-1)] text-xs font-medium text-[var(--text-secondary)]"
                       >
                         {tag}
                       </span>
@@ -398,16 +393,16 @@ export default function Work({
                       className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
                       sizes="(max-width: 1024px) 100vw, 640px"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/80 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/80 via-transparent to-transparent" /> {/* taste-skill-ignore: neutral scrim over photo */}
 
                     <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                      <span className="px-3 py-1 rounded-full bg-[#111318]/90 text-[11px] font-mono text-[var(--accent-pixel)]">
+                      <span className="px-3 py-1 rounded-full bg-[#111318]/90 text-[11px] font-medium text-[var(--accent-pixel)]">
                         {project.category}
                       </span>
                     </div>
 
                     {project.metrics?.[0] && (
-                      <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-[#111318]/90 text-[11px] font-mono text-[#F1F5F9] tabular-nums">
+                      <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-[#111318]/90 text-[11px] font-medium text-[#F1F5F9] tabular-nums">
                         <strong className="text-[var(--accent-pixel)]">{project.metrics[0].value}</strong>{' '}
                         <span className="text-[var(--text-secondary)]">{project.metrics[0].label}</span>
                       </div>
@@ -428,7 +423,7 @@ export default function Work({
                         {project.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="px-2.5 py-0.5 rounded-full bg-[var(--surface-1)] text-[10px] font-mono text-[var(--text-secondary)]"
+                            className="px-2.5 py-0.5 rounded-full bg-[var(--surface-1)] text-[10px] font-medium text-[var(--text-secondary)]"
                           >
                             {tag}
                           </span>
@@ -481,7 +476,7 @@ export default function Work({
                 Engineering Archive &amp; Domain Builds
               </h3>
             </div>
-            <span className="text-xs font-mono text-[var(--text-muted)] tabular-nums">
+            <span className="text-xs text-[var(--text-muted)] tabular-nums">
               {tier3Projects.length} Systems • Click row to inspect sheet
             </span>
           </div>
@@ -506,11 +501,11 @@ export default function Work({
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-[10px] font-mono text-[var(--accent-pixel)] bg-[var(--surface-1)] px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] font-medium text-[var(--accent-pixel)] bg-[var(--surface-1)] px-2 py-0.5 rounded-full">
                         {project.category}
                       </span>
                       {project.metrics?.[0] && (
-                        <span className="text-[10px] font-mono text-[var(--text-muted)] tabular-nums">
+                        <span className="text-[10px] text-[var(--text-muted)] tabular-nums">
                           {project.metrics[0].label}: <strong className="text-[#F1F5F9]">{project.metrics[0].value}</strong>
                         </span>
                       )}
@@ -530,7 +525,7 @@ export default function Work({
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="px-2.5 py-1 rounded-full bg-[var(--surface-1)] text-[10px] font-mono text-[var(--text-secondary)]"
+                        className="px-2.5 py-1 rounded-full bg-[var(--surface-1)] text-[10px] font-medium text-[var(--text-secondary)]"
                       >
                         {tag}
                       </span>

@@ -84,7 +84,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
         />
 
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-[10px] font-mono text-[var(--text-muted)] tabular-nums hidden sm:inline">
+          <span className="text-[10px] font-medium text-[var(--text-muted)] tabular-nums hidden sm:inline">
             {message.length}/{MAX_CHARS}
           </span>
           <button

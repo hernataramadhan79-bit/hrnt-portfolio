@@ -104,7 +104,7 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
       <div className="bento-inner p-4 sm:p-5 space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--accent-pixel)] font-bold">
+            <span className="text-xs font-semibold text-[var(--accent-pixel)]">
               Direct Engineering Channel
             </span>
             <h3 className="text-lg sm:text-xl font-black text-[#F1F5F9] tracking-tight mt-0.5">
@@ -125,7 +125,7 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
         <button
           type="button"
           onClick={handleCopyEmail}
-          className={`w-full py-3 px-4 rounded-full font-mono text-xs flex items-center justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] cursor-pointer ${
+          className={`w-full py-3 px-4 rounded-full text-xs font-medium flex items-center justify-between transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] cursor-pointer ${
             copiedEmail
               ? 'bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold'
               : 'bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] text-[#F1F5F9]'
@@ -195,7 +195,7 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
       <div className="bento-inner p-4 sm:p-5 space-y-3.5 flex-1 flex flex-col justify-between">
         <div className="flex items-center justify-between">
           <h4 className="text-sm font-bold text-[#F1F5F9]">Direct Email Dispatch</h4>
-          <span className="text-[10px] font-mono text-[var(--accent-pixel)] bg-[var(--surface-1)] px-2.5 py-0.5 rounded-full">
+          <span className="text-[10px] font-medium text-[var(--accent-pixel)] bg-[var(--surface-1)] px-2.5 py-0.5 rounded-full">
             Web3Forms API
           </span>
         </div>

@@ -147,8 +147,7 @@
 
 /* Editorial Telemetry Typography: Enforced Tabular Numerals */
 .tabular-nums,
-.telemetry-num,
-.font-mono {
+.telemetry-num {
   font-variant-numeric: tabular-nums;
 }
 
@@ -235,7 +234,7 @@
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(
+  background: linear-gradient( /* taste-skill-ignore: loading skeleton shimmer */
     90deg,
     transparent 0%,
     rgba(255, 255, 255, 0.03) 40%,

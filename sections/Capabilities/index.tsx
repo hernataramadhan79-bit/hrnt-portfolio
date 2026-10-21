@@ -109,18 +109,12 @@ export default function Capabilities({
       {/* Header Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-2 pt-1 pb-3">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--accent-pixel)] font-semibold">
-              Interactive Capability Topology
-            </span>
-            <span className="text-xs text-[var(--text-muted)]">•</span>
-            <span className="text-xs text-[var(--text-secondary)]">
-              Click any technology pill to filter matching builds in Zone 02
-            </span>
-          </div>
-          <h3 className="text-lg sm:text-xl font-extrabold text-[#F1F5F9] tracking-tight mt-0.5">
-            3 Functional Engineering Clusters
+          <h3 className="text-lg sm:text-xl font-extrabold text-[#F1F5F9] tracking-tight">
+            Engineering Stack &amp; Tooling
           </h3>
+          <p className="text-xs text-[var(--text-secondary)] mt-0.5">
+            Select any technology pill to inspect matching production projects.
+          </p>
         </div>
 
         {selectedTechFilter ? (
@@ -133,7 +127,7 @@ export default function Capabilities({
             <X size={13} />
           </button>
         ) : (
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--surface-2)] text-xs text-[var(--text-secondary)] font-mono tabular-nums self-start sm:self-auto">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--surface-2)] text-xs text-[var(--text-secondary)] tabular-nums self-start sm:self-auto">
             <span>22 Production Tools</span>
           </div>
         )}
@@ -163,7 +157,7 @@ export default function Capabilities({
                     </div>
                     <h4 className="text-sm font-bold text-[#F1F5F9]">{cluster.title}</h4>
                   </div>
-                  <span className="text-[11px] font-mono text-[var(--text-muted)] tabular-nums">
+                  <span className="text-[11px] text-[var(--text-muted)] tabular-nums">
                     {cluster.items.length} tools
                   </span>
                 </div>
@@ -185,7 +179,7 @@ export default function Capabilities({
                         title={`${tech.role} (${matchCount} matching projects)`}
                         className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 active:scale-95 cursor-pointer ${
                           isSelected
-                            ? 'bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold shadow-sm'
+                            ? 'bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold'
                             : 'bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] text-[#F1F5F9]'
                         }`}
                       >
@@ -198,7 +192,7 @@ export default function Capabilities({
                         />
                         <span>{tech.name}</span>
                         <span
-                          className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full tabular-nums ${
+                          className={`text-[10px] font-medium px-1.5 py-0.2 rounded-full tabular-nums ${
                             isSelected
                               ? 'bg-[#081226]/20 text-[var(--on-accent-pixel)]'
                               : 'bg-[var(--surface-2)] text-[var(--text-muted)]'

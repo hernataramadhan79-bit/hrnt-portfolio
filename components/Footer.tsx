@@ -19,10 +19,10 @@ export default function Footer({ onNavigate }: FooterProps) {
   };
 
   const quickZones = [
-    { id: 'dashboard', label: '01 Command Hub' },
-    { id: 'work', label: '02 Selected Work' },
-    { id: 'awards', label: '03 Credentials' },
-    { id: 'contact', label: '04 Comm Hub' },
+    { id: 'dashboard', label: 'Command Hub' },
+    { id: 'work', label: 'Selected Work' },
+    { id: 'awards', label: 'Credentials' },
+    { id: 'contact', label: 'Comm Hub' },
   ];
 
   return (
@@ -52,7 +52,7 @@ export default function Footer({ onNavigate }: FooterProps) {
 
             {/* Developer Easter-Egg Badge Hinting at lib/console-banner.ts */}
             <div
-              className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--surface-1)] text-[11px] font-mono text-[var(--text-muted)] select-all"
+              className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--surface-1)] text-[11px] font-medium text-[var(--text-muted)] select-all"
               title="Open browser DevTools console (F12) to inspect terminal signature"
             >
               <Terminal size={12} className="text-[var(--accent-pixel)]" />
@@ -67,7 +67,7 @@ export default function Footer({ onNavigate }: FooterProps) {
                 <button
                   key={zone.id}
                   onClick={() => onNavigate?.(zone.id)}
-                  className="px-3 py-1 rounded-full bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] text-[11px] font-mono text-[var(--text-secondary)] hover:text-[#F1F5F9] transition-colors tabular-nums"
+                  className="px-3 py-1 rounded-full bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] text-[11px] font-medium text-[var(--text-secondary)] hover:text-[#F1F5F9] transition-colors tabular-nums"
                 >
                   {zone.label}
                 </button>

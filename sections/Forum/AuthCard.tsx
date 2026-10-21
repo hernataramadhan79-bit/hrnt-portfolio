@@ -131,7 +131,7 @@ const AuthCard: React.FC<AuthCardProps> = ({
     return (
       <div className="flex items-center justify-center py-4 gap-2.5 bg-[var(--surface-1)] rounded-[16px]">
         <div className="w-4 h-4 border-2 border-[var(--accent-pixel)] border-t-transparent rounded-full animate-spin" />
-        <span className="text-[var(--text-secondary)] font-mono text-xs">Syncing session...</span>
+        <span className="text-[var(--text-secondary)] font-medium text-xs">Syncing session...</span>
       </div>
     );
   }
@@ -203,7 +203,7 @@ const AuthCard: React.FC<AuthCardProps> = ({
         )}
 
         {showEmailForm && (
-          <form onSubmit={handleEmailAuth} className="pt-2 space-y-2.5 border-t border-white/[0.06]">
+          <form onSubmit={handleEmailAuth} className="pt-2 space-y-2.5 mt-2 bg-[var(--surface-2)]/60 p-3 rounded-[14px]">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {isSignUpMode && (
                 <div className="relative">
@@ -273,7 +273,7 @@ const AuthCard: React.FC<AuthCardProps> = ({
                   setIsSignUpMode(!isSignUpMode);
                   setAuthError('');
                 }}
-                className="text-[11px] text-[var(--accent-pixel)] hover:underline font-mono"
+                className="text-[11px] text-[var(--accent-pixel)] hover:underline font-medium"
               >
                 {isSignUpMode ? 'Have an account? Sign In' : 'Need an account? Sign Up'}
               </button>
@@ -305,7 +305,7 @@ const AuthCard: React.FC<AuthCardProps> = ({
             <span className="text-[#F1F5F9] font-bold text-xs">
               {user.displayName || 'User'}
             </span>
-            <span className="text-[10px] text-[var(--accent-pixel)] font-mono">
+            <span className="text-[10px] text-[var(--accent-pixel)] font-medium">
               • Authenticated
             </span>
           </div>

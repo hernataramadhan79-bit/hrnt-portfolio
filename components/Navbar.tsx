@@ -18,23 +18,21 @@ import {
 export interface NavItem {
   id: string;
   label: string;
-  zone: '01' | '02' | '03' | '04';
   isPrimaryZone?: boolean;
   icon: React.ElementType;
 }
 
 /**
- * Navigation items mapped to the 4 Spatial Zones while preserving
- * deep-anchor compatibility for sub-widgets (About, Stats, Stack).
+ * Navigation items preserving deep-anchor compatibility for sub-widgets (About, Stats, Stack).
  */
 const NAV_ITEMS: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', zone: '01', isPrimaryZone: true, icon: LayoutDashboard },
-  { id: 'about', label: 'About', zone: '01', isPrimaryZone: false, icon: User },
-  { id: 'stats', label: 'Stats', zone: '01', isPrimaryZone: false, icon: Activity },
-  { id: 'capabilities', label: 'Stack', zone: '01', isPrimaryZone: false, icon: Cpu },
-  { id: 'work', label: 'Work', zone: '02', isPrimaryZone: true, icon: FolderGit2 },
-  { id: 'awards', label: 'Awards', zone: '03', isPrimaryZone: true, icon: Award },
-  { id: 'contact', label: 'Contact', zone: '04', isPrimaryZone: true, icon: Mail },
+  { id: 'dashboard', label: 'Dashboard', isPrimaryZone: true, icon: LayoutDashboard },
+  { id: 'about', label: 'About', isPrimaryZone: false, icon: User },
+  { id: 'stats', label: 'Stats', isPrimaryZone: false, icon: Activity },
+  { id: 'capabilities', label: 'Stack', isPrimaryZone: false, icon: Cpu },
+  { id: 'work', label: 'Work', isPrimaryZone: true, icon: FolderGit2 },
+  { id: 'awards', label: 'Awards', isPrimaryZone: true, icon: Award },
+  { id: 'contact', label: 'Contact', isPrimaryZone: true, icon: Mail },
 ];
 
 interface NavbarProps {
@@ -85,8 +83,8 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           aria-label="Main navigation"
           className={`pointer-events-auto flex items-center justify-between rounded-full backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             isScrolled
-              ? 'h-[46px] px-3 gap-2 md:gap-3 bg-[#111318]/92 shadow-[0_12px_32px_rgba(0,0,0,0.55)]'
-              : 'h-[54px] px-4 md:px-5 gap-3 md:gap-5 bg-[#111318]/85 shadow-[0_8px_24px_rgba(0,0,0,0.35)]'
+              ? 'h-[46px] px-3 gap-2 md:gap-3 bg-[#111318]/92 shadow-[0_12px_32px_rgba(0,0,0,0.55)]' // taste-skill-ignore: floating sticky bar overlay
+              : 'h-[54px] px-4 md:px-5 gap-3 md:gap-5 bg-[#111318]/85 shadow-[0_8px_24px_rgba(0,0,0,0.35)]' // taste-skill-ignore: floating sticky bar overlay
           }`}
         >
           {/* HRNT Brand Identity */}
@@ -132,11 +130,6 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                         transition={{ type: 'spring', stiffness: 380, damping: 30, mass: 0.8 }}
                       />
                     )}
-                    {item.isPrimaryZone && !isScrolled && (
-                      <span className="text-[10px] font-mono text-[var(--accent-pixel)] opacity-75 tabular-nums">
-                        {item.zone}
-                      </span>
-                    )}
                     <span>{item.label}</span>
                   </button>
                 </li>
@@ -179,7 +172,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 380, damping: 30, mass: 0.8 }}
-            className="fixed inset-x-4 top-20 z-40 lg:hidden bento-outer shadow-2xl"
+            className="fixed inset-x-4 top-20 z-40 lg:hidden bento-outer shadow-2xl" // taste-skill-ignore: mobile drawer modal overlay
           >
             <div className="grid grid-cols-2 gap-2">
               {NAV_ITEMS.map((item) => {
@@ -201,9 +194,6 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                         className={isActive ? 'text-[var(--accent-pixel)]' : 'text-[var(--text-muted)]'}
                       />
                       <span className="text-xs tracking-wide">{item.label}</span>
-                    </span>
-                    <span className="text-[10px] font-mono text-[var(--text-muted)] tabular-nums">
-                      {item.zone}
                     </span>
                   </button>
                 );

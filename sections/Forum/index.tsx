@@ -49,7 +49,7 @@ const Forum: React.FC<ForumProps> = ({ embedded = false }) => {
           </div>
         </div>
 
-        <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--surface-1)] text-[10px] font-mono text-[var(--accent-pixel)]">
+        <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--surface-1)] text-[10px] font-medium text-[var(--accent-pixel)]">
           <ShieldCheck size={12} />
           <span>XSS Sanitized</span>
         </div>
