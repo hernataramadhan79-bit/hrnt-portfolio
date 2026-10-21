@@ -17,25 +17,29 @@ interface WorkProps {
 const VELCO_DECK_VIEWS = [
   {
     id: 'workspace',
-    label: 'Foundry Studio',
+    label: 'Studio',
+    fullTitle: 'Foundry Studio',
     image: '/velco.webp',
     caption: 'Context-bound AI workbench with local SQLite FTS5 (< 2ms query latency) & Ollama/LM Studio runtime.',
   },
   {
     id: 'actions',
-    label: 'Action Engine',
+    label: 'Actions',
+    fullTitle: 'Action Engine',
     image: '/velco-actions.webp',
     caption: 'Deterministic command palette, hardware-level egress kill-switch, and 1-click multi-format export.',
   },
   {
     id: 'kanban',
-    label: 'Kanban Matrix',
+    label: 'Kanban',
+    fullTitle: 'Kanban Matrix',
     image: '/velco-kanban.webp',
     caption: 'Bidirectional wikilink task board ([[...]]) backed by SQLite Write-Ahead Logging (WAL).',
   },
   {
     id: 'p2p',
-    label: 'P2P LAN Sync',
+    label: 'P2P Sync',
+    fullTitle: 'P2P LAN Sync',
     image: '/velco-p2p.webp',
     caption: 'Air-gapped UDP port 42426 multicast discovery & XChaCha20-Poly1305 AEAD encrypted TCP framing.',
   },
@@ -151,7 +155,7 @@ export default function Work({
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 active:scale-95 ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 active:scale-95 ${
                     isActive
                       ? 'bg-[var(--surface-pill)] text-[#F1F5F9] font-semibold'
                       : 'text-[var(--text-secondary)] hover:text-[#F1F5F9]'
@@ -193,7 +197,7 @@ export default function Work({
           <div className="bento-inner p-4 sm:p-6 space-y-5">
             {/* Top Bar: Velco Brand Logo + Segmented Control */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-              <div className="flex items-center gap-3.5">
+              <div className="flex items-center gap-3.5 min-w-0">
                 <div className="w-11 h-11 rounded-[14px] bg-[var(--surface-1)] p-2 flex items-center justify-center shrink-0">
                   <Image
                     src="/velco-logo.png"
@@ -203,7 +207,7 @@ export default function Work({
                     className="object-contain"
                   />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-xs font-semibold text-[var(--accent-pixel)]">
                       Flagship Desktop OS
@@ -223,7 +227,7 @@ export default function Work({
               <div
                 role="tablist"
                 aria-label="Velco interactive view switcher"
-                className="flex items-center gap-1 bg-[var(--surface-1)] p-1.5 rounded-full overflow-x-auto no-scrollbar self-start lg:self-auto"
+                className="flex items-center gap-1 bg-[var(--surface-1)] p-1.5 rounded-full shrink-0 self-start lg:self-auto overflow-hidden"
               >
                 {VELCO_DECK_VIEWS.map((view) => {
                   const isActive = activeVelcoTab === view.id;
@@ -234,7 +238,8 @@ export default function Work({
                       aria-selected={isActive}
                       type="button"
                       onClick={() => setActiveVelcoTab(view.id)}
-                      className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap cursor-pointer ${
+                      title={view.fullTitle || view.label}
+                      className={`relative px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap cursor-pointer ${
                         isActive
                           ? 'text-[#F1F5F9] font-semibold'
                           : 'text-[var(--text-secondary)] hover:text-[#F1F5F9]'
