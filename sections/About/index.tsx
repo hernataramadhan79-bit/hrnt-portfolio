@@ -14,8 +14,8 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
   });
 
   const content = (
-    <div id="about" className="bento-inner p-4 h-[370px] overflow-hidden">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 px-1">
+    <div id="about" className="bento-inner p-4 h-full flex flex-col justify-between overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2 px-1 shrink-0">
         <div className="flex items-center gap-2">
           <Briefcase size={15} className="text-[var(--accent-pixel)]" />
           <h3 className="text-sm font-bold text-[#F1F5F9]">
@@ -33,7 +33,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
               key={tab.id}
               type="button"
               onClick={() => setTimelineFilter(tab.id as 'all' | 'work' | 'edu')}
-              className={`px-2.5 py-1 text-[11px] font-medium rounded-full transition-colors tabular-nums ${
+              className={`px-2.5 py-1 text-[11px] font-medium rounded-full transition-colors tabular-nums cursor-pointer ${
                 timelineFilter === tab.id
                   ? 'bg-[var(--surface-pill)] text-[#F1F5F9] font-semibold'
                   : 'text-[var(--text-secondary)] hover:text-[#F1F5F9]'
@@ -45,7 +45,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 h-[285px] overflow-y-auto no-scrollbar content-start">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1 overflow-hidden content-start">
         <AnimatePresence mode="popLayout">
           {filteredExperiences.map((exp) => (
             <motion.div
@@ -55,7 +55,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="p-3 rounded-[12px] bg-[var(--surface-1)]"
+              className="p-2.5 rounded-[12px] bg-[var(--surface-1)] flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)] mb-1 tabular-nums">
@@ -65,13 +65,13 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
                     <span>{exp.type === 'work' ? 'Work' : 'Academic'}</span>
                   </span>
                 </div>
-                <h4 className="text-xs sm:text-sm font-bold text-[#F1F5F9] leading-snug">
+                <h4 className="text-xs sm:text-sm font-bold text-[#F1F5F9] leading-tight truncate">
                   {exp.role}
                 </h4>
-                <p className="text-[11px] text-[var(--text-secondary)] mt-0.5">{exp.company}</p>
+                <p className="text-[11px] text-[var(--text-secondary)] truncate mt-0.5">{exp.company}</p>
               </div>
-              <div className="flex flex-wrap gap-1 mt-2.5">
-                {exp.tags.slice(0, 3).map((tag) => (
+              <div className="flex flex-wrap gap-1 mt-1.5">
+                {exp.tags.slice(0, 2).map((tag) => (
                   <span
                     key={tag}
                     className="text-[10px] font-medium text-[var(--text-secondary)] bg-[var(--surface-2)] px-2 py-0.5 rounded-full"
@@ -93,7 +93,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
 
   return (
     <section className="w-full max-w-[1280px] mx-auto py-6 px-4 sm:px-6 lg:px-8">
-      <div className="bento-outer">{content}</div>
+      <div className="bento-outer h-[420px]">{content}</div>
     </section>
   );
 }
