@@ -22,11 +22,11 @@ import {
 type ContribDay = { date: string; count: number; level: number };
 
 const GITHUB_COLORS = [
-  '#171A21', // Level 0: --surface-2
-  '#1E3A5F', // Level 1: low tonal blue
-  '#2E5C9A', // Level 2: medium tonal blue
-  '#6897E8', // Level 3: high tonal blue
-  '#A8C7FA', // Level 4: --accent-pixel
+  '#282E3C', // Level 0: tactile inactive calendar tile (clearly visible on #171A21)
+  '#1E4273', // Level 1: low tonal blue (1-3 commits)
+  '#2E5C9A', // Level 2: medium tonal blue (4-6 commits)
+  '#6897E8', // Level 3: high tonal blue (7-9 commits)
+  '#A8C7FA', // Level 4: --accent-pixel (10+ commits)
 ];
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -266,21 +266,24 @@ export function GitHubContributionGraph({
               )}
 
               {weeks.map((week, wi) =>
-                week.map((day, di) => (
-                  <rect
-                    key={`${wi}-${di}`}
-                    x={LEFT_LABEL_WIDTH + wi * STEP}
-                    y={20 + di * STEP}
-                    width={CELL}
-                    height={CELL}
-                    rx={3}
-                    fill={GITHUB_COLORS[day.level]}
-                    className="transition-opacity duration-150 hover:opacity-80"
-                    style={{ cursor: day.count > 0 ? 'pointer' : 'default' }}
-                    onMouseEnter={(e) => handleMouseEnter(e, day.date, day.count)}
-                    onMouseLeave={handleMouseLeave}
-                  />
-                ))
+                week.map((day, di) => {
+                  if (!day.date) return null;
+                  return (
+                    <rect
+                      key={`${wi}-${di}`}
+                      x={LEFT_LABEL_WIDTH + wi * STEP}
+                      y={20 + di * STEP}
+                      width={CELL}
+                      height={CELL}
+                      rx={3}
+                      fill={GITHUB_COLORS[day.level]}
+                      className="transition-opacity duration-150 hover:opacity-80"
+                      style={{ cursor: day.count > 0 ? 'pointer' : 'default' }}
+                      onMouseEnter={(e) => handleMouseEnter(e, day.date, day.count)}
+                      onMouseLeave={handleMouseLeave}
+                    />
+                  );
+                })
               )}
             </svg>
           </div>
@@ -296,7 +299,9 @@ export function GitHubContributionGraph({
           >
             <span className="w-2 h-2 rounded-full bg-[var(--accent-pixel)]" />
             <span className="text-[var(--accent-pixel-bright)] font-bold">
-              {tooltip.count} {tooltip.count === 1 ? 'commit' : 'commits'}
+              {tooltip.count === 0
+                ? 'No contributions'
+                : `${tooltip.count} ${tooltip.count === 1 ? 'commit' : 'commits'}`}
             </span>
             <span className="text-[var(--text-secondary)]">on {formatTooltipDate(tooltip.date)}</span>
           </div>
