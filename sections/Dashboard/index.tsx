@@ -194,12 +194,11 @@ export default function Dashboard({
         </div>
       </div>
 
-      {/* ─── ZONE 1: Golden Ratio Split (62% Left Identity + About : 38% Right Live Telemetry) ─── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-        {/* LEFT (~62% -> lg:col-span-7): Primary Identity, Portrait, Pixel Photo Widget & Career Timeline */}
-        <div className="lg:col-span-7 bento-outer space-y-3">
-          {/* Top Inner Card: Seamless Cutout Portrait + Headline + Narrative + Tactile Pill CTAs */}
-          <div className="bento-inner p-5 sm:p-6 relative overflow-hidden">
+      {/* ─── ZONE 1: Golden Ratio Split (62% Left Identity + Timeline : 38% Right Live Telemetry + Field Deck) ─── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+        {/* Row 1 Left (~62% -> lg:col-span-7): Primary Identity, Portrait & Tactile Pill CTAs */}
+        <div className="lg:col-span-7 bento-outer flex flex-col justify-between">
+          <div className="bento-inner p-5 sm:p-6 relative overflow-hidden flex-1 flex flex-col justify-center">
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
               {/* Narrative & Headline (Span 7) */}
               <div className="sm:col-span-7 space-y-3 z-10">
@@ -233,7 +232,7 @@ export default function Dashboard({
                   <button
                     type="button"
                     onClick={() => onNavigate('contact')}
-                    className="inline-flex items-center gap-2 bg-[var(--surface-pill)] hover:bg-[var(--surface-bright)] text-[#F1F5F9] text-xs font-semibold px-4 py-2.5 rounded-full transition-all duration-200 active:scale-[0.97]"
+                    className="inline-flex items-center gap-2 bg-[var(--surface-pill)] hover:bg-[var(--surface-bright)] text-[#F1F5F9] text-xs font-semibold px-4 py-2.5 rounded-full transition-all duration-200 active:scale-[0.97] cursor-pointer"
                   >
                     <MessageSquare size={13} className="text-[var(--accent-pixel)]" />
                     <span>Comm Hub</span>
@@ -269,8 +268,8 @@ export default function Dashboard({
                 </div>
               </div>
 
-              {/* Seamless Cutout Portrait Surface (Span 5, Concentric rounded-[16px]) */}
-              <div className="sm:col-span-5 relative h-56 sm:h-64 rounded-[16px] bg-[var(--surface-1)] overflow-hidden flex items-end justify-center">
+              {/* Cutout Portrait Surface (Span 5, Concentric rounded-[16px]) */}
+              <div className="sm:col-span-5 relative h-60 sm:h-72 rounded-[16px] bg-[var(--surface-1)] overflow-hidden flex items-end justify-center">
                 <div className="relative w-[88%] h-[94%]">
                   <Image
                     src="/profile-cutout-centered.webp"
@@ -284,15 +283,12 @@ export default function Dashboard({
               </div>
             </div>
           </div>
-
-          {/* Embedded Career & Academic Milestones (About) */}
-          <About embedded />
         </div>
 
-        {/* RIGHT (~38% -> lg:col-span-5): Live Telemetry "At a Glance" Widget (Stats) */}
-        <div id="stats" className="lg:col-span-5 bento-outer space-y-3">
+        {/* Row 1 Right (~38% -> lg:col-span-5): Live Telemetry "At a Glance" Widget (Stats) */}
+        <div id="stats" className="lg:col-span-5 bento-outer flex flex-col justify-between">
           {/* Oversized Pixel Lockscreen / At-a-Glance Telemetry Header */}
-          <div className="bento-inner p-5 sm:p-6 space-y-5">
+          <div className="bento-inner p-5 sm:p-6 space-y-5 h-full flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Activity size={15} className="text-[var(--accent-pixel)]" />
@@ -350,7 +346,7 @@ export default function Dashboard({
                   <Code2 size={14} className="text-[var(--accent-pixel)]" />
                   <span>Active Language Velocity</span>
                 </span>
-                <span className="font-mono text-[11px] text-[var(--accent-pixel)]" suppressHydrationWarning>
+                <span className="text-[11px] text-[var(--accent-pixel)] tabular-nums" suppressHydrationWarning>
                   Primary: {telemetry.topLanguage}
                 </span>
               </div>
@@ -389,7 +385,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            {/* Apple Progressive Disclosure Toggle */}
+            {/* Progressive Disclosure Toggle */}
             <button
               type="button"
               onClick={() => setIsTelemetryExpanded((prev) => !prev)}
@@ -404,10 +400,17 @@ export default function Dashboard({
               {isTelemetryExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
             </button>
           </div>
+        </div>
 
-          {/* Interactive Pixel Photo Widget (Concentric rounded-[16px]) */}
-          <div className="bento-inner p-4 h-[370px] overflow-hidden">
-            <div className="flex items-center justify-between mb-3 px-1">
+        {/* Row 2 Left (~62% -> lg:col-span-7): Career & Academic Timeline (About) */}
+        <div className="lg:col-span-7 bento-outer h-[420px]">
+          <About embedded />
+        </div>
+
+        {/* Row 2 Right (~38% -> lg:col-span-5): Interactive Pixel Photo Widget (Concentric rounded-[16px]) */}
+        <div className="lg:col-span-5 bento-outer h-[420px]">
+          <div className="bento-inner p-4 h-full flex flex-col justify-between overflow-hidden">
+            <div className="flex items-center justify-between mb-3 px-1 shrink-0">
               <div className="flex items-center gap-2">
                 <Camera size={14} className="text-[var(--accent-pixel)]" />
                 <span className="text-xs font-bold text-[#F1F5F9]">Pixel Photo &amp; Field Deck</span>
@@ -419,7 +422,7 @@ export default function Dashboard({
                     type="button"
                     onClick={() => setPhotoIndex(idx)}
                     aria-label={`View photo ${idx + 1}: ${item.title}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                       idx === photoIndex
                         ? 'w-5 bg-[var(--accent-pixel)]'
                         : 'w-1.5 bg-[var(--surface-pill)] hover:bg-[var(--text-muted)]'
@@ -429,7 +432,7 @@ export default function Dashboard({
               </div>
             </div>
 
-            <div className="relative w-full h-[285px] rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
+            <div className="relative w-full flex-1 rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={currentPhoto.src}
@@ -464,7 +467,7 @@ export default function Dashboard({
                   type="button"
                   onClick={handlePrevPhoto}
                   aria-label="Previous photo"
-                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90"
+                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90 cursor-pointer"
                 >
                   <ChevronLeft size={15} />
                 </button>
@@ -472,7 +475,7 @@ export default function Dashboard({
                   type="button"
                   onClick={handleNextPhoto}
                   aria-label="Next photo"
-                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90"
+                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90 cursor-pointer"
                 >
                   <ChevronRight size={15} />
                 </button>
