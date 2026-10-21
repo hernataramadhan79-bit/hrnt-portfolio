@@ -176,16 +176,11 @@ export default function Home() {
           className="w-full max-w-[1280px] mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-4"
         >
           <div className="px-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface-1)] text-xs font-mono text-[var(--accent-pixel)] mb-2 tabular-nums">
-              <span>ZONE 04</span>
-              <span>•</span>
-              <span>Direct Dispatch &amp; Live Guestbook</span>
-            </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F1F5F9] tracking-tight">
               Engineering Communication Hub
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-xl">
-              Copy my direct email in one click, dispatch a project brief, or post to the real-time community thread.
+              Direct email dispatch, collaboration briefs, and live community guestbook thread.
             </p>
           </div>
 

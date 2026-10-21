@@ -193,14 +193,14 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                       {comment.name}
                     </span>
                     {isOwnMessage && (
-                      <span className="px-2 py-0.5 rounded-full bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] text-[9px] font-mono font-bold uppercase">
+                      <span className="px-2 py-0.5 rounded-full bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] text-[9px] font-semibold">
                         You
                       </span>
                     )}
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] text-[var(--text-muted)] font-mono tabular-nums">
+                    <span className="text-[10px] text-[var(--text-muted)] tabular-nums">
                       {formatDate(comment.createdAt)}
                     </span>
 
@@ -218,7 +218,7 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                               type="button"
                               onClick={() => confirmDeleteComment(comment.id)}
                               disabled={deletingId === comment.id}
-                              className="px-2 py-0.5 bg-rose-500 text-white rounded-full text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer"
+                              className="px-2 py-0.5 bg-rose-500 text-white rounded-full text-[10px] font-semibold flex items-center gap-1 cursor-pointer"
                             >
                               {deletingId === comment.id ? (
                                 <Loader2 size={10} className="animate-spin" />

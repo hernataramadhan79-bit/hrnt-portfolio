@@ -26,11 +26,6 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
       {/* Zone Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 px-1">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface-1)] text-xs font-mono text-[var(--accent-pixel)] mb-2 tabular-nums">
-            <span>ZONE 03</span>
-            <span>•</span>
-            <span>{certificates.length} Verified Passes</span>
-          </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F1F5F9] tracking-tight">
             Credentials &amp; Qualifications Wallet
           </h2>
@@ -75,8 +70,8 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                         {cert.issuer}
                       </span>
                     </div>
-                    <span className="text-[10px] font-mono text-[var(--accent-pixel)] tabular-nums">
-                      PASS 0{idx + 1}
+                    <span className="text-[10px] text-[var(--accent-pixel)] tabular-nums font-medium">
+                      Verified Pass
                     </span>
                   </div>
 
@@ -85,7 +80,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                     <div className="text-xs font-bold text-[#F1F5F9] line-clamp-2 leading-snug">
                       {cert.title}
                     </div>
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/[0.06] text-[10px] font-mono text-[var(--text-muted)] tabular-nums">
+                    <div className="flex items-center justify-between mt-2.5 pt-1 text-[10px] font-medium text-[var(--text-muted)] tabular-nums">
                       <span>ISSUED {cert.date}</span>
                       <span className="text-[var(--accent-pixel)]">VERIFIED</span>
                     </div>
@@ -116,8 +111,8 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="256px"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/70 via-transparent to-transparent" />
-                <span className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-full bg-[#111318]/90 text-[10px] font-mono text-[var(--accent-pixel)]">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/70 via-transparent to-transparent" /> {/* taste-skill-ignore: neutral scrim over photo */}
+                <span className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-full bg-[#111318]/90 text-[10px] font-medium text-[var(--accent-pixel)]">
                   Tap to Enlarge
                 </span>
               </div>
@@ -133,7 +128,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                       sizes="24px"
                     />
                   </div>
-                  <span className="text-xs font-mono text-[var(--accent-pixel)] font-semibold">
+                  <span className="text-xs text-[var(--accent-pixel)] font-semibold tabular-nums">
                     {activeCert.issuer} • {activeCert.date}
                   </span>
                 </div>
@@ -180,7 +175,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                 UPTPTKK Cohort Passes
               </h3>
             </div>
-            <span className="text-[11px] font-mono text-[var(--text-muted)]">Surabaya, ID</span>
+            <span className="text-[11px] font-medium text-[var(--text-muted)]">Surabaya, ID</span>
           </div>
 
           <div className="space-y-3 flex-1 flex flex-col justify-between">
@@ -199,7 +194,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                   />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--accent-pixel)] tabular-nums mb-0.5">
+                  <div className="flex items-center gap-1.5 text-[10px] text-[var(--accent-pixel)] tabular-nums mb-0.5 font-medium">
                     <span>{item.date}</span>
                     <span>•</span>
                     <span>{item.location}</span>

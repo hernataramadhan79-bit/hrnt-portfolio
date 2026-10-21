@@ -175,7 +175,7 @@ export default function Dashboard({
         <div className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-[var(--text-secondary)] tabular-nums">
           <span className="text-[#F1F5F9] font-semibold">{dateString}</span>
           <span className="text-[var(--text-muted)]">•</span>
-          <span className="inline-flex items-center gap-1 font-mono text-xs text-[var(--accent-pixel)]">
+          <span className="inline-flex items-center gap-1 text-xs font-medium text-[var(--accent-pixel)] tabular-nums">
             <Clock size={12} />
             <span>{timeString}</span>
           </span>
@@ -203,7 +203,7 @@ export default function Dashboard({
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
               {/* Narrative & Headline (Span 7) */}
               <div className="sm:col-span-7 space-y-3 z-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface-1)] text-[11px] font-mono text-[var(--accent-pixel)]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface-1)] text-[11px] font-semibold text-[var(--accent-pixel)] tabular-nums">
                   <span>Hernata Ramadhan (HRNT)</span>
                   <span>•</span>
                   <span>GPA 3.84</span>
@@ -271,12 +271,6 @@ export default function Dashboard({
 
               {/* Seamless Cutout Portrait Surface (Span 5, Concentric rounded-[16px]) */}
               <div className="sm:col-span-5 relative h-56 sm:h-64 rounded-[16px] bg-[var(--surface-1)] overflow-hidden flex items-end justify-center">
-                <div
-                  className="absolute inset-0 opacity-25 pointer-events-none"
-                  style={{
-                    background: 'radial-gradient(circle at 50% 35%, #A8C7FA 0%, transparent 70%)',
-                  }}
-                />
                 <div className="relative w-[88%] h-[94%]">
                   <Image
                     src="/profile-cutout-centered.webp"
@@ -302,11 +296,11 @@ export default function Dashboard({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Activity size={15} className="text-[var(--accent-pixel)]" />
-                <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] font-mono">
+                <span className="text-xs font-bold text-[#F1F5F9]">
                   Live Coding Telemetry
                 </span>
               </div>
-              <span className="px-2.5 py-1 rounded-full bg-[var(--surface-1)] text-[10px] font-mono text-[var(--accent-pixel)]">
+              <span className="px-2.5 py-1 rounded-full bg-[var(--surface-1)] text-[10px] font-medium text-[var(--accent-pixel)]">
                 WakaTime + GitHub
               </span>
             </div>
@@ -314,7 +308,7 @@ export default function Dashboard({
             {/* Oversized Editorial Tabular Numerals */}
             <div className="grid grid-cols-2 gap-3">
               <div className="p-4 rounded-[16px] bg-[var(--surface-1)]">
-                <div className="text-[11px] font-mono text-[var(--text-secondary)] mb-1 flex items-center gap-1.5">
+                <div className="text-[11px] text-[var(--text-secondary)] mb-1 flex items-center gap-1.5">
                   <Clock size={12} className="text-[var(--accent-pixel)]" />
                   <span>IDE Logged Time</span>
                 </div>
@@ -324,13 +318,13 @@ export default function Dashboard({
                 >
                   {telemetry.wakatimeHours}
                 </div>
-                <div className="text-[11px] font-mono text-[var(--accent-pixel)] mt-2 tabular-nums">
+                <div className="text-[11px] font-medium text-[var(--accent-pixel)] mt-2 tabular-nums">
                   Avg {telemetry.dailyAverage} / day
                 </div>
               </div>
 
               <div className="p-4 rounded-[16px] bg-[var(--surface-1)]">
-                <div className="text-[11px] font-mono text-[var(--text-secondary)] mb-1 flex items-center gap-1.5">
+                <div className="text-[11px] text-[var(--text-secondary)] mb-1 flex items-center gap-1.5">
                   <GitCommit size={12} className="text-[var(--accent-pixel)]" />
                   <span>Yearly Commits</span>
                 </div>
@@ -341,7 +335,7 @@ export default function Dashboard({
                   {telemetry.contributions}
                 </div>
                 <div
-                  className="text-[11px] font-mono text-[var(--text-secondary)] mt-2 tabular-nums"
+                  className="text-[11px] text-[var(--text-secondary)] mt-2 tabular-nums"
                   suppressHydrationWarning
                 >
                   {telemetry.repos} Public Repos
@@ -389,7 +383,7 @@ export default function Dashboard({
                       />
                       <span className="truncate">{lang.name}</span>
                     </span>
-                    <span className="font-mono font-semibold text-[#F1F5F9]">{lang.percent}%</span>
+                    <span className="font-semibold text-[#F1F5F9]">{lang.percent}%</span>
                   </div>
                 ))}
               </div>
@@ -452,7 +446,7 @@ export default function Dashboard({
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 680px"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/90 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#090A0D]/90 via-transparent to-transparent" /> {/* taste-skill-ignore: neutral scrim over photo */}
                   <div className="absolute bottom-3 left-3.5 right-20">
                     <div className="text-xs sm:text-sm font-bold text-[#F1F5F9]">
                       {currentPhoto.title}

@@ -50,7 +50,7 @@ export default function CertificateModal({ cert, onClose }: CertificateModalProp
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 12 }}
           transition={{ type: 'spring', stiffness: 380, damping: 30, mass: 0.8 }}
-          className="bento-outer relative w-full max-w-2xl overflow-hidden shadow-2xl space-y-3"
+          className="bento-outer relative w-full max-w-2xl overflow-hidden shadow-2xl space-y-3" // taste-skill-ignore: modal dialog overlay
         >
           <div className="bento-inner p-4 sm:p-5 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
@@ -64,7 +64,7 @@ export default function CertificateModal({ cert, onClose }: CertificateModalProp
                 />
               </div>
               <div className="min-w-0">
-                <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--accent-pixel)] tabular-nums">
+                <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--accent-pixel)] tabular-nums">
                   <ShieldCheck size={13} />
                   <span>{cert.issuer} • Issued {cert.date}</span>
                 </div>
@@ -100,7 +100,7 @@ export default function CertificateModal({ cert, onClose }: CertificateModalProp
           </div>
 
           <div className="flex items-center justify-between px-2 pt-1">
-            <span className="text-xs font-mono text-[var(--text-muted)]">
+            <span className="text-xs font-medium text-[var(--text-muted)]">
               Apple Wallet Credential Sheet
             </span>
             <a

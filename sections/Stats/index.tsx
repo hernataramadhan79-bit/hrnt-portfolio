@@ -10,6 +10,7 @@ import {
   TrendingUp,
   GitCommit,
   ExternalLink,
+  Star,
 } from 'lucide-react';
 import {
   fetchGithubData,
@@ -208,14 +209,14 @@ export function GitHubContributionGraph({
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-[var(--text-secondary)] font-mono bg-[var(--surface-1)] px-3 py-1 rounded-full tabular-nums">
+          <span className="text-xs text-[var(--text-secondary)] font-medium bg-[var(--surface-1)] px-3 py-1 rounded-full tabular-nums">
             <strong className="text-[var(--accent-pixel)]">{totalContributions}</strong> commits
           </span>
           <a
             href="https://github.com/hernataramadhan79-bit"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-[var(--accent-pixel)] hover:text-[var(--accent-pixel-bright)] font-mono transition-colors inline-flex items-center gap-1 bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] px-3 py-1 rounded-full"
+            className="text-xs text-[var(--accent-pixel)] hover:text-[var(--accent-pixel-bright)] font-medium transition-colors inline-flex items-center gap-1 bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] px-3 py-1 rounded-full"
           >
             <span>@hernataramadhan79-bit</span>
             <ExternalLink size={11} />
@@ -241,7 +242,7 @@ export function GitHubContributionGraph({
                   y={11}
                   fill="#7C889B"
                   fontSize="9"
-                  fontFamily="monospace"
+                  fontFamily="inherit"
                   fontWeight="500"
                 >
                   {label}
@@ -256,7 +257,7 @@ export function GitHubContributionGraph({
                     y={20 + di * STEP + CELL - 2}
                     fill="#7C889B"
                     fontSize="9"
-                    fontFamily="monospace"
+                    fontFamily="inherit"
                     fontWeight="500"
                   >
                     {label}
@@ -287,7 +288,7 @@ export function GitHubContributionGraph({
 
         {tooltip.visible && (
           <div
-            className="pointer-events-none absolute z-50 bg-[var(--surface-1)] text-[#F1F5F9] text-xs font-mono px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap -translate-x-1/2 -translate-y-full flex items-center gap-2 tabular-nums"
+            className="pointer-events-none absolute z-50 bg-[var(--surface-1)] text-[#F1F5F9] text-xs font-medium px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap -translate-x-1/2 -translate-y-full flex items-center gap-2 tabular-nums" // taste-skill-ignore: tooltip overlay
             style={{
               left: `${tooltip.x}px`,
               top: `${tooltip.y}px`,
@@ -302,7 +303,7 @@ export function GitHubContributionGraph({
         )}
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4 pt-3 text-xs text-[var(--text-muted)] font-mono bg-[var(--surface-1)] px-3.5 py-2 rounded-[12px]">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-4 pt-3 text-xs text-[var(--text-muted)] font-medium bg-[var(--surface-1)] px-3.5 py-2 rounded-[12px] tabular-nums">
         <span>52-Week Observability Window ({timeRangeText})</span>
         <div className="flex items-center gap-1.5">
           <span>Less</span>
@@ -372,7 +373,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
       {!embedded && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <div className="bento-inner p-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-mono uppercase mb-2">
+            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-medium mb-2">
               <span>Contributions</span>
               <GitCommit size={15} className="text-[var(--accent-pixel)]" />
             </div>
@@ -383,7 +384,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
           </div>
 
           <div className="bento-inner p-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-mono uppercase mb-2">
+            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-medium mb-2">
               <span>Logged Hours</span>
               <Clock size={15} className="text-[var(--accent-pixel)]" />
             </div>
@@ -394,7 +395,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
           </div>
 
           <div className="bento-inner p-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-mono uppercase mb-2">
+            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-medium mb-2">
               <span>Daily Average</span>
               <Activity size={15} className="text-[var(--accent-pixel)]" />
             </div>
@@ -405,12 +406,16 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
           </div>
 
           <div className="bento-inner p-4 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-mono uppercase mb-2">
+            <div className="flex items-center justify-between text-xs text-[var(--text-secondary)] font-medium mb-2">
               <span>Repos &amp; Stars</span>
               <TrendingUp size={15} className="text-[var(--accent-pixel)]" />
             </div>
             <div className="text-3xl font-black text-[#F1F5F9] tabular-nums" suppressHydrationWarning>
-              {reposCount} <span className="text-lg text-[var(--text-muted)] font-normal">/</span> {starsCount}★
+              {reposCount} <span className="text-lg text-[var(--text-muted)] font-normal">/</span>{' '}
+              <span className="inline-flex items-center gap-1">
+                <span>{starsCount}</span>
+                <Star size={16} className="text-[var(--accent-pixel)] fill-[var(--accent-pixel)] inline" />
+              </span>
             </div>
             <span className="text-[11px] text-[var(--text-muted)] mt-1">Public Open Source</span>
           </div>
@@ -431,7 +436,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
                 <Code2 size={15} className="text-[var(--accent-pixel)]" />
                 <span>Language Distribution</span>
               </h4>
-              <span className="text-[11px] text-[var(--accent-pixel)] font-mono px-2.5 py-0.5 rounded-full bg-[var(--surface-1)]">
+              <span className="text-[11px] text-[var(--accent-pixel)] font-medium px-2.5 py-0.5 rounded-full bg-[var(--surface-1)]">
                 WakaTime API
               </span>
             </div>
@@ -443,7 +448,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
                 <div className="skeleton-box h-5 w-3/5 rounded-[10px]" />
               </div>
             ) : languages.length === 0 ? (
-              <div className="py-6 text-center text-xs text-[var(--text-muted)] font-mono">
+              <div className="py-6 text-center text-xs text-[var(--text-muted)] font-medium">
                 WakaTime language breakdown syncing... Check back shortly.
               </div>
             ) : (
@@ -458,7 +463,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
                         />
                         <span>{lang.name}</span>
                       </span>
-                      <span className="text-[var(--text-secondary)] font-mono">{lang.percent}%</span>
+                      <span className="text-[var(--text-secondary)] font-medium">{lang.percent}%</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-[var(--surface-1)] overflow-hidden">
                       <motion.div
@@ -475,7 +480,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
             )}
           </div>
 
-          <div className="mt-4 pt-3 flex items-center justify-between text-xs text-[var(--text-muted)] font-mono bg-[var(--surface-1)] px-3 py-2 rounded-[10px] tabular-nums">
+          <div className="mt-4 pt-3 flex items-center justify-between text-xs text-[var(--text-muted)] font-medium bg-[var(--surface-1)] px-3 py-2 rounded-[10px] tabular-nums">
             <span>
               Peak Day: <strong className="text-[var(--accent-pixel)]">{bestDay}</strong>
             </span>
@@ -495,7 +500,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
                 href="https://github.com/hernataramadhan79-bit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-[var(--accent-pixel)] hover:text-[var(--accent-pixel-bright)] font-mono transition-colors"
+                className="text-xs text-[var(--accent-pixel)] hover:text-[var(--accent-pixel-bright)] font-medium transition-colors"
               >
                 View All GitHub
               </a>
@@ -509,7 +514,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
                   <div className="skeleton-box h-16 w-full rounded-[12px]" />
                 </div>
               ) : (githubData?.topRepos || []).length === 0 ? (
-                <div className="py-6 text-center text-xs text-[var(--text-muted)] font-mono">
+                <div className="py-6 text-center text-xs text-[var(--text-muted)] font-medium">
                   Public repository metadata syncing... Visit @hernataramadhan79-bit on GitHub.
                 </div>
               ) : (
@@ -525,18 +530,19 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
                       <h5 className="text-xs sm:text-sm font-bold text-[#F1F5F9] group-hover:text-[var(--accent-pixel)] transition-colors">
                         {repo.name}
                       </h5>
-                      <span className="text-[10px] text-[var(--text-secondary)] font-mono bg-[var(--surface-2)] px-2 py-0.5 rounded-full tabular-nums">
-                        ★ {repo.stargazers_count || 0}
+                      <span className="text-[10px] text-[var(--text-secondary)] font-medium bg-[var(--surface-2)] px-2 py-0.5 rounded-full tabular-nums inline-flex items-center gap-1">
+                        <Star size={11} className="text-[var(--accent-pixel)] fill-[var(--accent-pixel)]" />
+                        <span>{repo.stargazers_count || 0}</span>
                       </span>
                     </div>
                     <p className="text-xs text-[var(--text-secondary)] line-clamp-1 mb-2">
                       {repo.description || 'Production software engineering repository.'}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-[var(--accent-pixel)] bg-[var(--surface-2)] px-2.5 py-0.5 rounded-full">
+                      <span className="text-[10px] font-medium text-[var(--accent-pixel)] bg-[var(--surface-2)] px-2.5 py-0.5 rounded-full">
                         {repo.language || 'TypeScript'}
                       </span>
-                      <span className="text-[11px] text-[var(--text-secondary)] group-hover:text-[#F1F5F9] font-mono inline-flex items-center gap-1">
+                      <span className="text-[11px] text-[var(--text-secondary)] group-hover:text-[#F1F5F9] font-medium inline-flex items-center gap-1">
                         <span>Inspect Repo</span>
                         <ExternalLink size={11} />
                       </span>

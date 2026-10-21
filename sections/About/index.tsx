@@ -58,7 +58,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
               className="p-3 rounded-[12px] bg-[var(--surface-1)]"
             >
               <div>
-                <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)] mb-1 tabular-nums">
+                <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)] mb-1 tabular-nums">
                   <span>{exp.period}</span>
                   <span className="inline-flex items-center gap-1 text-[var(--accent-pixel)]">
                     {exp.type === 'work' ? <Briefcase size={11} /> : <GraduationCap size={11} />}
@@ -74,7 +74,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
                 {exp.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
-                    className="text-[10px] font-mono text-[var(--text-secondary)] bg-[var(--surface-2)] px-2 py-0.5 rounded-full"
+                    className="text-[10px] font-medium text-[var(--text-secondary)] bg-[var(--surface-2)] px-2 py-0.5 rounded-full"
                   >
                     {tag}
                   </span>
