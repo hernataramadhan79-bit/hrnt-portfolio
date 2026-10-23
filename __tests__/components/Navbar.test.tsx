@@ -22,7 +22,7 @@ describe('Navbar Component', () => {
     expect(screen.getByRole('navigation', { name: /main navigation/i })).toBeInTheDocument();
     
     // Check navigation buttons (Forum is now the dedicated CTA button)
-    const expectedItems = ['Dashboard', 'Work', 'Stack', 'About', 'Stats', 'Awards', 'Contact'];
+    const expectedItems = ['Dashboard', 'Work', 'Credentials', 'Contact'];
     expectedItems.forEach((label) => {
       expect(screen.getAllByText(label).length).toBeGreaterThan(0);
     });

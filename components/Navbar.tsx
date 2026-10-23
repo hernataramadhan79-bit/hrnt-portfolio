@@ -18,21 +18,14 @@ import {
 export interface NavItem {
   id: string;
   label: string;
-  isPrimaryZone?: boolean;
   icon: React.ElementType;
 }
 
-/**
- * Navigation items preserving deep-anchor compatibility for sub-widgets (About, Stats, Stack).
- */
 const NAV_ITEMS: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', isPrimaryZone: true, icon: LayoutDashboard },
-  { id: 'about', label: 'About', isPrimaryZone: false, icon: User },
-  { id: 'stats', label: 'Stats', isPrimaryZone: false, icon: Activity },
-  { id: 'capabilities', label: 'Stack', isPrimaryZone: false, icon: Cpu },
-  { id: 'work', label: 'Work', isPrimaryZone: true, icon: FolderGit2 },
-  { id: 'awards', label: 'Awards', isPrimaryZone: true, icon: Award },
-  { id: 'contact', label: 'Contact', isPrimaryZone: true, icon: Mail },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'work', label: 'Work', icon: FolderGit2 },
+  { id: 'awards', label: 'Credentials', icon: Award },
+  { id: 'contact', label: 'Contact', icon: Mail },
 ];
 
 interface NavbarProps {
@@ -99,24 +92,16 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             <span className="w-2 h-2 border-[1.5px] border-[var(--accent-pixel)] bg-transparent rotate-45 ml-1.5 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[var(--accent-pixel)] group-hover:scale-110" />
           </button>
 
-          {/* Desktop Zone Links with Scroll-Aware Morphing */}
+          {/* Desktop Zone Links */}
           <ul className="hidden lg:flex items-center gap-0.5 bg-[var(--surface-2)] p-1 rounded-full">
             {NAV_ITEMS.map((item) => {
               const isActive = activeTab === item.id;
-              const isSubZoneItem = !item.isPrimaryZone;
 
               return (
-                <li
-                  key={item.id}
-                  className={`relative transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                    isScrolled && isSubZoneItem && !isActive
-                      ? 'hidden'
-                      : 'block'
-                  }`}
-                >
+                <li key={item.id} className="relative">
                   <button
                     onClick={() => handleSelectTab(item.id)}
-                    className={`relative px-3 py-1.5 text-xs font-medium rounded-full transition-colors duration-200 active:scale-[0.97] whitespace-nowrap flex items-center gap-1.5 ${
+                    className={`relative px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors duration-200 active:scale-[0.97] whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
                       isActive
                         ? 'text-[#F1F5F9] font-semibold'
                         : 'text-[var(--text-secondary)] hover:text-[#F1F5F9]'

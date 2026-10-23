@@ -92,7 +92,7 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
     },
     {
       title: 'Direct Mail',
-      value: 'hernataramadhan79@gmail.com',
+      value: 'hernataramadhan79',
       href: 'mailto:hernataramadhan79@gmail.com',
       icon: Mail,
     },
@@ -192,8 +192,8 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
       </div>
 
       {/* Bottom Direct Inquiry Form (Honest Placeholders per R-23/R-38) */}
-      <div className="bento-inner p-4 sm:p-5 space-y-3.5 flex-1 flex flex-col justify-between">
-        <div className="flex items-center justify-between">
+      <div className="bento-inner p-4 sm:p-5 flex-1 flex flex-col justify-between gap-3">
+        <div className="flex items-center justify-between shrink-0">
           <h4 className="text-sm font-bold text-[#F1F5F9]">Direct Email Dispatch</h4>
           <span className="text-[10px] font-medium text-[var(--accent-pixel)] bg-[var(--surface-1)] px-2.5 py-0.5 rounded-full">
             Web3Forms API
@@ -201,21 +201,21 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
         </div>
 
         {isSuccess && (
-          <div className="p-3 rounded-[12px] bg-[var(--surface-1)] flex items-center gap-2.5 text-xs text-[var(--accent-pixel-bright)]">
+          <div className="p-3 rounded-[12px] bg-[var(--surface-1)] flex items-center gap-2.5 text-xs text-[var(--accent-pixel-bright)] shrink-0">
             <CheckCircle2 size={16} className="text-[var(--accent-pixel)] shrink-0" />
             <span>Inquiry dispatched. Expect a direct response within 24 hours.</span>
           </div>
         )}
 
         {error && (
-          <div className="p-3 rounded-[12px] bg-rose-500/10 flex items-center gap-2.5 text-xs text-rose-300">
+          <div className="p-3 rounded-[12px] bg-rose-500/10 flex items-center gap-2.5 text-xs text-rose-300 shrink-0">
             <AlertCircle size={16} className="shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-between gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 shrink-0">
             <div>
               <label
                 className="text-[11px] font-semibold text-[var(--text-secondary)] block mb-1 ml-1"
@@ -255,7 +255,7 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
             </div>
           </div>
 
-          <div>
+          <div className="flex-1 flex flex-col min-h-[100px]">
             <label
               className="text-[11px] font-semibold text-[var(--text-secondary)] block mb-1 ml-1"
               htmlFor="contact-message"
@@ -268,16 +268,15 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
               value={formData.message}
               onChange={handleChange}
               required
-              rows={3}
               placeholder="Drop your message here..."
-              className="w-full bg-[var(--surface-1)] rounded-[12px] px-3.5 py-2.5 text-xs text-[#F1F5F9] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-pixel)] resize-none leading-relaxed"
+              className="w-full flex-1 min-h-[96px] bg-[var(--surface-1)] rounded-[12px] px-3.5 py-2.5 text-xs text-[#F1F5F9] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-pixel)] resize-none leading-relaxed"
             />
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 rounded-full bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold flex items-center justify-center gap-2 transition-transform active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+            className="w-full py-3 rounded-full bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold flex items-center justify-center gap-2 transition-transform active:scale-[0.98] disabled:opacity-50 cursor-pointer shrink-0"
           >
             {isLoading ? (
               <>

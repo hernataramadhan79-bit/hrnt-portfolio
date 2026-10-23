@@ -168,7 +168,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
 
         {/* RIGHT (lg:col-span-5): Creative Cohort & Field Documentation Passes */}
         <div className="lg:col-span-5 bento-outer flex flex-col justify-between space-y-3">
-          <div className="flex items-center justify-between px-2 pt-1">
+          <div className="flex items-center justify-between px-2 pt-1 shrink-0">
             <div className="flex items-center gap-2">
               <Camera size={15} className="text-[var(--accent-pixel)]" />
               <h3 className="text-sm font-bold text-[#F1F5F9]">
@@ -178,33 +178,40 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
             <span className="text-[11px] font-medium text-[var(--text-muted)]">Surabaya, ID</span>
           </div>
 
-          <div className="space-y-3 flex-1 flex flex-col justify-between">
+          <div className="gap-3 flex-1 flex flex-col">
             {galleryItems.map((item) => (
               <div
                 key={item.id}
-                className="bento-inner p-3.5 flex items-center gap-3.5"
+                className="bento-inner p-4 flex-1 flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between"
               >
-                <div className="relative w-24 h-20 rounded-[12px] overflow-hidden bg-[var(--surface-1)] shrink-0">
+                <div className="relative w-full sm:w-32 h-28 sm:h-full min-h-[96px] rounded-[12px] overflow-hidden bg-[var(--surface-1)] shrink-0">
                   <Image
                     src={item.image}
                     alt={item.title}
                     fill
                     className="object-cover"
-                    sizes="96px"
+                    sizes="(max-width: 640px) 100vw, 128px"
                   />
                 </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5 text-[10px] text-[var(--accent-pixel)] tabular-nums mb-0.5 font-medium">
-                    <span>{item.date}</span>
-                    <span>•</span>
-                    <span>{item.location}</span>
+                <div className="min-w-0 flex-1 flex flex-col justify-between h-full py-0.5">
+                  <div>
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-[var(--accent-pixel)] tabular-nums mb-1 font-semibold">
+                      <span>{item.date}</span>
+                      <span>•</span>
+                      <span>{item.location}</span>
+                    </div>
+                    <h4 className="text-xs sm:text-sm font-bold text-[#F1F5F9] leading-snug line-clamp-1">
+                      {item.title}
+                    </h4>
+                    <p className="text-[11px] text-[var(--text-secondary)] line-clamp-2 sm:line-clamp-3 mt-1 leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
-                  <h4 className="text-xs sm:text-sm font-bold text-[#F1F5F9] truncate">
-                    {item.title}
-                  </h4>
-                  <p className="text-[11px] text-[var(--text-secondary)] line-clamp-2 mt-0.5 leading-relaxed">
-                    {item.description}
-                  </p>
+                  <div className="pt-2">
+                    <span className="inline-block text-[10px] font-medium text-[var(--accent-pixel)] bg-[var(--surface-1)] px-2.5 py-0.5 rounded-full">
+                      {item.category} • MJC Cohort 1
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
