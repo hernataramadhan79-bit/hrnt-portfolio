@@ -27,7 +27,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 px-1">
         <div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F1F5F9] tracking-tight">
-            Credentials &amp; Qualifications Wallet
+            Credentials &amp; Qualifications Portfolio
           </h2>
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-xl">
             National KKNI Level III competence certifications, software engineering credentials, and creative cohort documentation.
@@ -39,7 +39,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
         {/* LEFT (lg:col-span-7): Credentials & Qualifications Stack */}
         <div className="lg:col-span-7 bento-outer flex flex-col justify-between space-y-3">
-          {/* Wallet Pass Selector Stack */}
+          {/* Credential Selector Stack */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
             {certificates.map((cert, idx) => {
               const isSelected = cert.id === activeCert.id;
@@ -90,7 +90,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
             })}
           </div>
 
-          {/* Active Wallet Pass Inline Preview (Zero Friction Inspection) */}
+          {/* Active Credential Inline Preview */}
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={activeCert.id}

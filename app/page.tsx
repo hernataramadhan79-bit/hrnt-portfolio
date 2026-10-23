@@ -147,12 +147,12 @@ export default function Home() {
     >
       <Background />
 
-      {/* Floating Dynamic Pixel Pill Navigation */}
+      {/* Floating Pill Navigation */}
       <Navbar activeTab={activeTab} setActiveTab={handleTabChange} />
 
       {/* 4 Cohesive Spatial Zones Macro-Layout */}
       <main className="flex-1 relative z-10 w-full space-y-4">
-        {/* ZONE 01: The Pixel "At a Glance" Command Hub (Dashboard + About + Stats + Capabilities) */}
+        {/* ZONE 01: Command Hub (Dashboard + About + Stats + Capabilities) */}
         <Dashboard
           onSelectProject={setSelectedProject}
           onNavigate={handleTabChange}
@@ -160,17 +160,17 @@ export default function Home() {
           onSelectTechFilter={setSelectedTechFilter}
         />
 
-        {/* ZONE 02: Apple App Store "Today View" Engineering Showcase (3-Tier Hierarchy) */}
+        {/* ZONE 02: Engineering Showcase (3-Tier Hierarchy) */}
         <Work
           onSelectProject={setSelectedProject}
           selectedTechFilter={selectedTechFilter}
           onClearTechFilter={() => setSelectedTechFilter(null)}
         />
 
-        {/* ZONE 03: Apple Wallet Credentials Stack */}
+        {/* ZONE 03: Professional Credentials Stack */}
         <Recognitions onSelectCertificate={setSelectedCert} />
 
-        {/* ZONE 04: Asymmetric Engineering Comm Hub (38% Direct Channel : 62% Pixel Messages Thread) */}
+        {/* ZONE 04: Engineering Communication Hub */}
         <section
           aria-label="Zone 04: Engineering Communication Hub"
           className="w-full max-w-[1280px] mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-4"
@@ -197,7 +197,7 @@ export default function Home() {
 
       <Footer onNavigate={handleTabChange} />
 
-      {/* Apple Today View Sheet Modals */}
+      {/* Inspection Sheet Modals */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

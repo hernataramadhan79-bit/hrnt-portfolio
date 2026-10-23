@@ -101,7 +101,7 @@ export default function CertificateModal({ cert, onClose }: CertificateModalProp
 
           <div className="flex items-center justify-between px-2 pt-1">
             <span className="text-xs font-medium text-[var(--text-muted)]">
-              Apple Wallet Credential Sheet
+              Verified Professional Credential
             </span>
             <a
               href={cert.credentialLink}
