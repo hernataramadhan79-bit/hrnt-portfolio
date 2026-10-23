@@ -123,7 +123,7 @@ export default function Work({
       aria-label="Zone 02: Engineering Showcase"
       className="w-full max-w-[1280px] mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-4"
     >
-      {/* ─── Zone 02 Header & Apple/Pixel Segmented Filter Bar ─── */}
+      {/* ─── Zone 02 Header & Segmented Filter Bar ─── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 px-1">
         <div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F1F5F9] tracking-tight">
@@ -223,7 +223,7 @@ export default function Work({
                 </div>
               </div>
 
-              {/* Apple macOS Segmented Control */}
+              {/* Interactive View Switcher */}
               <div
                 role="tablist"
                 aria-label="Velco interactive view switcher"
@@ -471,7 +471,7 @@ export default function Work({
         </div>
       )}
 
-      {/* ─── TIER 3: Pixel Settings-Style Engineering Archive ─── */}
+      {/* ─── TIER 3: Engineering Archive ─── */}
       {tier3Projects.length > 0 && (
         <div className="bento-outer space-y-2">
           <div className="flex items-center justify-between px-2 pt-1 pb-1">

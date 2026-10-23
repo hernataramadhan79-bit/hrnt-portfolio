@@ -1,6 +1,6 @@
 /**
  * DevTools Console Splash Screen & Terminal Architecture Signature
- * Inspired by OpenCode and Claude Code CLI interfaces.
+ * Terminal Architecture Signature
  */
 
 export function printDevToolsBanner(): void {
@@ -22,13 +22,13 @@ export function printDevToolsBanner(): void {
     'font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 24px; font-weight: 900; color: #22d3ee; margin-left: 2px; text-shadow: 0 0 12px rgba(34,211,238,0.8);'
   );
 
-  // 2. OpenCode / Claude Code Perfectly Aligned Terminal Box (Exact 78-char grid)
+  // 2. Terminal Signature Box
   const terminalBox = [
     '╭────────────────────────────────────────────────────────────────────────────╮',
     '│  Hernata Ramadhan (HRNT)                                                   │',
     '│  Full-Stack Software Engineer                                              │',
     '│                                                                            │',
-    '│  Stack   : Next.js 16 • React 19 • TypeScript • Tailwind CSS • Node.js     │',
+    '│  Focus   : Full-Stack Web • Native Systems • Real-time Data Architecture   │',
     '│  Website : https://hernata.web.id                                          │',
     '│  GitHub  : https://github.com/hernataramadhan79-bit                        │',
     '│  Contact : hernataramadhan79@gmail.com                                     │',

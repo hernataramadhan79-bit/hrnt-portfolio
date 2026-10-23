@@ -41,10 +41,10 @@ const Forum: React.FC<ForumProps> = ({ embedded = false }) => {
           </div>
           <div>
             <h3 className="text-base sm:text-lg font-black text-[#F1F5F9] tracking-tight">
-              Pixel Messages Community Thread
+              Community Guestbook &amp; Discussion
             </h3>
             <p className="text-[11px] text-[var(--text-secondary)]">
-              Real-time guestbook &amp; engineering discussion backed by Firestore REST
+              Real-time messages and discussion from visitors, engineers, and collaborators
             </p>
           </div>
         </div>

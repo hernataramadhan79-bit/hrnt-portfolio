@@ -44,7 +44,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         aria-labelledby="project-modal-title"
         className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 md:p-10 overflow-y-auto"
       >
-        {/* Apple Today Sheet Backdrop (Glass Dose #2 of 2 allowed by R-10) */}
+        {/* Modal Backdrop (Glass Dose #2 of 2 allowed by R-10) */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -54,7 +54,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           className="fixed inset-0 bg-[#060709]/80 backdrop-blur-md -z-10"
         />
 
-        {/* Apple Today View Sheet Container (Concentric: rounded-[28px] outer -> p-3/p-4 -> rounded-[16px] inner) */}
+        {/* Modal Sheet Container (Concentric: rounded-[28px] outer -> p-3/p-4 -> rounded-[16px] inner) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}

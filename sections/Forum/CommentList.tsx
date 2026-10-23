@@ -179,7 +179,7 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
             >
               <UserAvatar src={comment.userImage} name={comment.name} className="w-8 h-8 mb-0.5" />
 
-              {/* Google Pixel Messages / iMessage Squircle Bubble */}
+              {/* Message Squircle Bubble */}
               <div
                 className={`flex-1 p-3.5 sm:p-4 rounded-[22px] rounded-bl-[6px] transition-colors ${
                   isOwnMessage

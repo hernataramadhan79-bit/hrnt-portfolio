@@ -100,7 +100,7 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
 
   const innerPanel = (
     <div id="contact" className="bento-outer space-y-3 h-full flex flex-col justify-between">
-      {/* Top Direct Channel Card with Dynamic Island Copy Feedback */}
+      {/* Top Direct Channel Card with Interactive Feedback */}
       <div className="bento-inner p-4 sm:p-5 space-y-4">
         <div className="flex items-center justify-between">
           <div>
@@ -121,7 +121,7 @@ export default function Contact({ embedded = false }: { embedded?: boolean }) {
           </a>
         </div>
 
-        {/* One-Click Copy Email Pill with Dynamic Island State Feedback */}
+        {/* One-Click Copy Email Pill with State Feedback */}
         <button
           type="button"
           onClick={handleCopyEmail}

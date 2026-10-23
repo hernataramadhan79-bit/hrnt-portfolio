@@ -20,7 +20,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
   return (
     <section
       id="awards"
-      aria-label="Zone 03: Apple Wallet Credentials"
+      aria-label="Zone 03: Professional Credentials"
       className="w-full max-w-[1280px] mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-4"
     >
       {/* Zone Header */}
@@ -37,7 +37,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
 
       {/* Asymmetric Golden Ratio Split (62% Interactive Pass Inspector : 38% Cohort Passes) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-        {/* LEFT (lg:col-span-7): Tactile Apple Wallet Credentials Stack */}
+        {/* LEFT (lg:col-span-7): Credentials & Qualifications Stack */}
         <div className="lg:col-span-7 bento-outer flex flex-col justify-between space-y-3">
           {/* Wallet Pass Selector Stack */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">

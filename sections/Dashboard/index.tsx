@@ -38,7 +38,7 @@ interface DashboardProps {
   onSelectTechFilter?: (tech: string | null) => void;
 }
 
-const PIXEL_PHOTO_ITEMS = [
+const FIELD_PHOTO_ITEMS = [
   {
     src: '/galeri1.webp',
     title: 'UPTPTKK Photography Cohort',
@@ -154,14 +154,14 @@ export default function Dashboard({
     };
   }, []);
 
-  const currentPhoto = PIXEL_PHOTO_ITEMS[photoIndex];
+  const currentPhoto = FIELD_PHOTO_ITEMS[photoIndex];
 
   const handleNextPhoto = () => {
-    setPhotoIndex((prev) => (prev + 1) % PIXEL_PHOTO_ITEMS.length);
+    setPhotoIndex((prev) => (prev + 1) % FIELD_PHOTO_ITEMS.length);
   };
 
   const handlePrevPhoto = () => {
-    setPhotoIndex((prev) => (prev - 1 + PIXEL_PHOTO_ITEMS.length) % PIXEL_PHOTO_ITEMS.length);
+    setPhotoIndex((prev) => (prev - 1 + FIELD_PHOTO_ITEMS.length) % FIELD_PHOTO_ITEMS.length);
   };
 
   return (
@@ -170,7 +170,7 @@ export default function Dashboard({
       aria-label="Zone 01: At a Glance Command Hub"
       className="w-full max-w-[1280px] mx-auto pt-24 pb-6 px-4 sm:px-6 lg:px-8 space-y-4"
     >
-      {/* ─── Pixel "At a Glance" Top Telemetry Strip ─── */}
+      {/* ─── Live Telemetry Header Strip ─── */}
       <div className="flex flex-wrap items-center justify-between gap-3 px-2">
         <div className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-[var(--text-secondary)] tabular-nums">
           <span className="text-[#F1F5F9] font-semibold">{dateString}</span>
@@ -213,9 +213,8 @@ export default function Dashboard({
                 </h1>
 
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
-                  Bridging Computer Science rigor with Visual Design precision. I architect reactive web applications in{' '}
-                  <strong className="text-[#F1F5F9] font-semibold">Next.js 16 &amp; React 19</strong>, ultra-lean native desktop tools in{' '}
-                  <strong className="text-[#F1F5F9] font-semibold">Rust &amp; Tauri v2</strong>, and real-time relational backends.
+                  Bridging Computer Science rigor with Visual Design precision. I architect reactive web applications,
+                  ultra-lean native desktop tools, and reliable real-time database backends.
                 </p>
 
                 {/* Tactile Pill CTAs */}
@@ -287,7 +286,7 @@ export default function Dashboard({
 
         {/* Row 1 Right (~38% -> lg:col-span-5): Live Telemetry "At a Glance" Widget (Stats) */}
         <div id="stats" className="lg:col-span-5 bento-outer flex flex-col justify-between">
-          {/* Oversized Pixel Lockscreen / At-a-Glance Telemetry Header */}
+          {/* Live Activity & Telemetry Header */}
           <div className="bento-inner p-5 sm:p-6 space-y-5 h-full flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -297,7 +296,7 @@ export default function Dashboard({
                 </span>
               </div>
               <span className="px-2.5 py-1 rounded-full bg-[var(--surface-1)] text-[10px] font-medium text-[var(--accent-pixel)]">
-                WakaTime + GitHub
+                Activity &amp; Velocity
               </span>
             </div>
 
@@ -407,16 +406,16 @@ export default function Dashboard({
           <About embedded />
         </div>
 
-        {/* Row 2 Right (~38% -> lg:col-span-5): Interactive Pixel Photo Widget (Concentric rounded-[16px]) */}
+        {/* Row 2 Right (~38% -> lg:col-span-5): Field Photography & Media Widget (Concentric rounded-[16px]) */}
         <div className="lg:col-span-5 bento-outer h-[420px]">
           <div className="bento-inner p-4 h-full flex flex-col justify-between overflow-hidden">
             <div className="flex items-center justify-between mb-3 px-1 shrink-0">
               <div className="flex items-center gap-2">
                 <Camera size={14} className="text-[var(--accent-pixel)]" />
-                <span className="text-xs font-bold text-[#F1F5F9]">Pixel Photo &amp; Field Deck</span>
+                <span className="text-xs font-bold text-[#F1F5F9]">Field Photography &amp; Documentation</span>
               </div>
               <div className="flex items-center gap-1.5">
-                {PIXEL_PHOTO_ITEMS.map((item, idx) => (
+                {FIELD_PHOTO_ITEMS.map((item, idx) => (
                   <button
                     key={item.src}
                     type="button"
