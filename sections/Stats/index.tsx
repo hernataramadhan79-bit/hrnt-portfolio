@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback, useLayoutEffect, memo } from 'react';
 import { m } from 'framer-motion';
 import {
   Activity,
@@ -134,6 +134,7 @@ export function GitHubContributionGraph({
   apiWeeks?: { date: string; count: number }[][];
 }) {
   const graphRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
@@ -225,6 +226,15 @@ export function GitHubContributionGraph({
     });
   }, []);
 
+  // Centre the tooltip on its cell, then pull it back inside the graph so a cell at either edge never clips it
+  useLayoutEffect(() => {
+    const tip = tooltipRef.current;
+    const graph = graphRef.current;
+    if (!tooltip.visible || !tip || !graph) return;
+    const left = tooltip.x - tip.offsetWidth / 2;
+    tip.style.left = `${Math.max(0, Math.min(left, graph.clientWidth - tip.offsetWidth))}px`;
+  }, [tooltip]);
+
   const handleMouseLeave = useCallback(
     () => setTooltip((t) => ({ ...t, visible: false })),
     []
@@ -314,9 +324,9 @@ export function GitHubContributionGraph({
 
         {tooltip.visible && (
           <div
-            className="pointer-events-none absolute z-50 bg-[var(--surface-1)] text-[#F1F5F9] text-xs font-medium px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap -translate-x-1/2 -translate-y-full flex items-center gap-2 tabular-nums" // taste-skill-ignore: tooltip overlay
+            ref={tooltipRef}
+            className="pointer-events-none absolute z-50 bg-[var(--surface-1)] text-[#F1F5F9] text-xs font-medium px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap -translate-y-full flex items-center gap-2 tabular-nums" // taste-skill-ignore: tooltip overlay
             style={{
-              left: `${tooltip.x}px`,
               top: `${tooltip.y}px`,
             }}
           >
