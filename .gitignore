@@ -66,3 +66,10 @@ next-env.d.ts
 *.sln
 *.sw?
 plan.md
+
+# agent tooling & local docs (not source)
+.agents/
+.claude/
+.taste-skill/
+docs/
+skills-lock.json
