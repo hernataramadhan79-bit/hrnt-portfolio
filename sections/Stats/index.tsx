@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import { m } from 'framer-motion';
 import {
   Activity,
@@ -85,6 +85,47 @@ function createEmptyWeeks(): ContribDay[][] {
   return weeks;
 }
 
+const CELL = 11;
+const GAP = 3;
+const STEP = CELL + GAP;
+const LEFT_LABEL_WIDTH = 28;
+
+/** The 371 cells only re-render when the data changes, not on every tooltip move. */
+const HeatmapCells = memo(function HeatmapCells({
+  weeks,
+  onEnter,
+  onLeave,
+}: {
+  weeks: ContribDay[][];
+  onEnter: (e: React.MouseEvent<SVGRectElement>, date: string, count: number) => void;
+  onLeave: () => void;
+}) {
+  return (
+    <>
+      {weeks.map((week, wi) =>
+        week.map((day, di) => {
+          if (!day.date) return null;
+          return (
+            <rect
+              key={`${wi}-${di}`}
+              x={LEFT_LABEL_WIDTH + wi * STEP}
+              y={20 + di * STEP}
+              width={CELL}
+              height={CELL}
+              rx={3}
+              fill={GITHUB_COLORS[day.level]}
+              className="transition-opacity duration-150 hover:opacity-80"
+              style={{ cursor: day.count > 0 ? 'pointer' : 'default' }}
+              onMouseEnter={(e) => onEnter(e, day.date, day.count)}
+              onMouseLeave={onLeave}
+            />
+          );
+        })
+      )}
+    </>
+  );
+});
+
 export function GitHubContributionGraph({
   totalContributions,
   apiWeeks,
@@ -167,12 +208,7 @@ export function GitHubContributionGraph({
     return 'Past 52 Weeks';
   }, [weeks]);
 
-  const CELL = 11;
-  const GAP = 3;
-  const STEP = CELL + GAP;
-  const LEFT_LABEL_WIDTH = 28;
-
-  const handleMouseEnter = (
+  const handleMouseEnter = useCallback((
     e: React.MouseEvent<SVGRectElement>,
     date: string,
     count: number
@@ -187,10 +223,12 @@ export function GitHubContributionGraph({
       date,
       count,
     });
-  };
+  }, []);
 
-  const handleMouseLeave = () =>
-    setTooltip((t) => ({ ...t, visible: false }));
+  const handleMouseLeave = useCallback(
+    () => setTooltip((t) => ({ ...t, visible: false })),
+    []
+  );
 
   const svgWidth = weeks.length * STEP + LEFT_LABEL_WIDTH;
   const svgHeight = 7 * STEP + 22;
@@ -265,26 +303,11 @@ export function GitHubContributionGraph({
                 ) : null
               )}
 
-              {weeks.map((week, wi) =>
-                week.map((day, di) => {
-                  if (!day.date) return null;
-                  return (
-                    <rect
-                      key={`${wi}-${di}`}
-                      x={LEFT_LABEL_WIDTH + wi * STEP}
-                      y={20 + di * STEP}
-                      width={CELL}
-                      height={CELL}
-                      rx={3}
-                      fill={GITHUB_COLORS[day.level]}
-                      className="transition-opacity duration-150 hover:opacity-80"
-                      style={{ cursor: day.count > 0 ? 'pointer' : 'default' }}
-                      onMouseEnter={(e) => handleMouseEnter(e, day.date, day.count)}
-                      onMouseLeave={handleMouseLeave}
-                    />
-                  );
-                })
-              )}
+              <HeatmapCells
+                weeks={weeks}
+                onEnter={handleMouseEnter}
+                onLeave={handleMouseLeave}
+              />
             </svg>
           </div>
         </div>
