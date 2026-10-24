@@ -17,5 +17,13 @@ global.IntersectionObserver = class IntersectionObserver {
   takeRecords = (): IntersectionObserverEntry[] => [];
 };
 
+// Mock ResizeObserver for jsdom environment (Pressable measures its height)
+global.ResizeObserver = class ResizeObserver {
+  constructor(private callback: ResizeObserverCallback) {}
+  observe = () => {};
+  unobserve = () => {};
+  disconnect = () => {};
+};
+
 // Mock window.scrollTo
 window.scrollTo = () => {};

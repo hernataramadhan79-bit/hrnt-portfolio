@@ -42,7 +42,6 @@
     color: var(--text-primary);
     font-family: var(--font-inter), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color-scheme: dark;
-    scroll-behavior: smooth;
     overflow-x: hidden;
   }
 
@@ -82,7 +81,8 @@
   border-radius: 28px;
   padding: 0.75rem;
   background-color: var(--surface-1);
-  transition: transform 0.5s var(--ease-spring), background-color 0.35s var(--ease-spring);
+  /* Colour only: transforms belong to framer-motion (layout and shared-element moves) */
+  transition: background-color 0.35s var(--ease-spring), --spot 0.4s var(--ease-spring);
 }
 
 @media (min-width: 768px) {
@@ -95,13 +95,13 @@
 .bento-inner {
   border-radius: 16px;
   background-color: var(--surface-2);
-  transition: background-color 0.3s var(--ease-spring), transform 0.35s var(--ease-spring);
+  transition: background-color 0.3s var(--ease-spring);
 }
 
 .bento-inner-interactive {
   border-radius: 16px;
   background-color: var(--surface-2);
-  transition: background-color 0.3s var(--ease-spring), transform 0.35s var(--ease-spring);
+  transition: background-color 0.3s var(--ease-spring);
 }
 
 .bento-inner-interactive:hover {
@@ -248,4 +248,94 @@
 /* Typography Helpers */
 .font-sans {
   font-family: var(--font-inter), 'Inter', sans-serif;
+}
+
+/* Zone entrance: shared axis Y, children staggered (components/ui/Reveal.tsx) */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] > * {
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .js [data-reveal]:not([data-revealed]) > * {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .js [data-reveal] > *:nth-child(2) { transition-delay: 60ms; }
+  .js [data-reveal] > *:nth-child(3) { transition-delay: 120ms; }
+  .js [data-reveal] > *:nth-child(4) { transition-delay: 180ms; }
+  .js [data-reveal] > *:nth-child(5) { transition-delay: 240ms; }
+  .js [data-reveal] > *:nth-child(6) { transition-delay: 300ms; }
+  .js [data-reveal] > *:nth-child(n + 7) { transition-delay: 360ms; }
+}
+
+/*
+ * First-screen variant: CSS-only from the first paint, no wait for hydration.
+ * It moves but never starts transparent: Chrome skips a first paint at
+ * opacity 0 for Largest Contentful Paint, which held mobile LCP back ~4s.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal-load] > * {
+    animation: reveal-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  [data-reveal-load] > *:nth-child(2) { animation-delay: 60ms; }
+  [data-reveal-load] > *:nth-child(3) { animation-delay: 120ms; }
+  [data-reveal-load] > *:nth-child(4) { animation-delay: 180ms; }
+  [data-reveal-load] > *:nth-child(n + 5) { animation-delay: 240ms; }
+}
+
+@keyframes reveal-rise {
+  from {
+    transform: translateY(28px) scale(0.985);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] > * {
+    transition: opacity 0.3s ease;
+  }
+
+  .js [data-reveal]:not([data-revealed]) > * {
+    opacity: 0;
+  }
+}
+
+/*
+ * Cursor light: the hovered bento card and the surfaces inside it catch one
+ * faint tonal light at the pointer (components/CursorLight.tsx). The gradient
+ * is fixed to the viewport, so every nested surface shares the same light.
+ */
+@property --spot {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .bento-outer:hover {
+    --spot: 1;
+  }
+
+  .bento-outer:hover,
+  .bento-outer:hover .bento-inner,
+  .bento-outer:hover .bento-inner-interactive {
+    background-image: radial-gradient( /* taste-skill-ignore: pointer light on dark tonal surfaces */
+      420px circle at var(--mx, -100vw) var(--my, -100vh),
+      rgb(168 199 250 / calc(0.06 * var(--spot))),
+      transparent 70%
+    );
+    background-attachment: fixed;
+  }
+}
+
+/*
+ * Lenis gives every [data-lenis-prevent] area overscroll-behavior: contain.
+ * Inline scroll areas on the page (the guestbook thread) must instead pass the
+ * wheel on to the page once they reach an end, or the visitor gets stuck.
+ */
+.lenis [data-lenis-prevent][data-scroll-chain] {
+  overscroll-behavior: auto;
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import {
   Activity,
   Github,
@@ -471,7 +471,7 @@ export default function Stats({ embedded = false }: { embedded?: boolean }) {
                       <span className="text-[var(--text-secondary)] font-medium">{lang.percent}%</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-[var(--surface-1)] overflow-hidden">
-                      <motion.div
+                      <m.div
                         initial={{ width: 0 }}
                         animate={{ width: `${lang.percent}%` }}
                         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import 'lenis/dist/lenis.css';
 import './globals.css';
 
 const inter = Inter({
@@ -93,7 +94,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark ${inter.variable}`}>
+    <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Entrance hidden-states apply only once scripts run, so content never stays hidden */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="bg-[#090A0D] text-[#F1F5F9] font-sans antialiased selection:bg-[#A8C7FA]/25 selection:text-[#D3E3FD] min-h-screen">
         {children}
       </body>

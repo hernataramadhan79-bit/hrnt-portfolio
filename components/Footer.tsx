@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ArrowUp, Github, Linkedin, Mail, Terminal } from 'lucide-react';
+import { PressableButton, PressableLink } from './ui/Pressable';
 
 interface FooterProps {
   onNavigate?: (tab: string) => void;
@@ -81,41 +82,41 @@ export default function Footer({ onNavigate }: FooterProps) {
 
           {/* Right: Tonal Pill Social Channels & Back to Top */}
           <div className="flex items-center gap-2 order-2 lg:order-3">
-            <a
+            <PressableLink
               href="https://github.com/hernataramadhan79-bit"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-[var(--surface-3)] hover:bg-[var(--surface-pill)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9] transition-all duration-200 active:scale-[0.95]"
+              className="transition-colors w-9 h-9 rounded-full bg-[var(--surface-3)] hover:bg-[var(--surface-pill)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9]"
               aria-label="GitHub"
             >
               <Github size={15} />
-            </a>
-            <a
+            </PressableLink>
+            <PressableLink
               href="https://www.linkedin.com/in/hernata-ramadhan-614725350/"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-[var(--surface-3)] hover:bg-[var(--surface-pill)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9] transition-all duration-200 active:scale-[0.95]"
+              className="transition-colors w-9 h-9 rounded-full bg-[var(--surface-3)] hover:bg-[var(--surface-pill)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9]"
               aria-label="LinkedIn"
             >
               <Linkedin size={15} />
-            </a>
-            <a
+            </PressableLink>
+            <PressableLink
               href="mailto:hernataramadhan79@gmail.com"
-              className="w-9 h-9 rounded-full bg-[var(--surface-3)] hover:bg-[var(--surface-pill)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9] transition-all duration-200 active:scale-[0.95]"
+              className="transition-colors w-9 h-9 rounded-full bg-[var(--surface-3)] hover:bg-[var(--surface-pill)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9]"
               aria-label="Email"
             >
               <Mail size={15} />
-            </a>
+            </PressableLink>
 
-            <button
+            <PressableButton
               onClick={scrollToTop}
-              className="h-9 px-3.5 rounded-full bg-[var(--surface-pill)] hover:bg-[var(--accent-pixel)] text-[#F1F5F9] hover:text-[var(--on-accent-pixel)] flex items-center gap-1.5 text-xs font-semibold transition-all duration-200 active:scale-[0.95] ml-1"
+              className="transition-colors h-9 px-3.5 rounded-full bg-[var(--surface-pill)] hover:bg-[var(--accent-pixel)] text-[#F1F5F9] hover:text-[var(--on-accent-pixel)] flex items-center gap-1.5 text-xs font-semibold ml-1"
               aria-label="Scroll to top"
               title="Back to top"
             >
               <ArrowUp size={13} />
               <span>Top</span>
-            </button>
+            </PressableButton>
           </div>
         </div>
       </div>
