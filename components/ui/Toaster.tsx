@@ -39,7 +39,9 @@ const subscribe = (listener: () => void) => {
   return () => listeners.delete(listener);
 };
 const getSnapshot = () => items;
-const getServerSnapshot = (): ToastItem[] => [];
+// Stable reference: React compares snapshots by identity
+const serverItems: ToastItem[] = [];
+const getServerSnapshot = () => serverItems;
 
 const ICONS: Record<Tone, React.ElementType> = {
   success: CheckCircle2,
