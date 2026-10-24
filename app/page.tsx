@@ -129,8 +129,21 @@ function HomeContent() {
       });
     };
 
-    window.addEventListener('scroll', handleScrollSpy, { passive: true });
-    return () => window.removeEventListener('scroll', handleScrollSpy);
+    // At most one layout read per frame, however many scroll events fire
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        handleScrollSpy();
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   // Print DevTools Signature & Intellectual Property Banner

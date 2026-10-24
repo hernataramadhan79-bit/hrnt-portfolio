@@ -53,7 +53,7 @@ export async function GET(request: Request) {
 
         const fetchOptions: RequestInit = {
             headers: {
-                'Authorization': `Bearer ${token}`,
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
                 'Accept': 'application/vnd.github.v3+json',
                 'User-Agent': 'Portfolio-App'
             },

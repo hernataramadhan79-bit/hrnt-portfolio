@@ -30,6 +30,7 @@ export const metadata: Metadata = {
     'Systems Engineering',
     'Bento Grid Portfolio',
   ],
+  alternates: { canonical: '/' },
   authors: [{ name: 'Hernata Ramadhan', url: siteUrl }],
   creator: 'Hernata Ramadhan',
   publisher: 'Hernata Ramadhan',
@@ -88,6 +89,29 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      name: 'Hernata Ramadhan (HRNT) Portfolio',
+      inLanguage: 'en',
+    },
+    {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#person`,
+      name: 'Hernata Ramadhan',
+      alternateName: 'HRNT',
+      jobTitle: 'Full-Stack Software Engineer',
+      url: siteUrl,
+      image: `${siteUrl}/profile.jpg`,
+      sameAs: ['https://github.com/hernataramadhan79-bit'],
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -98,6 +122,10 @@ export default function RootLayout({
       <head>
         {/* Entrance hidden-states apply only once scripts run, so content never stays hidden */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
+        />
       </head>
       <body className="bg-[#090A0D] text-[#F1F5F9] font-sans antialiased selection:bg-[#A8C7FA]/25 selection:text-[#D3E3FD] min-h-screen">
         {children}

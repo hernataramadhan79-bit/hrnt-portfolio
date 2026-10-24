@@ -340,7 +340,6 @@ export default function Work({
                           fill
                           className="object-cover"
                           sizes="(max-width: 1024px) 100vw, 740px"
-                          priority
                         />
                       </m.div>
                     </AnimatePresence>

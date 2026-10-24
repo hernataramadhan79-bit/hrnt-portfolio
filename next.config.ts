@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 let nextConfig: NextConfig = {
     poweredByHeader: false,
     images: {
@@ -34,7 +36,11 @@ let nextConfig: NextConfig = {
                 headers: [
                     {
                         key: 'Content-Security-Policy',
-                        value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://apis.google.com https://www.googletagmanager.com https://*.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.github.com https://wakatime.com https://api.web3forms.com https://www.googleapis.com https://*.googleapis.com https://googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://github-contributions-api.deno.dev https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.cloudflareinsights.com https://stats.g.doubleclick.net; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://apis.google.com https://accounts.google.com;",
+                        value: `default-src 'self'; script-src 'self' ${isDev ? "'unsafe-eval' " : ''}'unsafe-inline' https://apis.google.com https://www.googletagmanager.com https://*.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.github.com https://wakatime.com https://api.web3forms.com https://www.googleapis.com https://*.googleapis.com https://googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://github-contributions-api.deno.dev https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.cloudflareinsights.com https://stats.g.doubleclick.net; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://*.firebaseapp.com https://apis.google.com https://accounts.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'`,
+                    },
+                    {
+                        key: 'Strict-Transport-Security',
+                        value: 'max-age=31536000',
                     },
                     {
                         key: 'X-Content-Type-Options',
@@ -86,9 +92,9 @@ let nextConfig: NextConfig = {
                         value: 'no-store',
                     },
                     {
-                        // Allow Firebase to embed this in an iframe
+                        // Firebase embeds this handler from the same origin (authDomain); ALLOWALL is not a valid value
                         key: 'X-Frame-Options',
-                        value: 'ALLOWALL',
+                        value: 'SAMEORIGIN',
                     },
                     {
                         // Prevent COOP isolation from severing window.opener during OAuth redirects
