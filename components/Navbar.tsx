@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard,
   FolderGit2,
@@ -14,6 +14,18 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import { PressableButton } from './ui/Pressable';
+import { effect, spatial } from '../lib/motion';
+
+// The mobile sheet unfolds from the menu button, its tiles arriving one after another
+const sheetItems = {
+  open: { transition: { staggerChildren: 0.04, delayChildren: 0.06 } },
+  closed: {},
+};
+const sheetItem = {
+  open: { opacity: 1, y: 0, transition: spatial.default },
+  closed: { opacity: 0, y: -6 },
+};
 
 export interface NavItem {
   id: string;
@@ -36,6 +48,24 @@ interface NavbarProps {
 export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+
+  // Open: focus the first tile. Escape closes and hands focus back to the toggle.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    // focusVisible: false keeps the ring for keyboard users only (Chromium honours it)
+    sheetRef.current
+      ?.querySelector<HTMLButtonElement>('button')
+      ?.focus({ preventScroll: true, focusVisible: false } as FocusOptions);
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setIsMobileMenuOpen(false);
+      menuToggleRef.current?.focus();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,7 +99,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
     <>
       {/* Floating Dynamic Pixel Pill (Glass Dose #1 of 2 allowed by R-10) */}
       <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-3 sm:px-4 pointer-events-none">
-        <motion.nav
+        <m.nav
           initial={{ y: -14, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
@@ -108,7 +138,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                     }`}
                   >
                     {isActive && (
-                      <motion.div
+                      <m.div
                         layoutId="activePixelPill"
                         initial={false}
                         className="absolute inset-0 bg-[var(--surface-pill)] rounded-full -z-10"
@@ -124,9 +154,10 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
 
           {/* Primary Tonal Pill CTA (Forum) & Mobile Drawer Trigger */}
           <div className="flex items-center gap-2">
-            <button
+            <PressableButton
+              magnetic
               onClick={() => handleSelectTab('forum')}
-              className={`hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold rounded-full transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.96] ${
+              className={`transition-[padding,background-color,color] duration-300 hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold rounded-full ${
                 isScrolled ? 'px-3.5 py-1.5' : 'px-4 py-2'
               } ${
                 activeTab === 'forum'
@@ -136,38 +167,74 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             >
               <MessageSquare size={13} strokeWidth={2.2} />
               <span>Forum</span>
-            </button>
+            </PressableButton>
 
-            <button
+            <PressableButton
+              ref={menuToggleRef}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9] rounded-full bg-[var(--surface-2)] hover:bg-[var(--surface-3)] transition-colors active:scale-95"
+              className="lg:hidden w-10 h-10 flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9] rounded-full bg-[var(--surface-2)] hover:bg-[var(--surface-3)] transition-colors"
               aria-label="Toggle navigation menu"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-nav-sheet"
             >
-              {isMobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
-            </button>
+              {/* The glyph turns as it swaps, so open and close read as one motion */}
+              <AnimatePresence mode="popLayout" initial={false}>
+                <m.span
+                  key={isMobileMenuOpen ? 'close' : 'open'}
+                  initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0.6, transition: effect.fast }}
+                  transition={spatial.fast}
+                  className="flex"
+                >
+                  {isMobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+                </m.span>
+              </AnimatePresence>
+            </PressableButton>
           </div>
-        </motion.nav>
+        </m.nav>
       </header>
 
       {/* Mobile Concentric Tonal Sheet (R_outer = 28px, p-3 = 12px, R_inner = 16px) */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+          <m.div
+            key="mobile-nav-scrim"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={effect.default}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 z-30 lg:hidden bg-[#060709]/40"
+            aria-hidden="true"
+          />
+        )}
+        {isMobileMenuOpen && (
+          <m.div
+            key="mobile-nav-sheet"
+            id="mobile-nav-sheet"
+            ref={sheetRef}
+            role="navigation"
+            aria-label="Mobile navigation"
+            initial={{ opacity: 0, y: -8, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 30, mass: 0.8 }}
+            exit={{ opacity: 0, y: -6, scale: 0.95, transition: effect.fast }}
+            transition={spatial.default}
+            style={{ transformOrigin: 'top right' }}
             className="fixed inset-x-4 top-20 z-40 lg:hidden bento-outer shadow-2xl" // taste-skill-ignore: mobile drawer modal overlay
           >
-            <div className="grid grid-cols-2 gap-2">
+            <m.div variants={sheetItems} initial="closed" animate="open" className="grid grid-cols-2 gap-2">
               {NAV_ITEMS.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
                 return (
-                  <button
+                  <m.button
                     key={item.id}
+                    variants={sheetItem}
+                    whileTap={{ scale: 0.97 }}
                     onClick={() => handleSelectTab(item.id)}
-                    className={`flex items-center justify-between px-3.5 py-3 rounded-[16px] text-left transition-all active:scale-[0.98] min-h-[44px] ${
+                    aria-current={isActive ? 'location' : undefined}
+                    className={`flex items-center justify-between px-3.5 py-3 rounded-[16px] text-left transition-colors min-h-[44px] ${
                       isActive
                         ? 'bg-[var(--surface-pill)] text-[#F1F5F9] font-semibold'
                         : 'bg-[var(--surface-2)] text-[var(--text-secondary)] hover:bg-[var(--surface-3)] hover:text-[#F1F5F9]'
@@ -180,18 +247,22 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                       />
                       <span className="text-xs tracking-wide">{item.label}</span>
                     </span>
-                  </button>
+                  </m.button>
                 );
               })}
-            </div>
+            </m.div>
 
-            <div className="mt-2 pt-2.5 px-2 flex items-center justify-between bg-[var(--surface-2)] rounded-[16px] p-2.5">
+            <m.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0, transition: { ...spatial.default, delay: 0.06 + NAV_ITEMS.length * 0.04 } }}
+              className="mt-2 pt-2.5 px-2 flex items-center justify-between bg-[var(--surface-2)] rounded-[16px] p-2.5"
+            >
               <span className="text-xs text-[var(--text-secondary)] font-medium pl-1">
                 Hernata Ramadhan
               </span>
-              <button
+              <PressableButton
                 onClick={() => handleSelectTab('forum')}
-                className={`inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full transition-all active:scale-[0.96] min-h-[38px] ${
+                className={`transition-colors inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-full min-h-[38px] ${
                   activeTab === 'forum'
                     ? 'bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold'
                     : 'bg-[var(--surface-pill)] text-[#F1F5F9] hover:bg-[var(--surface-bright)]'
@@ -199,9 +270,9 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
               >
                 <MessageSquare size={13} strokeWidth={2} />
                 <span>Forum</span>
-              </button>
-            </div>
-          </motion.div>
+              </PressableButton>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

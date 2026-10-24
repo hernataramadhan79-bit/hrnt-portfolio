@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Dashboard from '../sections/Dashboard';
 import Work from '../sections/Work';
@@ -14,6 +15,11 @@ import Footer from '../components/Footer';
 import { ForumSkeleton } from '../components/Skeletons';
 import { Project, Certificate } from '../types';
 import { printDevToolsBanner } from '../lib/console-banner';
+import MotionProvider from '../components/MotionProvider';
+import Reveal from '../components/ui/Reveal';
+import CursorLight from '../components/CursorLight';
+import Toaster from '../components/ui/Toaster';
+import { useSectionScroll } from '../lib/useSectionScroll';
 
 // Lazy-load Forum to isolate Firebase Auth & Firestore SDK with concentric Skeleton Fallback
 const Forum = dynamic(() => import('../sections/Forum'), {
@@ -33,6 +39,14 @@ const VALID_SECTIONS = [
 ];
 
 export default function Home() {
+  return (
+    <MotionProvider>
+      <HomeContent />
+    </MotionProvider>
+  );
+}
+
+function HomeContent() {
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
@@ -64,19 +78,7 @@ export default function Home() {
     }
   }, []);
 
-  const scrollToSection = useCallback((sectionId: string) => {
-    if (typeof window === 'undefined') return;
-    if (sectionId === 'dashboard') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    const target = document.getElementById(sectionId);
-    if (target) {
-      const yOffset = -84;
-      const y = target.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-    }
-  }, []);
+  const scrollToSection = useSectionScroll();
 
   // Hash Navigation Listener
   useEffect(() => {
@@ -105,7 +107,8 @@ export default function Home() {
 
       for (const zoneId of primaryZones) {
         const el = document.getElementById(zoneId);
-        if (el && el.offsetTop <= scrollPos) {
+        // Page position, not offsetTop: #contact sits inside a positioned column
+        if (el && el.getBoundingClientRect().top + window.scrollY <= scrollPos) {
           currentZone = zoneId;
         }
       }
@@ -146,6 +149,7 @@ export default function Home() {
       data-section-scroll
     >
       <Background />
+      <CursorLight />
 
       {/* Floating Pill Navigation */}
       <Navbar activeTab={activeTab} setActiveTab={handleTabChange} />
@@ -175,37 +179,51 @@ export default function Home() {
           aria-label="Zone 04: Engineering Communication Hub"
           className="w-full max-w-[1280px] mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-4"
         >
-          <div className="px-1">
+          <Reveal className="px-1">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F1F5F9] tracking-tight">
               Engineering Communication Hub
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-xl">
               Direct email dispatch, collaboration briefs, and live community guestbook thread.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+          <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
             <div className="lg:col-span-5">
               <Contact embedded />
             </div>
             <div className="lg:col-span-7">
               <Forum embedded />
             </div>
-          </div>
+          </Reveal>
         </section>
       </main>
 
-      <Footer onNavigate={handleTabChange} />
+      <Reveal>
+        <Footer onNavigate={handleTabChange} />
+      </Reveal>
 
-      {/* Inspection Sheet Modals */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
-      <CertificateModal
-        cert={selectedCert}
-        onClose={() => setSelectedCert(null)}
-      />
+      {/* Inspection Sheet Modals: mounted inside AnimatePresence so closing animates */}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal
+            key={`project-${selectedProject.id}`}
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
+      <Toaster />
+
+      <AnimatePresence>
+        {selectedCert && (
+          <CertificateModal
+            key={`cert-${selectedCert.id}`}
+            cert={selectedCert}
+            onClose={() => setSelectedCert(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

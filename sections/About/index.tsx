@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Briefcase, GraduationCap } from 'lucide-react';
 import { experiences } from '../../constants';
+import { effect, spatial } from '../../lib/motion';
 
 export default function About({ embedded = false }: { embedded?: boolean }) {
   const [timelineFilter, setTimelineFilter] = useState<'all' | 'work' | 'edu'>('all');
@@ -23,7 +24,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
           </h3>
         </div>
 
-        <div className="flex items-center gap-1 bg-[var(--surface-1)] p-1 rounded-full self-start sm:self-auto">
+        <div className="relative isolate flex items-center gap-1 bg-[var(--surface-1)] p-1 rounded-full self-start sm:self-auto">
           {[
             { id: 'all', label: `All (${experiences.length})` },
             { id: 'work', label: 'Engineering & Work (3)' },
@@ -32,29 +33,38 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
             <button
               key={tab.id}
               type="button"
+              aria-pressed={timelineFilter === tab.id}
               onClick={() => setTimelineFilter(tab.id as 'all' | 'work' | 'edu')}
-              className={`px-2.5 py-1 text-[11px] font-medium rounded-full transition-colors tabular-nums cursor-pointer ${
+              className={`relative px-2.5 py-1 text-[11px] font-medium rounded-full transition-colors tabular-nums cursor-pointer ${
                 timelineFilter === tab.id
-                  ? 'bg-[var(--surface-pill)] text-[#F1F5F9] font-semibold'
+                  ? 'text-[#F1F5F9] font-semibold'
                   : 'text-[var(--text-secondary)] hover:text-[#F1F5F9]'
               }`}
             >
-              {tab.label}
+              {timelineFilter === tab.id && (
+                <m.span
+                  layoutId="timelineFilterPill"
+                  transition={spatial.default}
+                  className="absolute inset-0 rounded-full bg-[var(--surface-pill)] -z-10"
+                />
+              )}
+              <span className="relative">{tab.label}</span>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1 overflow-hidden content-start">
-        <AnimatePresence mode="popLayout">
+      <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1 overflow-hidden content-start">
+        {/* Entries that stay slide to their new cells; the others fade through */}
+        <AnimatePresence mode="popLayout" initial={false}>
           {filteredExperiences.map((exp) => (
-            <motion.div
+            <m.div
               key={`${exp.role}-${exp.period}`}
               layout="position"
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1, transition: { ...effect.default, delay: 0.08 } }}
+              exit={{ opacity: 0, scale: 0.96, transition: effect.fast }}
+              transition={spatial.default}
               className="p-2.5 rounded-[12px] bg-[var(--surface-1)] flex flex-col justify-between"
             >
               <div>
@@ -80,7 +90,7 @@ export default function About({ embedded = false }: { embedded?: boolean }) {
                   </span>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
       </div>

@@ -1,120 +1,92 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, ShieldCheck } from 'lucide-react';
+import { m } from 'framer-motion';
+import { ExternalLink, ShieldCheck } from 'lucide-react';
 import { Certificate } from '../types';
+import ModalShell from './ui/ModalShell';
+import { layoutIds, sheetContent, spatial } from '../lib/motion';
+import { PressableLink } from './ui/Pressable';
 
 interface CertificateModalProps {
-  cert: Certificate | null;
+  cert: Certificate;
   onClose: () => void;
 }
 
+/**
+ * Credential sheet. The certificate picture flies in from the inline preview
+ * (shared layoutId) while the sheet rises around it.
+ */
 export default function CertificateModal({ cert, onClose }: CertificateModalProps) {
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    if (cert) {
-      document.body.style.overflow = 'hidden';
-      window.addEventListener('keydown', handleKeyDown);
-    }
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [cert, onClose]);
-
-  if (!cert) return null;
-
   return (
-    <AnimatePresence>
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="cert-modal-title"
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-10 overflow-y-auto"
+    <ModalShell labelledBy="cert-modal-title" onClose={onClose} maxWidthClass="max-w-2xl">
+      <m.div
+        variants={sheetContent}
+        custom={0}
+        initial="hidden"
+        animate="shown"
+        exit="gone"
+        className="bento-inner p-4 sm:p-5 pr-16 flex items-center gap-3 min-w-0"
       >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          onClick={onClose}
-          className="fixed inset-0 bg-[#060709]/80 backdrop-blur-md -z-10"
-        />
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 14 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.96, y: 12 }}
-          transition={{ type: 'spring', stiffness: 380, damping: 30, mass: 0.8 }}
-          className="bento-outer relative w-full max-w-2xl overflow-hidden shadow-2xl space-y-3" // taste-skill-ignore: modal dialog overlay
-        >
-          <div className="bento-inner p-4 sm:p-5 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="relative w-11 h-11 rounded-[12px] overflow-hidden bg-[var(--surface-1)] shrink-0">
-                <Image
-                  src={cert.image}
-                  alt={cert.issuer}
-                  fill
-                  className="object-cover"
-                  sizes="44px"
-                />
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--accent-pixel)] tabular-nums">
-                  <ShieldCheck size={13} />
-                  <span>{cert.issuer} • Issued {cert.date}</span>
-                </div>
-                <h3
-                  id="cert-modal-title"
-                  className="text-base sm:text-lg font-extrabold text-[#F1F5F9] tracking-tight truncate"
-                >
-                  {cert.title}
-                </h3>
-              </div>
-            </div>
-
-            <button
-              onClick={onClose}
-              className="w-9 h-9 flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9] bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] rounded-full transition-colors shrink-0 active:scale-95"
-              aria-label="Close modal"
-            >
-              <X size={18} />
-            </button>
-          </div>
-
-          <div className="bento-inner p-3">
-            <div className="relative w-full aspect-[4/3] rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
-              <Image
-                src={cert.certificateImage}
-                alt={cert.title}
-                fill
-                className="object-contain p-2"
-                sizes="(max-width: 768px) 100vw, 640px"
-                priority
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between px-2 pt-1">
-            <span className="text-xs font-medium text-[var(--text-muted)]">
-              Verified Professional Credential
+        <div className="relative w-11 h-11 rounded-[12px] overflow-hidden bg-[var(--surface-1)] shrink-0">
+          <Image src={cert.image} alt={cert.issuer} fill className="object-cover" sizes="44px" />
+        </div>
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--accent-pixel)] tabular-nums">
+            <ShieldCheck size={13} />
+            <span>
+              {cert.issuer} • Issued {cert.date}
             </span>
-            <a
-              href={cert.credentialLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold px-5 py-2.5 rounded-full transition-transform active:scale-95"
-            >
-              <span>Open Full Resolution</span>
-              <ExternalLink size={14} />
-            </a>
           </div>
-        </motion.div>
+          <h3
+            id="cert-modal-title"
+            className="text-base sm:text-lg font-extrabold text-[#F1F5F9] tracking-tight truncate"
+          >
+            {cert.title}
+          </h3>
+        </div>
+      </m.div>
+
+      <div className="bento-inner p-3">
+        <m.div
+          layoutId={layoutIds.certImage(cert.id)}
+          transition={spatial.slow}
+          style={{ borderRadius: 16 }}
+          className="relative w-full aspect-[4/3] overflow-hidden bg-[var(--surface-1)]"
+        >
+          <Image
+            src={cert.certificateImage}
+            alt={cert.title}
+            fill
+            className="object-contain p-2"
+            sizes="(max-width: 768px) 100vw, 640px"
+            priority
+          />
+        </m.div>
       </div>
-    </AnimatePresence>
+
+      <m.div
+        variants={sheetContent}
+        custom={1}
+        initial="hidden"
+        animate="shown"
+        exit="gone"
+        className="flex items-center justify-between gap-3 px-2 pt-1"
+      >
+        <span className="text-xs font-medium text-[var(--text-muted)]">
+          Verified Professional Credential
+        </span>
+        <PressableLink
+          href={cert.credentialLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors inline-flex items-center gap-2 bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold px-5 py-2.5 rounded-full"
+        >
+          <span>Open Full Resolution</span>
+          <ExternalLink size={14} />
+        </PressableLink>
+      </m.div>
+    </ModalShell>
   );
 }

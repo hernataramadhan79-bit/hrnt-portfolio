@@ -1,17 +1,30 @@
 'use client';
 
 import React, { useState } from 'react';
+import { AnimatePresence, m } from 'framer-motion';
 import { Send, Loader2 } from 'lucide-react';
 import { User } from '../../lib/firebase';
+import type { OutgoingComment } from './index';
+import { effect, spatial } from '../../lib/motion';
+import { PressableButton } from '../../components/ui/Pressable';
 
 interface CommentFormProps {
   user: User;
-  onCommentPosted?: () => void;
+  outgoing: OutgoingComment | null;
+  onOutgoing: (comment: OutgoingComment) => void;
+  onOutgoingLanded: () => void;
+  onOutgoingFailed: (reason: string) => void;
 }
 
 const MAX_CHARS = 500;
 
-const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
+const CommentForm: React.FC<CommentFormProps> = ({
+  user,
+  outgoing,
+  onOutgoing,
+  onOutgoingLanded,
+  onOutgoingFailed,
+}) => {
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -24,6 +37,18 @@ const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
     setIsSubmitting(true);
     setError('');
 
+    const name = user.displayName || user.email?.split('@')[0] || 'User';
+    // The text leaves the box at once as a sending bubble (iMessage-style)
+    onOutgoing({
+      tempId: `out-${Date.now()}`,
+      userId: user.uid,
+      name,
+      userImage: user.photoURL || '',
+      message: trimmed,
+      phase: 'sending',
+    });
+    setMessage('');
+
     try {
       const token = await user.getIdToken();
       const res = await fetch('/api/comments', {
@@ -34,7 +59,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
         },
         body: JSON.stringify({
           userId: user.uid,
-          name: user.displayName || user.email?.split('@')[0] || 'User',
+          name,
           userImage: user.photoURL || '',
           message: trimmed,
         }),
@@ -45,14 +70,17 @@ const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
         throw new Error(data.error || 'Failed to post message');
       }
 
-      setMessage('');
-      if (onCommentPosted) onCommentPosted();
+      onOutgoingLanded();
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('comment-refresh'));
       }
     } catch (err: any) {
       console.error('Error adding comment: ', err);
-      setError(err.message || 'Failed to post message. Please check your connection and try again.');
+      const reason = err.message || 'Failed to post message. Please check your connection and try again.';
+      // Give the words back so nothing typed is lost
+      setMessage(trimmed);
+      setError(reason);
+      onOutgoingFailed(reason);
     } finally {
       setIsSubmitting(false);
     }
@@ -66,6 +94,24 @@ const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2">
+      <AnimatePresence>
+        {outgoing && (
+          <div key={outgoing.tempId} className="flex justify-end">
+            <m.div
+              layoutId={`comment-${outgoing.tempId}`}
+              initial={{ opacity: 0, y: 14, scale: 0.96 }}
+              animate={{ opacity: 0.75, y: 0, scale: 1 }}
+              exit={{ opacity: 0, transition: effect.fast }}
+              transition={spatial.default}
+              style={{ borderRadius: 22, borderBottomRightRadius: 6 }}
+              className="max-w-[85%] px-3.5 py-2.5 bg-[var(--surface-pill)] text-xs text-[#F1F5F9] whitespace-pre-wrap"
+            >
+              {outgoing.message}
+            </m.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <div className="flex items-end gap-2 bg-[var(--surface-1)] rounded-[20px] p-2.5">
         <label htmlFor="comment-input" className="sr-only">
           Write a message
@@ -87,12 +133,12 @@ const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
           <span className="text-[10px] font-medium text-[var(--text-muted)] tabular-nums hidden sm:inline">
             {message.length}/{MAX_CHARS}
           </span>
-          <button
+          <PressableButton
             type="submit"
             disabled={!message.trim() || isSubmitting}
-            className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all duration-200 ${
+            className={`px-4 py-2 rounded-full text-xs font-bold flex items-center gap-1.5 transition-colors ${
               message.trim() && !isSubmitting
-                ? 'bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] cursor-pointer active:scale-95'
+                ? 'bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] cursor-pointer'
                 : 'bg-[var(--surface-2)] text-[var(--text-muted)] cursor-not-allowed'
             }`}
           >
@@ -107,7 +153,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ user, onCommentPosted }) => {
                 <Send size={12} />
               </>
             )}
-          </button>
+          </PressableButton>
         </div>
       </div>
 

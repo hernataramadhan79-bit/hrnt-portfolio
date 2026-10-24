@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence, PanInfo } from 'framer-motion';
 import {
   Download,
   Github,
@@ -30,6 +30,23 @@ import {
 import Stats from '../Stats';
 import About from '../About';
 import Capabilities from '../Capabilities';
+import Reveal from '../../components/ui/Reveal';
+import RollingNumber from '../../components/ui/RollingNumber';
+import { effect, spatial, STAGGER } from '../../lib/motion';
+import { PressableButton, PressableLink } from '../../components/ui/Pressable';
+
+const SWIPE_DISTANCE = 60;
+const SWIPE_VELOCITY = 400;
+
+const photoSlide = {
+  enter: (direction: 1 | -1) => ({ x: `${direction * 35}%`, opacity: 0 }),
+  center: { x: '0%', opacity: 1, transition: { x: spatial.default, opacity: effect.default } },
+  exit: (direction: 1 | -1) => ({
+    x: `${direction * -35}%`,
+    opacity: 0,
+    transition: { x: spatial.default, opacity: effect.fast },
+  }),
+};
 
 interface DashboardProps {
   onSelectProject: (project: Project) => void;
@@ -83,6 +100,7 @@ export default function Dashboard({
   const [dateString, setDateString] = useState('Tuesday, Oct 20');
   const [timeString, setTimeString] = useState('12:00 PM WIB');
   const [photoIndex, setPhotoIndex] = useState(0);
+  const [photoDirection, setPhotoDirection] = useState<1 | -1>(1);
   const [isTelemetryExpanded, setIsTelemetryExpanded] = useState(false);
 
   useEffect(() => {
@@ -156,12 +174,19 @@ export default function Dashboard({
 
   const currentPhoto = FIELD_PHOTO_ITEMS[photoIndex];
 
-  const handleNextPhoto = () => {
-    setPhotoIndex((prev) => (prev + 1) % FIELD_PHOTO_ITEMS.length);
+  // Shared axis X: the next photo comes in from the side the visitor moved toward
+  const showPhoto = (index: number, direction: 1 | -1) => {
+    setPhotoDirection(direction);
+    setPhotoIndex((index + FIELD_PHOTO_ITEMS.length) % FIELD_PHOTO_ITEMS.length);
   };
 
-  const handlePrevPhoto = () => {
-    setPhotoIndex((prev) => (prev - 1 + FIELD_PHOTO_ITEMS.length) % FIELD_PHOTO_ITEMS.length);
+  const handleNextPhoto = () => showPhoto(photoIndex + 1, 1);
+  const handlePrevPhoto = () => showPhoto(photoIndex - 1, -1);
+
+  const handlePhotoSwipe = (_: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
+    // Distance or a quick flick turns the page, like a photo stack on iOS
+    if (info.offset.x < -SWIPE_DISTANCE || info.velocity.x < -SWIPE_VELOCITY) handleNextPhoto();
+    else if (info.offset.x > SWIPE_DISTANCE || info.velocity.x > SWIPE_VELOCITY) handlePrevPhoto();
   };
 
   return (
@@ -171,13 +196,13 @@ export default function Dashboard({
       className="w-full max-w-[1280px] mx-auto pt-24 pb-6 px-4 sm:px-6 lg:px-8 space-y-4"
     >
       {/* ─── Live Telemetry Header Strip ─── */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-2">
+      <Reveal immediate className="flex flex-wrap items-center justify-between gap-3 px-2">
         <div className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-[var(--text-secondary)] tabular-nums">
           <span className="text-[#F1F5F9] font-semibold">{dateString}</span>
           <span className="text-[var(--text-muted)]">•</span>
           <span className="inline-flex items-center gap-1 text-xs font-medium text-[var(--accent-pixel)] tabular-nums">
             <Clock size={12} />
-            <span>{timeString}</span>
+            <RollingNumber value={timeString} />
           </span>
           <span className="text-[var(--text-muted)] hidden sm:inline">•</span>
           <span className="hidden sm:inline-flex items-center gap-1 text-xs">
@@ -192,10 +217,10 @@ export default function Dashboard({
             Available for Full-Stack &amp; Systems Roles
           </span>
         </div>
-      </div>
+      </Reveal>
 
       {/* ─── ZONE 1: Golden Ratio Split (62% Left Identity + Timeline : 38% Right Live Telemetry + Field Deck) ─── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+      <Reveal immediate className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
         {/* Row 1 Left (~62% -> lg:col-span-7): Primary Identity, Portrait & Tactile Pill CTAs */}
         <div className="lg:col-span-7 bento-outer flex flex-col justify-between">
           <div className="bento-inner p-5 sm:p-6 relative overflow-hidden flex-1 flex flex-col justify-center">
@@ -219,26 +244,27 @@ export default function Dashboard({
 
                 {/* Tactile Pill CTAs */}
                 <div className="flex flex-wrap items-center gap-2 pt-2">
-                  <a
+                  <PressableLink
+                    magnetic
                     href="/Hernata CV.pdf"
                     download
-                    className="inline-flex items-center gap-2 bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold px-4 py-2.5 rounded-full transition-all duration-200 active:scale-[0.97]"
+                    className="transition-colors inline-flex items-center gap-2 bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold px-4 py-2.5 rounded-full"
                   >
                     <Download size={14} />
                     <span>Download CV</span>
-                  </a>
+                  </PressableLink>
 
-                  <button
+                  <PressableButton
                     type="button"
                     onClick={() => onNavigate('contact')}
-                    className="inline-flex items-center gap-2 bg-[var(--surface-pill)] hover:bg-[var(--surface-bright)] text-[#F1F5F9] text-xs font-semibold px-4 py-2.5 rounded-full transition-all duration-200 active:scale-[0.97] cursor-pointer"
+                    className="transition-colors inline-flex items-center gap-2 bg-[var(--surface-pill)] hover:bg-[var(--surface-bright)] text-[#F1F5F9] text-xs font-semibold px-4 py-2.5 rounded-full cursor-pointer"
                   >
                     <MessageSquare size={13} className="text-[var(--accent-pixel)]" />
                     <span>Comm Hub</span>
-                  </button>
+                  </PressableButton>
 
                   <div className="flex items-center gap-1.5 ml-auto sm:ml-0">
-                    <a
+                    <PressableLink
                       href="https://github.com/hernataramadhan79-bit"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -246,8 +272,8 @@ export default function Dashboard({
                       aria-label="GitHub Profile"
                     >
                       <Github size={15} />
-                    </a>
-                    <a
+                    </PressableLink>
+                    <PressableLink
                       href="https://www.linkedin.com/in/hernata-ramadhan-614725350/"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -255,14 +281,14 @@ export default function Dashboard({
                       aria-label="LinkedIn Profile"
                     >
                       <Linkedin size={15} />
-                    </a>
-                    <a
+                    </PressableLink>
+                    <PressableLink
                       href="mailto:hernataramadhan79@gmail.com"
                       className="w-9 h-9 rounded-full bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[#F1F5F9] transition-colors"
                       aria-label="Send Email"
                     >
                       <Mail size={15} />
-                    </a>
+                    </PressableLink>
                   </div>
                 </div>
               </div>
@@ -311,10 +337,10 @@ export default function Dashboard({
                   className="text-3xl sm:text-4xl font-black text-[#F1F5F9] tracking-tight tabular-nums leading-none mt-1"
                   suppressHydrationWarning
                 >
-                  {telemetry.wakatimeHours}
+                  <RollingNumber value={telemetry.wakatimeHours} />
                 </div>
                 <div className="text-[11px] font-medium text-[var(--accent-pixel)] mt-2 tabular-nums">
-                  Avg {telemetry.dailyAverage} / day
+                  Avg <RollingNumber value={telemetry.dailyAverage} /> / day
                 </div>
               </div>
 
@@ -327,13 +353,13 @@ export default function Dashboard({
                   className="text-3xl sm:text-4xl font-black text-[var(--accent-pixel-bright)] tracking-tight tabular-nums leading-none mt-1"
                   suppressHydrationWarning
                 >
-                  {telemetry.contributions}
+                  <RollingNumber value={telemetry.contributions} />
                 </div>
                 <div
                   className="text-[11px] text-[var(--text-secondary)] mt-2 tabular-nums"
                   suppressHydrationWarning
                 >
-                  {telemetry.repos} Public Repos
+                  <RollingNumber value={telemetry.repos} /> Public Repos
                 </div>
               </div>
             </div>
@@ -352,10 +378,14 @@ export default function Dashboard({
 
               {/* Multi-segment Pill Bar */}
               <div className="w-full h-2.5 rounded-full bg-[var(--surface-2)] overflow-hidden flex gap-0.5 p-0.5">
-                {telemetry.languages.map((lang) => (
-                  <div
+                {telemetry.languages.map((lang, i) => (
+                  <m.div
                     key={lang.name}
-                    className="h-full rounded-full transition-all duration-500"
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{ ...spatial.slow, delay: 0.25 + i * STAGGER * 1.5 }}
+                    className="h-full rounded-full origin-left transition-[width] duration-500"
                     style={{
                       width: `${Math.max(lang.percent, 6)}%`,
                       backgroundColor: lang.color || '#A8C7FA',
@@ -378,18 +408,18 @@ export default function Dashboard({
                       />
                       <span className="truncate">{lang.name}</span>
                     </span>
-                    <span className="font-semibold text-[#F1F5F9]">{lang.percent}%</span>
+                    <RollingNumber value={`${lang.percent}%`} className="font-semibold text-[#F1F5F9]" />
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Progressive Disclosure Toggle */}
-            <button
+            <PressableButton
               type="button"
               onClick={() => setIsTelemetryExpanded((prev) => !prev)}
               aria-expanded={isTelemetryExpanded}
-              className="w-full py-3 px-4 rounded-full bg-[var(--surface-pill)] hover:bg-[var(--accent-pixel)] text-[#F1F5F9] hover:text-[var(--on-accent-pixel)] text-xs font-bold flex items-center justify-center gap-2 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] cursor-pointer"
+              className="transition-colors w-full py-3 px-4 rounded-full bg-[var(--surface-pill)] hover:bg-[var(--accent-pixel)] text-[#F1F5F9] hover:text-[var(--on-accent-pixel)] text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>
                 {isTelemetryExpanded
@@ -397,7 +427,7 @@ export default function Dashboard({
                   : 'Inspect Full Telemetry (52-Week Matrix & Repos)'}
               </span>
               {isTelemetryExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
-            </button>
+            </PressableButton>
           </div>
         </div>
 
@@ -414,32 +444,43 @@ export default function Dashboard({
                 <Camera size={14} className="text-[var(--accent-pixel)]" />
                 <span className="text-xs font-bold text-[#F1F5F9]">Field Photography &amp; Documentation</span>
               </div>
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center">
                 {FIELD_PHOTO_ITEMS.map((item, idx) => (
                   <button
                     key={item.src}
                     type="button"
-                    onClick={() => setPhotoIndex(idx)}
+                    onClick={() => showPhoto(idx, idx >= photoIndex ? 1 : -1)}
                     aria-label={`View photo ${idx + 1}: ${item.title}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === photoIndex
-                        ? 'w-5 bg-[var(--accent-pixel)]'
-                        : 'w-1.5 bg-[var(--surface-pill)] hover:bg-[var(--text-muted)]'
-                    }`}
-                  />
+                    aria-current={idx === photoIndex ? 'true' : undefined}
+                    className="group h-6 min-w-6 flex items-center justify-center cursor-pointer"
+                  >
+                    {/* The visible bar stays small; the button around it is a 24px target */}
+                    <span
+                      className={`block h-1.5 rounded-full transition-all duration-300 ${
+                        idx === photoIndex
+                          ? 'w-5 bg-[var(--accent-pixel)]'
+                          : 'w-1.5 bg-[var(--surface-pill)] group-hover:bg-[var(--text-muted)]'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>
 
             <div className="relative w-full flex-1 rounded-[16px] overflow-hidden bg-[var(--surface-1)]">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
+              <AnimatePresence initial={false} custom={photoDirection}>
+                <m.div
                   key={currentPhoto.src}
-                  initial={{ opacity: 0, scale: 1.02 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.99 }}
-                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative w-full h-full"
+                  custom={photoDirection}
+                  variants={photoSlide}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.35}
+                  onDragEnd={handlePhotoSwipe}
+                  className="absolute inset-0 cursor-grab active:cursor-grabbing touch-pan-y"
                 >
                   <Image
                     src={currentPhoto.src}
@@ -457,37 +498,37 @@ export default function Dashboard({
                       {currentPhoto.caption}
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               </AnimatePresence>
 
               {/* Tactile Prev/Next Pill Controls */}
               <div className="absolute bottom-3 right-3 flex items-center gap-1.5 z-10">
-                <button
+                <PressableButton
                   type="button"
                   onClick={handlePrevPhoto}
                   aria-label="Previous photo"
-                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90 cursor-pointer"
+                  className="transition-colors w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center cursor-pointer"
                 >
                   <ChevronLeft size={15} />
-                </button>
-                <button
+                </PressableButton>
+                <PressableButton
                   type="button"
                   onClick={handleNextPhoto}
                   aria-label="Next photo"
-                  className="w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center transition-transform active:scale-90 cursor-pointer"
+                  className="transition-colors w-8 h-8 rounded-full bg-[#111318]/90 hover:bg-[var(--surface-pill)] text-[#F1F5F9] flex items-center justify-center cursor-pointer"
                 >
                   <ChevronRight size={15} />
-                </button>
+                </PressableButton>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       {/* Inline Progressive Disclosure: Full Telemetry Breakdown (Spring Physics) */}
       <AnimatePresence initial={false}>
         {isTelemetryExpanded && (
-          <motion.div
+          <m.div
             key="expanded-telemetry"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
@@ -498,16 +539,18 @@ export default function Dashboard({
             <div className="bento-outer pt-3">
               <Stats embedded />
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* Bottom Row of Zone 1: Interactive Capability Topology (3 Functional Clusters) */}
-      <Capabilities
-        embedded
-        selectedTechFilter={selectedTechFilter}
-        onSelectTechFilter={onSelectTechFilter}
-      />
+      <Reveal>
+        <Capabilities
+          embedded
+          selectedTechFilter={selectedTechFilter}
+          onSelectTechFilter={onSelectTechFilter}
+        />
+      </Reveal>
     </section>
   );
 }

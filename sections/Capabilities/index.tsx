@@ -4,6 +4,10 @@ import React from 'react';
 import Image from 'next/image';
 import { Cpu, Layers, Database, X, Filter } from 'lucide-react';
 import { projects } from '../../constants';
+import { m } from 'framer-motion';
+import { useSectionScroll } from '../../lib/useSectionScroll';
+import { layoutIds, spatial } from '../../lib/motion';
+import { PressableButton } from '../../components/ui/Pressable';
 
 export interface TechItem {
   name: string;
@@ -91,16 +95,15 @@ export default function Capabilities({
   onSelectTechFilter,
   embedded = false,
 }: CapabilitiesProps) {
+  const scrollToSection = useSectionScroll();
+
   const handleToggleTech = (techName: string) => {
     if (!onSelectTechFilter) return;
     if (selectedTechFilter === techName) {
       onSelectTechFilter(null);
     } else {
       onSelectTechFilter(techName);
-      const workEl = document.getElementById('work');
-      if (workEl) {
-        workEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      scrollToSection('work');
     }
   };
 
@@ -118,14 +121,14 @@ export default function Capabilities({
         </div>
 
         {selectedTechFilter ? (
-          <button
+          <PressableButton
             onClick={() => onSelectTechFilter?.(null)}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] text-xs font-bold self-start sm:self-auto transition-transform active:scale-95"
+            className="transition-colors inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] text-xs font-bold self-start sm:self-auto"
           >
             <Filter size={12} />
             <span>Filtering Zone 02 by: {selectedTechFilter}</span>
             <X size={13} />
-          </button>
+          </PressableButton>
         ) : (
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--surface-2)] text-xs text-[var(--text-secondary)] tabular-nums self-start sm:self-auto">
             <span>22 Production Tools</span>
@@ -172,12 +175,12 @@ export default function Capabilities({
                     const matchCount = countMatchingProjects(tech.matchKeywords);
 
                     return (
-                      <button
+                      <PressableButton
                         key={tech.name}
                         type="button"
                         onClick={() => handleToggleTech(tech.name)}
                         title={`${tech.role} (${matchCount} matching projects)`}
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 active:scale-95 cursor-pointer ${
+                        className={`transition-colors inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium cursor-pointer ${
                           isSelected
                             ? 'bg-[var(--accent-pixel)] text-[var(--on-accent-pixel)] font-bold'
                             : 'bg-[var(--surface-1)] hover:bg-[var(--surface-pill)] text-[#F1F5F9]'
@@ -190,7 +193,18 @@ export default function Capabilities({
                           height={14}
                           className="w-3.5 h-3.5 object-contain shrink-0"
                         />
-                        <span>{tech.name}</span>
+                        {/* The name lifts off into Work's filter chip when picked, and flies back when cleared */}
+                        {isSelected ? (
+                          <span>{tech.name}</span>
+                        ) : (
+                          <m.span
+                            layoutId={layoutIds.techChip(tech.name)}
+                            transition={spatial.slow}
+                            className="inline-block"
+                          >
+                            {tech.name}
+                          </m.span>
+                        )}
                         <span
                           className={`text-[10px] font-medium px-1.5 py-0.2 rounded-full tabular-nums ${
                             isSelected
@@ -200,7 +214,7 @@ export default function Capabilities({
                         >
                           {matchCount}
                         </span>
-                      </button>
+                      </PressableButton>
                     );
                   })}
                 </div>

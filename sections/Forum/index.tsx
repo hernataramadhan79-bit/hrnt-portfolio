@@ -1,11 +1,26 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { m } from 'framer-motion';
 import { MessageSquare, ShieldCheck } from 'lucide-react';
 import { User, auth, onAuthStateChanged, signOut } from '../../lib/firebase';
 import AuthCard from './AuthCard';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
+import { toast } from '../../components/ui/Toaster';
+
+/**
+ * A message on its way: shown as a bubble above the composer while it sends,
+ * then flown into the thread (shared layoutId) once the server accepts it.
+ */
+export interface OutgoingComment {
+  tempId: string;
+  userId: string;
+  name: string;
+  userImage: string;
+  message: string;
+  phase: 'sending' | 'landed';
+}
 
 interface ForumProps {
   embedded?: boolean;
@@ -14,9 +29,17 @@ interface ForumProps {
 const Forum: React.FC<ForumProps> = ({ embedded = false }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [outgoing, setOutgoing] = useState<OutgoingComment | null>(null);
+  const threadRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let restored = false;
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      // The first callback only restores a saved session; later ones are the visitor's doing
+      if (restored && currentUser) {
+        toast(`Signed in as ${currentUser.displayName || currentUser.email?.split('@')[0] || 'you'}`, 'success');
+      }
+      restored = true;
       setUser(currentUser);
       setIsAuthLoading(false);
     });
@@ -26,10 +49,26 @@ const Forum: React.FC<ForumProps> = ({ embedded = false }) => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      toast('Signed out', 'info');
     } catch (error) {
       console.error('Logout Error: ', error);
+      toast('Could not sign out. Please try again.', 'error');
     }
   };
+
+  const handleOutgoingLanded = useCallback(() => {
+    setOutgoing((prev) => (prev ? { ...prev, phase: 'landed' } : prev));
+    // Bring the top of the thread into view so the message is seen arriving
+    threadRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    toast('Message posted', 'success');
+  }, []);
+
+  const handleOutgoingFailed = useCallback((reason: string) => {
+    setOutgoing(null);
+    toast(reason, 'error');
+  }, []);
+
+  const handleOutgoingSettled = useCallback(() => setOutgoing(null), []);
 
   const innerThread = (
     <div id="forum" className="bento-outer h-full flex flex-col justify-between space-y-3">
@@ -56,14 +95,22 @@ const Forum: React.FC<ForumProps> = ({ embedded = false }) => {
       </div>
 
       {/* Scrollable Squircle Chat Bubbles Stream */}
-      <div
+      <m.div
+        ref={threadRef}
+        layoutScroll
+        data-lenis-prevent
+        data-scroll-chain
         className="bento-inner p-4 sm:p-5 flex-1 max-h-[420px] overflow-y-auto"
         role="region"
         aria-label="Guestbook comments"
         aria-live="polite"
       >
-        <CommentList currentUserId={user?.uid} />
-      </div>
+        <CommentList
+          currentUserId={user?.uid}
+          outgoing={outgoing?.phase === 'landed' ? outgoing : null}
+          onOutgoingSettled={handleOutgoingSettled}
+        />
+      </m.div>
 
       {/* Sticky Bottom Composer Bar Combining AuthCard & CommentForm */}
       <div className="bento-inner p-3 sm:p-4">
@@ -73,7 +120,15 @@ const Forum: React.FC<ForumProps> = ({ embedded = false }) => {
           onAuthStateChange={setUser}
           onLogout={handleLogout}
         >
-          {user && <CommentForm user={user} />}
+          {user && (
+            <CommentForm
+              user={user}
+              outgoing={outgoing?.phase === 'sending' ? outgoing : null}
+              onOutgoing={setOutgoing}
+              onOutgoingLanded={handleOutgoingLanded}
+              onOutgoingFailed={handleOutgoingFailed}
+            />
+          )}
         </AuthCard>
       </div>
     </div>

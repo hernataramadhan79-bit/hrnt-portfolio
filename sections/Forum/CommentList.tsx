@@ -2,10 +2,13 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { auth } from '../../lib/firebase';
-import { MessageSquare, Trash2, Loader2, Check, X, AlertCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { MessageSquare, Trash2, Loader2, Check, X } from 'lucide-react';
+import { m, AnimatePresence } from 'framer-motion';
+import { spatial } from '../../lib/motion';
 import UserAvatar from './UserAvatar';
 import { CommentListSkeleton } from '../../components/Skeletons';
+import { toast } from '../../components/ui/Toaster';
+import type { OutgoingComment } from './index';
 
 interface Comment {
   id: string;
@@ -48,12 +51,18 @@ const getInitialComments = (): Comment[] => {
   return [];
 };
 
-const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) => {
+interface CommentListProps {
+  currentUserId?: string;
+  /** A just-posted message to show at the top until the server copy arrives. */
+  outgoing?: OutgoingComment | null;
+  onOutgoingSettled?: () => void;
+}
+
+const CommentList: React.FC<CommentListProps> = ({ currentUserId, outgoing, onOutgoingSettled }) => {
   const [comments, setComments] = useState<Comment[]>(() => getInitialComments());
   const [isLoading, setIsLoading] = useState(!hasInitiallyLoaded && comments.length === 0);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const fetchComments = useCallback(async (showLoading = false) => {
     if (showLoading) setIsLoading(true);
@@ -98,7 +107,6 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
 
   const confirmDeleteComment = async (commentId: string) => {
     setDeletingId(commentId);
-    setDeleteError(null);
     try {
       const token = await auth.currentUser?.getIdToken();
       if (!token) throw new Error('You must be logged in to delete comments');
@@ -118,19 +126,45 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
       setConfirmDeleteId(null);
       setComments((prev) => prev.filter((c) => c.id !== commentId));
       cachedComments = cachedComments.filter((c) => c.id !== commentId);
+      toast('Message deleted', 'success');
     } catch (error: any) {
       console.error('Error deleting comment: ', error);
-      setDeleteError(error.message || 'Failed to delete message. Please try again.');
+      toast(error.message || 'Failed to delete message. Please try again.', 'error');
     } finally {
       setDeletingId(null);
     }
   };
 
-  if (isLoading && comments.length === 0) {
+  // The server copy of the outgoing message, once a refresh brings it in
+  const landedMatch = outgoing
+    ? comments.find((c) => c.userId === outgoing.userId && c.message === outgoing.message)
+    : undefined;
+
+  useEffect(() => {
+    // Hand-off done in the same frame (shared layoutId), so the stand-in can go
+    if (landedMatch) onOutgoingSettled?.();
+  }, [landedMatch, onOutgoingSettled]);
+
+  const visibleComments: Comment[] =
+    outgoing && !landedMatch
+      ? [
+          {
+            id: outgoing.tempId,
+            name: outgoing.name,
+            userId: outgoing.userId,
+            userImage: outgoing.userImage,
+            message: outgoing.message,
+            createdAt: null,
+          },
+          ...comments,
+        ]
+      : comments;
+
+  if (isLoading && visibleComments.length === 0) {
     return <CommentListSkeleton count={3} />;
   }
 
-  if (comments.length === 0) {
+  if (visibleComments.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 rounded-[20px] bg-[var(--surface-1)] text-center px-4">
         <MessageSquare size={26} className="text-[var(--accent-pixel)] mb-2.5" />
@@ -144,30 +178,21 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
 
   return (
     <div className="space-y-3">
-      {deleteError && (
-        <motion.div
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="p-3 rounded-[14px] bg-rose-500/15 text-rose-300 text-xs flex items-center justify-between"
-        >
-          <span className="flex items-center gap-1.5 font-medium">
-            <AlertCircle size={14} /> {deleteError}
-          </span>
-          <button onClick={() => setDeleteError(null)} className="p-1 hover:text-white" aria-label="Dismiss error">
-            <X size={14} />
-          </button>
-        </motion.div>
-      )}
-
       <AnimatePresence initial={false}>
-        {comments.map((comment) => {
+        {visibleComments.map((comment) => {
           const isOwnMessage = currentUserId && currentUserId === comment.userId;
+          const isOutgoing = outgoing !== null && outgoing !== undefined && comment.id === outgoing.tempId;
+          // The bubble that flew in from the composer keeps its id on the server copy
+          const bubbleLayoutId =
+            outgoing && (isOutgoing || comment.id === landedMatch?.id)
+              ? `comment-${outgoing.tempId}`
+              : undefined;
 
           return (
-            <motion.div
+            <m.div
               key={comment.id}
               layout="position"
-              initial={{ opacity: 0, y: 8 }}
+              initial={isOutgoing ? false : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6, transition: { duration: 0.18 } }}
               transition={{
@@ -180,8 +205,11 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
               <UserAvatar src={comment.userImage} name={comment.name} className="w-8 h-8 mb-0.5" />
 
               {/* Message Squircle Bubble */}
-              <div
-                className={`flex-1 p-3.5 sm:p-4 rounded-[22px] rounded-bl-[6px] transition-colors ${
+              <m.div
+                layoutId={bubbleLayoutId}
+                transition={spatial.slow}
+                style={{ borderRadius: 22, borderBottomLeftRadius: 6 }}
+                className={`flex-1 p-3.5 sm:p-4 transition-colors ${
                   isOwnMessage
                     ? 'bg-[var(--surface-pill)] text-[#F1F5F9]'
                     : 'bg-[var(--surface-1)] text-[#F1F5F9]'
@@ -204,10 +232,10 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                       {formatDate(comment.createdAt)}
                     </span>
 
-                    {isOwnMessage && (
+                    {isOwnMessage && !isOutgoing && (
                       <AnimatePresence mode="wait">
                         {confirmDeleteId === comment.id ? (
-                          <motion.div
+                          <m.div
                             key="confirm-delete"
                             initial={{ opacity: 0, scale: 0.92 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -236,9 +264,9 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                             >
                               <X size={12} />
                             </button>
-                          </motion.div>
+                          </m.div>
                         ) : (
-                          <motion.button
+                          <m.button
                             key="default-delete"
                             type="button"
                             onClick={() => setConfirmDeleteId(comment.id)}
@@ -247,7 +275,7 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                             className="p-1 rounded-full text-[var(--text-muted)] hover:text-rose-400 transition-colors cursor-pointer"
                           >
                             <Trash2 size={12} />
-                          </motion.button>
+                          </m.button>
                         )}
                       </AnimatePresence>
                     )}
@@ -257,8 +285,8 @@ const CommentList: React.FC<{ currentUserId?: string }> = ({ currentUserId }) =>
                 <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
                   {comment.message}
                 </p>
-              </div>
-            </motion.div>
+              </m.div>
+            </m.div>
           );
         })}
       </AnimatePresence>

@@ -2,10 +2,14 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Award, ExternalLink, Camera, ShieldCheck, Eye } from 'lucide-react';
 import { certificates, galleryItems } from '../../constants';
 import { Certificate } from '../../types';
+import { layoutIds, spatial } from '../../lib/motion';
+import Reveal from '../../components/ui/Reveal';
+import Tilt from '../../components/ui/Tilt';
+import { PressableButton, PressableLink } from '../../components/ui/Pressable';
 
 interface RecognitionsProps {
   onSelectCertificate: (cert: Certificate) => void;
@@ -24,7 +28,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
       className="w-full max-w-[1280px] mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-4"
     >
       {/* Zone Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 px-1">
+      <Reveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 px-1">
         <div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F1F5F9] tracking-tight">
             Credentials &amp; Qualifications Portfolio
@@ -33,10 +37,10 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
             National KKNI Level III competence certifications, software engineering credentials, and creative cohort documentation.
           </p>
         </div>
-      </div>
+      </Reveal>
 
       {/* Asymmetric Golden Ratio Split (62% Interactive Pass Inspector : 38% Cohort Passes) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+      <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
         {/* LEFT (lg:col-span-7): Credentials & Qualifications Stack */}
         <div className="lg:col-span-7 bento-outer flex flex-col justify-between space-y-3">
           {/* Credential Selector Stack */}
@@ -44,11 +48,13 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
             {certificates.map((cert, idx) => {
               const isSelected = cert.id === activeCert.id;
               return (
-                <button
+                <Tilt
+                  as="button"
                   key={cert.id}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => setActivePassId(cert.id)}
-                  className={`p-3.5 rounded-[16px] text-left transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col justify-between gap-3 cursor-pointer ${
+                  className={`p-3.5 rounded-[16px] text-left transition-[background-color,color,scale] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col justify-between gap-3 cursor-pointer ${
                     isSelected
                       ? 'bg-[var(--surface-pill)] text-[#F1F5F9] scale-[1.01]'
                       : 'bg-[var(--surface-2)] hover:bg-[var(--surface-3)] text-[var(--text-secondary)]'
@@ -85,14 +91,14 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                       <span className="text-[var(--accent-pixel)]">VERIFIED</span>
                     </div>
                   </div>
-                </button>
+                </Tilt>
               );
             })}
           </div>
 
           {/* Active Credential Inline Preview */}
           <AnimatePresence mode="wait" initial={false}>
-            <motion.div
+            <m.div
               key={activeCert.id}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
@@ -100,9 +106,12 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
               transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
               className="bento-inner p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 justify-between"
             >
-              <div
+              <m.div
+                layoutId={layoutIds.certImage(activeCert.id)}
+                transition={spatial.slow}
+                style={{ borderRadius: 14 }}
                 onClick={() => onSelectCertificate(activeCert)}
-                className="relative w-full sm:w-64 h-40 rounded-[14px] overflow-hidden bg-[var(--surface-1)] shrink-0 cursor-pointer group"
+                className="relative w-full sm:w-64 h-40 overflow-hidden bg-[var(--surface-1)] shrink-0 cursor-pointer group"
               >
                 <Image
                   src={activeCert.certificateImage}
@@ -115,7 +124,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                 <span className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-full bg-[#111318]/90 text-[10px] font-medium text-[var(--accent-pixel)]">
                   Tap to Enlarge
                 </span>
-              </div>
+              </m.div>
 
               <div className="flex-1 space-y-2.5 w-full">
                 <div className="flex items-center gap-2">
@@ -143,15 +152,15 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 pt-1">
-                  <button
+                  <PressableButton
                     type="button"
                     onClick={() => onSelectCertificate(activeCert)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold transition-transform active:scale-95 cursor-pointer"
+                    className="transition-colors inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--accent-pixel)] hover:bg-[var(--accent-pixel-bright)] text-[var(--on-accent-pixel)] text-xs font-bold cursor-pointer"
                   >
                     <Eye size={13} />
                     <span>Open Credential Pass</span>
-                  </button>
-                  <a
+                  </PressableButton>
+                  <PressableLink
                     href={activeCert.credentialLink}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -159,10 +168,10 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
                   >
                     <span>Raw Document</span>
                     <ExternalLink size={12} />
-                  </a>
+                  </PressableLink>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
 
@@ -217,7 +226,7 @@ export default function Recognitions({ onSelectCertificate }: RecognitionsProps)
             ))}
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
