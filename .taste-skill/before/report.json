@@ -1,0 +1,2302 @@
+{
+ "url": "http://localhost:3000",
+ "at": "2026-10-24T13:24:08.353Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 6,
+   "filled": [
+    0.74,
+    0.66,
+    0.83,
+    0.72,
+    0.63,
+    0.78
+   ],
+   "motion": {
+    "elements": 74,
+    "css": 56,
+    "transitions": 6,
+    "scripted": 12,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 5206,
+     "screens": 5.8,
+     "words": 1103,
+     "img": 44,
+     "video": 0,
+     "canvas": 0,
+     "svg": 70,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 8,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "image?url=%2Fprofile-cutout-centered.webp&w=384&",
+      "image?url=%2Fgaleri1.webp&w=750&q=75",
+      "image?url=%2Fvelco.webp&w=750&q=75",
+      "image?url=%2Fhuktif.webp&w=640&q=75",
+      "image?url=%2Fsakukuimg.webp&w=640&q=75",
+      "image?url=%2Frenovaimg.webp&w=640&q=75",
+      "image?url=%2Foryonaiimg.webp&w=640&q=75",
+      "image?url=%2Fsertifikat1.webp&w=256&q=75"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [
+      "🥀",
+      "🫡"
+     ],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Full-Stack Engineer & Native Systems Builder.",
+     "words": 6,
+     "chars": 45,
+     "lines": 3,
+     "size": 36,
+     "vw": 2.5,
+     "font": "Inter",
+     "weight": 900,
+     "tracking": -0.025,
+     "leading": 1.12,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.25,
+     "top": 230,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Full-Stack Engineer & Native Systems Builder.",
+     "words": 6,
+     "lines": 3,
+     "size": 36,
+     "font": "Inter"
+    },
+    "headings": [
+     {
+      "text": "Full-Stack Engineer & Native Systems Builder.",
+      "words": 6,
+      "chars": 45,
+      "lines": 3,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.12,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.25,
+      "top": 230,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "119h",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.12,
+      "top": 260,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "455",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.12,
+      "top": 260,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Production Systems & Case Studies",
+      "words": 5,
+      "chars": 33,
+      "lines": 1,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.11,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.43,
+      "top": 1466,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Credentials & Qualifications Portfolio",
+      "words": 4,
+      "chars": 38,
+      "lines": 1,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.11,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 3649,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Engineering Communication Hub",
+      "words": 3,
+      "chars": 29,
+      "lines": 1,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.11,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.84,
+      "top": 4240,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 3,
+     "over2Lines": 1,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 3,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Inter",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      10,
+      11,
+      12,
+      14,
+      16,
+      18,
+      20,
+      24,
+      36
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Inter",
+      "size": 12,
+      "leading": 1.33,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.2
+     },
+     "measureChars": 66,
+     "max": {
+      "size": 36,
+      "vw": 2.5,
+      "font": "Inter",
+      "text": "Full-Stack Engineer & Native Systems Bui"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.01,
+     "centerShare": 0.08,
+     "smallText": 110
+    },
+    "eyebrows": [
+     {
+      "text": "Hernata Ramadhan (HRNT)",
+      "above": "Full-Stack Engineer & Native Systems Bui",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": true,
+      "size": 11,
+      "top": 198
+     },
+     {
+      "text": "IDE Logged Time",
+      "above": "119h",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 239
+     },
+     {
+      "text": "Yearly Commits",
+      "above": "455",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 239
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#090a0d",
+     "bodyBgHsl": {
+      "h": 225,
+      "s": 0.18,
+      "l": 0.04
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#090a0d",
+       "top": 0,
+       "hsl": {
+        "h": 225,
+        "s": 0.18,
+        "l": 0.04
+       }
+      },
+      {
+       "color": "#111318",
+       "top": 1058,
+       "hsl": {
+        "h": 223,
+        "s": 0.17,
+        "l": 0.08
+       }
+      },
+      {
+       "color": "#171a21",
+       "top": 1582,
+       "hsl": {
+        "h": 222,
+        "s": 0.18,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#94a3b8",
+       "share": 0.57
+      },
+      {
+       "color": "#f1f5f9",
+       "share": 0.29
+      },
+      {
+       "color": "#a8c7fa",
+       "share": 0.07
+      },
+      {
+       "color": "#7c889b",
+       "share": 0.06
+      },
+      {
+       "color": "#081226",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#111318",
+      "hsl": {
+       "h": 223,
+       "s": 0.17,
+       "l": 0.08
+      },
+      "fg": "#f1f5f9"
+     },
+     "lowContrast": [
+      {
+       "text": "ISSUED 2025",
+       "ratio": 3.9,
+       "need": 4.5,
+       "size": 10,
+       "fg": "#7c889b",
+       "bg": "#262b38"
+      }
+     ]
+    },
+    "buttons": {
+     "count": 46,
+     "inHero": 4,
+     "radius": "pill",
+     "height": 28,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Forum",
+      "Download CV",
+      "Comm Hub",
+      "Inspect Full Telemetry (52-Week Matrix &"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 1,
+     "shadowSamples": [],
+     "gradients": 7,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.9) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.85) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 1,
+     "roundedBoxes": 63,
+     "boxRadius": 16,
+     "squareMedia": 0,
+     "roundedMedia": 8,
+     "mediaRadius": 16,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 5,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 695
+      },
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 3765
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": true,
+     "height": 54,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "inter",
+     "inter fallback"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 5206,
+    "margins": {
+     "left": 124,
+     "right": 136
+    },
+    "sections": [
+     {
+      "sel": "section#dashboard.w-full.max-w-[1280px]",
+      "tag": "section",
+      "top": 0,
+      "height": 1418,
+      "words": 292,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "Full-Stack Engineer & Native Systems Builder.",
+       "size": 36,
+       "tag": "h1"
+      },
+      "left": 120,
+      "right": 134,
+      "textLeft": 120,
+      "textRight": 134,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.bento-outer",
+      "tag": "div",
+      "top": 1566,
+      "height": 541,
+      "words": 107,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Velco: Local-First Context-Bound AI Workstation & ",
+       "size": 24,
+       "tag": "h3"
+      },
+      "left": 152,
+      "right": 158,
+      "textLeft": 178,
+      "textRight": 172,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.grid.grid-cols-1",
+      "tag": "div",
+      "top": 2122,
+      "height": 902,
+      "words": 164,
+      "media": 4,
+      "middle": 0,
+      "heading": {
+       "text": "Huktif: Student Legal Education & AI Advisory Plat",
+       "size": 18,
+       "tag": "h3"
+      },
+      "left": 128,
+      "right": 128,
+      "textLeft": 144,
+      "textRight": 145,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.bento-outer.space-y-2",
+      "tag": "div",
+      "top": 3040,
+      "height": 529,
+      "words": 234,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Engineering Archive & Domain Builds",
+       "size": 16,
+       "tag": "h3"
+      },
+      "left": 142,
+      "right": 136,
+      "textLeft": 159,
+      "textRight": 136,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#awards.w-full.max-w-[1280px]",
+      "tag": "section",
+      "top": 3617,
+      "height": 575,
+      "words": 173,
+      "media": 1,
+      "middle": 64,
+      "heading": {
+       "text": "Credentials & Qualifications Portfolio",
+       "size": 36,
+       "tag": "h2"
+      },
+      "left": 116,
+      "right": 136,
+      "textLeft": 116,
+      "textRight": 136,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.w-full.max-w-[1280px]",
+      "tag": "section",
+      "top": 4208,
+      "height": 822,
+      "words": 147,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Engineering Communication Hub",
+       "size": 36,
+       "tag": "h2"
+      },
+      "left": 116,
+      "right": 160,
+      "textLeft": 116,
+      "textRight": 160,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.w-full.mt-auto",
+      "tag": "footer",
+      "top": 5030,
+      "height": 177,
+      "words": 23,
+      "media": 0,
+      "middle": 182,
+      "heading": null,
+      "left": 116,
+      "right": 116,
+      "textLeft": 124,
+      "textRight": 130,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Full-Stack Engineer & Native Systems Builder.",
+      "size": 36,
+      "top": 230,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 116,
+      "n": 6
+     },
+     {
+      "x": 136,
+      "n": 3
+     },
+     {
+      "x": 148,
+      "n": 3
+     },
+     {
+      "x": 159,
+      "n": 1
+     },
+     {
+      "x": 171,
+      "n": 1
+     },
+     {
+      "x": 210,
+      "n": 1
+     },
+     {
+      "x": 420,
+      "n": 1
+     },
+     {
+      "x": 657,
+      "n": 1
+     },
+     {
+      "x": 707,
+      "n": 1
+     },
+     {
+      "x": 719,
+      "n": 1
+     },
+     {
+      "x": 826,
+      "n": 1
+     },
+     {
+      "x": 863,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 22,
+    "bodySize": 12,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.07,
+    "voidBox": {
+     "x": 0,
+     "y": 120,
+     "w": 120,
+     "h": 780
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 9,
+   "filled": [
+    0.86,
+    0.91,
+    0.81,
+    0.91,
+    0.85,
+    0.84,
+    0.83,
+    0.85,
+    0.91
+   ],
+   "motion": {
+    "elements": 54,
+    "css": 40,
+    "transitions": 2,
+    "scripted": 12,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 8590,
+     "screens": 8.4,
+     "words": 1093,
+     "img": 44,
+     "video": 0,
+     "canvas": 0,
+     "svg": 70,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 8,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "image?url=%2Fprofile-cutout-centered.webp&w=384&",
+      "image?url=%2Fgaleri1.webp&w=828&q=75",
+      "image?url=%2Fvelco.webp&w=828&q=75",
+      "image?url=%2Fhuktif.webp&w=828&q=75",
+      "image?url=%2Fsakukuimg.webp&w=828&q=75",
+      "image?url=%2Frenovaimg.webp&w=828&q=75",
+      "image?url=%2Foryonaiimg.webp&w=828&q=75",
+      "image?url=%2Fsertifikat1.webp&w=256&q=75"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [
+      "🥀",
+      "🫡"
+     ],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "119h",
+     "words": 1,
+     "chars": 4,
+     "lines": 1,
+     "size": 36,
+     "vw": 4.7,
+     "font": "Inter",
+     "weight": 900,
+     "tracking": -0.025,
+     "leading": 1,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.37,
+     "top": 664,
+     "tag": "div",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Full-Stack Engineer & Native Systems Builder.",
+     "words": 6,
+     "lines": 2,
+     "size": 30,
+     "font": "Inter"
+    },
+    "headings": [
+     {
+      "text": "Full-Stack Engineer & Native Systems Builder.",
+      "words": 6,
+      "chars": 45,
+      "lines": 2,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.12,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.48,
+      "top": 219,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "119h",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 36,
+      "vw": 4.7,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.37,
+      "top": 664,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "455",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 36,
+      "vw": 4.7,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.37,
+      "top": 664,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Production Systems & Case Studies",
+      "words": 5,
+      "chars": 33,
+      "lines": 2,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.64,
+      "top": 2522,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Credentials & Qualifications Portfolio",
+      "words": 4,
+      "chars": 38,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.75,
+      "top": 5937,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Engineering Communication Hub",
+      "words": 3,
+      "chars": 29,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.93,
+      "top": 6896,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Inter",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      10,
+      11,
+      12,
+      14,
+      16,
+      18,
+      20,
+      24,
+      30,
+      36
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "Inter",
+      "size": 12,
+      "leading": 1.33,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.2
+     },
+     "measureChars": 91,
+     "max": {
+      "size": 36,
+      "vw": 4.7,
+      "font": "Inter",
+      "text": "119h"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.01,
+     "centerShare": 0.08,
+     "smallText": 109
+    },
+    "eyebrows": [
+     {
+      "text": "Hernata Ramadhan (HRNT)",
+      "above": "Full-Stack Engineer & Native Systems Bui",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": true,
+      "size": 11,
+      "top": 186
+     },
+     {
+      "text": "IDE Logged Time",
+      "above": "119h",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 644
+     },
+     {
+      "text": "Yearly Commits",
+      "above": "455",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 644
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#090a0d",
+     "bodyBgHsl": {
+      "h": 225,
+      "s": 0.18,
+      "l": 0.04
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#090a0d",
+       "top": 0,
+       "hsl": {
+        "h": 225,
+        "s": 0.18,
+        "l": 0.04
+       }
+      },
+      {
+       "color": "#111318",
+       "top": 140,
+       "hsl": {
+        "h": 223,
+        "s": 0.17,
+        "l": 0.08
+       }
+      },
+      {
+       "color": "#171a21",
+       "top": 156,
+       "hsl": {
+        "h": 222,
+        "s": 0.18,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#94a3b8",
+       "share": 0.58
+      },
+      {
+       "color": "#f1f5f9",
+       "share": 0.29
+      },
+      {
+       "color": "#a8c7fa",
+       "share": 0.07
+      },
+      {
+       "color": "#7c889b",
+       "share": 0.05
+      },
+      {
+       "color": "#081226",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#111318",
+      "hsl": {
+       "h": 223,
+       "s": 0.17,
+       "l": 0.08
+      },
+      "fg": "#f1f5f9"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 46,
+     "inHero": 4,
+     "radius": "pill",
+     "height": 28,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Forum",
+      "Download CV",
+      "Comm Hub",
+      "Inspect Full Telemetry (52-Week Matrix &"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 1,
+     "shadowSamples": [],
+     "gradients": 7,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.9) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.85) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 1,
+     "roundedBoxes": 62,
+     "boxRadius": 16,
+     "squareMedia": 0,
+     "roundedMedia": 8,
+     "mediaRadius": 16,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 5,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 1099
+      },
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 1977
+      },
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 6048
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 0,
+     "fixed": true,
+     "height": 54,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "inter",
+     "inter fallback"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 8590,
+    "margins": {
+     "left": 39,
+     "right": 48
+    },
+    "sections": [
+     {
+      "sel": "div.grid.grid-cols-1",
+      "tag": "div",
+      "top": 140,
+      "height": 1743,
+      "words": 187,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "119h",
+       "size": 36,
+       "tag": "div"
+      },
+      "left": 56,
+      "right": 56,
+      "textLeft": 64,
+      "textRight": 66,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div#capabilities.bento-outer",
+      "tag": "div",
+      "top": 1899,
+      "height": 552,
+      "words": 89,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Engineering Stack & Tooling",
+       "size": 20,
+       "tag": "h3"
+      },
+      "left": 48,
+      "right": 56,
+      "textLeft": 48,
+      "textRight": 56,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.bento-outer",
+      "tag": "div",
+      "top": 2654,
+      "height": 822,
+      "words": 107,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Velco: Local-First Context-Bound AI Workstation & ",
+       "size": 24,
+       "tag": "h3"
+      },
+      "left": 64,
+      "right": 64,
+      "textLeft": 64,
+      "textRight": 64,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.grid.grid-cols-1",
+      "tag": "div",
+      "top": 3492,
+      "height": 1820,
+      "words": 164,
+      "media": 4,
+      "middle": 0,
+      "heading": {
+       "text": "Huktif: Student Legal Education & AI Advisory Plat",
+       "size": 18,
+       "tag": "h3"
+      },
+      "left": 40,
+      "right": 40,
+      "textLeft": 56,
+      "textRight": 57,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.bento-outer.space-y-2",
+      "tag": "div",
+      "top": 5328,
+      "height": 529,
+      "words": 234,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Engineering Archive & Domain Builds",
+       "size": 16,
+       "tag": "h3"
+      },
+      "left": 54,
+      "right": 0,
+      "textLeft": 71,
+      "textRight": -431,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#awards.w-full.max-w-[1280px]",
+      "tag": "section",
+      "top": 5905,
+      "height": 943,
+      "words": 173,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Credentials & Qualifications Portfolio",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 28,
+      "right": 40,
+      "textLeft": 28,
+      "textRight": 48,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.w-full.max-w-[1280px]",
+      "tag": "section",
+      "top": 6864,
+      "height": 1454,
+      "words": 147,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Engineering Communication Hub",
+       "size": 30,
+       "tag": "h2"
+      },
+      "left": 28,
+      "right": 60,
+      "textLeft": 28,
+      "textRight": 70,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.w-full.mt-auto",
+      "tag": "footer",
+      "top": 8318,
+      "height": 273,
+      "words": 17,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 190,
+      "right": 190,
+      "textLeft": 202,
+      "textRight": 202,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Full-Stack Engineer & Native Systems Builder.",
+      "size": 30,
+      "top": 219,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 28,
+      "n": 6
+     },
+     {
+      "x": 48,
+      "n": 5
+     },
+     {
+      "x": 60,
+      "n": 4
+     },
+     {
+      "x": 71,
+      "n": 2
+     },
+     {
+      "x": 118,
+      "n": 2
+     },
+     {
+      "x": 83,
+      "n": 1
+     },
+     {
+      "x": 106,
+      "n": 1
+     },
+     {
+      "x": 332,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 22,
+    "bodySize": 12,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 12,
+   "filled": [
+    0.8,
+    0.85,
+    0.91,
+    0.81,
+    0.91,
+    0.85,
+    0.9,
+    0.82,
+    0.87,
+    0.68,
+    0.85,
+    0.79
+   ],
+   "motion": {
+    "elements": 52,
+    "css": 39,
+    "transitions": 1,
+    "scripted": 12,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 10128,
+     "screens": 12,
+     "words": 1074,
+     "img": 44,
+     "video": 0,
+     "canvas": 0,
+     "svg": 70,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 10,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "image?url=%2Fprofile-cutout-centered.webp&w=384&",
+      "image?url=%2Fgaleri1.webp&w=640&q=75",
+      "image?url=%2Fvelco.webp&w=640&q=75",
+      "image?url=%2Fhuktif.webp&w=640&q=75",
+      "image?url=%2Fsakukuimg.webp&w=640&q=75",
+      "image?url=%2Frenovaimg.webp&w=640&q=75",
+      "image?url=%2Foryonaiimg.webp&w=640&q=75",
+      "image?url=%2Fsertifikat1.webp&w=256&q=75"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [
+      "🥀",
+      "🫡"
+     ],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Full-Stack Engineer & Native Systems Builder.",
+     "words": 6,
+     "chars": 45,
+     "lines": 2,
+     "size": 24,
+     "vw": 6.2,
+     "font": "Inter",
+     "weight": 900,
+     "tracking": -0.025,
+     "leading": 1.12,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.75,
+     "top": 239,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Full-Stack Engineer & Native Systems Builder.",
+     "words": 6,
+     "lines": 2,
+     "size": 24,
+     "font": "Inter"
+    },
+    "headings": [
+     {
+      "text": "Full-Stack Engineer & Native Systems Builder.",
+      "words": 6,
+      "chars": 45,
+      "lines": 2,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.12,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.75,
+      "top": 239,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "119h",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.28,
+      "top": 902,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "455",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.28,
+      "top": 902,
+      "tag": "div",
+      "kind": "heading"
+     },
+     {
+      "text": "Production Systems & Case Studies",
+      "words": 5,
+      "chars": 33,
+      "lines": 2,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.33,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 3046,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Credentials & Qualifications Portfolio",
+      "words": 4,
+      "chars": 38,
+      "lines": 2,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.33,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 6671,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Engineering Communication Hub",
+      "words": 3,
+      "chars": 29,
+      "lines": 2,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Inter",
+      "weight": 900,
+      "tracking": -0.025,
+      "leading": 1.33,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 8308,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 3,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Inter",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      10,
+      11,
+      12,
+      14,
+      16,
+      18,
+      20,
+      24,
+      30
+     ],
+     "sizeCount": 9,
+     "notLoaded": [],
+     "body": {
+      "font": "Inter",
+      "size": 12,
+      "leading": 1.63,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.8
+     },
+     "measureChars": 50,
+     "max": {
+      "size": 30,
+      "vw": 7.7,
+      "font": "Inter",
+      "text": "119h"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.01,
+     "centerShare": 0.07,
+     "smallText": 123
+    },
+    "eyebrows": [
+     {
+      "text": "Hernata Ramadhan (HRNT)",
+      "above": "Full-Stack Engineer & Native Systems Bui",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": true,
+      "size": 11,
+      "top": 206
+     },
+     {
+      "text": "IDE Logged Time",
+      "above": "119h",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 881
+     },
+     {
+      "text": "Yearly Commits",
+      "above": "455",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 881
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#090a0d",
+     "bodyBgHsl": {
+      "h": 225,
+      "s": 0.18,
+      "l": 0.04
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#090a0d",
+       "top": 0,
+       "hsl": {
+        "h": 225,
+        "s": 0.18,
+        "l": 0.04
+       }
+      },
+      {
+       "color": "#111318",
+       "top": 168,
+       "hsl": {
+        "h": 223,
+        "s": 0.17,
+        "l": 0.08
+       }
+      },
+      {
+       "color": "#171a21",
+       "top": 180,
+       "hsl": {
+        "h": 222,
+        "s": 0.18,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#94a3b8",
+       "share": 0.58
+      },
+      {
+       "color": "#f1f5f9",
+       "share": 0.3
+      },
+      {
+       "color": "#a8c7fa",
+       "share": 0.07
+      },
+      {
+       "color": "#7c889b",
+       "share": 0.05
+      },
+      {
+       "color": "#081226",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#111318",
+      "hsl": {
+       "h": 223,
+       "s": 0.17,
+       "l": 0.08
+      },
+      "fg": "#f1f5f9"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 45,
+     "inHero": 2,
+     "radius": "pill",
+     "height": 28,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Download CV",
+      "Comm Hub"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 1,
+     "shadowSamples": [],
+     "gradients": 7,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.9) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.85) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)",
+      "div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 1,
+     "roundedBoxes": 64,
+     "boxRadius": 16,
+     "squareMedia": 0,
+     "roundedMedia": 8,
+     "mediaRadius": 16,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 5,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 1395
+      },
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 2280
+      },
+      {
+       "count": 5,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 5858
+      },
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 9160
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.18
+     }
+    ],
+    "nav": {
+     "links": 0,
+     "fixed": true,
+     "height": 54,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "inter",
+     "inter fallback"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 10128,
+    "margins": {
+     "left": 26,
+     "right": 28
+    },
+    "sections": [
+     {
+      "sel": "div.grid.grid-cols-1",
+      "tag": "div",
+      "top": 168,
+      "height": 1970,
+      "words": 187,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "119h",
+       "size": 30,
+       "tag": "div"
+      },
+      "left": 44,
+      "right": 44,
+      "textLeft": 48,
+      "textRight": 45,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div#capabilities.bento-outer",
+      "tag": "div",
+      "top": 2154,
+      "height": 819,
+      "words": 89,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Engineering Stack & Tooling",
+       "size": 18,
+       "tag": "h3"
+      },
+      "left": 36,
+      "right": 44,
+      "textLeft": 36,
+      "textRight": 44,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.flex.flex-col",
+      "tag": "div",
+      "top": 3046,
+      "height": 172,
+      "words": 27,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Production Systems & Case Studies",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 46,
+      "textLeft": 20,
+      "textRight": 46,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.bento-outer",
+      "tag": "div",
+      "top": 3234,
+      "height": 881,
+      "words": 107,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Velco: Local-First Context-Bound AI Workstation & ",
+       "size": 18,
+       "tag": "h3"
+      },
+      "left": 44,
+      "right": 43,
+      "textLeft": 44,
+      "textRight": -277,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.grid.grid-cols-1",
+      "tag": "div",
+      "top": 4130,
+      "height": 1644,
+      "words": 164,
+      "media": 4,
+      "middle": 0,
+      "heading": {
+       "text": "Huktif: Student Legal Education & AI Advisory Plat",
+       "size": 16,
+       "tag": "h3"
+      },
+      "left": 28,
+      "right": 28,
+      "textLeft": 44,
+      "textRight": 45,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.bento-outer.space-y-2",
+      "tag": "div",
+      "top": 5790,
+      "height": 801,
+      "words": 234,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Engineering Archive & Domain Builds",
+       "size": 14,
+       "tag": "h3"
+      },
+      "left": 40,
+      "right": 0,
+      "textLeft": 50,
+      "textRight": -779,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#awards.w-full.max-w-[1280px]",
+      "tag": "section",
+      "top": 6639,
+      "height": 1621,
+      "words": 173,
+      "media": 3,
+      "middle": 0,
+      "heading": {
+       "text": "Credentials & Qualifications Portfolio",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 26,
+      "textLeft": 20,
+      "textRight": 28,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.w-full.max-w-[1280px]",
+      "tag": "section",
+      "top": 8276,
+      "height": 1628,
+      "words": 145,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Engineering Communication Hub",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 41,
+      "textLeft": 20,
+      "textRight": 41,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.w-full.mt-auto",
+      "tag": "footer",
+      "top": 9904,
+      "height": 224,
+      "words": 7,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 76,
+      "right": 88,
+      "textLeft": 84,
+      "textRight": 88,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Full-Stack Engineer & Native Systems Builder.",
+      "size": 24,
+      "top": 239,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 36,
+      "n": 7
+     },
+     {
+      "x": 20,
+      "n": 3
+     },
+     {
+      "x": 48,
+      "n": 2
+     },
+     {
+      "x": 71,
+      "n": 2
+     },
+     {
+      "x": 59,
+      "n": 1
+     },
+     {
+      "x": 102,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 16,
+    "bodySize": 12,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 1440,
+   "message": "1 headline(s) wrap past two lines at 1440px: \"Full-Stack Engineer & Native Systems Builder.\" → 3 lines (6 words, 36px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 36px or less."
+  },
+  {
+   "level": "FAIL",
+   "id": "eyebrow",
+   "width": 1440,
+   "message": "3 eyebrow/kicker label(s) above headings: \"Hernata Ramadhan (HRNT)\" (pill) above \"Full-Stack Engineer & Native Systems Bui\"; \"IDE Logged Time\" above \"119h\"; \"Yearly Commits\" above \"455\"",
+   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "emoji",
+   "width": 1440,
+   "message": "Emoji in the page: 🥀 🫡",
+   "fix": "Remove. Use words or real imagery.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "gradient",
+   "width": 1440,
+   "message": "7 gradient fill(s): div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.9) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%) | div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.85) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100% | div.absolute.inset-0 → linear-gradient(to top, lab(2.73492 0.0666007 -1.33745 / 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%)",
+   "fix": "Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "icon-cards",
+   "width": 1440,
+   "message": "2 row(s) of identical cards each topped with a small icon (5, 3 cards).",
+   "fix": "Replace with one composed section from the direction: a narrative split, a list set in large type, or real imagery per item.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "contrast",
+   "width": 1440,
+   "message": "Low-contrast text: \"ISSUED 2025\" 3.9:1 needs 4.5:1",
+   "fix": "Darken or lighten the text colour."
+  },
+  {
+   "level": "FAIL",
+   "id": "body-size",
+   "width": 1440,
+   "message": "Body text is 12px (the size most of the running text is set in).",
+   "fix": "Body copy 16–20px. Map small sizes from blueprints onto your body step.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "FAIL",
+   "id": "small-text",
+   "width": 1440,
+   "message": "110 text blocks under 13px.",
+   "fix": "Nothing meant to be read goes below 13px.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "focal-point",
+   "width": 1440,
+   "message": "The first screen has no dominant element: the largest type is 36px (2.5vw) and no single picture holds a third of the viewport.",
+   "fix": "Make one thing lead: the headline at display size, or one large picture. A grid of many small pictures is not one thing; in blind tests jurors marked a first screen without a headline down every time. On the strongest studied sites the largest type has a median of 8.4vw."
+  },
+  {
+   "level": "WARN",
+   "id": "ragged-edges",
+   "width": 1440,
+   "message": "Left-aligned text starts at 12 different lines (116px, 136px, 148px, 159px, 171px, 210px, 420px); the three most used hold only 55% of it.",
+   "fix": "Pick two or three anchor lines from the grid and start every heading and paragraph on one of them."
+  },
+  {
+   "level": "WARN",
+   "id": "size-count",
+   "width": 768,
+   "message": "10 different font sizes (10, 11, 12, 14, 16, 18, 20, 24, 30, 36).",
+   "fix": "A page needs about five: display, heading, lead, body, small."
+  },
+  {
+   "level": "WARN",
+   "id": "measure",
+   "width": 768,
+   "message": "Longest paragraph runs about 91 characters per line.",
+   "fix": "Cap paragraphs at 45–75 characters (max-width: 60ch)."
+  },
+  {
+   "level": "WARN",
+   "id": "small-title",
+   "width": 768,
+   "message": "The h1 is 30px (\"Full-Stack Engineer & Native Systems Builder.\").",
+   "fix": "Set the title at display size, or make the large text of the first screen the h1.",
+   "alsoAt": [
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "grey-body",
+   "width": 390,
+   "message": "The running text is a soft grey on its ground (6.8:1).",
+   "fix": "Set body copy in the full ink (7:1 or more). Keep the muted ink for secondary notes; pages read thin and unfinished when everything is grey."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\desktop-fold.jpg",
+   "pages": [
+    "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\desktop-page-01.jpg",
+    "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\desktop-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\tablet-fold.jpg",
+   "pages": [
+    "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\tablet-page-01.jpg",
+    "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\tablet-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\mobile-fold.jpg",
+   "pages": [
+    "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\mobile-page-01.jpg",
+    "D:\\WebApps\\hrnt-portfolio\\.taste-skill\\before\\mobile-page-02.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

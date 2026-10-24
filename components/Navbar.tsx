@@ -68,14 +68,13 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
+    const scrollContainer = document.querySelector('[data-section-scroll]') as HTMLElement | null;
     const handleScroll = () => {
-      const scrollContainer = document.querySelector('[data-section-scroll]') as HTMLElement | null;
       const currentScrollY = window.scrollY || (scrollContainer ? scrollContainer.scrollTop : 0);
       setIsScrolled(currentScrollY >= 60);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    const scrollContainer = document.querySelector('[data-section-scroll]');
     if (scrollContainer) {
       scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
     }
