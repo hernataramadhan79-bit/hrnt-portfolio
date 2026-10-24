@@ -196,8 +196,9 @@ export async function DELETE(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const commentId = searchParams.get('id');
 
-        if (!commentId) {
-            return NextResponse.json({ error: 'Missing comment ID' }, { status: 400 });
+        // Firestore auto-ids are alphanumeric; anything else could rewrite the request path
+        if (!commentId || !/^[A-Za-z0-9]{1,64}$/.test(commentId)) {
+            return NextResponse.json({ error: 'Missing or invalid comment ID' }, { status: 400 });
         }
 
         const deleteUrl = `${FIRESTORE_BASE_URL}/comments/${commentId}?key=${API_KEY}`;
